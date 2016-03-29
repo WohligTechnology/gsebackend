@@ -55,9 +55,9 @@ $myserver=$_SERVER['SERVER_NAME'];
 if($myserver!="localhost")
 {
     $db['default']['hostname'] = 'localhost';
-    $db['default']['username'] = 'wohligco_avinash';
-    $db['default']['password'] = 'avi';
-    $db['default']['database'] = 'avi';
+    $db['default']['username'] = 'wohligco_gse';
+    $db['default']['password'] = 'chintan123';
+    $db['default']['database'] = 'wohligco_gse';
     $db['default']['dbdriver'] = 'mysql';
     $db['default']['dbprefix'] = '';
     $db['default']['pconnect'] = TRUE;
@@ -75,10 +75,7 @@ else
     $db['default']['hostname'] = 'localhost';
     $db['default']['username'] = 'root';
     $db['default']['password'] = '';
-    
-
     $db['default']['database'] = 'gse';
-
     $db['default']['dbdriver'] = 'mysql';
     $db['default']['dbprefix'] = '';
     $db['default']['pconnect'] = TRUE;

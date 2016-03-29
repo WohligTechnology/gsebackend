@@ -51,7 +51,8 @@ class Site extends CI_Controller
 	{
 		$access = array("1","2");
 		$this->checkaccess($access);
-		$data[ 'page' ] = 'dashboard';
+		$data["page"]="viewcategory";
+        $data["base_url"]=site_url("site/viewcategoryjson");
 		$data[ 'title' ] = 'Welcome';
 		$this->load->view( 'template', $data );	
 	}
