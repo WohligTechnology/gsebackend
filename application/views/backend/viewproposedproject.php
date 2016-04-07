@@ -10,13 +10,17 @@
 <th data-field="name">Name</th>
 <th data-field="company">Company</th>
 <th data-field="webaddress">Web Address</th>
+<!--
 <th data-field="country">Country</th>
 <th data-field="phone">Phone</th>
+-->
 <th data-field="email">Email</th>
+<!--
 <th data-field="question1ans">Question 1 Ans</th>
 <th data-field="question2ans">Question 2 Ans</th>
 <th data-field="question3ans">Question 3 Ans</th>
 <th data-field="content">Content</th>
+-->
 </tr>
 </thead>
 <tbody>
@@ -30,7 +34,7 @@
 </div>
 <script>
 function drawtable(resultrow) {
-return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.name + "</td><td>" + resultrow.company + "</td><td>" + resultrow.webaddress + "</td><td>" + resultrow.country + "</td><td>" + resultrow.phone + "</td><td>" + resultrow.email + "</td><td>" + resultrow.question1ans + "</td><td>" + resultrow.question2ans + "</td><td>" + resultrow.question3ans + "</td><td>" + resultrow.content + "</td><td><a class='btn btn-primary btn-xs waves-effect waves-light blue darken-4 z-depth-0 less-pad' href='<?php echo site_url('site/editproposedproject?id=');?>"+resultrow.id+"' data-position='top' data-delay='50' data-tooltip='Edit'><i class='fa fa-pencil propericon'></i></a><a class='btn btn-danger btn-xs waves-effect waves-light red pad10 z-depth-0 less-pad' onclick=\"return confirm('Are you sure you want to delete?');\") href='<?php echo site_url('site/deleteproposedproject?id='); ?>"+resultrow.id+"' data-position='top' data-delay='50' data-tooltip='Delete'><i class='material-icons propericon'>delete</i></a></td></tr>";
+return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.name + "</td><td>" + resultrow.company + "</td><td>" + resultrow.webaddress + "</td><td>" + resultrow.email + "</td><td><a class='btn btn-primary btn-xs waves-effect waves-light blue darken-4 z-depth-0 less-pad' href='<?php echo site_url('site/editproposedproject?id=');?>"+resultrow.id+"' data-position='top' data-delay='50' data-tooltip='Edit'><i class='fa fa-pencil propericon'></i></a><a class='btn btn-danger btn-xs waves-effect waves-light red pad10 z-depth-0 less-pad' onclick=\"return confirm('Are you sure you want to delete?');\") href='<?php echo site_url('site/deleteproposedproject?id='); ?>"+resultrow.id+"' data-position='top' data-delay='50' data-tooltip='Delete'><i class='material-icons propericon'>delete</i></a></td></tr>";
 }
 generatejquery("<?php echo $base_url;?>");
 </script>

@@ -2048,6 +2048,7 @@ public function createservice()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="createservice";
+$data["type"]=$this->service_model->getservicetypedropdown();
 $data["title"]="Create service";
 $this->load->view("template",$data);
 }
@@ -2061,6 +2062,7 @@ if($this->form_validation->run()==FALSE)
 {
 $data["alerterror"]=validation_errors();
 $data["page"]="createservice";
+$data["type"]=$this->service_model->getservicetypedropdown();
 $data["title"]="Create service";
 $this->load->view("template",$data);
 }
@@ -2069,7 +2071,8 @@ else
 $id=$this->input->get_post("id");
 $name=$this->input->get_post("name");
 $content=$this->input->get_post("content");
-if($this->service_model->create($name,$content)==0)
+$type=$this->input->get_post("type");
+if($this->service_model->create($name,$content,$type)==0)
 $data["alerterror"]="New service could not be created.";
 else
 $data["alertsuccess"]="service created Successfully.";
@@ -2083,6 +2086,7 @@ $access=array("1");
 $this->checkaccess($access);
 $data["page"]="editservice";
 $data["title"]="Edit service";
+$data["type"]=$this->service_model->getservicetypedropdown();
 $data["before"]=$this->service_model->beforeedit($this->input->get("id"));
 $this->load->view("template",$data);
 }
@@ -2098,6 +2102,7 @@ if($this->form_validation->run()==FALSE)
 $data["alerterror"]=validation_errors();
 $data["page"]="editservice";
 $data["title"]="Edit service";
+$data["type"]=$this->service_model->getservicetypedropdown();
 $data["before"]=$this->service_model->beforeedit($this->input->get("id"));
 $this->load->view("template",$data);
 }
@@ -2106,7 +2111,8 @@ else
 $id=$this->input->get_post("id");
 $name=$this->input->get_post("name");
 $content=$this->input->get_post("content");
-if($this->service_model->edit($id,$name,$content)==0)
+$type=$this->input->get_post("type");
+if($this->service_model->edit($id,$name,$content,$type)==0)
 $data["alerterror"]="New service could not be Updated.";
 else
 $data["alertsuccess"]="service Updated Successfully.";

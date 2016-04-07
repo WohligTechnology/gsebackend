@@ -3,9 +3,9 @@ if ( !defined( "BASEPATH" ) )
 exit( "No direct script access allowed" );
 class service_model extends CI_Model
 {
-public function create($name,$content)
+public function create($name,$content,$type)
 {
-$data=array("name" => $name,"content" => $content);
+$data=array("name" => $name,"content" => $content,"type" => $type);
 $query=$this->db->insert( "gse_service", $data );
 $id=$this->db->insert_id();
 if(!$query)
@@ -24,14 +24,10 @@ $this->db->where("id",$id);
 $query=$this->db->get("gse_service")->row();
 return $query;
 }
-public function edit($id,$name,$content)
+public function edit($id,$name,$content,$type)
 {
-if($image=="")
-{
-$image=$this->service_model->getimagebyid($id);
-$image=$image->image;
-}
-$data=array("name" => $name,"content" => $content);
+
+$data=array("name" => $name,"content" => $content,"type" => $type);
 $this->db->where( "id", $id );
 $query=$this->db->update( "gse_service", $data );
 return 1;
@@ -59,5 +55,17 @@ $return[$row->id]=$row->name;
 }
 return $return;
 }
+    
+            public function getservicetypedropdown()
+        {
+  
+        $return=array(
+        "" => "Select type",
+        "1" => "Wedding",
+        "2" => "Sports",
+        );
+     
+        return $return;
+        }
 }
 ?>
