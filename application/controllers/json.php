@@ -462,4 +462,5 @@ $id=$this->input->get_post("id");
 $data["message"]=$this->diaryarticle_model->getsinglediaryarticle($id);
 $this->load->view("json",$data);
 }
+ 
 } ?>

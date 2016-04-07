@@ -110,7 +110,7 @@ $autoload['language'] = array();
 */
 
 
-$autoload['model'] = array('user_model','menu_model','cart_model','wishlist_model','category_model','subscribe_model','testimonial_model','getintouch_model','diarycategory_model','diarysubcategory_model','diaryarticle_model');
+$autoload['model'] = array('user_model','menu_model','cart_model','wishlist_model','generalenquiry_model','proposedproject_model','movie_model','moviedetail_model','moviegallery_model','moviewallpaper_model','award_model','awarddetail_model','wedding_model','service_model','weddingtype_model','weddingsubtype_model','weddinggallery_model','talent_model','talenttype_model','talenttypegallery_model','sportscategory_model','highlight_model','previousgamegallery_model','player_model','clientlogo_model','clientdetail_model','careerform_model','careerposition_model','category_model','subscribe_model','testimonial_model','getintouch_model','diarycategory_model','diarysubcategory_model','diaryarticle_model');
 
 /* End of file autoload.php */
 /* Location: ./application/config/autoload.php */
