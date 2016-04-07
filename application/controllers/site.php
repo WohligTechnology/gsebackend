@@ -1312,12 +1312,13 @@ $data["before1"]=$this->input->get('id');
 $data["before2"]=$this->input->get('id');
 $data["before3"]=$this->input->get('id');
 $data["before4"]=$this->input->get('id');
-$data["base_url"]=site_url("site/viewmoviegalleryjson");
+$data["base_url"]=site_url("site/viewmoviegalleryjson?id=").$this->input->get('id');
 $data["title"]="View moviegallery";
 $this->load->view("templatewith2",$data);
 }
 function viewmoviegalleryjson()
 {
+     $id=$this->input->get('id');
 $elements=array();
 $elements[0]=new stdClass();
 $elements[0]->field="`gse_moviegallery`.`id`";
@@ -1358,7 +1359,7 @@ if($orderby=="")
 $orderby="id";
 $orderorder="ASC";
 }
-$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_moviegallery`");
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_moviegallery`","WHERE `gse_moviegallery`.`movie`='$id'");
 $this->load->view("json",$data);
 }
 
@@ -1473,12 +1474,13 @@ $data["before1"]=$this->input->get('id');
 $data["before2"]=$this->input->get('id');
 $data["before3"]=$this->input->get('id');
 $data["before4"]=$this->input->get('id');
-$data["base_url"]=site_url("site/viewmoviewallpaperjson");
+$data["base_url"]=site_url("site/viewmoviewallpaperjson?id=").$this->input->get('id');
 $data["title"]="View moviewallpaper";
 $this->load->view("templatewith2",$data);
 }
 function viewmoviewallpaperjson()
 {
+     $id=$this->input->get('id');
 $elements=array();
 $elements[0]=new stdClass();
 $elements[0]->field="`gse_moviewallpaper`.`id`";
@@ -1509,7 +1511,7 @@ if($orderby=="")
 $orderby="id";
 $orderorder="ASC";
 }
-$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_moviewallpaper`");
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_moviewallpaper`","WHERE `gse_moviewallpaper`.`movie`='$id'");
 $this->load->view("json",$data);
 }
 
@@ -1612,12 +1614,13 @@ $data["before1"]=$this->input->get('id');
 $data["before2"]=$this->input->get('id');
 $data["before3"]=$this->input->get('id');
 $data["before4"]=$this->input->get('id');
-$data["base_url"]=site_url("site/viewawardjson");
+$data["base_url"]=site_url("site/viewawardjson?id=").$this->input->get('id');
 $data["title"]="View award";
 $this->load->view("templatewith2",$data);
 }
 function viewawardjson()
 {
+    $id=$this->input->get('id');
 $elements=array();
 $elements[0]=new stdClass();
 $elements[0]->field="`gse_award`.`id`";
@@ -1648,7 +1651,7 @@ if($orderby=="")
 $orderby="id";
 $orderorder="ASC";
 }
-$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_award`");
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_award`","WHERE `gse_award`.`movie`='$id'");
 $this->load->view("json",$data);
 }
 
@@ -1699,10 +1702,13 @@ public function editaward()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="editaward";
+$data["page2"]="block/awardblock";
 $data["title"]="Edit award";
+$data["before1"]=$this->input->get("id");
+$data["before2"]=$this->input->get("id");
 $data["movie"]=$this->moviedetail_model->getdropdown();
 $data["before"]=$this->award_model->beforeedit($this->input->get("id"));
-$this->load->view("template",$data);
+$this->load->view("templatewith2",$data);
 }
 public function editawardsubmit()
 {
@@ -1746,12 +1752,16 @@ public function viewawarddetail()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="viewawarddetail";
-$data["base_url"]=site_url("site/viewawarddetailjson");
+$data["page2"]="block/awardblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["base_url"]=site_url("site/viewawarddetailjson?id=").$this->input->get('id');
 $data["title"]="View awarddetail";
-$this->load->view("template",$data);
+$this->load->view("templatewith2",$data);
 }
 function viewawarddetailjson()
 {
+    $id=$this->input->get('id');
 $elements=array();
 $elements[0]=new stdClass();
 $elements[0]->field="`gse_awarddetail`.`id`";
@@ -1792,7 +1802,7 @@ if($orderby=="")
 $orderby="id";
 $orderorder="ASC";
 }
-$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_awarddetail`");
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_awarddetail`","WHERE `gse_awarddetail`.`award`='$id'");
 $this->load->view("json",$data);
 }
 
@@ -1801,8 +1811,12 @@ public function createawarddetail()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="createawarddetail";
+$data["page2"]="block/awardblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["award"]=$this->award_model->getdropdown();
 $data["title"]="Create awarddetail";
-$this->load->view("template",$data);
+$this->load->view("templatewith2",$data);
 }
 public function createawarddetailsubmit() 
 {
@@ -1816,6 +1830,7 @@ if($this->form_validation->run()==FALSE)
 {
 $data["alerterror"]=validation_errors();
 $data["page"]="createawarddetail";
+$data["award"]=$this->award_model->getdropdown();
 $data["title"]="Create awarddetail";
 $this->load->view("template",$data);
 }
@@ -1830,8 +1845,8 @@ if($this->awarddetail_model->create($award,$awardname,$awardreceiver,$winnername
 $data["alerterror"]="New awarddetail could not be created.";
 else
 $data["alertsuccess"]="awarddetail created Successfully.";
-$data["redirect"]="site/viewawarddetail";
-$this->load->view("redirect",$data);
+$data["redirect"]="site/viewawarddetail?id=".$award;
+$this->load->view("redirect2",$data);
 }
 }
 public function editawarddetail()
@@ -1839,9 +1854,13 @@ public function editawarddetail()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="editawarddetail";
+$data["page2"]="block/awardblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["award"]=$this->award_model->getdropdown();
 $data["title"]="Edit awarddetail";
 $data["before"]=$this->awarddetail_model->beforeedit($this->input->get("id"));
-$this->load->view("template",$data);
+$this->load->view("templatewith2",$data);
 }
 public function editawarddetailsubmit()
 {
@@ -1856,6 +1875,7 @@ if($this->form_validation->run()==FALSE)
 {
 $data["alerterror"]=validation_errors();
 $data["page"]="editawarddetail";
+$data["award"]=$this->award_model->getdropdown();
 $data["title"]="Edit awarddetail";
 $data["before"]=$this->awarddetail_model->beforeedit($this->input->get("id"));
 $this->load->view("template",$data);
@@ -1871,8 +1891,8 @@ if($this->awarddetail_model->edit($id,$award,$awardname,$awardreceiver,$winnerna
 $data["alerterror"]="New awarddetail could not be Updated.";
 else
 $data["alertsuccess"]="awarddetail Updated Successfully.";
-$data["redirect"]="site/viewawarddetail";
-$this->load->view("redirect",$data);
+$data["redirect"]="site/viewawarddetail?id=".$award;
+$this->load->view("redirect2",$data);
 }
 }
 public function deleteawarddetail()
@@ -1880,8 +1900,8 @@ public function deleteawarddetail()
 $access=array("1");
 $this->checkaccess($access);
 $this->awarddetail_model->delete($this->input->get("id"));
-$data["redirect"]="site/viewawarddetail";
-$this->load->view("redirect",$data);
+$data["redirect"]="site/viewawarddetail?id=".$this->input->get("award");
+$this->load->view("redirect2",$data);
 }
 public function viewwedding()
 {
@@ -1960,9 +1980,14 @@ public function editwedding()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="editwedding";
+$data["page2"]="block/weddingblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
 $data["title"]="Edit wedding";
 $data["before"]=$this->wedding_model->beforeedit($this->input->get("id"));
-$this->load->view("template",$data);
+$this->load->view("templatewith2",$data);
 }
 public function editweddingsubmit()
 {
@@ -2133,12 +2158,18 @@ public function viewweddingtype()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="viewweddingtype";
-$data["base_url"]=site_url("site/viewweddingtypejson");
+$data["page2"]="block/weddingblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
+$data["base_url"]=site_url("site/viewweddingtypejson?id=").$this->input->get('id');
 $data["title"]="View weddingtype";
-$this->load->view("template",$data);
+$this->load->view("templatewith2",$data);
 }
 function viewweddingtypejson()
 {
+    $id=$this->input->get('id');
 $elements=array();
 $elements[0]=new stdClass();
 $elements[0]->field="`gse_weddingtype`.`id`";
@@ -2179,7 +2210,7 @@ if($orderby=="")
 $orderby="id";
 $orderorder="ASC";
 }
-$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_weddingtype`");
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_weddingtype`","WHERE `gse_weddingtype`.`wedding`='$id'");
 $this->load->view("json",$data);
 }
 
@@ -2188,8 +2219,14 @@ public function createweddingtype()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="createweddingtype";
+$data["page2"]="block/weddingblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
+$data["wedding"]=$this->wedding_model->getdropdown();
 $data["title"]="Create weddingtype";
-$this->load->view("template",$data);
+$this->load->view("templatewith2",$data);
 }
 public function createweddingtypesubmit() 
 {
@@ -2203,6 +2240,7 @@ if($this->form_validation->run()==FALSE)
 {
 $data["alerterror"]=validation_errors();
 $data["page"]="createweddingtype";
+$data["wedding"]=$this->wedding_model->getdropdown();
 $data["title"]="Create weddingtype";
 $this->load->view("template",$data);
 }
@@ -2211,6 +2249,7 @@ else
 $id=$this->input->get_post("id");
 $wedding=$this->input->get_post("wedding");
 $name=$this->input->get_post("name");
+$image=$this->menu_model->createImage();
 //$banner=$this->input->get_post("banner");
     $config['upload_path'] = './uploads/';
 						$config['allowed_types'] = 'gif|jpg|png|jpeg';
@@ -2226,8 +2265,8 @@ if($this->weddingtype_model->create($wedding,$name,$image,$banner)==0)
 $data["alerterror"]="New weddingtype could not be created.";
 else
 $data["alertsuccess"]="weddingtype created Successfully.";
-$data["redirect"]="site/viewweddingtype";
-$this->load->view("redirect",$data);
+$data["redirect"]="site/viewweddingtype?id=".$wedding;
+$this->load->view("redirect2",$data);
 }
 }
 public function editweddingtype()
@@ -2235,9 +2274,15 @@ public function editweddingtype()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="editweddingtype";
+$data["page2"]="block/weddingblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
+$data["wedding"]=$this->wedding_model->getdropdown();
 $data["title"]="Edit weddingtype";
 $data["before"]=$this->weddingtype_model->beforeedit($this->input->get("id"));
-$this->load->view("template",$data);
+$this->load->view("templatewith2",$data);
 }
 public function editweddingtypesubmit()
 {
@@ -2252,6 +2297,7 @@ if($this->form_validation->run()==FALSE)
 {
 $data["alerterror"]=validation_errors();
 $data["page"]="editweddingtype";
+$data["wedding"]=$this->wedding_model->getdropdown();
 $data["title"]="Edit weddingtype";
 $data["before"]=$this->weddingtype_model->beforeedit($this->input->get("id"));
 $this->load->view("template",$data);
@@ -2261,7 +2307,7 @@ else
 $id=$this->input->get_post("id");
 $wedding=$this->input->get_post("wedding");
 $name=$this->input->get_post("name");
-//$image=$this->menu_model->createImage();
+$image=$this->menu_model->createImage();
 //$banner=$this->input->get_post("banner");
      $config['upload_path'] = './uploads/';
 						$config['allowed_types'] = 'gif|jpg|png|jpeg';
@@ -2276,7 +2322,7 @@ $name=$this->input->get_post("name");
 
 						if($banner=="")
 						{
-						$banner=$this->moviedetail_model->getbannerbyid($id);
+						$banner=$this->weddingtype_model->getbannerbyid($id);
 						   // print_r($image);
 							$banner=$banner->banner;
 						}
@@ -2284,8 +2330,8 @@ if($this->weddingtype_model->edit($id,$wedding,$name,$image,$banner)==0)
 $data["alerterror"]="New weddingtype could not be Updated.";
 else
 $data["alertsuccess"]="weddingtype Updated Successfully.";
-$data["redirect"]="site/viewweddingtype";
-$this->load->view("redirect",$data);
+$data["redirect"]="site/viewweddingtype?id=".$wedding;
+$this->load->view("redirect2",$data);
 }
 }
 public function deleteweddingtype()
@@ -2301,12 +2347,18 @@ public function viewweddingsubtype()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="viewweddingsubtype";
-$data["base_url"]=site_url("site/viewweddingsubtypejson");
+    $data["page2"]="block/weddingblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
+$data["base_url"]=site_url("site/viewweddingsubtypejson?id=").$this->input->get('id');
 $data["title"]="View weddingsubtype";
-$this->load->view("template",$data);
+$this->load->view("templatewith2",$data);
 }
 function viewweddingsubtypejson()
 {
+    $id=$this->input->get('id');
 $elements=array();
 $elements[0]=new stdClass();
 $elements[0]->field="`gse_weddingsubtype`.`id`";
@@ -2352,7 +2404,7 @@ if($orderby=="")
 $orderby="id";
 $orderorder="ASC";
 }
-$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_weddingsubtype`");
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_weddingsubtype`","WHERE `gse_weddingsubtype`.`wedding`='$id'");
 $this->load->view("json",$data);
 }
 
@@ -2361,8 +2413,14 @@ public function createweddingsubtype()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="createweddingsubtype";
+$data["page2"]="block/weddingblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
+$data["wedding"]=$this->wedding_model->getdropdown();
 $data["title"]="Create weddingsubtype";
-$this->load->view("template",$data);
+$this->load->view("templatewith2",$data);
 }
 public function createweddingsubtypesubmit() 
 {
@@ -2378,6 +2436,7 @@ if($this->form_validation->run()==FALSE)
 $data["alerterror"]=validation_errors();
 $data["page"]="createweddingsubtype";
 $data["title"]="Create weddingsubtype";
+$data["wedding"]=$this->wedding_model->getdropdown();
 $this->load->view("template",$data);
 }
 else
@@ -2392,8 +2451,8 @@ if($this->weddingsubtype_model->create($wedding,$name,$image,$content,$videos)==
 $data["alerterror"]="New weddingsubtype could not be created.";
 else
 $data["alertsuccess"]="weddingsubtype created Successfully.";
-$data["redirect"]="site/viewweddingsubtype";
-$this->load->view("redirect",$data);
+$data["redirect"]="site/viewweddingsubtype?id=".$wedding;
+$this->load->view("redirect2",$data);
 }
 }
 public function editweddingsubtype()
@@ -2401,9 +2460,15 @@ public function editweddingsubtype()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="editweddingsubtype";
+$data["page2"]="block/weddingblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
+$data["wedding"]=$this->wedding_model->getdropdown();
 $data["title"]="Edit weddingsubtype";
 $data["before"]=$this->weddingsubtype_model->beforeedit($this->input->get("id"));
-$this->load->view("template",$data);
+$this->load->view("templatewith2",$data);
 }
 public function editweddingsubtypesubmit()
 {
@@ -2420,6 +2485,7 @@ if($this->form_validation->run()==FALSE)
 $data["alerterror"]=validation_errors();
 $data["page"]="editweddingsubtype";
 $data["title"]="Edit weddingsubtype";
+$data["wedding"]=$this->wedding_model->getdropdown();
 $data["before"]=$this->weddingsubtype_model->beforeedit($this->input->get("id"));
 $this->load->view("template",$data);
 }
@@ -2435,8 +2501,8 @@ if($this->weddingsubtype_model->edit($id,$wedding,$name,$image,$content,$videos)
 $data["alerterror"]="New weddingsubtype could not be Updated.";
 else
 $data["alertsuccess"]="weddingsubtype Updated Successfully.";
-$data["redirect"]="site/viewweddingsubtype";
-$this->load->view("redirect",$data);
+$data["redirect"]="site/viewweddingsubtype?id=".$wedding;
+$this->load->view("redirect2",$data);
 }
 }
 public function deleteweddingsubtype()
@@ -2444,20 +2510,26 @@ public function deleteweddingsubtype()
 $access=array("1");
 $this->checkaccess($access);
 $this->weddingsubtype_model->delete($this->input->get("id"));
-$data["redirect"]="site/viewweddingsubtype";
-$this->load->view("redirect",$data);
+$data["redirect"]="site/viewweddingsubtype?id=".$this->input->get("weddingid");
+$this->load->view("redirect2",$data);
 }
 public function viewweddinggallery()
 {
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="viewweddinggallery";
-$data["base_url"]=site_url("site/viewweddinggalleryjson");
+$data["page2"]="block/weddingblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
+$data["base_url"]=site_url("site/viewweddinggalleryjson?id=").$this->input->get('id');
 $data["title"]="View weddinggallery";
-$this->load->view("template",$data);
+$this->load->view("templatewith2",$data);
 }
 function viewweddinggalleryjson()
 {
+    $id=$this->input->get('id');
 $elements=array();
 $elements[0]=new stdClass();
 $elements[0]->field="`gse_weddinggallery`.`id`";
@@ -2498,7 +2570,7 @@ if($orderby=="")
 $orderby="id";
 $orderorder="ASC";
 }
-$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_weddinggallery`");
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_weddinggallery`","WHERE `gse_weddinggallery`.`wedding`='$id'");
 $this->load->view("json",$data);
 }
 
@@ -2507,9 +2579,15 @@ public function createweddinggallery()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="createweddinggallery";
+$data["page2"]="block/weddingblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
+$data["wedding"]=$this->wedding_model->getdropdown();
 $data["title"]="Create weddinggallery";
 $data[ 'status' ] =$this->user_model->getstatusdropdown();
-$this->load->view("template",$data);
+$this->load->view("templatewith2",$data);
 }
 public function createweddinggallerysubmit() 
 {
@@ -2524,6 +2602,7 @@ if($this->form_validation->run()==FALSE)
 $data["alerterror"]=validation_errors();
 $data["page"]="createweddinggallery";
 $data["title"]="Create weddinggallery";
+$data["wedding"]=$this->wedding_model->getdropdown();
 $data[ 'status' ] =$this->user_model->getstatusdropdown();
 $this->load->view("template",$data);
 }
@@ -2538,8 +2617,8 @@ if($this->weddinggallery_model->create($wedding,$status,$order,$image)==0)
 $data["alerterror"]="New weddinggallery could not be created.";
 else
 $data["alertsuccess"]="weddinggallery created Successfully.";
-$data["redirect"]="site/viewweddinggallery";
-$this->load->view("redirect",$data);
+$data["redirect"]="site/viewweddinggallery?id=".$wedding;
+$this->load->view("redirect2",$data);
 }
 }
 public function editweddinggallery()
@@ -2547,10 +2626,16 @@ public function editweddinggallery()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="editweddinggallery";
+$data["page2"]="block/weddingblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
+$data["wedding"]=$this->wedding_model->getdropdown();
 $data["title"]="Edit weddinggallery";
 $data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["before"]=$this->weddinggallery_model->beforeedit($this->input->get("id"));
-$this->load->view("template",$data);
+$this->load->view("templatewith2",$data);
 }
 public function editweddinggallerysubmit()
 {
@@ -2566,6 +2651,7 @@ if($this->form_validation->run()==FALSE)
 $data["alerterror"]=validation_errors();
 $data["page"]="editweddinggallery";
 $data["title"]="Edit weddinggallery";
+$data["wedding"]=$this->wedding_model->getdropdown();
 $data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["before"]=$this->weddinggallery_model->beforeedit($this->input->get("id"));
 $this->load->view("template",$data);
@@ -2581,8 +2667,8 @@ if($this->weddinggallery_model->edit($id,$wedding,$status,$order,$image)==0)
 $data["alerterror"]="New weddinggallery could not be Updated.";
 else
 $data["alertsuccess"]="weddinggallery Updated Successfully.";
-$data["redirect"]="site/viewweddinggallery";
-$this->load->view("redirect",$data);
+$data["redirect"]="site/viewweddinggallery?id=".$wedding;
+$this->load->view("redirect2",$data);
 }
 }
 public function deleteweddinggallery()
@@ -2590,8 +2676,8 @@ public function deleteweddinggallery()
 $access=array("1");
 $this->checkaccess($access);
 $this->weddinggallery_model->delete($this->input->get("id"));
-$data["redirect"]="site/viewweddinggallery";
-$this->load->view("redirect",$data);
+$data["redirect"]="site/viewweddinggallery?id=".$this->input->get("weddingid");
+$this->load->view("redirect2",$data);
 }
 public function viewtalent()
 {
@@ -2684,9 +2770,12 @@ public function edittalent()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="edittalent";
+$data["page2"]="block/talent";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
 $data["title"]="Edit talent";
 $data["before"]=$this->talent_model->beforeedit($this->input->get("id"));
-$this->load->view("template",$data);
+$this->load->view("templatewith2",$data);
 }
 public function edittalentsubmit()
 {
@@ -2731,12 +2820,16 @@ public function viewtalenttype()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="viewtalenttype";
-$data["base_url"]=site_url("site/viewtalenttypejson");
+$data["page2"]="block/talent";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["base_url"]=site_url("site/viewtalenttypejson?id=").$this->input->get('id');
 $data["title"]="View talenttype";
-$this->load->view("template",$data);
+$this->load->view("templatewith2",$data);
 }
 function viewtalenttypejson()
 {
+    $id=$this->input->get('id');
 $elements=array();
 $elements[0]=new stdClass();
 $elements[0]->field="`gse_talenttype`.`id`";
@@ -2802,7 +2895,7 @@ if($orderby=="")
 $orderby="id";
 $orderorder="ASC";
 }
-$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_talenttype`");
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_talenttype`","WHERE `gse_talenttype`.`talent`='$id'");
 $this->load->view("json",$data);
 }
 
@@ -2811,9 +2904,13 @@ public function createtalenttype()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="createtalenttype";
+$data["page2"]="block/talent";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
 $data["title"]="Create talenttype";
 $data[ 'status' ] =$this->user_model->getstatusdropdown();
-$this->load->view("template",$data);
+$data[ 'talent' ] =$this->talent_model->getdropdown();
+$this->load->view("templatewith2",$data);
 }
 public function createtalenttypesubmit() 
 {
@@ -2833,6 +2930,7 @@ if($this->form_validation->run()==FALSE)
 $data["alerterror"]=validation_errors();
 $data["page"]="createtalenttype";
 $data[ 'status' ] =$this->user_model->getstatusdropdown();
+$data[ 'talent' ] =$this->talent_model->getdropdown();
 $data["title"]="Create talenttype";
 $this->load->view("template",$data);
 }
@@ -2862,8 +2960,8 @@ if($this->talenttype_model->create($talent,$order,$status,$name,$image,$url,$ban
 $data["alerterror"]="New talenttype could not be created.";
 else
 $data["alertsuccess"]="talenttype created Successfully.";
-$data["redirect"]="site/viewtalenttype";
-$this->load->view("redirect",$data);
+$data["redirect"]="site/viewtalenttype?id=".$talent;
+$this->load->view("redirect2",$data);
 }
 }
 public function edittalenttype()
@@ -2871,10 +2969,14 @@ public function edittalenttype()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="edittalenttype";
+$data["page2"]="block/talentinside";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data[ 'talent' ] =$this->talent_model->getdropdown();
 $data["title"]="Edit talenttype";
 $data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["before"]=$this->talenttype_model->beforeedit($this->input->get("id"));
-$this->load->view("template",$data);
+$this->load->view("templatewith2",$data);
 }
 public function edittalenttypesubmit()
 {
@@ -2895,6 +2997,7 @@ if($this->form_validation->run()==FALSE)
 $data["alerterror"]=validation_errors();
 $data["page"]="edittalenttype";
 $data["title"]="Edit talenttype";
+$data[ 'talent' ] =$this->talent_model->getdropdown();
 $data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["before"]=$this->talenttype_model->beforeedit($this->input->get("id"));
 $this->load->view("template",$data);
@@ -2906,7 +3009,7 @@ $talent=$this->input->get_post("talent");
 $order=$this->input->get_post("order");
 $status=$this->input->get_post("status");
 $name=$this->input->get_post("name");
-//$image=$this->menu_model->createImage();
+$image=$this->menu_model->createImage();
 $url=$this->input->get_post("url");
 //$banner=$this->input->get_post("banner");
 $content=$this->input->get_post("content");
@@ -2924,7 +3027,7 @@ $videos=$this->input->get_post("videos");
 
 						if($banner=="")
 						{
-						$banner=$this->moviedetail_model->getbannerbyid($id);
+						$banner=$this->talenttype_model->getbannerbyid($id);
 						   // print_r($image);
 							$banner=$banner->banner;
 						}
@@ -2932,8 +3035,8 @@ if($this->talenttype_model->edit($id,$talent,$order,$status,$name,$image,$url,$b
 $data["alerterror"]="New talenttype could not be Updated.";
 else
 $data["alertsuccess"]="talenttype Updated Successfully.";
-$data["redirect"]="site/viewtalenttype";
-$this->load->view("redirect",$data);
+$data["redirect"]="site/viewtalenttype?id=".$talent;
+$this->load->view("redirect2",$data);
 }
 }
 public function deletetalenttype()
@@ -2941,17 +3044,20 @@ public function deletetalenttype()
 $access=array("1");
 $this->checkaccess($access);
 $this->talenttype_model->delete($this->input->get("id"));
-$data["redirect"]="site/viewtalenttype";
-$this->load->view("redirect",$data);
+$data["redirect"]="site/viewtalenttype?id=".$this->input->get('talentid');
+$this->load->view("redirect2",$data);
 }
 public function viewtalenttypegallery()
 {
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="viewtalenttypegallery";
+$data["page2"]="block/talentinside";
+$data["before1"]=$this->input->get('id');
 $data["base_url"]=site_url("site/viewtalenttypegalleryjson");
+
 $data["title"]="View talenttypegallery";
-$this->load->view("template",$data);
+$this->load->view("templatewith2",$data);
 }
 function viewtalenttypegalleryjson()
 {
@@ -3010,6 +3116,8 @@ $access=array("1");
 $this->checkaccess($access);
 $data["page"]="createtalenttypegallery";
 $data["title"]="Create talenttypegallery";
+$data["talenttype"]=$this->talenttype_model->getdropdown();
+$data["talent"]=$this->talent_model->getdropdown();
 $data[ 'status' ] =$this->user_model->getstatusdropdown();
 $this->load->view("template",$data);
 }
@@ -3026,8 +3134,10 @@ if($this->form_validation->run()==FALSE)
 {
 $data["alerterror"]=validation_errors();
 $data["page"]="createtalenttypegallery";
+$data["talenttype"]=$this->talenttype_model->getdropdown();
 $data["title"]="Create talenttypegallery";
 $data[ 'status' ] =$this->user_model->getstatusdropdown();
+$data["talent"]=$this->talent_model->getdropdown();
 $this->load->view("template",$data);
 }
 else
@@ -3051,10 +3161,15 @@ public function edittalenttypegallery()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="edittalenttypegallery";
+$data["page2"]="block/talentinside";
+$data["before1"]=$this->input->get('id');
+$data["talenttype"]=$this->talenttype_model->getdropdown();
+$data["talent"]=$this->talent_model->getdropdown();
+$data["before2"]=$this->input->get('id');
 $data["title"]="Edit talenttypegallery";
 $data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["before"]=$this->talenttypegallery_model->beforeedit($this->input->get("id"));
-$this->load->view("template",$data);
+$this->load->view("templatewith2",$data);
 }
 public function edittalenttypegallerysubmit()
 {
@@ -3071,6 +3186,8 @@ if($this->form_validation->run()==FALSE)
 $data["alerterror"]=validation_errors();
 $data["page"]="edittalenttypegallery";
 $data["title"]="Edit talenttypegallery";
+$data["talent"]=$this->talent_model->getdropdown();
+$data["talenttype"]=$this->talenttype_model->getdropdown();
 $data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["before"]=$this->talenttypegallery_model->beforeedit($this->input->get("id"));
 $this->load->view("template",$data);

@@ -15,9 +15,9 @@
 <label>Status</label>
 </div>
 </div>
-<div class=" row">
+<div class=" row" style="display:none">
 <div class=" input-field col s6">
-<?php echo form_dropdown("talenttype",$talenttype,set_value('talenttype'));?>
+<?php echo form_dropdown("talenttype",$talenttype,set_value('talenttype',$this->input->get('id')));?>
 <label>Talent Type</label>
 </div>
 </div>
@@ -41,7 +41,7 @@
 <div class="row">
 <div class="col s12 m6">
 <button type="submit" class="btn btn-primary waves-effect waves-light blue darken-4">Save</button>
-<a href="<?php echo site_url("site/viewtalenttypegallery"); ?>" class="btn btn-secondary waves-effect waves-light red">Cancel</a>
+<a href="<?php echo site_url("site/viewtalenttypegallery?id=").$this->input->get('id'); ?>" class="btn btn-secondary waves-effect waves-light red">Cancel</a>
 </div>
 </div>
 </form>

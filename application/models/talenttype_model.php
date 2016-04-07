@@ -48,7 +48,7 @@ return $query;
 }
 public function getimagebyid($id)
 {
-$query=$this->db->query("SELECT `banner` FROM `gse_talenttype` WHERE `id`='$id'")->row();
+$query=$this->db->query("SELECT `image` FROM `gse_talenttype` WHERE `id`='$id'")->row();
 return $query;
 }
     public function getbannerbyid($id)

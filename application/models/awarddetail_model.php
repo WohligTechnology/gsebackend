@@ -26,11 +26,7 @@ return $query;
 }
 public function edit($id,$award,$awardname,$awardreceiver,$winnername)
 {
-if($image=="")
-{
-$image=$this->awarddetail_model->getimagebyid($id);
-$image=$image->image;
-}
+
 $data=array("award" => $award,"awardname" => $awardname,"awardreceiver" => $awardreceiver,"winnername" => $winnername);
 $this->db->where( "id", $id );
 $query=$this->db->update( "gse_awarddetail", $data );

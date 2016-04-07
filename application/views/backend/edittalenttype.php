@@ -53,11 +53,21 @@
 </div>
 </div>
 <div class="row">
-<div class="input-field col s6">
-<label for="Banner">Banner</label>
-<input type="text" id="Banner" name="banner" value='<?php echo set_value('banner',$before->banner);?>'>
-</div>
-</div>
+			<div class="file-field input-field col m6 s12">
+				<span class="img-center big">
+								                    	<?php if($before->banner == "") { } else {
+									                    ?><img src="<?php echo base_url('uploads')."/".$before->banner; ?>">
+															<?php } ?>
+															</span>
+				<div class="btn blue darken-4">
+					<span>Banner</span>
+					<input name="banner" type="file" multiple>
+				</div>
+				<div class="file-path-wrapper">
+					<input class="file-path validate" type="text" placeholder="Upload one or more files" value="<?php echo set_value('banner',$before->banner);?>">
+				</div>
+			</div>
+		</div>
 <div class="row">
 <div class="col s12 m6">
 <label>Content</label>
@@ -73,7 +83,7 @@
 <div class="row">
 <div class="col s6">
 <button type="submit" class="btn btn-primary waves-effect waves-light  blue darken-4">Save</button>
-<a href='<?php echo site_url("site/viewtalenttype"); ?>' class='btn btn-secondary waves-effect waves-light red'>Cancel</a>
+<a href='<?php echo site_url("site/viewtalenttype?id=").$this->input->get('talentid'); ?>' class='btn btn-secondary waves-effect waves-light red'>Cancel</a>
 </div>
 </div>
 </form>
