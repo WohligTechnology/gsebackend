@@ -3,7 +3,7 @@
 <h4 class="pad-left-15 capitalize">Create wedding sub-type</h4>
 </div>
 <form class='col s12' method='post' action='<?php echo site_url("site/createweddingsubtypesubmit");?>' enctype= 'multipart/form-data'>
-<div class=" row">
+<div class=" row" style="display:none">
 <div class=" input-field col s6">
 <?php echo form_dropdown("wedding",$wedding,set_value('wedding',$this->input->get('id')));?>
 <label>Wedding</label>
@@ -29,10 +29,10 @@
 <div class="row">
 <div class="input-field col s6">
 <label for="Content">Content</label>
-<input type="text" id="Content" name="content" value='<?php echo set_value('content');?>'>
+<textarea name="content" class="materialize-textarea"><?php echo set_value( 'content');?></textarea>
 </div>
 </div>
-<div class="row">
+<div class="row" style="display:none">
 <div class="input-field col s12">
 <textarea name="videos" class="materialize-textarea"><?php echo set_value( 'videos');?></textarea>
 <label>Videos</label>

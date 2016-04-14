@@ -6,7 +6,7 @@
 <div class="row">
 <form class='col s12' method='post' action='<?php echo site_url("site/editmoviewallpapersubmit");?>' enctype= 'multipart/form-data'>
 <input type="hidden" id="normal-field" class="form-control" name="id" value="<?php echo set_value('id',$before->id);?>" style="display:none;">
-<div class=" row">
+<div class=" row"  style="display:none">
 <div class=" input-field col s12 m6">
 <?php echo form_dropdown("movie",$movie,set_value('movie',$before->movie));?>
 <label for="movie">movie</label>

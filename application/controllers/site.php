@@ -938,12 +938,19 @@ public function viewmovie()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="viewmovie";
-$data["base_url"]=site_url("site/viewmoviejson");
+$data["page2"]="block/movieblock";
+$data["movie"]=$this->moviedetail_model->getdropdown();
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
+$data["base_url"]=site_url("site/viewmoviejson?id=").$this->input->get('id');
 $data["title"]="View movie";
-$this->load->view("template",$data);
+$this->load->view("templatewith2",$data);
 }
 function viewmoviejson()
 {
+    $id=$this->input->get('id');
 $elements=array();
 $elements[0]=new stdClass();
 $elements[0]->field="`gse_movie`.`id`";
@@ -953,8 +960,14 @@ $elements[0]->alias="id";
 $elements[1]=new stdClass();
 $elements[1]->field="`gse_movie`.`content`";
 $elements[1]->sort="1";
-$elements[1]->header="Content";
+$elements[1]->header="Url";
 $elements[1]->alias="content";
+    
+$elements[2]=new stdClass();
+$elements[2]->field="`gse_movie`.`movie`";
+$elements[2]->sort="1";
+$elements[2]->header="Movie";
+$elements[2]->alias="movie";
 $search=$this->input->get_post("search");
 $pageno=$this->input->get_post("pageno");
 $orderby=$this->input->get_post("orderby");
@@ -969,7 +982,7 @@ if($orderby=="")
 $orderby="id";
 $orderorder="ASC";
 }
-$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_movie`");
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_movie`","WHERE `gse_movie`.`movie`='$id'");
 $this->load->view("json",$data);
 }
 
@@ -978,8 +991,14 @@ public function createmovie()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="createmovie";
+$data["page2"]="block/movieblock";
+$data["movie"]=$this->moviedetail_model->getdropdown();
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
 $data["title"]="Create movie";
-$this->load->view("template",$data);
+$this->load->view("templatewith2",$data);
 }
 public function createmoviesubmit() 
 {
@@ -989,6 +1008,7 @@ $this->form_validation->set_rules("content","Content","trim");
 if($this->form_validation->run()==FALSE)
 {
 $data["alerterror"]=validation_errors();
+$data["movie"]=$this->moviedetail_model->getdropdown();
 $data["page"]="createmovie";
 $data["title"]="Create movie";
 $this->load->view("template",$data);
@@ -997,12 +1017,13 @@ else
 {
 $id=$this->input->get_post("id");
 $content=$this->input->get_post("content");
-if($this->movie_model->create($content)==0)
+$movie=$this->input->get_post("movie");
+if($this->movie_model->create($content,$movie)==0)
 $data["alerterror"]="New movie could not be created.";
 else
 $data["alertsuccess"]="movie created Successfully.";
-$data["redirect"]="site/viewmovie";
-$this->load->view("redirect",$data);
+$data["redirect"]="site/viewmovie?id=".$movie;
+$this->load->view("redirect2",$data);
 }
 }
 public function editmovie()
@@ -1010,9 +1031,15 @@ public function editmovie()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="editmovie";
+$data["page2"]="block/movieblock";
+$data["before1"]=$this->input->get('movieid');
+$data["movie"]=$this->moviedetail_model->getdropdown();
+$data["before2"]=$this->input->get('movieid');
+$data["before3"]=$this->input->get('movieid');
+$data["before4"]=$this->input->get('movieid');
 $data["title"]="Edit movie";
 $data["before"]=$this->movie_model->beforeedit($this->input->get("id"));
-$this->load->view("template",$data);
+$this->load->view("templatewith2",$data);
 }
 public function editmoviesubmit()
 {
@@ -1023,6 +1050,7 @@ $this->form_validation->set_rules("content","Content","trim");
 if($this->form_validation->run()==FALSE)
 {
 $data["alerterror"]=validation_errors();
+$data["movie"]=$this->moviedetail_model->getdropdown();
 $data["page"]="editmovie";
 $data["title"]="Edit movie";
 $data["before"]=$this->movie_model->beforeedit($this->input->get("id"));
@@ -1032,12 +1060,13 @@ else
 {
 $id=$this->input->get_post("id");
 $content=$this->input->get_post("content");
-if($this->movie_model->edit($id,$content)==0)
+$movie=$this->input->get_post("movie");
+if($this->movie_model->edit($id,$content,$movie)==0)
 $data["alerterror"]="New movie could not be Updated.";
 else
 $data["alertsuccess"]="movie Updated Successfully.";
-$data["redirect"]="site/viewmovie";
-$this->load->view("redirect",$data);
+$data["redirect"]="site/viewmovie?id=".$movie;
+$this->load->view("redirect2",$data);
 }
 }
 public function deletemovie()
@@ -1045,8 +1074,8 @@ public function deletemovie()
 $access=array("1");
 $this->checkaccess($access);
 $this->movie_model->delete($this->input->get("id"));
-$data["redirect"]="site/viewmovie";
-$this->load->view("redirect",$data);
+$data["redirect"]="site/viewmovie?id=".$this->input->get('movieid');
+$this->load->view("redirect2",$data);
 }
 public function viewmoviedetail()
 {
@@ -1665,7 +1694,6 @@ $data["before1"]=$this->input->get('id');
 $data["before2"]=$this->input->get('id');
 $data["before3"]=$this->input->get('id');
 $data["before4"]=$this->input->get('id');
-$data["before4"]=$this->input->get('id');
 $data["movie"]=$this->moviedetail_model->getdropdown();
 $data["title"]="Create award";
 $this->load->view("templatewith2",$data);
@@ -1705,7 +1733,7 @@ $data["page"]="editaward";
 $data["page2"]="block/awardblock";
 $data["title"]="Edit award";
 $data["before1"]=$this->input->get("id");
-$data["before2"]=$this->input->get("id");
+$data["before2"]=$this->input->get("movieid");
 $data["movie"]=$this->moviedetail_model->getdropdown();
 $data["before"]=$this->award_model->beforeedit($this->input->get("id"));
 $this->load->view("templatewith2",$data);
@@ -1752,9 +1780,11 @@ public function viewawarddetail()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="viewawarddetail";
-$data["page2"]="block/awardblock";
+$data["page2"]="block/movieblock";
 $data["before1"]=$this->input->get('id');
 $data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
 $data["base_url"]=site_url("site/viewawarddetailjson?id=").$this->input->get('id');
 $data["title"]="View awarddetail";
 $this->load->view("templatewith2",$data);
@@ -1788,6 +1818,12 @@ $elements[4]->field="`gse_awarddetail`.`winnername`";
 $elements[4]->sort="1";
 $elements[4]->header="Winner Name";
 $elements[4]->alias="winnername";
+    
+$elements[5]=new stdClass();
+$elements[5]->field="`gse_awarddetail`.`movie`";
+$elements[5]->sort="1";
+$elements[5]->header="movie";
+$elements[5]->alias="movie";
 $search=$this->input->get_post("search");
 $pageno=$this->input->get_post("pageno");
 $orderby=$this->input->get_post("orderby");
@@ -1802,7 +1838,7 @@ if($orderby=="")
 $orderby="id";
 $orderorder="ASC";
 }
-$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_awarddetail`","WHERE `gse_awarddetail`.`award`='$id'");
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_awarddetail`","WHERE `gse_awarddetail`.`movie`='$id'");
 $this->load->view("json",$data);
 }
 
@@ -1811,10 +1847,13 @@ public function createawarddetail()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="createawarddetail";
-$data["page2"]="block/awardblock";
+$data["page2"]="block/movieblock";
 $data["before1"]=$this->input->get('id');
 $data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
 $data["award"]=$this->award_model->getdropdown();
+$data["movie"]=$this->moviedetail_model->getdropdown();
 $data["title"]="Create awarddetail";
 $this->load->view("templatewith2",$data);
 }
@@ -1831,6 +1870,7 @@ if($this->form_validation->run()==FALSE)
 $data["alerterror"]=validation_errors();
 $data["page"]="createawarddetail";
 $data["award"]=$this->award_model->getdropdown();
+$data["movie"]=$this->moviedetail_model->getdropdown();
 $data["title"]="Create awarddetail";
 $this->load->view("template",$data);
 }
@@ -1841,11 +1881,12 @@ $award=$this->input->get_post("award");
 $awardname=$this->input->get_post("awardname");
 $awardreceiver=$this->input->get_post("awardreceiver");
 $winnername=$this->input->get_post("winnername");
-if($this->awarddetail_model->create($award,$awardname,$awardreceiver,$winnername)==0)
+$movie=$this->input->get_post("movie");
+if($this->awarddetail_model->create($award,$awardname,$awardreceiver,$winnername,$movie)==0)
 $data["alerterror"]="New awarddetail could not be created.";
 else
 $data["alertsuccess"]="awarddetail created Successfully.";
-$data["redirect"]="site/viewawarddetail?id=".$award;
+$data["redirect"]="site/viewawarddetail?id=".$movie;
 $this->load->view("redirect2",$data);
 }
 }
@@ -1854,10 +1895,13 @@ public function editawarddetail()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="editawarddetail";
-$data["page2"]="block/awardblock";
+$data["page2"]="block/movieblock";
 $data["before1"]=$this->input->get('id');
 $data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
 $data["award"]=$this->award_model->getdropdown();
+$data["movie"]=$this->moviedetail_model->getdropdown();
 $data["title"]="Edit awarddetail";
 $data["before"]=$this->awarddetail_model->beforeedit($this->input->get("id"));
 $this->load->view("templatewith2",$data);
@@ -1876,6 +1920,7 @@ if($this->form_validation->run()==FALSE)
 $data["alerterror"]=validation_errors();
 $data["page"]="editawarddetail";
 $data["award"]=$this->award_model->getdropdown();
+$data["movie"]=$this->moviedetail_model->getdropdown();
 $data["title"]="Edit awarddetail";
 $data["before"]=$this->awarddetail_model->beforeedit($this->input->get("id"));
 $this->load->view("template",$data);
@@ -1887,11 +1932,12 @@ $award=$this->input->get_post("award");
 $awardname=$this->input->get_post("awardname");
 $awardreceiver=$this->input->get_post("awardreceiver");
 $winnername=$this->input->get_post("winnername");
-if($this->awarddetail_model->edit($id,$award,$awardname,$awardreceiver,$winnername)==0)
+    $movie=$this->input->get_post("movie");
+if($this->awarddetail_model->edit($id,$award,$awardname,$awardreceiver,$winnername,$movie)==0)
 $data["alerterror"]="New awarddetail could not be Updated.";
 else
 $data["alertsuccess"]="awarddetail Updated Successfully.";
-$data["redirect"]="site/viewawarddetail?id=".$award;
+$data["redirect"]="site/viewawarddetail?id=".$movie;
 $this->load->view("redirect2",$data);
 }
 }
@@ -1900,7 +1946,7 @@ public function deleteawarddetail()
 $access=array("1");
 $this->checkaccess($access);
 $this->awarddetail_model->delete($this->input->get("id"));
-$data["redirect"]="site/viewawarddetail?id=".$this->input->get("award");
+$data["redirect"]="site/viewawarddetail?id=".$this->input->get("movieid");
 $this->load->view("redirect2",$data);
 }
 public function viewwedding()
@@ -1925,6 +1971,17 @@ $elements[1]->field="`gse_wedding`.`name`";
 $elements[1]->sort="1";
 $elements[1]->header="Name";
 $elements[1]->alias="name";
+$elements[2]=new stdClass();
+$elements[2]->field="`gse_wedding`.`image`";
+$elements[2]->sort="1";
+$elements[2]->header="Image";
+$elements[2]->alias="image";
+    
+$elements[3]=new stdClass();
+$elements[3]->field="`gse_wedding`.`banner`";
+$elements[3]->sort="1";
+$elements[3]->header="Banner";
+$elements[3]->alias="banner";
 $search=$this->input->get_post("search");
 $pageno=$this->input->get_post("pageno");
 $orderby=$this->input->get_post("orderby");
@@ -1967,7 +2024,19 @@ else
 {
 $id=$this->input->get_post("id");
 $name=$this->input->get_post("name");
-if($this->wedding_model->create($name)==0)
+$image=$this->menu_model->createImage();
+//$banner=$this->input->get_post("banner");
+    $config['upload_path'] = './uploads/';
+						$config['allowed_types'] = 'gif|jpg|png|jpeg';
+						$this->load->library('upload', $config);
+						$filename="banner";
+						$banner="";
+						if (  $this->upload->do_upload($filename))
+						{
+							$uploaddata = $this->upload->data();
+							$banner=$uploaddata['file_name'];
+						}
+if($this->wedding_model->create($name,$image,$banner)==0)
 $data["alerterror"]="New wedding could not be created.";
 else
 $data["alertsuccess"]="wedding created Successfully.";
@@ -2007,7 +2076,26 @@ else
 {
 $id=$this->input->get_post("id");
 $name=$this->input->get_post("name");
-if($this->wedding_model->edit($id,$name)==0)
+$image=$this->menu_model->createImage();
+//$banner=$this->input->get_post("banner");
+     $config['upload_path'] = './uploads/';
+						$config['allowed_types'] = 'gif|jpg|png|jpeg';
+						$this->load->library('upload', $config);
+						$filename="banner";
+						$banner="";
+						if (  $this->upload->do_upload($filename))
+						{
+							$uploaddata = $this->upload->data();
+							$banner=$uploaddata['file_name'];
+						}
+
+						if($banner=="")
+						{
+						$banner=$this->wedding_model->getbannerbyid($id);
+						   // print_r($image);
+							$banner=$banner->banner;
+						}
+if($this->wedding_model->edit($id,$name,$image,$banner)==0)
 $data["alerterror"]="New wedding could not be Updated.";
 else
 $data["alertsuccess"]="wedding Updated Successfully.";
@@ -2184,7 +2272,7 @@ $elements[1]->alias="wedding";
 $elements[2]=new stdClass();
 $elements[2]->field="`gse_weddingtype`.`name`";
 $elements[2]->sort="1";
-$elements[2]->header="Name";
+$elements[2]->header="Url";
 $elements[2]->alias="name";
 $elements[3]=new stdClass();
 $elements[3]->field="`gse_weddingtype`.`image`";
@@ -2339,8 +2427,8 @@ public function deleteweddingtype()
 $access=array("1");
 $this->checkaccess($access);
 $this->weddingtype_model->delete($this->input->get("id"));
-$data["redirect"]="site/viewweddingtype";
-$this->load->view("redirect",$data);
+$data["redirect"]="site/viewweddingtype?id=".$this->input->get("weddingid");
+$this->load->view("redirect2",$data);
 }
 public function viewweddingsubtype()
 {
@@ -4594,7 +4682,8 @@ $id=$this->input->get_post("id");
 $order=$this->input->get_post("order");
 $status=$this->input->get_post("status");
 $name=$this->input->get_post("name");
-if($this->category_model->create($order,$status,$name)==0)
+$content=$this->input->get_post("content");
+if($this->category_model->create($order,$status,$name,$content)==0)
 $data["alerterror"]="New category could not be created.";
 else
 $data["alertsuccess"]="category created Successfully.";
@@ -4635,7 +4724,8 @@ $id=$this->input->get_post("id");
 $order=$this->input->get_post("order");
 $status=$this->input->get_post("status");
 $name=$this->input->get_post("name");
-if($this->category_model->edit($id,$order,$status,$name)==0)
+$content=$this->input->get_post("content");
+if($this->category_model->edit($id,$order,$status,$name,$content)==0)
 $data["alerterror"]="New category could not be Updated.";
 else
 $data["alertsuccess"]="category Updated Successfully.";
@@ -5744,6 +5834,153 @@ $this->checkaccess($access);
 $this->diaryarticle_model->delete($this->input->get("id"));
 $data["redirect"]="site/viewdiaryarticle";
 $this->load->view("redirect",$data);
+}
+    
+    // TALENT VIDEOS
+    
+    public function viewtalentvideo()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="viewtalentvideo";
+$data["page2"]="block/talentblock";
+$data["talent"]=$this->talentdetail_model->getdropdown();
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
+$data["base_url"]=site_url("site/viewtalentvideojson?id=").$this->input->get('id');
+$data["title"]="View talent";
+$this->load->view("templatewith2",$data);
+}
+function viewtalentvideojson()
+{
+    $id=$this->input->get('id');
+$elements=array();
+$elements[0]=new stdClass();
+$elements[0]->field="`talentvideo`.`id`";
+$elements[0]->sort="1";
+$elements[0]->header="ID";
+$elements[0]->alias="id";
+$elements[1]=new stdClass();
+$elements[1]->field="`talentvideo`.`url`";
+$elements[1]->sort="1";
+$elements[1]->header="Url";
+$elements[1]->alias="url";
+    
+$elements[2]=new stdClass();
+$elements[2]->field="`talentvideo`.`talent`";
+$elements[2]->sort="1";
+$elements[2]->header="talent";
+$elements[2]->alias="talent";
+$search=$this->input->get_post("search");
+$pageno=$this->input->get_post("pageno");
+$orderby=$this->input->get_post("orderby");
+$orderorder=$this->input->get_post("orderorder");
+$maxrow=$this->input->get_post("maxrow");
+if($maxrow=="")
+{
+$maxrow=20;
+}
+if($orderby=="")
+{
+$orderby="id";
+$orderorder="ASC";
+}
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `talentvideo`","WHERE `talentvideo`.`talent`='$id'");
+$this->load->view("json",$data);
+}
+
+public function createtalentvideo()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="createtalentvideo";
+$data["page2"]="block/talentblock";
+$data["talent"]=$this->talentdetail_model->getdropdown();
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
+$data["title"]="Create talent";
+$this->load->view("templatewith2",$data);
+}
+public function createtalentvideosubmit() 
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("content","Content","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["talent"]=$this->talentdetail_model->getdropdown();
+$data["page"]="createtalentvideo";
+$data["title"]="Create talent";
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$url=$this->input->get_post("url");
+$talent=$this->input->get_post("talent");
+if($this->talent_model->create($url,$talent)==0)
+$data["alerterror"]="New talent could not be created.";
+else
+$data["alertsuccess"]="talent created Successfully.";
+$data["redirect"]="site/viewtalentvideo?id=".$talent;
+$this->load->view("redirect2",$data);
+}
+}
+public function edittalentvideo()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="edittalentvideo";
+$data["page2"]="block/talentblock";
+$data["before1"]=$this->input->get('talentid');
+$data["talent"]=$this->talentdetail_model->getdropdown();
+$data["before2"]=$this->input->get('talentid');
+$data["before3"]=$this->input->get('talentid');
+$data["before4"]=$this->input->get('talentid');
+$data["title"]="Edit talent";
+$data["before"]=$this->talent_model->beforeedit($this->input->get("id"));
+$this->load->view("templatewith2",$data);
+}
+public function edittalentvideosubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("id","ID","trim");
+$this->form_validation->set_rules("content","Content","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["talent"]=$this->talentdetail_model->getdropdown();
+$data["page"]="edittalentvideo";
+$data["title"]="Edit talent";
+$data["before"]=$this->talent_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$url=$this->input->get_post("url");
+$talent=$this->input->get_post("talent");
+if($this->talent_model->edit($id,$url,$talent)==0)
+$data["alerterror"]="New talent could not be Updated.";
+else
+$data["alertsuccess"]="talent Updated Successfully.";
+$data["redirect"]="site/viewtalentvideo?id=".$talent;
+$this->load->view("redirect2",$data);
+}
+}
+public function deletetalentvideo()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->talent_model->delete($this->input->get("id"));
+$data["redirect"]="site/viewtalentvideo?id=".$this->input->get('talentid');
+$this->load->view("redirect2",$data);
 }
 
 

@@ -3,7 +3,7 @@
 <h4 class="pad-left-15 capitalize">Create wedding gallery</h4>
 </div>
 <form class='col s12' method='post' action='<?php echo site_url("site/createweddinggallerysubmit");?>' enctype= 'multipart/form-data'>
-<div class=" row">
+<div class=" row" style="display:none">
 <div class=" input-field col s6">
 <?php echo form_dropdown("wedding",$wedding,set_value('wedding',$this->input->get('id')));?>
 <label>Wedding</label>

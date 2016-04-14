@@ -1,9 +1,9 @@
 <div class="row">
 <div class="col s12">
-<h4 class="pad-left-15 capitalize">Create wedding type</h4>
+<h4 class="pad-left-15 capitalize">Create Video</h4>
 </div>
 <form class='col s12' method='post' action='<?php echo site_url("site/createweddingtypesubmit");?>' enctype= 'multipart/form-data'>
-<div class=" row">
+<div class=" row" style="display:none">
 <div class=" input-field col s6">
 <?php echo form_dropdown("wedding",$wedding,set_value('wedding',$this->input->get('id')));?>
 <label>Wedding</label>
@@ -11,11 +11,11 @@
 </div>
 <div class="row">
 <div class="input-field col s6">
-<label for="Name">Name</label>
+<label for="Name">Url</label>
 <input type="text" id="Name" name="name" value='<?php echo set_value('name');?>'>
 </div>
 </div>
-<div class="row">
+<div class="row" style="display:none">
 			<div class="file-field input-field col m6 s12">
 				<div class="btn blue darken-4">
 					<span>Image</span>
@@ -26,7 +26,7 @@
 				</div>
 			</div>
 		</div>
-<div class="row">
+<div class="row" style="display:none">
 			<div class="file-field input-field col m6 s12">
 				<div class="btn blue darken-4">
 					<span>Banner</span>

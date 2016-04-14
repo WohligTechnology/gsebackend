@@ -1,12 +1,12 @@
 <div class="row">
 <div class="col s12">
-<h4 class="pad-left-15 capitalize">Edit wedding type</h4>
+<h4 class="pad-left-15 capitalize">Edit Video</h4>
 </div>
 </div>
 <div class="row">
 <form class='col s12' method='post' action='<?php echo site_url("site/editweddingtypesubmit");?>' enctype= 'multipart/form-data'>
 <input type="hidden" id="normal-field" class="form-control" name="id" value="<?php echo set_value('id',$before->id);?>" style="display:none;">
-<div class=" row">
+<div class=" row" style="display:none">
 <div class=" input-field col s12 m6">
 <?php echo form_dropdown("wedding",$wedding,set_value('wedding',$before->wedding));?>
 <label for="Wedding">Wedding</label>
@@ -14,11 +14,11 @@
 </div>
 <div class="row">
 <div class="input-field col s6">
-<label for="Name">Name</label>
+<label for="Name">Url</label>
 <input type="text" id="Name" name="name" value='<?php echo set_value('name',$before->name);?>'>
 </div>
 </div>
-<div class="row">
+<div class="row" style="display:none">
 			<div class="file-field input-field col m6 s12">
 				<span class="img-center big">
 								                    	<?php if($before->image == "") { } else {
@@ -34,7 +34,7 @@
 				</div>
 			</div>
 		</div>
-<div class="row">
+<div class="row" style="display:none">
 			<div class="file-field input-field col m6 s12">
 				<span class="img-center big">
 								                    	<?php if($before->banner == "") { } else {

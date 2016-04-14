@@ -363,3 +363,9 @@ textarea.materialize-textarea:focus:not([readonly]) {
 .capitalize{ 
     text-transform: capitalize;  
 }
+
+.title-sub{
+    font-size: 20px;
+    padding: 0 10px;
+    font-weight: 600;
+}

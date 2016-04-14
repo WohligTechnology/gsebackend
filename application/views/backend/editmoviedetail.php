@@ -40,12 +40,26 @@
 				</div>
 			</div>
 		</div>
+		<h4 class="title-sub">ABOUT THE MOVIE</h4>
+		<div class="row">
+<div class="col s12 m6">
+<label>Synopsis</label>
+<textarea name="synopsis" class="materialize-textarea" placeholder="Enter text ..."><?php echo set_value( 'synopsis',$before->synopsis);?></textarea>
+</div>
+</div>
 <div class="row">
 <div class="input-field col s6">
-<label for="Imdb">Imdb</label>
+<label for="Release Date">Release Date</label>
+<input type="date" id="Release Date" class="datepicker" name="releasedate" value='<?php echo set_value('releasedate',$before->releasedate);?>'>
+</div>
+</div>
+<div class="row">
+<div class="input-field col s6">
+<label for="Imdb">Check this movie out on IMDb</label>
 <input type="text" id="Imdb" name="imdb" value='<?php echo set_value('imdb',$before->imdb);?>'>
 </div>
 </div>
+	<h4 class="title-sub">CAST & CREW</h4>
 <div class="row">
 <div class="input-field col s6">
 <label for="Producer">Producer</label>
@@ -70,24 +84,14 @@
 <input type="text" id="Music" name="music" value='<?php echo set_value('music',$before->music);?>'>
 </div>
 </div>
-<div class="row">
-<div class="col s12 m6">
-<label>Synopsis</label>
-<textarea name="synopsis" class="materialize-textarea" placeholder="Enter text ..."><?php echo set_value( 'synopsis',$before->synopsis);?></textarea>
-</div>
-</div>
-<div class="row">
+
+<div class="row" style="display:none">
 <div class="col s12 m6">
 <label>Videos</label>
 <textarea name="videos" class="materialize-textarea" placeholder="Enter text ..."><?php echo set_value( 'videos',$before->videos);?></textarea>
 </div>
 </div>
-<div class="row">
-<div class="input-field col s6">
-<label for="Release Date">Release Date</label>
-<input type="date" id="Release Date" class="datepicker" name="releasedate" value='<?php echo set_value('releasedate',$before->releasedate);?>'>
-</div>
-</div>
+
 <div class="row">
 <div class="col s6">
 <button type="submit" class="btn btn-primary waves-effect waves-light  blue darken-4">Save</button>

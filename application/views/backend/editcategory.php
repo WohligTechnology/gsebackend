@@ -24,7 +24,12 @@
 <label for="Status">Status</label>
 </div>
 </div>
-
+<div class="row">
+<div class="col s12 m6">
+<label>Content</label>
+<textarea name="content" class="materialize-textarea" placeholder="Enter text ..."><?php echo set_value( 'content',$before->content);?></textarea>
+</div>
+</div>
 <div class="row">
 <div class="col s6">
 <button type="submit" class="btn btn-primary waves-effect waves-light  blue darken-4">Save</button>

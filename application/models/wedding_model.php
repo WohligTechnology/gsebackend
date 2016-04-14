@@ -3,15 +3,20 @@ if ( !defined( "BASEPATH" ) )
 exit( "No direct script access allowed" );
 class wedding_model extends CI_Model
 {
-public function create($name)
+public function create($name,$image,$banner)
 {
-$data=array("name" => $name);
+$data=array("name" => $name,"image" => $image,"banner" => $banner);
 $query=$this->db->insert( "gse_wedding", $data );
 $id=$this->db->insert_id();
 if(!$query)
 return  0;
 else
 return  $id;
+}
+    public function getbannerbyid($id)
+{
+$query=$this->db->query("SELECT `banner` FROM `gse_wedding` WHERE `id`='$id'")->row();
+return $query;
 }
 public function beforeedit($id)
 {
@@ -24,14 +29,19 @@ $this->db->where("id",$id);
 $query=$this->db->get("gse_wedding")->row();
 return $query;
 }
-public function edit($id,$name)
+public function edit($id,$name,$image,$banner)
 {
 if($image=="")
 {
 $image=$this->wedding_model->getimagebyid($id);
 $image=$image->image;
 }
-$data=array("name" => $name);
+      if($banner=="")
+{
+$banner=$this->wedding_model->getbannerbyid($id);
+$banner=$banner->banner;
+}
+$data=array("name" => $name,"image" => $image,"banner" => $banner);
 $this->db->where( "id", $id );
 $query=$this->db->update( "gse_wedding", $data );
 return 1;

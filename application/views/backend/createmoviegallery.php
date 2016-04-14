@@ -3,7 +3,7 @@
 <h4 class="pad-left-15 capitalize">Create movie gallery</h4>
 </div>
 <form class='col s12' method='post' action='<?php echo site_url("site/createmoviegallerysubmit");?>' enctype= 'multipart/form-data'>
-<div class=" row">
+<div class=" row" style="display:none">
 <div class=" input-field col s6">
 <?php echo form_dropdown("movie",$movie,set_value('movie',$this->input->get('id')));?>
 <label>movie</label>

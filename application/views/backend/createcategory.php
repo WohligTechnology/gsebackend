@@ -21,6 +21,12 @@
 <label>Status</label>
 </div>
 </div>
+<div class="row">
+<div class="input-field col s12">
+<textarea name="content" class="materialize-textarea"><?php echo set_value( 'content');?></textarea>
+<label>Content</label>
+</div>
+</div>
 
 <div class="row">
 <div class="col s12 m6">

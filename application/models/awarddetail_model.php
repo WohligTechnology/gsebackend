@@ -3,9 +3,9 @@ if ( !defined( "BASEPATH" ) )
 exit( "No direct script access allowed" );
 class awarddetail_model extends CI_Model
 {
-public function create($award,$awardname,$awardreceiver,$winnername)
+public function create($award,$awardname,$awardreceiver,$winnername,$movie)
 {
-$data=array("award" => $award,"awardname" => $awardname,"awardreceiver" => $awardreceiver,"winnername" => $winnername);
+$data=array("award" => $award,"awardname" => $awardname,"awardreceiver" => $awardreceiver,"winnername" => $winnername,"movie" => $movie);
 $query=$this->db->insert( "gse_awarddetail", $data );
 $id=$this->db->insert_id();
 if(!$query)
@@ -24,10 +24,10 @@ $this->db->where("id",$id);
 $query=$this->db->get("gse_awarddetail")->row();
 return $query;
 }
-public function edit($id,$award,$awardname,$awardreceiver,$winnername)
+public function edit($id,$award,$awardname,$awardreceiver,$winnername,$movie)
 {
 
-$data=array("award" => $award,"awardname" => $awardname,"awardreceiver" => $awardreceiver,"winnername" => $winnername);
+$data=array("award" => $award,"awardname" => $awardname,"awardreceiver" => $awardreceiver,"winnername" => $winnername,"movie" => $movie);
 $this->db->where( "id", $id );
 $query=$this->db->update( "gse_awarddetail", $data );
 return 1;

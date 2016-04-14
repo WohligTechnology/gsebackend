@@ -5,8 +5,14 @@
 <form class='col s12' method='post' action='<?php echo site_url("site/createawarddetailsubmit");?>' enctype= 'multipart/form-data'>
 <div class=" row">
 <div class=" input-field col s6">
-<?php echo form_dropdown("award",$award,set_value('award'));?>
-<label>Award</label>
+<?php echo form_dropdown("movie",$movie,set_value('movie',$this->input->get('id')));?>
+<label>movie</label>
+</div>
+</div>
+<div class="row">
+<div class="input-field col s6">
+<label for="Award">Award</label>
+<input type="text" id="Award" name="award" value='<?php echo set_value('award');?>'>
 </div>
 </div>
 <div class="row">
