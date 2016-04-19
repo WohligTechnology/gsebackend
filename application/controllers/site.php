@@ -5676,6 +5676,7 @@ $data["title"]="Create diaryarticle";
 $data[ 'status' ] =$this->user_model->getstatusdropdown();
     $data[ 'diarycategory' ] =$this->diarycategory_model->getdropdown();
     $data[ 'diarysubcategory' ] =$this->diarysubcategory_model->getdropdown();
+    $data[ 'type' ] =$this->diarycategory_model->gettypedropdown();
 $this->load->view("template",$data);
 }
 public function creatediaryarticlesubmit() 
@@ -5697,6 +5698,7 @@ $data["page"]="creatediaryarticle";
 $data[ 'status' ] =$this->user_model->getstatusdropdown();
     $data[ 'diarycategory' ] =$this->diarycategory_model->getdropdown();
      $data[ 'diarysubcategory' ] =$this->diarysubcategory_model->getdropdown();
+$data[ 'type' ] =$this->diarycategory_model->gettypedropdown();
 $data["title"]="Create diaryarticle";
 $this->load->view("template",$data);
 }
@@ -5766,6 +5768,7 @@ $data["before4"]=$this->input->get('id');
 $data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data[ 'diarycategory' ] =$this->diarycategory_model->getdropdown();
  $data[ 'diarysubcategory' ] =$this->diarysubcategory_model->getdropdown();
+$data[ 'type' ] =$this->diarycategory_model->gettypedropdown();
 $data["before"]=$this->diaryarticle_model->beforeedit($this->input->get("id"));
 $this->load->view("templatewith2",$data);
 }
@@ -5788,6 +5791,7 @@ $data["alerterror"]=validation_errors();
 $data["page"]="editdiaryarticle";
 $data["title"]="Edit diaryarticle";
 $data[ 'status' ] =$this->user_model->getstatusdropdown();
+$data[ 'type' ] =$this->diarycategory_model->gettypedropdown();
  $data[ 'diarysubcategory' ] =$this->diarysubcategory_model->getdropdown();
 $data[ 'diarycategory' ] =$this->diarycategory_model->getdropdown();
 $data["before"]=$this->diaryarticle_model->beforeedit($this->input->get("id"));

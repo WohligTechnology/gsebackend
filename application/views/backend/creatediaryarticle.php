@@ -21,6 +21,12 @@
 <label>Diary Sub Category</label>
 </div>
 </div>
+<div class=" row">
+<div class=" input-field col s6">
+<?php echo form_dropdown("type",$type,set_value('type'));?>
+<label>Blog Type</label>
+</div>
+</div>
 <div class="row">
 <div class="input-field col s6">
 <label for="Name">Name</label>

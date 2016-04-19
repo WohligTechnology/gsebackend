@@ -53,5 +53,17 @@ $return[$row->id]=$row->name;
 }
 return $return;
 }
+    public function gettypedropdown()
+{
+$return=array(
+"" => "Select Option",
+"1" => "Text",
+"2" => "Image",
+"3" => "Video"
+);
+
+return $return;
+}
+    
 }
 ?>

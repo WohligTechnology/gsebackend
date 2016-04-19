@@ -3,11 +3,11 @@ if ( !defined( "BASEPATH" ) )
 exit( "No direct script access allowed" );
 class diaryarticle_model extends CI_Model
 {
-public function create($status,$diarycategory,$diarysubcategory,$name,$image,$timestamp,$content,$date)
+public function create($status,$diarycategory,$diarysubcategory,$name,$image,$timestamp,$content,$date,$type)
 {
      $date = new DateTime($date);
     $date = $date->format('Y-m-d');
-$data=array("status" => $status,"diarycategory" => $diarycategory,"diarysubcategory" => $diarysubcategory,"name" => $name,"image" => $image,"timestamp" => $timestamp,"content" => $content,"date" => $date);
+$data=array("status" => $status,"diarycategory" => $diarycategory,"diarysubcategory" => $diarysubcategory,"name" => $name,"image" => $image,"timestamp" => $timestamp,"content" => $content,"date" => $date,"type" => $type);
 $query=$this->db->insert( "gse_diaryarticle", $data );
 $id=$this->db->insert_id();
 if(!$query)
@@ -26,7 +26,7 @@ $this->db->where("id",$id);
 $query=$this->db->get("gse_diaryarticle")->row();
 return $query;
 }
-public function edit($id,$status,$diarycategory,$diarysubcategory,$name,$image,$timestamp,$content,$date)
+public function edit($id,$status,$diarycategory,$diarysubcategory,$name,$image,$timestamp,$content,$date,$type)
 {
 if($image=="")
 {
@@ -35,7 +35,7 @@ $image=$image->image;
 }
     $date = new DateTime($date);
     $date = $date->format('Y-m-d');
-$data=array("status" => $status,"diarycategory" => $diarycategory,"diarysubcategory" => $diarysubcategory,"name" => $name,"image" => $image,"timestamp" => $timestamp,"content" => $content,"date" => $date);
+$data=array("status" => $status,"diarycategory" => $diarycategory,"diarysubcategory" => $diarysubcategory,"name" => $name,"image" => $image,"timestamp" => $timestamp,"content" => $content,"date" => $date,"type" => $type);
 $this->db->where( "id", $id );
 $query=$this->db->update( "gse_diaryarticle", $data );
 return 1;
