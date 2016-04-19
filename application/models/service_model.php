@@ -3,9 +3,9 @@ if ( !defined( "BASEPATH" ) )
 exit( "No direct script access allowed" );
 class service_model extends CI_Model
 {
-public function create($name,$content,$type)
+public function create($name,$content,$type,$order)
 {
-$data=array("name" => $name,"content" => $content,"type" => $type);
+$data=array("name" => $name,"content" => $content,"type" => $type,"order" => $order);
 $query=$this->db->insert( "gse_service", $data );
 $id=$this->db->insert_id();
 if(!$query)
@@ -24,10 +24,10 @@ $this->db->where("id",$id);
 $query=$this->db->get("gse_service")->row();
 return $query;
 }
-public function edit($id,$name,$content,$type)
+public function edit($id,$name,$content,$type,$order)
 {
 
-$data=array("name" => $name,"content" => $content,"type" => $type);
+$data=array("name" => $name,"content" => $content,"type" => $type,"order" => $order);
 $this->db->where( "id", $id );
 $query=$this->db->update( "gse_service", $data );
 return 1;

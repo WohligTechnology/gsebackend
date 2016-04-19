@@ -2138,6 +2138,18 @@ $elements[2]->field="`gse_service`.`content`";
 $elements[2]->sort="1";
 $elements[2]->header="Content";
 $elements[2]->alias="content";
+    
+$elements[3]=new stdClass();
+$elements[3]->field="`gse_service`.`type`";
+$elements[3]->sort="1";
+$elements[3]->header="Type";
+$elements[3]->alias="type";
+    
+$elements[4]=new stdClass();
+$elements[4]->field="`gse_service`.`order`";
+$elements[4]->sort="1";
+$elements[4]->header="Order";
+$elements[4]->alias="order";
 $search=$this->input->get_post("search");
 $pageno=$this->input->get_post("pageno");
 $orderby=$this->input->get_post("orderby");
@@ -2185,7 +2197,8 @@ $id=$this->input->get_post("id");
 $name=$this->input->get_post("name");
 $content=$this->input->get_post("content");
 $type=$this->input->get_post("type");
-if($this->service_model->create($name,$content,$type)==0)
+$order=$this->input->get_post("order");
+if($this->service_model->create($name,$content,$type,$order)==0)
 $data["alerterror"]="New service could not be created.";
 else
 $data["alertsuccess"]="service created Successfully.";
@@ -2225,7 +2238,8 @@ $id=$this->input->get_post("id");
 $name=$this->input->get_post("name");
 $content=$this->input->get_post("content");
 $type=$this->input->get_post("type");
-if($this->service_model->edit($id,$name,$content,$type)==0)
+$order=$this->input->get_post("order");
+if($this->service_model->edit($id,$name,$content,$type,$order)==0)
 $data["alerterror"]="New service could not be Updated.";
 else
 $data["alertsuccess"]="service Updated Successfully.";
