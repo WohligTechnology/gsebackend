@@ -26,11 +26,7 @@ return $query;
 }
 public function edit($id,$diaryarticle,$url,$order)
 {
-if($image=="")
-{
-$image=$this->blogvideo_model->getimagebyid($id);
-$image=$image->image;
-}
+
 $data=array("diaryarticle" => $diaryarticle,"url" => $url,"order" => $order);
 $this->db->where( "id", $id );
 $query=$this->db->update( "gse_blogvideo", $data );

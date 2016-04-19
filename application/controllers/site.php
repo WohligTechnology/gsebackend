@@ -5756,13 +5756,18 @@ public function editdiaryarticle()
 {
 $access=array("1");
 $this->checkaccess($access);
-$data["page"]="editdiaryarticle";
 $data["title"]="Edit diaryarticle";
+$data["page"]="editdiaryarticle";
+$data["page2"]="block/diaryblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
 $data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data[ 'diarycategory' ] =$this->diarycategory_model->getdropdown();
  $data[ 'diarysubcategory' ] =$this->diarysubcategory_model->getdropdown();
 $data["before"]=$this->diaryarticle_model->beforeedit($this->input->get("id"));
-$this->load->view("template",$data);
+$this->load->view("templatewith2",$data);
 }
 public function editdiaryarticlesubmit()
 {
@@ -6002,12 +6007,18 @@ $this->load->view("redirect2",$data);
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="viewblogvideo";
-$data["base_url"]=site_url("site/viewblogvideojson");
+$data["page2"]="block/diaryblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
+$data["base_url"]=site_url("site/viewblogvideojson?id=").$this->input->get('id');
 $data["title"]="View blogvideo";
-$this->load->view("template",$data);
+$this->load->view("templatewith2",$data);
 }
 function viewblogvideojson()
 {
+$id=$this->input->get('id');
 $elements=array();
 $elements[0]=new stdClass();
 $elements[0]->field="`gse_blogvideo`.`id`";
@@ -6043,7 +6054,7 @@ if($orderby=="")
 $orderby="id";
 $orderorder="ASC";
 }
-$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_blogvideo`");
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_blogvideo`","WHERE `gse_blogvideo`.`diaryarticle`='$id'");
 $this->load->view("json",$data);
 }
 
@@ -6052,8 +6063,14 @@ public function createblogvideo()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="createblogvideo";
+$data["page2"]="block/diaryblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
+$data["diaryarticle"]=$this->diaryarticle_model->getdropdown();
 $data["title"]="Create blogvideo";
-$this->load->view("template",$data);
+$this->load->view("templatewith2",$data);
 }
 public function createblogvideosubmit() 
 {
@@ -6062,6 +6079,7 @@ $this->checkaccess($access);
 $this->form_validation->set_rules("diaryarticle","Diary Article","trim");
 $this->form_validation->set_rules("url","Url","trim");
 $this->form_validation->set_rules("order","Order","trim");
+$data["diaryarticle"]=$this->diaryarticle_model->getdropdown();
 if($this->form_validation->run()==FALSE)
 {
 $data["alerterror"]=validation_errors();
@@ -6079,8 +6097,8 @@ if($this->blogvideo_model->create($diaryarticle,$url,$order)==0)
 $data["alerterror"]="New blogvideo could not be created.";
 else
 $data["alertsuccess"]="blogvideo created Successfully.";
-$data["redirect"]="site/viewblogvideo";
-$this->load->view("redirect",$data);
+$data["redirect"]="site/viewblogvideo?id=".$diaryarticle;
+$this->load->view("redirect2",$data);
 }
 }
 public function editblogvideo()
@@ -6088,6 +6106,7 @@ public function editblogvideo()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="editblogvideo";
+$data["diaryarticle"]=$this->diaryarticle_model->getdropdown();
 $data["title"]="Edit blogvideo";
 $data["before"]=$this->blogvideo_model->beforeedit($this->input->get("id"));
 $this->load->view("template",$data);
@@ -6103,6 +6122,7 @@ $this->form_validation->set_rules("order","Order","trim");
 if($this->form_validation->run()==FALSE)
 {
 $data["alerterror"]=validation_errors();
+$data["diaryarticle"]=$this->diaryarticle_model->getdropdown();
 $data["page"]="editblogvideo";
 $data["title"]="Edit blogvideo";
 $data["before"]=$this->blogvideo_model->beforeedit($this->input->get("id"));
@@ -6118,8 +6138,8 @@ if($this->blogvideo_model->edit($id,$diaryarticle,$url,$order)==0)
 $data["alerterror"]="New blogvideo could not be Updated.";
 else
 $data["alertsuccess"]="blogvideo Updated Successfully.";
-$data["redirect"]="site/viewblogvideo";
-$this->load->view("redirect",$data);
+$data["redirect"]="site/viewblogvideo?id=".$diaryarticle;
+$this->load->view("redirect2",$data);
 }
 }
 public function deleteblogvideo()
@@ -6127,20 +6147,26 @@ public function deleteblogvideo()
 $access=array("1");
 $this->checkaccess($access);
 $this->blogvideo_model->delete($this->input->get("id"));
-$data["redirect"]="site/viewblogvideo";
-$this->load->view("redirect",$data);
+$data["redirect"]="site/viewblogvideo?id=".$this->input->get('diaryarticleid');
+$this->load->view("redirect2",$data);
 }
 public function viewblogimage()
 {
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="viewblogimage";
-$data["base_url"]=site_url("site/viewblogimagejson");
+$data["page2"]="block/diaryblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
+$data["base_url"]=site_url("site/viewblogimagejson?id=").$this->input->get('id');
 $data["title"]="View blogimage";
-$this->load->view("template",$data);
+$this->load->view("templatewith2",$data);
 }
 function viewblogimagejson()
 {
+    $id=$this->input->get('id');
 $elements=array();
 $elements[0]=new stdClass();
 $elements[0]->field="`gse_blogimage`.`id`";
@@ -6176,7 +6202,7 @@ if($orderby=="")
 $orderby="id";
 $orderorder="ASC";
 }
-$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_blogimage`");
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_blogimage`","WHERE `gse_blogimage`.`diaryarticle`='$id'");
 $this->load->view("json",$data);
 }
 
@@ -6185,8 +6211,14 @@ public function createblogimage()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="createblogimage";
+$data["page2"]="block/diaryblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
+$data["diaryarticle"]=$this->diaryarticle_model->getdropdown();
 $data["title"]="Create blogimage";
-$this->load->view("template",$data);
+$this->load->view("templatewith2",$data);
 }
 public function createblogimagesubmit() 
 {
@@ -6198,6 +6230,7 @@ $this->form_validation->set_rules("order","Order","trim");
 if($this->form_validation->run()==FALSE)
 {
 $data["alerterror"]=validation_errors();
+$data["diaryarticle"]=$this->diaryarticle_model->getdropdown();
 $data["page"]="createblogimage";
 $data["title"]="Create blogimage";
 $this->load->view("template",$data);
@@ -6206,14 +6239,15 @@ else
 {
 $id=$this->input->get_post("id");
 $diaryarticle=$this->input->get_post("diaryarticle");
-$image=$this->input->get_post("image");
+//$image=$this->input->get_post("image");
 $order=$this->input->get_post("order");
+        $image=$this->menu_model->createImage();
 if($this->blogimage_model->create($diaryarticle,$image,$order)==0)
 $data["alerterror"]="New blogimage could not be created.";
 else
 $data["alertsuccess"]="blogimage created Successfully.";
-$data["redirect"]="site/viewblogimage";
-$this->load->view("redirect",$data);
+$data["redirect"]="site/viewblogimage?id=".$diaryarticle;
+$this->load->view("redirect2",$data);
 }
 }
 public function editblogimage()
@@ -6222,6 +6256,7 @@ $access=array("1");
 $this->checkaccess($access);
 $data["page"]="editblogimage";
 $data["title"]="Edit blogimage";
+$data["diaryarticle"]=$this->diaryarticle_model->getdropdown();
 $data["before"]=$this->blogimage_model->beforeedit($this->input->get("id"));
 $this->load->view("template",$data);
 }
@@ -6237,6 +6272,7 @@ if($this->form_validation->run()==FALSE)
 {
 $data["alerterror"]=validation_errors();
 $data["page"]="editblogimage";
+$data["diaryarticle"]=$this->diaryarticle_model->getdropdown();
 $data["title"]="Edit blogimage";
 $data["before"]=$this->blogimage_model->beforeedit($this->input->get("id"));
 $this->load->view("template",$data);
@@ -6245,14 +6281,15 @@ else
 {
 $id=$this->input->get_post("id");
 $diaryarticle=$this->input->get_post("diaryarticle");
-$image=$this->input->get_post("image");
+//$image=$this->input->get_post("image");
 $order=$this->input->get_post("order");
+        $image=$this->menu_model->createImage();
 if($this->blogimage_model->edit($id,$diaryarticle,$image,$order)==0)
 $data["alerterror"]="New blogimage could not be Updated.";
 else
 $data["alertsuccess"]="blogimage Updated Successfully.";
-$data["redirect"]="site/viewblogimage";
-$this->load->view("redirect",$data);
+$data["redirect"]="site/viewblogimage?id=".$diaryarticle;
+$this->load->view("redirect2",$data);
 }
 }
 public function deleteblogimage()
@@ -6260,20 +6297,26 @@ public function deleteblogimage()
 $access=array("1");
 $this->checkaccess($access);
 $this->blogimage_model->delete($this->input->get("id"));
-$data["redirect"]="site/viewblogimage";
-$this->load->view("redirect",$data);
+$data["redirect"]="site/viewblogimage?id=".$this->input->get('diaryarticleid');
+$this->load->view("redirect2",$data);
 }
 public function viewblogtext()
 {
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="viewblogtext";
-$data["base_url"]=site_url("site/viewblogtextjson");
+$data["page2"]="block/diaryblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
+$data["base_url"]=site_url("site/viewblogtextjson?id=").$this->input->get('id');
 $data["title"]="View blogtext";
-$this->load->view("template",$data);
+$this->load->view("templatewith2",$data);
 }
 function viewblogtextjson()
 {
+$id=$this->input->get('id');
 $elements=array();
 $elements[0]=new stdClass();
 $elements[0]->field="`gse_blogtext`.`id`";
@@ -6314,7 +6357,7 @@ if($orderby=="")
 $orderby="id";
 $orderorder="ASC";
 }
-$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_blogtext`");
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_blogtext`","WHERE `gse_blogtext`.`diaryarticle`='$id'");
 $this->load->view("json",$data);
 }
 
@@ -6323,8 +6366,14 @@ public function createblogtext()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="createblogtext";
+$data["page2"]="block/diaryblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
+$data["diaryarticle"]=$this->diaryarticle_model->getdropdown();
 $data["title"]="Create blogtext";
-$this->load->view("template",$data);
+$this->load->view("templatewith2",$data);
 }
 public function createblogtextsubmit() 
 {
@@ -6337,6 +6386,7 @@ $this->form_validation->set_rules("order","Order","trim");
 if($this->form_validation->run()==FALSE)
 {
 $data["alerterror"]=validation_errors();
+$data["diaryarticle"]=$this->diaryarticle_model->getdropdown();
 $data["page"]="createblogtext";
 $data["title"]="Create blogtext";
 $this->load->view("template",$data);
@@ -6346,14 +6396,15 @@ else
 $id=$this->input->get_post("id");
 $diaryarticle=$this->input->get_post("diaryarticle");
 $content=$this->input->get_post("content");
-$image=$this->input->get_post("image");
+//$image=$this->input->get_post("image");
 $order=$this->input->get_post("order");
+    $image=$this->menu_model->createImage();
 if($this->blogtext_model->create($diaryarticle,$content,$image,$order)==0)
 $data["alerterror"]="New blogtext could not be created.";
 else
 $data["alertsuccess"]="blogtext created Successfully.";
-$data["redirect"]="site/viewblogtext";
-$this->load->view("redirect",$data);
+$data["redirect"]="site/viewblogtext?id=".$diaryarticle;
+$this->load->view("redirect2",$data);
 }
 }
 public function editblogtext()
@@ -6362,6 +6413,7 @@ $access=array("1");
 $this->checkaccess($access);
 $data["page"]="editblogtext";
 $data["title"]="Edit blogtext";
+$data["diaryarticle"]=$this->diaryarticle_model->getdropdown();
 $data["before"]=$this->blogtext_model->beforeedit($this->input->get("id"));
 $this->load->view("template",$data);
 }
@@ -6379,6 +6431,7 @@ if($this->form_validation->run()==FALSE)
 $data["alerterror"]=validation_errors();
 $data["page"]="editblogtext";
 $data["title"]="Edit blogtext";
+$data["diaryarticle"]=$this->diaryarticle_model->getdropdown();
 $data["before"]=$this->blogtext_model->beforeedit($this->input->get("id"));
 $this->load->view("template",$data);
 }
@@ -6387,14 +6440,15 @@ else
 $id=$this->input->get_post("id");
 $diaryarticle=$this->input->get_post("diaryarticle");
 $content=$this->input->get_post("content");
-$image=$this->input->get_post("image");
+//$image=$this->input->get_post("image");
 $order=$this->input->get_post("order");
+    $image=$this->menu_model->createImage();
 if($this->blogtext_model->edit($id,$diaryarticle,$content,$image,$order)==0)
 $data["alerterror"]="New blogtext could not be Updated.";
 else
 $data["alertsuccess"]="blogtext Updated Successfully.";
-$data["redirect"]="site/viewblogtext";
-$this->load->view("redirect",$data);
+$data["redirect"]="site/viewblogtext?id=".$diaryarticle;
+$this->load->view("redirect2",$data);
 }
 }
 public function deleteblogtext()
@@ -6402,8 +6456,8 @@ public function deleteblogtext()
 $access=array("1");
 $this->checkaccess($access);
 $this->blogtext_model->delete($this->input->get("id"));
-$data["redirect"]="site/viewblogtext";
-$this->load->view("redirect",$data);
+$data["redirect"]="site/viewblogtext?id=".$this->input->get('diaryarticleid');
+$this->load->view("redirect2",$data);
 }
 
 
