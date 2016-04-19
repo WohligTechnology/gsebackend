@@ -5997,6 +5997,415 @@ $data["redirect"]="site/viewtalentvideo?id=".$this->input->get('talentid');
 $this->load->view("redirect2",$data);
 }
 
+    public function viewblogvideo()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="viewblogvideo";
+$data["base_url"]=site_url("site/viewblogvideojson");
+$data["title"]="View blogvideo";
+$this->load->view("template",$data);
+}
+function viewblogvideojson()
+{
+$elements=array();
+$elements[0]=new stdClass();
+$elements[0]->field="`gse_blogvideo`.`id`";
+$elements[0]->sort="1";
+$elements[0]->header="ID";
+$elements[0]->alias="id";
+$elements[1]=new stdClass();
+$elements[1]->field="`gse_blogvideo`.`diaryarticle`";
+$elements[1]->sort="1";
+$elements[1]->header="Diary Article";
+$elements[1]->alias="diaryarticle";
+$elements[2]=new stdClass();
+$elements[2]->field="`gse_blogvideo`.`url`";
+$elements[2]->sort="1";
+$elements[2]->header="Url";
+$elements[2]->alias="url";
+$elements[3]=new stdClass();
+$elements[3]->field="`gse_blogvideo`.`order`";
+$elements[3]->sort="1";
+$elements[3]->header="Order";
+$elements[3]->alias="order";
+$search=$this->input->get_post("search");
+$pageno=$this->input->get_post("pageno");
+$orderby=$this->input->get_post("orderby");
+$orderorder=$this->input->get_post("orderorder");
+$maxrow=$this->input->get_post("maxrow");
+if($maxrow=="")
+{
+$maxrow=20;
+}
+if($orderby=="")
+{
+$orderby="id";
+$orderorder="ASC";
+}
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_blogvideo`");
+$this->load->view("json",$data);
+}
+
+public function createblogvideo()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="createblogvideo";
+$data["title"]="Create blogvideo";
+$this->load->view("template",$data);
+}
+public function createblogvideosubmit() 
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("diaryarticle","Diary Article","trim");
+$this->form_validation->set_rules("url","Url","trim");
+$this->form_validation->set_rules("order","Order","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="createblogvideo";
+$data["title"]="Create blogvideo";
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$diaryarticle=$this->input->get_post("diaryarticle");
+$url=$this->input->get_post("url");
+$order=$this->input->get_post("order");
+if($this->blogvideo_model->create($diaryarticle,$url,$order)==0)
+$data["alerterror"]="New blogvideo could not be created.";
+else
+$data["alertsuccess"]="blogvideo created Successfully.";
+$data["redirect"]="site/viewblogvideo";
+$this->load->view("redirect",$data);
+}
+}
+public function editblogvideo()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="editblogvideo";
+$data["title"]="Edit blogvideo";
+$data["before"]=$this->blogvideo_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+public function editblogvideosubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("id","ID","trim");
+$this->form_validation->set_rules("diaryarticle","Diary Article","trim");
+$this->form_validation->set_rules("url","Url","trim");
+$this->form_validation->set_rules("order","Order","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="editblogvideo";
+$data["title"]="Edit blogvideo";
+$data["before"]=$this->blogvideo_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$diaryarticle=$this->input->get_post("diaryarticle");
+$url=$this->input->get_post("url");
+$order=$this->input->get_post("order");
+if($this->blogvideo_model->edit($id,$diaryarticle,$url,$order)==0)
+$data["alerterror"]="New blogvideo could not be Updated.";
+else
+$data["alertsuccess"]="blogvideo Updated Successfully.";
+$data["redirect"]="site/viewblogvideo";
+$this->load->view("redirect",$data);
+}
+}
+public function deleteblogvideo()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->blogvideo_model->delete($this->input->get("id"));
+$data["redirect"]="site/viewblogvideo";
+$this->load->view("redirect",$data);
+}
+public function viewblogimage()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="viewblogimage";
+$data["base_url"]=site_url("site/viewblogimagejson");
+$data["title"]="View blogimage";
+$this->load->view("template",$data);
+}
+function viewblogimagejson()
+{
+$elements=array();
+$elements[0]=new stdClass();
+$elements[0]->field="`gse_blogimage`.`id`";
+$elements[0]->sort="1";
+$elements[0]->header="ID";
+$elements[0]->alias="id";
+$elements[1]=new stdClass();
+$elements[1]->field="`gse_blogimage`.`diaryarticle`";
+$elements[1]->sort="1";
+$elements[1]->header="Diary Article";
+$elements[1]->alias="diaryarticle";
+$elements[2]=new stdClass();
+$elements[2]->field="`gse_blogimage`.`image`";
+$elements[2]->sort="1";
+$elements[2]->header="Image";
+$elements[2]->alias="image";
+$elements[3]=new stdClass();
+$elements[3]->field="`gse_blogimage`.`order`";
+$elements[3]->sort="1";
+$elements[3]->header="Order";
+$elements[3]->alias="order";
+$search=$this->input->get_post("search");
+$pageno=$this->input->get_post("pageno");
+$orderby=$this->input->get_post("orderby");
+$orderorder=$this->input->get_post("orderorder");
+$maxrow=$this->input->get_post("maxrow");
+if($maxrow=="")
+{
+$maxrow=20;
+}
+if($orderby=="")
+{
+$orderby="id";
+$orderorder="ASC";
+}
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_blogimage`");
+$this->load->view("json",$data);
+}
+
+public function createblogimage()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="createblogimage";
+$data["title"]="Create blogimage";
+$this->load->view("template",$data);
+}
+public function createblogimagesubmit() 
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("diaryarticle","Diary Article","trim");
+$this->form_validation->set_rules("image","Image","trim");
+$this->form_validation->set_rules("order","Order","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="createblogimage";
+$data["title"]="Create blogimage";
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$diaryarticle=$this->input->get_post("diaryarticle");
+$image=$this->input->get_post("image");
+$order=$this->input->get_post("order");
+if($this->blogimage_model->create($diaryarticle,$image,$order)==0)
+$data["alerterror"]="New blogimage could not be created.";
+else
+$data["alertsuccess"]="blogimage created Successfully.";
+$data["redirect"]="site/viewblogimage";
+$this->load->view("redirect",$data);
+}
+}
+public function editblogimage()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="editblogimage";
+$data["title"]="Edit blogimage";
+$data["before"]=$this->blogimage_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+public function editblogimagesubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("id","ID","trim");
+$this->form_validation->set_rules("diaryarticle","Diary Article","trim");
+$this->form_validation->set_rules("image","Image","trim");
+$this->form_validation->set_rules("order","Order","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="editblogimage";
+$data["title"]="Edit blogimage";
+$data["before"]=$this->blogimage_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$diaryarticle=$this->input->get_post("diaryarticle");
+$image=$this->input->get_post("image");
+$order=$this->input->get_post("order");
+if($this->blogimage_model->edit($id,$diaryarticle,$image,$order)==0)
+$data["alerterror"]="New blogimage could not be Updated.";
+else
+$data["alertsuccess"]="blogimage Updated Successfully.";
+$data["redirect"]="site/viewblogimage";
+$this->load->view("redirect",$data);
+}
+}
+public function deleteblogimage()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->blogimage_model->delete($this->input->get("id"));
+$data["redirect"]="site/viewblogimage";
+$this->load->view("redirect",$data);
+}
+public function viewblogtext()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="viewblogtext";
+$data["base_url"]=site_url("site/viewblogtextjson");
+$data["title"]="View blogtext";
+$this->load->view("template",$data);
+}
+function viewblogtextjson()
+{
+$elements=array();
+$elements[0]=new stdClass();
+$elements[0]->field="`gse_blogtext`.`id`";
+$elements[0]->sort="1";
+$elements[0]->header="ID";
+$elements[0]->alias="id";
+$elements[1]=new stdClass();
+$elements[1]->field="`gse_blogtext`.`diaryarticle`";
+$elements[1]->sort="1";
+$elements[1]->header="Diary Article";
+$elements[1]->alias="diaryarticle";
+$elements[2]=new stdClass();
+$elements[2]->field="`gse_blogtext`.`content`";
+$elements[2]->sort="1";
+$elements[2]->header="Content";
+$elements[2]->alias="content";
+$elements[3]=new stdClass();
+$elements[3]->field="`gse_blogtext`.`image`";
+$elements[3]->sort="1";
+$elements[3]->header="Image";
+$elements[3]->alias="image";
+$elements[4]=new stdClass();
+$elements[4]->field="`gse_blogtext`.`order`";
+$elements[4]->sort="1";
+$elements[4]->header="Order";
+$elements[4]->alias="order";
+$search=$this->input->get_post("search");
+$pageno=$this->input->get_post("pageno");
+$orderby=$this->input->get_post("orderby");
+$orderorder=$this->input->get_post("orderorder");
+$maxrow=$this->input->get_post("maxrow");
+if($maxrow=="")
+{
+$maxrow=20;
+}
+if($orderby=="")
+{
+$orderby="id";
+$orderorder="ASC";
+}
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_blogtext`");
+$this->load->view("json",$data);
+}
+
+public function createblogtext()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="createblogtext";
+$data["title"]="Create blogtext";
+$this->load->view("template",$data);
+}
+public function createblogtextsubmit() 
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("diaryarticle","Diary Article","trim");
+$this->form_validation->set_rules("content","Content","trim");
+$this->form_validation->set_rules("image","Image","trim");
+$this->form_validation->set_rules("order","Order","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="createblogtext";
+$data["title"]="Create blogtext";
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$diaryarticle=$this->input->get_post("diaryarticle");
+$content=$this->input->get_post("content");
+$image=$this->input->get_post("image");
+$order=$this->input->get_post("order");
+if($this->blogtext_model->create($diaryarticle,$content,$image,$order)==0)
+$data["alerterror"]="New blogtext could not be created.";
+else
+$data["alertsuccess"]="blogtext created Successfully.";
+$data["redirect"]="site/viewblogtext";
+$this->load->view("redirect",$data);
+}
+}
+public function editblogtext()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="editblogtext";
+$data["title"]="Edit blogtext";
+$data["before"]=$this->blogtext_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+public function editblogtextsubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("id","ID","trim");
+$this->form_validation->set_rules("diaryarticle","Diary Article","trim");
+$this->form_validation->set_rules("content","Content","trim");
+$this->form_validation->set_rules("image","Image","trim");
+$this->form_validation->set_rules("order","Order","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="editblogtext";
+$data["title"]="Edit blogtext";
+$data["before"]=$this->blogtext_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$diaryarticle=$this->input->get_post("diaryarticle");
+$content=$this->input->get_post("content");
+$image=$this->input->get_post("image");
+$order=$this->input->get_post("order");
+if($this->blogtext_model->edit($id,$diaryarticle,$content,$image,$order)==0)
+$data["alerterror"]="New blogtext could not be Updated.";
+else
+$data["alertsuccess"]="blogtext Updated Successfully.";
+$data["redirect"]="site/viewblogtext";
+$this->load->view("redirect",$data);
+}
+}
+public function deleteblogtext()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->blogtext_model->delete($this->input->get("id"));
+$data["redirect"]="site/viewblogtext";
+$this->load->view("redirect",$data);
+}
+
 
 }
 ?>
