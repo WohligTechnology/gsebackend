@@ -1,7 +1,7 @@
 <?php
 if ( !defined( "BASEPATH" ) )
 exit( "No direct script access allowed" );
-class movie_model extends CI_Model
+class talentvideo_model extends CI_Model
 {
 public function create($url,$talent)
 {

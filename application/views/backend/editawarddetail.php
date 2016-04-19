@@ -1,15 +1,15 @@
 <div class="row">
 <div class="col s12">
-<h4 class="pad-left-15 capitalize">Edit award detail</h4>
+<h4 class="pad-left-15 capitalize">Edit Award detail</h4>
 </div>
 </div>
 <div class="row">
 <form class='col s12' method='post' action='<?php echo site_url("site/editawarddetailsubmit");?>' enctype= 'multipart/form-data'>
 <input type="hidden" id="normal-field" class="form-control" name="id" value="<?php echo set_value('id',$before->id);?>" style="display:none;">
-<div class=" row">
+<div class=" row" style="display:none">
 <div class=" input-field col s6">
 <?php echo form_dropdown("movie",$movie,set_value('movie',$before->movie));?>
-<label>movie</label>
+<label>Movie</label>
 </div>
 </div>
 <div class="row">
