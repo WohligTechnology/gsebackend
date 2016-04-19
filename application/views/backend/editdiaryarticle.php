@@ -26,7 +26,7 @@
 </div>
 <div class=" row">
 <div class=" input-field col s6">
-<?php echo form_dropdown("type",$type,set_value('type',$before->type));?>
+<?php echo form_dropdown("type",$type,set_value('type',$before->type),'id=dropdown_selector');?>
 <label>Blog Type</label>
 </div>
 </div>
@@ -78,3 +78,13 @@
 </div>
 </form>
 </div>
+<script>
+    $(document).ready( function ()
+{
+         console.log($('#dropdown_selector').val());
+	$('#dropdown_selector').change(function()
+	{
+        console.log($('#dropdown_selector').val());
+	});
+});
+</script>
