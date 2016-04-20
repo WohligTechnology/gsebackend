@@ -1222,6 +1222,7 @@ $music=$this->input->get_post("music");
 $synopsis=$this->input->get_post("synopsis");
 $videos=$this->input->get_post("videos");
 $releasedate=$this->input->get_post("releasedate");
+    $image=$this->menu_model->createImage();
 	$config['upload_path'] = './uploads/';
 						$config['allowed_types'] = 'gif|jpg|png|jpeg';
 						$this->load->library('upload', $config);
@@ -1232,7 +1233,7 @@ $releasedate=$this->input->get_post("releasedate");
 							$uploaddata = $this->upload->data();
 							$banner=$uploaddata['file_name'];
 						}
-if($this->moviedetail_model->create($isupcoming,$isreleased,$name,$banner,$imdb,$producer,$director,$cast,$music,$synopsis,$videos,$releasedate)==0)
+if($this->moviedetail_model->create($isupcoming,$isreleased,$name,$banner,$imdb,$producer,$director,$cast,$music,$synopsis,$videos,$releasedate,$image)==0)
 $data["alerterror"]="New moviedetail could not be created.";
 else
 $data["alertsuccess"]="moviedetail created Successfully.";
@@ -1298,6 +1299,7 @@ $music=$this->input->get_post("music");
 $synopsis=$this->input->get_post("synopsis");
 $videos=$this->input->get_post("videos");
 $releasedate=$this->input->get_post("releasedate");
+ $image=$this->menu_model->createImage();
     $config['upload_path'] = './uploads/';
 						$config['allowed_types'] = 'gif|jpg|png|jpeg';
 						$this->load->library('upload', $config);
@@ -1315,7 +1317,7 @@ $releasedate=$this->input->get_post("releasedate");
 						   // print_r($image);
 							$banner=$banner->banner;
 						}
-if($this->moviedetail_model->edit($id,$isupcoming,$isreleased,$name,$banner,$imdb,$producer,$director,$cast,$music,$synopsis,$videos,$releasedate)==0)
+if($this->moviedetail_model->edit($id,$isupcoming,$isreleased,$name,$banner,$imdb,$producer,$director,$cast,$music,$synopsis,$videos,$releasedate,$image)==0)
 $data["alerterror"]="New moviedetail could not be Updated.";
 else
 $data["alertsuccess"]="moviedetail Updated Successfully.";
@@ -4260,7 +4262,19 @@ $image=$this->menu_model->createImage();
 $title=$this->input->get_post("title");
 $url=$this->input->get_post("url");
 $content=$this->input->get_post("content");
-if($this->clientdetail_model->create($order,$status,$name,$image,$title,$url,$content)==0)
+      $config['upload_path'] = './uploads/';
+						$config['allowed_types'] = 'gif|jpg|png|jpeg';
+						$this->load->library('upload', $config);
+						$filename="banner";
+						$banner="";
+						if (  $this->upload->do_upload($filename))
+						{
+							$uploaddata = $this->upload->data();
+							$banner=$uploaddata['file_name'];
+						}
+
+					
+if($this->clientdetail_model->create($order,$status,$name,$image,$title,$url,$content,$banner)==0)
 $data["alerterror"]="New clientdetail could not be created.";
 else
 $data["alertsuccess"]="clientdetail created Successfully.";
@@ -4309,7 +4323,24 @@ $image=$this->menu_model->createImage();
 $title=$this->input->get_post("title");
 $url=$this->input->get_post("url");
 $content=$this->input->get_post("content");
-if($this->clientdetail_model->edit($id,$order,$status,$name,$image,$title,$url,$content)==0)
+       $config['upload_path'] = './uploads/';
+						$config['allowed_types'] = 'gif|jpg|png|jpeg';
+						$this->load->library('upload', $config);
+						$filename="banner";
+						$banner="";
+						if (  $this->upload->do_upload($filename))
+						{
+							$uploaddata = $this->upload->data();
+							$banner=$uploaddata['file_name'];
+						}
+
+						if($banner=="")
+						{
+						$banner=$this->clientdetail_model->getbannerbyid($id);
+						   // print_r($image);
+							$banner=$banner->banner;
+						}
+if($this->clientdetail_model->edit($id,$order,$status,$name,$image,$title,$url,$content,$banner)==0)
 $data["alerterror"]="New clientdetail could not be Updated.";
 else
 $data["alertsuccess"]="clientdetail Updated Successfully.";

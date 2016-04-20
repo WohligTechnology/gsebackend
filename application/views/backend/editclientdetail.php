@@ -40,6 +40,22 @@
 				</div>
 			</div>
 		</div>
+		<div class="row">
+			<div class="file-field input-field col m6 s12">
+				<span class="img-center big">
+								                    	<?php if($before->banner == "") { } else {
+									                    ?><img src="<?php echo base_url('uploads')."/".$before->banner; ?>">
+															<?php } ?>
+															</span>
+				<div class="btn blue darken-4">
+					<span>Banner</span>
+					<input name="banner" type="file" multiple>
+				</div>
+				<div class="file-path-wrapper">
+					<input class="file-path validate" type="text" placeholder="Upload one or more files" value="<?php echo set_value('banner',$before->banner);?>">
+				</div>
+			</div>
+		</div>
 <div class="row">
 <div class="input-field col s6">
 <label for="Title">Title</label>
