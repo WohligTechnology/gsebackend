@@ -42,10 +42,11 @@
 				<div class="file-path-wrapper">
 					<input class="file-path validate" type="text" placeholder="Upload one or more files" value="<?php echo set_value('image');?>">
 				</div>
-			</div>
+			</div><span style=" display: block;
+    padding-top: 30px;">247 X 246</span>
 		</div>
 <div class="row">
-<div class="input-field col s12">
+<div class="input-field col s6">
 <textarea name="quote" class="materialize-textarea" length="400"><?php echo set_value( 'quote');?></textarea>
 <label>Quote</label>
 </div>

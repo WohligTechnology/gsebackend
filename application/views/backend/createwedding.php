@@ -18,7 +18,8 @@
 				<div class="file-path-wrapper">
 					<input class="file-path validate" type="text" placeholder="Upload one or more files" value="<?php echo set_value('image');?>">
 				</div>
-			</div>
+			</div><span style=" display: block;
+    padding-top: 30px;">540 X 320</span>
 		</div>
 <div class="row">
 			<div class="file-field input-field col m6 s12">
@@ -29,7 +30,8 @@
 				<div class="file-path-wrapper">
 					<input class="file-path validate" type="text" placeholder="Upload one or more files" value="<?php echo set_value('banner');?>">
 				</div>
-			</div>
+			</div><span style=" display: block;
+    padding-top: 30px;">1800 X 440</span>
 		</div>
 <div class="row">
 <div class="col s12 m6">

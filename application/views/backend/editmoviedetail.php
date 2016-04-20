@@ -39,6 +39,8 @@
 					<input class="file-path validate" type="text" placeholder="Upload one or more files" value="<?php echo set_value('image',$before->image);?>">
 				</div>
 			</div>
+			 <span style=" display: block;
+    padding-top: 30px;">260 X 370</span>
 		</div>
 <div class="row">
 			<div class="file-field input-field col m6 s12">
@@ -55,6 +57,8 @@
 					<input class="file-path validate" type="text" placeholder="Upload one or more files" value="<?php echo set_value('banner',$before->banner);?>">
 				</div>
 			</div>
+			 <span style=" display: block;
+    padding-top: 30px;">1800 X 440</span>
 		</div>
 		<h4 class="title-sub">ABOUT THE MOVIE</h4>
 		<div class="row">
