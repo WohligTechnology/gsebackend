@@ -38,7 +38,7 @@ $image=$image->image;
 $data=array("status" => $status,"diarycategory" => $diarycategory,"diarysubcategory" => $diarysubcategory,"name" => $name,"image" => $image,"timestamp" => $timestamp,"content" => $content,"date" => $date,"type" => $type);
 $this->db->where( "id", $id );
 $query=$this->db->update( "gse_diaryarticle", $data );
-return 1;
+return $id;
 }
 public function delete($id)
 {

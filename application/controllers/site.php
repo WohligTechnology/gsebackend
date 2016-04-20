@@ -5712,6 +5712,7 @@ $name=$this->input->get_post("name");
 //$image=$this->menu_model->createImage();
 $content=$this->input->get_post("content");
 $date=$this->input->get_post("date");
+$type=$this->input->get_post("type");
      $config['upload_path'] = './uploads/';
 			$config['allowed_types'] = 'gif|jpg|png|jpeg';
 			$this->load->library('upload', $config);
@@ -5746,7 +5747,7 @@ $date=$this->input->get_post("date");
                 }
                 
 			}
-if($this->diaryarticle_model->create($status,$diarycategory,$diarysubcategory,$name,$image,$timestamp,$content,$date)==0)
+if($this->diaryarticle_model->create($status,$diarycategory,$diarysubcategory,$name,$image,$timestamp,$content,$date,$type)==0)
 $data["alerterror"]="New diaryarticle could not be created.";
 else
 $data["alertsuccess"]="diaryarticle created Successfully.";
@@ -5770,6 +5771,7 @@ $data[ 'diarycategory' ] =$this->diarycategory_model->getdropdown();
  $data[ 'diarysubcategory' ] =$this->diarysubcategory_model->getdropdown();
 $data[ 'type' ] =$this->diarycategory_model->gettypedropdown();
 $data["before"]=$this->diaryarticle_model->beforeedit($this->input->get("id"));
+$data['typecheck']=$data["before"]->type;
 $this->load->view("templatewith2",$data);
 }
 public function editdiaryarticlesubmit()
@@ -5808,6 +5810,7 @@ $name=$this->input->get_post("name");
 $timestamp=$this->input->get_post("timestamp");
 $content=$this->input->get_post("content");
 $date=$this->input->get_post("date");
+$type=$this->input->get_post("type");
       $config['upload_path'] = './uploads/';
 			$config['allowed_types'] = 'gif|jpg|png|jpeg';
 			$this->load->library('upload', $config);
@@ -5842,12 +5845,13 @@ $date=$this->input->get_post("date");
                 }
                 
 			}
-if($this->diaryarticle_model->edit($id,$status,$diarycategory,$diarysubcategory,$name,$image,$timestamp,$content,$date)==0)
+    $id=$this->diaryarticle_model->edit($id,$status,$diarycategory,$diarysubcategory,$name,$image,$timestamp,$content,$date,$type);
+if($id==0)
 $data["alerterror"]="New diaryarticle could not be Updated.";
 else
 $data["alertsuccess"]="diaryarticle Updated Successfully.";
-$data["redirect"]="site/viewdiaryarticle";
-$this->load->view("redirect",$data);
+$data["redirect"]="site/editdiaryarticle?id=".$id;
+$this->load->view("redirect2",$data);
 }
 }
 public function deletediaryarticle()
@@ -6462,6 +6466,12 @@ $this->checkaccess($access);
 $this->blogtext_model->delete($this->input->get("id"));
 $data["redirect"]="site/viewblogtext?id=".$this->input->get('diaryarticleid');
 $this->load->view("redirect2",$data);
+}
+    public function updatetypeinarticle()
+{
+        $id=$this->input->get_post('id');
+        $type=$this->input->get_post('type');
+        $this->db->query("UPDATE `gse_diaryarticle` SET `showhide`='$type',`type`='$type' WHERE `id`='$id'");
 }
 
 

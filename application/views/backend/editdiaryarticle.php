@@ -5,7 +5,7 @@
 </div>
 <div class="row">
 <form class='col s12' method='post' action='<?php echo site_url("site/editdiaryarticlesubmit");?>' enctype= 'multipart/form-data'>
-<input type="hidden" id="normal-field" class="form-control" name="id" value="<?php echo set_value('id',$before->id);?>" style="display:none;">
+<input type="hidden" id="normal-field" class="form-control id" name="id" value="<?php echo set_value('id',$before->id);?>" style="display:none;">
 <div class=" row">
 <div class=" input-field col s12 m6">
 <?php echo form_dropdown("status",$status,set_value('status',$before->status));?>
@@ -81,10 +81,27 @@
 <script>
     $(document).ready( function ()
 {
-         console.log($('#dropdown_selector').val());
+         var type=$('#dropdown_selector').val();
+          $.ajax({ url: '<?php echo site_url("site/updatetypeinarticle");?>',
+         data: {id: $('.id').val(),type : type },
+         type: 'post',
+         success: function(output) {}
+                  	});
+        
+//        if chanegs made
 	$('#dropdown_selector').change(function()
 	{
-        console.log($('#dropdown_selector').val());
+        var type=$('#dropdown_selector').val();
+          $.ajax({ url: '<?php echo site_url("site/updatetypeinarticle");?>',
+         data: {id: $('.id').val(),type : type },
+         type: 'post',
+         success: function(output) {
+                     
+                  }
 	});
+     location.reload();
+      
+});
+        
 });
 </script>
