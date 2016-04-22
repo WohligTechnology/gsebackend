@@ -39,13 +39,13 @@
 </div>
 </div>
 <div class="row">
-<div class="input-field col s12">
+<div class="input-field col s6">
 <textarea name="content" class="materialize-textarea"><?php echo set_value( 'content');?></textarea>
 <label>Content</label>
 </div>
 </div>
-<div class="row">
-<div class="input-field col s12">
+<div class="row" style="display:none">
+<div class="input-field col s6">
 <textarea name="videos" class="materialize-textarea"><?php echo set_value( 'videos');?></textarea>
 <label>Videos</label>
 </div>
@@ -53,7 +53,7 @@
 <div class="row">
 <div class="input-field col s6">
 <label for="Date">Date</label>
-<input type="date" id="Date" name="date" value='<?php echo set_value('date');?>'>
+<input type="date" id="Date" class="datepicker" name="date" value='<?php echo set_value('date');?>'>
 </div>
 </div>
 <div class="row">

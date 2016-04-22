@@ -74,7 +74,7 @@
 <textarea name="content" class="materialize-textarea" placeholder="Enter text ..."><?php echo set_value( 'content',$before->content);?></textarea>
 </div>
 </div>
-<div class="row">
+<div class="row" style="display:none">
 <div class="col s12 m6">
 <label>Videos</label>
 <textarea name="videos" class="materialize-textarea" placeholder="Enter text ..."><?php echo set_value( 'videos',$before->videos);?></textarea>
@@ -83,7 +83,7 @@
 <div class="row">
 <div class="col s6">
 <button type="submit" class="btn btn-primary waves-effect waves-light  blue darken-4">Save</button>
-<a href='<?php echo site_url("site/viewtalenttype?id=").$this->input->get('talentid'); ?>' class='btn btn-secondary waves-effect waves-light red'>Cancel</a>
+<a href='<?php echo site_url("site/viewtalenttype"); ?>' class='btn btn-secondary waves-effect waves-light red'>Cancel</a>
 </div>
 </div>
 </form>

@@ -17,7 +17,7 @@
 </div>
 <div class=" row">
 <div class=" input-field col s6">
-<?php echo form_dropdown("highlight",$highlight,set_value('highlight'));?>
+<?php echo form_dropdown("highlight",$highlight,set_value('highlight',$this->input->get('id')));?>
 <label>Highlight</label>
 </div>
 </div>
@@ -41,7 +41,7 @@
 <div class="row">
 <div class="col s12 m6">
 <button type="submit" class="btn btn-primary waves-effect waves-light blue darken-4">Save</button>
-<a href="<?php echo site_url("site/viewpreviousgamegallery"); ?>" class="btn btn-secondary waves-effect waves-light red">Cancel</a>
+<a href="<?php echo site_url("site/viewpreviousgamegallery?id=").$this->input->get('id'); ?>" class="btn btn-secondary waves-effect waves-light red">Cancel</a>
 </div>
 </div>
 </form>

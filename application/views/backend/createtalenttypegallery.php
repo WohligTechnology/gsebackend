@@ -21,12 +21,6 @@
 <label>Talent Type</label>
 </div>
 </div>
-<div class=" row">
-<div class=" input-field col s6">
-<?php echo form_dropdown("talent",$talent,set_value('talent'));?>
-<label>Talent</label>
-</div>
-</div>
 <div class="row">
 			<div class="file-field input-field col m6 s12">
 				<div class="btn blue darken-4">

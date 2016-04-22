@@ -3,9 +3,9 @@ if ( !defined( "BASEPATH" ) )
 exit( "No direct script access allowed" );
 class talenttypegallery_model extends CI_Model
 {
-public function create($order,$status,$talenttype,$talent,$image)
+public function create($order,$status,$talenttype,$image)
 {
-$data=array("order" => $order,"status" => $status,"talenttype" => $talenttype,"talent" => $talent,"image" => $image);
+$data=array("order" => $order,"status" => $status,"talenttype" => $talenttype,"image" => $image);
 $query=$this->db->insert( "gse_talenttypegallery", $data );
 $id=$this->db->insert_id();
 if(!$query)
@@ -24,14 +24,14 @@ $this->db->where("id",$id);
 $query=$this->db->get("gse_talenttypegallery")->row();
 return $query;
 }
-public function edit($id,$order,$status,$talenttype,$talent,$image)
+public function edit($id,$order,$status,$talenttype,$image)
 {
 if($image=="")
 {
 $image=$this->talenttypegallery_model->getimagebyid($id);
 $image=$image->image;
 }
-$data=array("order" => $order,"status" => $status,"talenttype" => $talenttype,"talent" => $talent,"image" => $image);
+$data=array("order" => $order,"status" => $status,"talenttype" => $talenttype,"image" => $image);
 $this->db->where( "id", $id );
 $query=$this->db->update( "gse_talenttypegallery", $data );
 return 1;

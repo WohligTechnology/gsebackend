@@ -5,6 +5,8 @@ class highlight_model extends CI_Model
 {
 public function create($sportscategory,$name,$image,$link,$location,$content,$videos,$date)
 {
+        $date = new DateTime($date);
+        $date = $date->format('Y-m-d');
 $data=array("sportscategory" => $sportscategory,"name" => $name,"image" => $image,"link" => $link,"location" => $location,"content" => $content,"videos" => $videos,"date" => $date);
 $query=$this->db->insert( "gse_highlight", $data );
 $id=$this->db->insert_id();
@@ -26,6 +28,8 @@ return $query;
 }
 public function edit($id,$sportscategory,$name,$image,$link,$location,$content,$videos,$date)
 {
+            $date = new DateTime($date);
+        $date = $date->format('Y-m-d');
 if($image=="")
 {
 $image=$this->highlight_model->getimagebyid($id);
@@ -48,8 +52,7 @@ return $query;
 }
 public function getdropdown()
 {
-$query=$this->db->query("SELECT * FROM `gse_highlight` ORDER BY `id` 
-                    ASC")->result();
+$query=$this->db->query("SELECT * FROM `gse_highlight` ORDER BY `id` ASC")->result();
 $return=array(
 "" => "Select Option"
 );

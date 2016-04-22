@@ -24,12 +24,6 @@
 <label for="Talent Type">Talent Type</label>
 </div>
 </div>
-<div class=" row">
-<div class=" input-field col s12 m6">
-<?php echo form_dropdown("talent",$talent,set_value('talent',$before->talent));?>
-<label for="Talent">Talent</label>
-</div>
-</div>
 <div class="row">
 			<div class="file-field input-field col m6 s12">
 				<span class="img-center big">
@@ -49,7 +43,7 @@
 <div class="row">
 <div class="col s6">
 <button type="submit" class="btn btn-primary waves-effect waves-light  blue darken-4">Save</button>
-<a href='<?php echo site_url("site/viewtalenttypegallery"); ?>' class='btn btn-secondary waves-effect waves-light red'>Cancel</a>
+<a href='<?php echo site_url("site/viewtalenttypegallery?id=").$this->input->get('talenttypeid'); ?>' class='btn btn-secondary waves-effect waves-light red'>Cancel</a>
 </div>
 </div>
 </form>

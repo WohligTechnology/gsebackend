@@ -53,13 +53,12 @@ return $query;
 }
      public function getbannerbyid($id)
 {
-$query=$this->db->query("SELECT `banner` FROM `gse_weddingtype` WHERE `id`='$id'")->row();
+$query=$this->db->query("SELECT `banner` FROM `gse_sportscategory` WHERE `id`='$id'")->row();
 return $query;
 }
 public function getdropdown()
 {
-$query=$this->db->query("SELECT * FROM `gse_sportscategory` ORDER BY `id` 
-                    ASC")->result();
+$query=$this->db->query("SELECT * FROM `gse_sportscategory` ORDER BY `id` ASC")->result();
 $return=array(
 "" => "Select Option"
 );

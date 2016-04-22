@@ -2879,7 +2879,7 @@ $data["before1"]=$this->input->get('id');
 $data["before2"]=$this->input->get('id');
 $data["title"]="Edit talent";
 $data["before"]=$this->talent_model->beforeedit($this->input->get("id"));
-$this->load->view("templatewith2",$data);
+$this->load->view("template",$data);
 }
 public function edittalentsubmit()
 {
@@ -2929,7 +2929,7 @@ $data["before1"]=$this->input->get('id');
 $data["before2"]=$this->input->get('id');
 $data["base_url"]=site_url("site/viewtalenttypejson?id=").$this->input->get('id');
 $data["title"]="View talenttype";
-$this->load->view("templatewith2",$data);
+$this->load->view("template",$data);
 }
 function viewtalenttypejson()
 {
@@ -2999,7 +2999,7 @@ if($orderby=="")
 $orderby="id";
 $orderorder="ASC";
 }
-$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_talenttype`","WHERE `gse_talenttype`.`talent`='$id'");
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_talenttype`");
 $this->load->view("json",$data);
 }
 
@@ -3014,7 +3014,7 @@ $data["before2"]=$this->input->get('id');
 $data["title"]="Create talenttype";
 $data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data[ 'talent' ] =$this->talent_model->getdropdown();
-$this->load->view("templatewith2",$data);
+$this->load->view("template",$data);
 }
 public function createtalenttypesubmit() 
 {
@@ -3064,8 +3064,8 @@ if($this->talenttype_model->create($talent,$order,$status,$name,$image,$url,$ban
 $data["alerterror"]="New talenttype could not be created.";
 else
 $data["alertsuccess"]="talenttype created Successfully.";
-$data["redirect"]="site/viewtalenttype?id=".$talent;
-$this->load->view("redirect2",$data);
+$data["redirect"]="site/viewtalenttype";
+$this->load->view("redirect",$data);
 }
 }
 public function edittalenttype()
@@ -3139,8 +3139,8 @@ if($this->talenttype_model->edit($id,$talent,$order,$status,$name,$image,$url,$b
 $data["alerterror"]="New talenttype could not be Updated.";
 else
 $data["alertsuccess"]="talenttype Updated Successfully.";
-$data["redirect"]="site/viewtalenttype?id=".$talent;
-$this->load->view("redirect2",$data);
+$data["redirect"]="site/viewtalenttype";
+$this->load->view("redirect",$data);
 }
 }
 public function deletetalenttype()
@@ -3148,8 +3148,8 @@ public function deletetalenttype()
 $access=array("1");
 $this->checkaccess($access);
 $this->talenttype_model->delete($this->input->get("id"));
-$data["redirect"]="site/viewtalenttype?id=".$this->input->get('talentid');
-$this->load->view("redirect2",$data);
+$data["redirect"]="site/viewtalenttype";
+$this->load->view("redirect",$data);
 }
 public function viewtalenttypegallery()
 {
@@ -3158,13 +3158,14 @@ $this->checkaccess($access);
 $data["page"]="viewtalenttypegallery";
 $data["page2"]="block/talentinside";
 $data["before1"]=$this->input->get('id');
-$data["base_url"]=site_url("site/viewtalenttypegalleryjson");
+$data["base_url"]=site_url("site/viewtalenttypegalleryjson?id=").$this->input->get('id');
 
 $data["title"]="View talenttypegallery";
 $this->load->view("templatewith2",$data);
 }
 function viewtalenttypegalleryjson()
 {
+    $id=$this->input->get('id');
 $elements=array();
 $elements[0]=new stdClass();
 $elements[0]->field="`gse_talenttypegallery`.`id`";
@@ -3210,7 +3211,7 @@ if($orderby=="")
 $orderby="id";
 $orderorder="ASC";
 }
-$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_talenttypegallery`");
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_talenttypegallery`","WHERE `gse_talenttypegallery`.`talenttype`='$id'");
 $this->load->view("json",$data);
 }
 
@@ -3219,11 +3220,13 @@ public function createtalenttypegallery()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="createtalenttypegallery";
+$data["page2"]="block/talentinside";
 $data["title"]="Create talenttypegallery";
+$data["before1"]=$this->input->get('id');
 $data["talenttype"]=$this->talenttype_model->getdropdown();
 $data["talent"]=$this->talent_model->getdropdown();
 $data[ 'status' ] =$this->user_model->getstatusdropdown();
-$this->load->view("template",$data);
+$this->load->view("templatewith2",$data);
 }
 public function createtalenttypegallerysubmit() 
 {
@@ -3250,14 +3253,13 @@ $id=$this->input->get_post("id");
 $order=$this->input->get_post("order");
 $status=$this->input->get_post("status");
 $talenttype=$this->input->get_post("talenttype");
-$talent=$this->input->get_post("talent");
 $image=$this->menu_model->createImage();
-if($this->talenttypegallery_model->create($order,$status,$talenttype,$talent,$image)==0)
+if($this->talenttypegallery_model->create($order,$status,$talenttype,$image)==0)
 $data["alerterror"]="New talenttypegallery could not be created.";
 else
 $data["alertsuccess"]="talenttypegallery created Successfully.";
-$data["redirect"]="site/viewtalenttypegallery";
-$this->load->view("redirect",$data);
+$data["redirect"]="site/viewtalenttypegallery?id=".$talenttype;
+$this->load->view("redirect2",$data);
 }
 }
 public function edittalenttypegallery()
@@ -3273,7 +3275,7 @@ $data["before2"]=$this->input->get('id');
 $data["title"]="Edit talenttypegallery";
 $data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["before"]=$this->talenttypegallery_model->beforeedit($this->input->get("id"));
-$this->load->view("templatewith2",$data);
+$this->load->view("template",$data);
 }
 public function edittalenttypegallerysubmit()
 {
@@ -3302,14 +3304,14 @@ $id=$this->input->get_post("id");
 $order=$this->input->get_post("order");
 $status=$this->input->get_post("status");
 $talenttype=$this->input->get_post("talenttype");
-$talent=$this->input->get_post("talent");
+//$talent=$this->input->get_post("talent");
 $image=$this->menu_model->createImage();
-if($this->talenttypegallery_model->edit($id,$order,$status,$talenttype,$talent,$image)==0)
+if($this->talenttypegallery_model->edit($id,$order,$status,$talenttype,$image)==0)
 $data["alerterror"]="New talenttypegallery could not be Updated.";
 else
 $data["alertsuccess"]="talenttypegallery Updated Successfully.";
-$data["redirect"]="site/viewtalenttypegallery";
-$this->load->view("redirect",$data);
+$data["redirect"]="site/viewtalenttypegallery?id=".$talenttype;
+$this->load->view("redirect2",$data);
 }
 }
 public function deletetalenttypegallery()
@@ -3317,7 +3319,7 @@ public function deletetalenttypegallery()
 $access=array("1");
 $this->checkaccess($access);
 $this->talenttypegallery_model->delete($this->input->get("id"));
-$data["redirect"]="site/viewtalenttypegallery";
+$data["redirect"]="site/viewtalenttypegallery?id=".$this->input->get("talenttypeid");
 $this->load->view("redirect",$data);
 }
 public function viewsportscategory()
@@ -3424,7 +3426,7 @@ $id=$this->input->get_post("id");
 $order=$this->input->get_post("order");
 $status=$this->input->get_post("status");
 $name=$this->input->get_post("name");
-//$image=$this->menu_model->createImage();
+$image=$this->menu_model->createImage();
 $link=$this->input->get_post("link");
 //$banner=$this->input->get_post("banner");
 $content=$this->input->get_post("content");
@@ -3483,7 +3485,7 @@ $id=$this->input->get_post("id");
 $order=$this->input->get_post("order");
 $status=$this->input->get_post("status");
 $name=$this->input->get_post("name");
-//$image=$this->menu_model->createImage();
+$image=$this->menu_model->createImage();
 $link=$this->input->get_post("link");
 //$banner=$this->input->get_post("banner");
 $content=$this->input->get_post("content");
@@ -3500,7 +3502,7 @@ $content=$this->input->get_post("content");
 
 						if($banner=="")
 						{
-						$banner=$this->moviedetail_model->getbannerbyid($id);
+						$banner=$this->sportscategory_model->getbannerbyid($id);
 						   // print_r($image);
 							$banner=$banner->banner;
 						}
@@ -3600,6 +3602,7 @@ public function createhighlight()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="createhighlight";
+$data["sportscategory"]=$this->sportscategory_model->getdropdown();
 $data["title"]="Create highlight";
 $this->load->view("template",$data);
 }
@@ -3618,6 +3621,7 @@ $this->form_validation->set_rules("date","Date","trim");
 if($this->form_validation->run()==FALSE)
 {
 $data["alerterror"]=validation_errors();
+    $data["sportscategory"]=$this->sportscategory_model->getdropdown();
 $data["page"]="createhighlight";
 $data["title"]="Create highlight";
 $this->load->view("template",$data);
@@ -3646,9 +3650,14 @@ public function edithighlight()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="edithighlight";
+$data["page2"]="block/highlightblock";
+    $data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
 $data["title"]="Edit highlight";
+    $data["sportscategory"]=$this->sportscategory_model->getdropdown();
 $data["before"]=$this->highlight_model->beforeedit($this->input->get("id"));
-$this->load->view("template",$data);
+$this->load->view("templatewith2",$data);
 }
 public function edithighlightsubmit()
 {
@@ -3666,6 +3675,7 @@ $this->form_validation->set_rules("date","Date","trim");
 if($this->form_validation->run()==FALSE)
 {
 $data["alerterror"]=validation_errors();
+    $data["sportscategory"]=$this->sportscategory_model->getdropdown();
 $data["page"]="edithighlight";
 $data["title"]="Edit highlight";
 $data["before"]=$this->highlight_model->beforeedit($this->input->get("id"));
@@ -3703,12 +3713,17 @@ public function viewpreviousgamegallery()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="viewpreviousgamegallery";
-$data["base_url"]=site_url("site/viewpreviousgamegalleryjson");
+    $data["page2"]="block/highlightblock";
+    $data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["base_url"]=site_url("site/viewpreviousgamegalleryjson?id=").$this->input->get('id');
 $data["title"]="View previousgamegallery";
-$this->load->view("template",$data);
+$this->load->view("templatewith2",$data);
 }
 function viewpreviousgamegalleryjson()
 {
+    $id=$this->input->get('id');
 $elements=array();
 $elements[0]=new stdClass();
 $elements[0]->field="`gse_previousgamegallery`.`id`";
@@ -3754,7 +3769,7 @@ if($orderby=="")
 $orderby="id";
 $orderorder="ASC";
 }
-$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_previousgamegallery`");
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_previousgamegallery`","WHERE `gse_previousgamegallery`.`highlight`='$id'");
 $this->load->view("json",$data);
 }
 
@@ -3765,6 +3780,8 @@ $this->checkaccess($access);
 $data["page"]="createpreviousgamegallery";
 $data["title"]="Create previousgamegallery";
 $data[ 'status' ] =$this->user_model->getstatusdropdown();
+$data[ 'sportscategory' ] =$this->sportscategory_model->getdropdown();
+$data[ 'highlight' ] =$this->highlight_model->getdropdown();
 $this->load->view("template",$data);
 }
 public function createpreviousgamegallerysubmit() 
@@ -3782,6 +3799,8 @@ $data["alerterror"]=validation_errors();
 $data["page"]="createpreviousgamegallery";
 $data["title"]="Create previousgamegallery";
 $data[ 'status' ] =$this->user_model->getstatusdropdown();
+    $data[ 'highlight' ] =$this->highlight_model->getdropdown();
+$data[ 'sportscategory' ] =$this->sportscategory_model->getdropdown();
 $this->load->view("template",$data);
 }
 else
@@ -3796,8 +3815,8 @@ if($this->previousgamegallery_model->create($order,$status,$highlight,$sportscat
 $data["alerterror"]="New previousgamegallery could not be created.";
 else
 $data["alertsuccess"]="previousgamegallery created Successfully.";
-$data["redirect"]="site/viewpreviousgamegallery";
-$this->load->view("redirect",$data);
+$data["redirect"]="site/viewpreviousgamegallery?id=".$highlight;
+$this->load->view("redirect2",$data);
 }
 }
 public function editpreviousgamegallery()
@@ -3805,8 +3824,10 @@ public function editpreviousgamegallery()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="editpreviousgamegallery";
+$data[ 'sportscategory' ] =$this->sportscategory_model->getdropdown();
 $data["title"]="Edit previousgamegallery";
 $data[ 'status' ] =$this->user_model->getstatusdropdown();
+    $data[ 'highlight' ] =$this->highlight_model->getdropdown();
 $data["before"]=$this->previousgamegallery_model->beforeedit($this->input->get("id"));
 $this->load->view("template",$data);
 }
@@ -3826,6 +3847,8 @@ $data["alerterror"]=validation_errors();
 $data["page"]="editpreviousgamegallery";
 $data["title"]="Edit previousgamegallery";
 $data[ 'status' ] =$this->user_model->getstatusdropdown();
+    $data[ 'highlight' ] =$this->highlight_model->getdropdown();
+    $data[ 'sportscategory' ] =$this->sportscategory_model->getdropdown();
 $data["before"]=$this->previousgamegallery_model->beforeedit($this->input->get("id"));
 $this->load->view("template",$data);
 }
@@ -3841,8 +3864,8 @@ if($this->previousgamegallery_model->edit($id,$order,$status,$highlight,$sportsc
 $data["alerterror"]="New previousgamegallery could not be Updated.";
 else
 $data["alertsuccess"]="previousgamegallery Updated Successfully.";
-$data["redirect"]="site/viewpreviousgamegallery";
-$this->load->view("redirect",$data);
+$data["redirect"]="site/viewpreviousgamegallery?id=".$highlight;
+$this->load->view("redirect2",$data);
 }
 }
 public function deletepreviousgamegallery()
@@ -3850,8 +3873,8 @@ public function deletepreviousgamegallery()
 $access=array("1");
 $this->checkaccess($access);
 $this->previousgamegallery_model->delete($this->input->get("id"));
-$data["redirect"]="site/viewpreviousgamegallery";
-$this->load->view("redirect",$data);
+$data["redirect"]="site/viewpreviousgamegallery?id=".$this->input->get('highlightid');
+$this->load->view("redirect2",$data);
 }
 public function viewplayer()
 {
@@ -3920,6 +3943,7 @@ $this->checkaccess($access);
 $data["page"]="createplayer";
 $data["title"]="Create player";
 $data[ 'status' ] =$this->user_model->getstatusdropdown();
+    $data[ 'sportscategory' ] =$this->sportscategory_model->getdropdown();
 $this->load->view("template",$data);
 }
 public function createplayersubmit() 
@@ -3937,6 +3961,7 @@ $data["alerterror"]=validation_errors();
 $data["page"]="createplayer";
 $data["title"]="Create player";
 $data[ 'status' ] =$this->user_model->getstatusdropdown();
+$data[ 'sportscategory' ] =$this->sportscategory_model->getdropdown();
 $this->load->view("template",$data);
 }
 else
@@ -3962,6 +3987,7 @@ $this->checkaccess($access);
 $data["page"]="editplayer";
 $data["title"]="Edit player";
 $data[ 'status' ] =$this->user_model->getstatusdropdown();
+$data[ 'sportscategory' ] =$this->sportscategory_model->getdropdown();
 $data["before"]=$this->player_model->beforeedit($this->input->get("id"));
 $this->load->view("template",$data);
 }
@@ -3981,6 +4007,7 @@ $data["alerterror"]=validation_errors();
 $data["page"]="editplayer";
 $data["title"]="Edit player";
 $data[ 'status' ] =$this->user_model->getstatusdropdown();
+$data[ 'sportscategory' ] =$this->sportscategory_model->getdropdown();
 $data["before"]=$this->player_model->beforeedit($this->input->get("id"));
 $this->load->view("template",$data);
 }
@@ -6503,6 +6530,315 @@ $this->load->view("redirect2",$data);
         $id=$this->input->get_post('id');
         $type=$this->input->get_post('type');
         $this->db->query("UPDATE `gse_diaryarticle` SET `showhide`='$type',`type`='$type' WHERE `id`='$id'");
+}
+     public function viewpreviousgamevideo()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="viewpreviousgamevideo";
+$data["page2"]="block/highlightblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
+$data["base_url"]=site_url("site/viewpreviousgamevideojson?id=").$this->input->get('id');
+$data["title"]="View previousgamevideo";
+$this->load->view("templatewith2",$data);
+}
+function viewpreviousgamevideojson()
+{
+$id=$this->input->get('id');
+$elements=array();
+$elements[0]=new stdClass();
+$elements[0]->field="`gse_previousgamevideo`.`id`";
+$elements[0]->sort="1";
+$elements[0]->header="ID";
+$elements[0]->alias="id";
+$elements[1]=new stdClass();
+$elements[1]->field="`gse_previousgamevideo`.`highlight`";
+$elements[1]->sort="1";
+$elements[1]->header="highlight";
+$elements[1]->alias="highlight";
+$elements[2]=new stdClass();
+$elements[2]->field="`gse_previousgamevideo`.`url`";
+$elements[2]->sort="1";
+$elements[2]->header="Url";
+$elements[2]->alias="url";
+$elements[3]=new stdClass();
+$elements[3]->field="`gse_previousgamevideo`.`order`";
+$elements[3]->sort="1";
+$elements[3]->header="Order";
+$elements[3]->alias="order";
+$search=$this->input->get_post("search");
+$pageno=$this->input->get_post("pageno");
+$orderby=$this->input->get_post("orderby");
+$orderorder=$this->input->get_post("orderorder");
+$maxrow=$this->input->get_post("maxrow");
+if($maxrow=="")
+{
+$maxrow=20;
+}
+if($orderby=="")
+{
+$orderby="id";
+$orderorder="ASC";
+}
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_previousgamevideo`","WHERE `gse_previousgamevideo`.`highlight`='$id'");
+$this->load->view("json",$data);
+}
+
+public function createpreviousgamevideo()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="createpreviousgamevideo";
+$data["page2"]="block/highlightblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
+$data["diaryarticle"]=$this->diaryarticle_model->getdropdown();
+       $data[ 'highlight' ] =$this->highlight_model->getdropdown();
+    $data[ 'sportscategory' ] =$this->sportscategory_model->getdropdown();
+$data["title"]="Create previousgamevideo";
+$this->load->view("templatewith2",$data);
+}
+public function createpreviousgamevideosubmit() 
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("diaryarticle","Diary Article","trim");
+$this->form_validation->set_rules("url","Url","trim");
+$this->form_validation->set_rules("order","Order","trim");
+$data["diaryarticle"]=$this->diaryarticle_model->getdropdown();
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+   $data[ 'highlight' ] =$this->highlight_model->getdropdown();
+    $data[ 'sportscategory' ] =$this->sportscategory_model->getdropdown();
+$data["page"]="createpreviousgamevideo";
+$data["title"]="Create previousgamevideo";
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$highlight=$this->input->get_post("highlight");
+$sportscategory=$this->input->get_post("sportscategory");
+$url=$this->input->get_post("url");
+$order=$this->input->get_post("order");
+if($this->previousgamevideo_model->create($order,$url,$highlight,$sportscategory)==0)
+$data["alerterror"]="New previousgamevideo could not be created.";
+else
+$data["alertsuccess"]="previousgamevideo created Successfully.";
+$data["redirect"]="site/viewpreviousgamevideo?id=".$highlight;
+$this->load->view("redirect2",$data);
+}
+}
+public function editpreviousgamevideo()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="editpreviousgamevideo";
+$data["diaryarticle"]=$this->diaryarticle_model->getdropdown();
+   $data[ 'highlight' ] =$this->highlight_model->getdropdown();
+    $data[ 'sportscategory' ] =$this->sportscategory_model->getdropdown();
+$data["title"]="Edit previousgamevideo";
+$data["before"]=$this->previousgamevideo_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+public function editpreviousgamevideosubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("id","ID","trim");
+$this->form_validation->set_rules("diaryarticle","Diary Article","trim");
+$this->form_validation->set_rules("url","Url","trim");
+$this->form_validation->set_rules("order","Order","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["diaryarticle"]=$this->diaryarticle_model->getdropdown();
+       $data[ 'highlight' ] =$this->highlight_model->getdropdown();
+    $data[ 'sportscategory' ] =$this->sportscategory_model->getdropdown();
+$data["page"]="editpreviousgamevideo";
+$data["title"]="Edit previousgamevideo";
+$data["before"]=$this->previousgamevideo_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$highlight=$this->input->get_post("highlight");
+$sportscategory=$this->input->get_post("sportscategory");
+$url=$this->input->get_post("url");
+$order=$this->input->get_post("order");
+if($this->previousgamevideo_model->edit($id,$order,$url,$highlight,$sportscategory)==0)
+$data["alerterror"]="New previousgamevideo could not be Updated.";
+else
+$data["alertsuccess"]="previousgamevideo Updated Successfully.";
+$data["redirect"]="site/viewpreviousgamevideo?id=".$highlight;
+$this->load->view("redirect2",$data);
+}
+}
+public function deletepreviousgamevideo()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->previousgamevideo_model->delete($this->input->get("id"));
+$data["redirect"]="site/viewpreviousgamevideo?id=".$this->input->get('highlightid');
+$this->load->view("redirect2",$data);
+}
+    
+//    talent type videos
+    
+     public function viewtalenttypevideo()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="viewtalenttypevideo";
+$data["page2"]="block/talentinside";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
+$data["base_url"]=site_url("site/viewtalenttypevideojson?id=").$this->input->get('id');
+$data["title"]="View talenttypevideo";
+$this->load->view("templatewith2",$data);
+}
+function viewtalenttypevideojson()
+{
+$id=$this->input->get('id');
+$elements=array();
+$elements[0]=new stdClass();
+$elements[0]->field="`gse_talenttypevideo`.`id`";
+$elements[0]->sort="1";
+$elements[0]->header="ID";
+$elements[0]->alias="id";
+$elements[1]=new stdClass();
+$elements[1]->field="`gse_talenttypevideo`.`talenttype`";
+$elements[1]->sort="1";
+$elements[1]->header="Talent Type";
+$elements[1]->alias="talenttype";
+$elements[2]=new stdClass();
+$elements[2]->field="`gse_talenttypevideo`.`url`";
+$elements[2]->sort="1";
+$elements[2]->header="Url";
+$elements[2]->alias="url";
+$elements[3]=new stdClass();
+$elements[3]->field="`gse_talenttypevideo`.`order`";
+$elements[3]->sort="1";
+$elements[3]->header="Order";
+$elements[3]->alias="order";
+$search=$this->input->get_post("search");
+$pageno=$this->input->get_post("pageno");
+$orderby=$this->input->get_post("orderby");
+$orderorder=$this->input->get_post("orderorder");
+$maxrow=$this->input->get_post("maxrow");
+if($maxrow=="")
+{
+$maxrow=20;
+}
+if($orderby=="")
+{
+$orderby="id";
+$orderorder="ASC";
+}
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_talenttypevideo`","WHERE `gse_talenttypevideo`.`talenttype`='$id'");
+$this->load->view("json",$data);
+}
+
+public function createtalenttypevideo()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="createtalenttypevideo";
+$data["page2"]="block/talentinside";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
+$data["talenttype"]=$this->talenttype_model->getdropdown();
+$data["title"]="Create talenttypevideo";
+$this->load->view("templatewith2",$data);
+}
+public function createtalenttypevideosubmit() 
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("talenttype","Diary Article","trim");
+$this->form_validation->set_rules("url","Url","trim");
+$this->form_validation->set_rules("order","Order","trim");
+$data["talenttype"]=$this->talenttype_model->getdropdown();
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="createtalenttypevideo";
+$data["title"]="Create talenttypevideo";
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$talenttype=$this->input->get_post("talenttype");
+$url=$this->input->get_post("url");
+$order=$this->input->get_post("order");
+if($this->talenttypevideo_model->create($talenttype,$url,$order)==0)
+$data["alerterror"]="New talenttypevideo could not be created.";
+else
+$data["alertsuccess"]="talenttypevideo created Successfully.";
+$data["redirect"]="site/viewtalenttypevideo?id=".$talenttype;
+$this->load->view("redirect2",$data);
+}
+}
+public function edittalenttypevideo()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="edittalenttypevideo";
+$data["talenttype"]=$this->talenttype_model->getdropdown();
+$data["title"]="Edit talenttypevideo";
+$data["before"]=$this->talenttypevideo_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+public function edittalenttypevideosubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("id","ID","trim");
+$this->form_validation->set_rules("talenttype","Diary Article","trim");
+$this->form_validation->set_rules("url","Url","trim");
+$this->form_validation->set_rules("order","Order","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["talenttype"]=$this->talenttype_model->getdropdown();
+$data["page"]="edittalenttypevideo";
+$data["title"]="Edit talenttypevideo";
+$data["before"]=$this->talenttypevideo_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$talenttype=$this->input->get_post("talenttype");
+$url=$this->input->get_post("url");
+$order=$this->input->get_post("order");
+if($this->talenttypevideo_model->edit($id,$talenttype,$url,$order)==0)
+$data["alerterror"]="New talenttypevideo could not be Updated.";
+else
+$data["alertsuccess"]="talenttypevideo Updated Successfully.";
+$data["redirect"]="site/viewtalenttypevideo?id=".$talenttype;
+$this->load->view("redirect2",$data);
+}
+}
+public function deletetalenttypevideo()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->talenttypevideo_model->delete($this->input->get("id"));
+$data["redirect"]="site/viewtalenttypevideo?id=".$this->input->get('talenttypeid');
+$this->load->view("redirect2",$data);
 }
 
 

@@ -39,11 +39,17 @@
 </div>
 </div>
 <div class="row">
-<div class="input-field col s6">
-<label for="Banner">Banner</label>
-<input type="text" id="Banner" name="banner" value='<?php echo set_value('banner');?>'>
-</div>
-</div>
+			<div class="file-field input-field col m6 s12">
+				<div class="btn blue darken-4">
+					<span>Banner</span>
+					<input name="banner" type="file" multiple>
+				</div>
+				<div class="file-path-wrapper">
+					<input class="file-path validate" type="text" placeholder="Upload one or more files" value="<?php echo set_value('banner');?>">
+				</div>
+			</div>
+		
+		</div>
 <div class="row">
 <div class="input-field col s12">
 <textarea name="content" class="materialize-textarea"><?php echo set_value( 'content');?></textarea>
