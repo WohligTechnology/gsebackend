@@ -18,7 +18,7 @@
 <input type="text" id="order" name="order" value='<?php echo set_value('order',$before->order);?>'>
 </div>
 </div>
-<div class=" row">
+<div class=" row" style="display:none">
 <div class=" input-field col s6">
 <?php echo form_dropdown("highlight",$highlight,set_value('highlight',$before->highlight));?>
 <label>highlight</label>

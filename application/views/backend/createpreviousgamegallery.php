@@ -15,7 +15,7 @@
 <label>Status</label>
 </div>
 </div>
-<div class=" row">
+<div class=" row" style="display:none">
 <div class=" input-field col s6">
 <?php echo form_dropdown("highlight",$highlight,set_value('highlight',$this->input->get('id')));?>
 <label>Highlight</label>
