@@ -1,10 +1,10 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-class Site extends CI_Controller 
+class Site extends CI_Controller
 {
 	public function __construct( )
 	{
 		parent::__construct();
-		
+
 		$this->is_logged_in();
 	}
 	function is_logged_in( )
@@ -45,7 +45,7 @@ class Site extends CI_Controller
         }
         $data["message"]=true;
         $this->load->view("json",$data);
-        
+
     }
 	public function index()
 	{
@@ -53,7 +53,7 @@ class Site extends CI_Controller
 		$this->checkaccess($access);
 		$data[ 'page' ] = 'dashboard';
 		$data[ 'title' ] = 'Welcome';
-		$this->load->view( 'template', $data );	
+		$this->load->view( 'template', $data );
 	}
 	public function createuser()
 	{
@@ -66,7 +66,7 @@ class Site extends CI_Controller
 //        $data['category']=$this->category_model->getcategorydropdown();
 		$data[ 'page' ] = 'createuser';
 		$data[ 'title' ] = 'Create User';
-		$this->load->view( 'template', $data );	
+		$this->load->view( 'template', $data );
 	}
 	function createusersubmit()
 	{
@@ -81,7 +81,7 @@ class Site extends CI_Controller
 		$this->form_validation->set_rules('socialid','Socialid','trim');
 		$this->form_validation->set_rules('logintype','logintype','trim');
 		$this->form_validation->set_rules('json','json','trim');
-		if($this->form_validation->run() == FALSE)	
+		if($this->form_validation->run() == FALSE)
 		{
 			$data['alerterror'] = validation_errors();
             $data['gender']=$this->user_model->getgenderdropdown();
@@ -90,7 +90,7 @@ class Site extends CI_Controller
             $data[ 'logintype' ] =$this->user_model->getlogintypedropdown();
             $data[ 'page' ] = 'createuser';
             $data[ 'title' ] = 'Create User';
-            $this->load->view( 'template', $data );	
+            $this->load->view( 'template', $data );
 		}
 		else
 		{
@@ -111,7 +111,7 @@ class Site extends CI_Controller
             $billingcountry=$this->input->post('billingcountry');
             $billingpincode=$this->input->post('billingpincode');
             $billingcontact=$this->input->post('billingcontact');
-            
+
             $shippingaddress=$this->input->post('shippingaddress');
             $shippingcity=$this->input->post('shippingcity');
             $shippingstate=$this->input->post('shippingstate');
@@ -127,7 +127,7 @@ class Site extends CI_Controller
             $country=$this->input->post('country');
             $fax=$this->input->post('fax');
             $gender=$this->input->post('gender');
-            	
+
             $config['upload_path'] = './uploads/';
 			$config['allowed_types'] = 'gif|jpg|png|jpeg';
 			$this->load->library('upload', $config);
@@ -137,7 +137,7 @@ class Site extends CI_Controller
 			{
 				$uploaddata = $this->upload->data();
 				$image=$uploaddata['file_name'];
-                
+
                 $config_r['source_image']   = './uploads/' . $uploaddata['file_name'];
                 $config_r['maintain_ratio'] = TRUE;
                 $config_t['create_thumb'] = FALSE;///add this
@@ -146,13 +146,13 @@ class Site extends CI_Controller
                 $config_r['quality']    = 100;
                 //end of configs
 
-                $this->load->library('image_lib', $config_r); 
+                $this->load->library('image_lib', $config_r);
                 $this->image_lib->initialize($config_r);
                 if(!$this->image_lib->resize())
                 {
                     echo "Failed." . $this->image_lib->display_errors();
                     //return false;
-                }  
+                }
                 else
                 {
                     //print_r($this->image_lib->dest_image);
@@ -160,9 +160,9 @@ class Site extends CI_Controller
                     $image=$this->image_lib->dest_image;
                     //return false;
                 }
-                
+
 			}
-            
+
 			if($this->user_model->create($name,$email,$password,$accesslevel,$status,$socialid,$logintype,$image,$json,$firstname,$lastname,$phone,$billingaddress,$billingcity,$billingstate,$billingcountry,$billingpincode,$billingcontact,$shippingaddress,$shippingcity,$shippingstate,$shippingcountry,$shippingpincode,$shippingcontact,$shippingname,$currency,$credit,$companyname,$registrationno,$vatnumber,$country,$fax,$gender)==0)
 			$data['alerterror']="New user could not be created.";
 			else
@@ -177,67 +177,67 @@ class Site extends CI_Controller
 		$this->checkaccess($access);
 		$data['page']='viewusers';
         $data['base_url'] = site_url("site/viewusersjson");
-        
+
 		$data['title']='View Users';
 		$this->load->view('template',$data);
-	} 
+	}
     function viewusersjson()
 	{
 		$access = array("1");
 		$this->checkaccess($access);
-        
-        
+
+
         $elements=array();
         $elements[0]=new stdClass();
         $elements[0]->field="`user`.`id`";
         $elements[0]->sort="1";
         $elements[0]->header="ID";
         $elements[0]->alias="id";
-        
-        
+
+
         $elements[1]=new stdClass();
         $elements[1]->field="`user`.`name`";
         $elements[1]->sort="1";
         $elements[1]->header="Name";
         $elements[1]->alias="name";
-        
+
         $elements[2]=new stdClass();
         $elements[2]->field="`user`.`email`";
         $elements[2]->sort="1";
         $elements[2]->header="Email";
         $elements[2]->alias="email";
-        
+
         $elements[3]=new stdClass();
         $elements[3]->field="`user`.`socialid`";
         $elements[3]->sort="1";
         $elements[3]->header="SocialId";
         $elements[3]->alias="socialid";
-        
+
         $elements[4]=new stdClass();
         $elements[4]->field="`user`.`logintype`";
         $elements[4]->sort="1";
         $elements[4]->header="Logintype";
         $elements[4]->alias="logintype";
-        
+
         $elements[5]=new stdClass();
         $elements[5]->field="`user`.`json`";
         $elements[5]->sort="1";
         $elements[5]->header="Json";
         $elements[5]->alias="json";
-       
+
         $elements[6]=new stdClass();
         $elements[6]->field="`accesslevel`.`name`";
         $elements[6]->sort="1";
         $elements[6]->header="Accesslevel";
         $elements[6]->alias="accesslevelname";
-       
+
         $elements[7]=new stdClass();
         $elements[7]->field="`statuses`.`name`";
         $elements[7]->sort="1";
         $elements[7]->header="Status";
         $elements[7]->alias="status";
-       
-        
+
+
         $search=$this->input->get_post("search");
         $pageno=$this->input->get_post("pageno");
         $orderby=$this->input->get_post("orderby");
@@ -247,19 +247,19 @@ class Site extends CI_Controller
         {
             $maxrow=20;
         }
-        
+
         if($orderby=="")
         {
             $orderby="id";
             $orderorder="ASC";
         }
-       
+
         $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `user` LEFT OUTER JOIN `logintype` ON `logintype`.`id`=`user`.`logintype` LEFT OUTER JOIN `accesslevel` ON `accesslevel`.`id`=`user`.`accesslevel` LEFT OUTER JOIN `statuses` ON `statuses`.`id`=`user`.`status`");
-        
+
 		$this->load->view("json",$data);
-	} 
-    
-    
+	}
+
+
 	function edituser()
 	{
 		$access = array("1");
@@ -283,7 +283,7 @@ class Site extends CI_Controller
 	{
 		$access = array("1");
 		$this->checkaccess($access);
-		
+
 		$this->form_validation->set_rules('name','Name','trim|required|max_length[30]');
 		$this->form_validation->set_rules('email','Email','trim|required|valid_email');
 		$this->form_validation->set_rules('password','Password','trim|min_length[6]|max_length[30]');
@@ -293,7 +293,7 @@ class Site extends CI_Controller
 		$this->form_validation->set_rules('socialid','Socialid','trim');
 		$this->form_validation->set_rules('logintype','logintype','trim');
 		$this->form_validation->set_rules('json','json','trim');
-		if($this->form_validation->run() == FALSE)	
+		if($this->form_validation->run() == FALSE)
 		{
 			$data['alerterror'] = validation_errors();
 			$data[ 'status' ] =$this->user_model->getstatusdropdown();
@@ -308,7 +308,7 @@ class Site extends CI_Controller
 		}
 		else
 		{
-            
+
             $id=$this->input->get_post('id');
             $name=$this->input->get_post('name');
             $email=$this->input->get_post('email');
@@ -328,7 +328,7 @@ class Site extends CI_Controller
             $billingcountry=$this->input->post('billingcountry');
             $billingpincode=$this->input->post('billingpincode');
             $billingcontact=$this->input->post('billingcontact');
-            
+
             $shippingaddress=$this->input->post('shippingaddress');
             $shippingcity=$this->input->post('shippingcity');
             $shippingstate=$this->input->post('shippingstate');
@@ -353,7 +353,7 @@ class Site extends CI_Controller
 			{
 				$uploaddata = $this->upload->data();
 				$image=$uploaddata['file_name'];
-                
+
                 $config_r['source_image']   = './uploads/' . $uploaddata['file_name'];
                 $config_r['maintain_ratio'] = TRUE;
                 $config_t['create_thumb'] = FALSE;///add this
@@ -362,13 +362,13 @@ class Site extends CI_Controller
                 $config_r['quality']    = 100;
                 //end of configs
 
-                $this->load->library('image_lib', $config_r); 
+                $this->load->library('image_lib', $config_r);
                 $this->image_lib->initialize($config_r);
                 if(!$this->image_lib->resize())
                 {
                     echo "Failed." . $this->image_lib->display_errors();
                     //return false;
-                }  
+                }
                 else
                 {
                     //print_r($this->image_lib->dest_image);
@@ -376,28 +376,28 @@ class Site extends CI_Controller
                     $image=$this->image_lib->dest_image;
                     //return false;
                 }
-                
+
 			}
-            
+
             if($image=="")
             {
             $image=$this->user_model->getuserimagebyid($id);
                // print_r($image);
                 $image=$image->image;
             }
-            
+
 			if($this->user_model->edit($id,$name,$email,$password,$accesslevel,$status,$socialid,$logintype,$image,$json,$firstname,$lastname,$phone,$billingaddress,$billingcity,$billingstate,$billingcountry,$billingpincode,$billingcontact,$shippingaddress,$shippingcity,$shippingstate,$shippingcountry,$shippingpincode,$shippingcontact,$shippingname,$currency,$credit,$companyname,$registrationno,$vatnumber,$country,$fax,$gender)==0)
 			$data['alerterror']="User Editing was unsuccesful";
 			else
 			$data['alertsuccess']="User edited Successfully.";
-			
+
 			$data['redirect']="site/viewusers";
 			//$data['other']="template=$template";
 			$this->load->view("redirect",$data);
-			
+
 		}
 	}
-	
+
 	function deleteuser()
 	{
 		$access = array("1");
@@ -464,7 +464,7 @@ $elements[4]->field="`fynx_cart`.`timestamp`";
 $elements[4]->sort="1";
 $elements[4]->header="Timestamp";
 $elements[4]->alias="timestamp";
-    
+
 $elements[5]=new stdClass();
 $elements[5]->field="`fynx_cart`.`size`";
 $elements[5]->sort="1";
@@ -532,7 +532,7 @@ $elements[3]->field="`fynx_wishlist`.`timestamp`";
 $elements[3]->sort="1";
 $elements[3]->header="Timestamp";
 $elements[3]->alias="timestamp";
-    
+
 $elements[4]=new stdClass();
 $elements[4]->field="`fynx_product`.`name`";
 $elements[4]->sort="1";
@@ -555,10 +555,10 @@ $orderorder="ASC";
 $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `fynx_wishlist` LEFT OUTER JOIN `fynx_product` ON `fynx_product`.`id`=`fynx_wishlist`.`product`","WHERE `fynx_wishlist`.`user`='$user'");
 $this->load->view("json",$data);
 }
-    
-    
-    
-    
+
+
+
+
 public function viewgeneralenquiry()
 {
 $access=array("1");
@@ -642,7 +642,7 @@ $data["page"]="creategeneralenquiry";
 $data["title"]="Create generalenquiry";
 $this->load->view("template",$data);
 }
-public function creategeneralenquirysubmit() 
+public function creategeneralenquirysubmit()
 {
 $access=array("1");
 $this->checkaccess($access);
@@ -830,7 +830,7 @@ $data["page"]="createproposedproject";
 $data["title"]="Create proposedproject";
 $this->load->view("template",$data);
 }
-public function createproposedprojectsubmit() 
+public function createproposedprojectsubmit()
 {
 $access=array("1");
 $this->checkaccess($access);
@@ -962,7 +962,7 @@ $elements[1]->field="`gse_movie`.`content`";
 $elements[1]->sort="1";
 $elements[1]->header="Url";
 $elements[1]->alias="content";
-    
+
 $elements[2]=new stdClass();
 $elements[2]->field="`gse_movie`.`movie`";
 $elements[2]->sort="1";
@@ -1000,7 +1000,7 @@ $data["before4"]=$this->input->get('id');
 $data["title"]="Create movie";
 $this->load->view("templatewith2",$data);
 }
-public function createmoviesubmit() 
+public function createmoviesubmit()
 {
 $access=array("1");
 $this->checkaccess($access);
@@ -1182,7 +1182,7 @@ $data["isreleased"]=$this->moviedetail_model->getisupomingdropdown();
 $data["title"]="Create moviedetail";
 $this->load->view("template",$data);
 }
-public function createmoviedetailsubmit() 
+public function createmoviedetailsubmit()
 {
 $access=array("1");
 $this->checkaccess($access);
@@ -1410,7 +1410,7 @@ $data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["title"]="Create moviegallery";
 $this->load->view("templatewith2",$data);
 }
-public function createmoviegallerysubmit() 
+public function createmoviegallerysubmit()
 {
 $access=array("1");
 $this->checkaccess($access);
@@ -1561,7 +1561,7 @@ $data["movie"]=$this->moviedetail_model->getdropdown();
 $data["title"]="Create moviewallpaper";
 $this->load->view("templatewith2",$data);
 }
-public function createmoviewallpapersubmit() 
+public function createmoviewallpapersubmit()
 {
 $access=array("1");
 $this->checkaccess($access);
@@ -1700,7 +1700,7 @@ $data["movie"]=$this->moviedetail_model->getdropdown();
 $data["title"]="Create award";
 $this->load->view("templatewith2",$data);
 }
-public function createawardsubmit() 
+public function createawardsubmit()
 {
 $access=array("1");
 $this->checkaccess($access);
@@ -1820,7 +1820,7 @@ $elements[4]->field="`gse_awarddetail`.`winnername`";
 $elements[4]->sort="1";
 $elements[4]->header="Winner Name";
 $elements[4]->alias="winnername";
-    
+
 $elements[5]=new stdClass();
 $elements[5]->field="`gse_awarddetail`.`movie`";
 $elements[5]->sort="1";
@@ -1859,7 +1859,7 @@ $data["movie"]=$this->moviedetail_model->getdropdown();
 $data["title"]="Create awarddetail";
 $this->load->view("templatewith2",$data);
 }
-public function createawarddetailsubmit() 
+public function createawarddetailsubmit()
 {
 $access=array("1");
 $this->checkaccess($access);
@@ -1978,7 +1978,7 @@ $elements[2]->field="`gse_wedding`.`image`";
 $elements[2]->sort="1";
 $elements[2]->header="Image";
 $elements[2]->alias="image";
-    
+
 $elements[3]=new stdClass();
 $elements[3]->field="`gse_wedding`.`banner`";
 $elements[3]->sort="1";
@@ -2010,7 +2010,7 @@ $data["page"]="createwedding";
 $data["title"]="Create wedding";
 $this->load->view("template",$data);
 }
-public function createweddingsubmit() 
+public function createweddingsubmit()
 {
 $access=array("1");
 $this->checkaccess($access);
@@ -2140,13 +2140,13 @@ $elements[2]->field="`gse_service`.`content`";
 $elements[2]->sort="1";
 $elements[2]->header="Content";
 $elements[2]->alias="content";
-    
+
 $elements[3]=new stdClass();
 $elements[3]->field="`gse_service`.`type`";
 $elements[3]->sort="1";
 $elements[3]->header="Type";
 $elements[3]->alias="type";
-    
+
 $elements[4]=new stdClass();
 $elements[4]->field="`gse_service`.`order`";
 $elements[4]->sort="1";
@@ -2179,7 +2179,7 @@ $data["type"]=$this->service_model->getservicetypedropdown();
 $data["title"]="Create service";
 $this->load->view("template",$data);
 }
-public function createservicesubmit() 
+public function createservicesubmit()
 {
 $access=array("1");
 $this->checkaccess($access);
@@ -2332,7 +2332,7 @@ $data["wedding"]=$this->wedding_model->getdropdown();
 $data["title"]="Create weddingtype";
 $this->load->view("templatewith2",$data);
 }
-public function createweddingtypesubmit() 
+public function createweddingtypesubmit()
 {
 $access=array("1");
 $this->checkaccess($access);
@@ -2526,7 +2526,7 @@ $data["wedding"]=$this->wedding_model->getdropdown();
 $data["title"]="Create weddingsubtype";
 $this->load->view("templatewith2",$data);
 }
-public function createweddingsubtypesubmit() 
+public function createweddingsubtypesubmit()
 {
 $access=array("1");
 $this->checkaccess($access);
@@ -2693,7 +2693,7 @@ $data["title"]="Create weddinggallery";
 $data[ 'status' ] =$this->user_model->getstatusdropdown();
 $this->load->view("templatewith2",$data);
 }
-public function createweddinggallerysubmit() 
+public function createweddinggallerysubmit()
 {
 $access=array("1");
 $this->checkaccess($access);
@@ -2841,7 +2841,7 @@ $data["page"]="createtalent";
 $data["title"]="Create talent";
 $this->load->view("template",$data);
 }
-public function createtalentsubmit() 
+public function createtalentsubmit()
 {
 $access=array("1");
 $this->checkaccess($access);
@@ -3016,7 +3016,7 @@ $data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data[ 'talent' ] =$this->talent_model->getdropdown();
 $this->load->view("template",$data);
 }
-public function createtalenttypesubmit() 
+public function createtalenttypesubmit()
 {
 $access=array("1");
 $this->checkaccess($access);
@@ -3228,7 +3228,7 @@ $data["talent"]=$this->talent_model->getdropdown();
 $data[ 'status' ] =$this->user_model->getstatusdropdown();
 $this->load->view("templatewith2",$data);
 }
-public function createtalenttypegallerysubmit() 
+public function createtalenttypegallerysubmit()
 {
 $access=array("1");
 $this->checkaccess($access);
@@ -3401,7 +3401,7 @@ $data["title"]="Create sportscategory";
 $data[ 'status' ] =$this->user_model->getstatusdropdown();
 $this->load->view("template",$data);
 }
-public function createsportscategorysubmit() 
+public function createsportscategorysubmit()
 {
 $access=array("1");
 $this->checkaccess($access);
@@ -3606,7 +3606,7 @@ $data["sportscategory"]=$this->sportscategory_model->getdropdown();
 $data["title"]="Create highlight";
 $this->load->view("template",$data);
 }
-public function createhighlightsubmit() 
+public function createhighlightsubmit()
 {
 $access=array("1");
 $this->checkaccess($access);
@@ -3784,7 +3784,7 @@ $data[ 'sportscategory' ] =$this->sportscategory_model->getdropdown();
 $data[ 'highlight' ] =$this->highlight_model->getdropdown();
 $this->load->view("template",$data);
 }
-public function createpreviousgamegallerysubmit() 
+public function createpreviousgamegallerysubmit()
 {
 $access=array("1");
 $this->checkaccess($access);
@@ -3946,7 +3946,7 @@ $data[ 'status' ] =$this->user_model->getstatusdropdown();
     $data[ 'sportscategory' ] =$this->sportscategory_model->getdropdown();
 $this->load->view("template",$data);
 }
-public function createplayersubmit() 
+public function createplayersubmit()
 {
 $access=array("1");
 $this->checkaccess($access);
@@ -4099,7 +4099,7 @@ $data["title"]="Create clientlogo";
 $data[ 'status' ] =$this->user_model->getstatusdropdown();
 $this->load->view("template",$data);
 }
-public function createclientlogosubmit() 
+public function createclientlogosubmit()
 {
 $access=array("1");
 $this->checkaccess($access);
@@ -4260,7 +4260,7 @@ $data["title"]="Create clientdetail";
 $data[ 'status' ] =$this->user_model->getstatusdropdown();
 $this->load->view("template",$data);
 }
-public function createclientdetailsubmit() 
+public function createclientdetailsubmit()
 {
 $access=array("1");
 $this->checkaccess($access);
@@ -4300,7 +4300,7 @@ $content=$this->input->get_post("content");
 							$banner=$uploaddata['file_name'];
 						}
 
-					
+
 if($this->clientdetail_model->create($order,$status,$name,$image,$title,$url,$content,$banner)==0)
 $data["alerterror"]="New clientdetail could not be created.";
 else
@@ -4451,7 +4451,7 @@ $data["page"]="createcareerform";
 $data["title"]="Create careerform";
 $this->load->view("template",$data);
 }
-public function createcareerformsubmit() 
+public function createcareerformsubmit()
 {
 $access=array("1");
 $this->checkaccess($access);
@@ -4592,7 +4592,7 @@ $data["page"]="createcareerposition";
 $data["title"]="Create careerposition";
 $this->load->view("template",$data);
 }
-public function createcareerpositionsubmit() 
+public function createcareerpositionsubmit()
 {
 $access=array("1");
 $this->checkaccess($access);
@@ -4667,13 +4667,13 @@ $this->careerposition_model->delete($this->input->get("id"));
 $data["redirect"]="site/viewcareerposition";
 $this->load->view("redirect",$data);
 }
-    
-    
-    
+
+
+
     //old created gse
-    
-        
-    
+
+
+
 public function viewcategory()
 {
 $access=array("1");
@@ -4733,7 +4733,7 @@ $data["page"]="createcategory";
 $data["title"]="Create category";
 $this->load->view("template",$data);
 }
-public function createcategorysubmit() 
+public function createcategorysubmit()
 {
 $access=array("1");
 $this->checkaccess($access);
@@ -4866,7 +4866,7 @@ $data["page"]="createsubscribe";
 $data["title"]="Create subscribe";
 $this->load->view("template",$data);
 }
-public function createsubscribesubmit() 
+public function createsubscribesubmit()
 {
 $access=array("1");
 $this->checkaccess($access);
@@ -5016,7 +5016,7 @@ $data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["title"]="Create testimonial";
 $this->load->view("template",$data);
 }
-public function createtestimonialsubmit() 
+public function createtestimonialsubmit()
 {
 $access=array("1");
 $this->checkaccess($access);
@@ -5055,7 +5055,7 @@ $quote=$this->input->get_post("quote");
 			{
 				$uploaddata = $this->upload->data();
 				$image=$uploaddata['file_name'];
-                
+
                 $config_r['source_image']   = './uploads/' . $uploaddata['file_name'];
                 $config_r['maintain_ratio'] = TRUE;
                 $config_t['create_thumb'] = FALSE;///add this
@@ -5064,13 +5064,13 @@ $quote=$this->input->get_post("quote");
                 $config_r['quality']    = 100;
                 //end of configs
 
-                $this->load->library('image_lib', $config_r); 
+                $this->load->library('image_lib', $config_r);
                 $this->image_lib->initialize($config_r);
                 if(!$this->image_lib->resize())
                 {
                     echo "Failed." . $this->image_lib->display_errors();
                     //return false;
-                }  
+                }
                 else
                 {
                     //print_r($this->image_lib->dest_image);
@@ -5078,7 +5078,7 @@ $quote=$this->input->get_post("quote");
                     $image=$this->image_lib->dest_image;
                     //return false;
                 }
-                
+
 			}
 if($this->testimonial_model->create($category,$status,$order,$name,$author,$image,$quote)==0)
 $data["alerterror"]="New testimonial could not be created.";
@@ -5140,7 +5140,7 @@ $quote=$this->input->get_post("quote");
 			{
 				$uploaddata = $this->upload->data();
 				$image=$uploaddata['file_name'];
-                
+
                 $config_r['source_image']   = './uploads/' . $uploaddata['file_name'];
                 $config_r['maintain_ratio'] = TRUE;
                 $config_t['create_thumb'] = FALSE;///add this
@@ -5149,13 +5149,13 @@ $quote=$this->input->get_post("quote");
                 $config_r['quality']    = 100;
                 //end of configs
 
-                $this->load->library('image_lib', $config_r); 
+                $this->load->library('image_lib', $config_r);
                 $this->image_lib->initialize($config_r);
                 if(!$this->image_lib->resize())
                 {
                     echo "Failed." . $this->image_lib->display_errors();
                     //return false;
-                }  
+                }
                 else
                 {
                     //print_r($this->image_lib->dest_image);
@@ -5163,9 +5163,9 @@ $quote=$this->input->get_post("quote");
                     $image=$this->image_lib->dest_image;
                     //return false;
                 }
-                
+
 			}
-            
+
 if($this->testimonial_model->edit($id,$category,$status,$order,$name,$author,$image,$quote)==0)
 $data["alerterror"]="New testimonial could not be Updated.";
 else
@@ -5266,7 +5266,7 @@ $data["title"]="Create getintouch";
  $data['category']=$this->category_model->getdropdown();
 $this->load->view("template",$data);
 }
-public function creategetintouchsubmit() 
+public function creategetintouchsubmit()
 {
 $access=array("1");
 $this->checkaccess($access);
@@ -5296,7 +5296,9 @@ $email=$this->input->get_post("email");
 $phone=$this->input->get_post("phone");
 $comment=$this->input->get_post("comment");
 $enquiryfor=$this->input->get_post("enquiryfor");
-if($this->getintouch_model->create($category,$firstname,$lastname,$email,$phone,$timestamp,$comment,$enquiryfor)==0)
+$location=$this->input->get_post("location");
+$noofpeople=$this->input->get_post("noofpeople");
+if($this->getintouch_model->create($category,$firstname,$lastname,$email,$phone,$timestamp,$comment,$enquiryfor,$location,$noofpeople)==0)
 $data["alerterror"]="New getintouch could not be created.";
 else
 $data["alertsuccess"]="getintouch created Successfully.";
@@ -5347,7 +5349,9 @@ $phone=$this->input->get_post("phone");
 $timestamp=$this->input->get_post("timestamp");
 $comment=$this->input->get_post("comment");
 $enquiryfor=$this->input->get_post("enquiryfor");
-if($this->getintouch_model->edit($id,$category,$firstname,$lastname,$email,$phone,$timestamp,$comment,$enquiryfor)==0)
+$location=$this->input->get_post("location");
+$noofpeople=$this->input->get_post("noofpeople");
+if($this->getintouch_model->edit($id,$category,$firstname,$lastname,$email,$phone,$timestamp,$comment,$enquiryfor,$location,$noofpeople)==0)
 $data["alerterror"]="New getintouch could not be Updated.";
 else
 $data["alertsuccess"]="getintouch Updated Successfully.";
@@ -5422,7 +5426,7 @@ $data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["title"]="Create diarycategory";
 $this->load->view("template",$data);
 }
-public function creatediarycategorysubmit() 
+public function creatediarycategorysubmit()
 {
 $access=array("1");
 $this->checkaccess($access);
@@ -5565,7 +5569,7 @@ $data[ 'diarycategory' ] =$this->diarycategory_model->getdropdown();
 $data["title"]="Create diarysubcategory";
 $this->load->view("template",$data);
 }
-public function creatediarysubcategorysubmit() 
+public function creatediarysubcategorysubmit()
 {
 $access=array("1");
 $this->checkaccess($access);
@@ -5737,7 +5741,7 @@ $data[ 'status' ] =$this->user_model->getstatusdropdown();
     $data[ 'type' ] =$this->diarycategory_model->gettypedropdown();
 $this->load->view("template",$data);
 }
-public function creatediaryarticlesubmit() 
+public function creatediaryarticlesubmit()
 {
 $access=array("1");
 $this->checkaccess($access);
@@ -5780,7 +5784,7 @@ $type=$this->input->get_post("type");
 			{
 				$uploaddata = $this->upload->data();
 				$image=$uploaddata['file_name'];
-                
+
                 $config_r['source_image']   = './uploads/' . $uploaddata['file_name'];
                 $config_r['maintain_ratio'] = TRUE;
                 $config_t['create_thumb'] = FALSE;///add this
@@ -5789,13 +5793,13 @@ $type=$this->input->get_post("type");
                 $config_r['quality']    = 100;
                 //end of configs
 
-                $this->load->library('image_lib', $config_r); 
+                $this->load->library('image_lib', $config_r);
                 $this->image_lib->initialize($config_r);
                 if(!$this->image_lib->resize())
                 {
                     echo "Failed." . $this->image_lib->display_errors();
                     //return false;
-                }  
+                }
                 else
                 {
                     //print_r($this->image_lib->dest_image);
@@ -5803,7 +5807,7 @@ $type=$this->input->get_post("type");
                     $image=$this->image_lib->dest_image;
                     //return false;
                 }
-                
+
 			}
 if($this->diaryarticle_model->create($status,$diarycategory,$diarysubcategory,$name,$image,$timestamp,$content,$date,$type)==0)
 $data["alerterror"]="New diaryarticle could not be created.";
@@ -5878,7 +5882,7 @@ $type=$this->input->get_post("type");
 			{
 				$uploaddata = $this->upload->data();
 				$image=$uploaddata['file_name'];
-                
+
                 $config_r['source_image']   = './uploads/' . $uploaddata['file_name'];
                 $config_r['maintain_ratio'] = TRUE;
                 $config_t['create_thumb'] = FALSE;///add this
@@ -5887,13 +5891,13 @@ $type=$this->input->get_post("type");
                 $config_r['quality']    = 100;
                 //end of configs
 
-                $this->load->library('image_lib', $config_r); 
+                $this->load->library('image_lib', $config_r);
                 $this->image_lib->initialize($config_r);
                 if(!$this->image_lib->resize())
                 {
                     echo "Failed." . $this->image_lib->display_errors();
                     //return false;
-                }  
+                }
                 else
                 {
                     //print_r($this->image_lib->dest_image);
@@ -5901,7 +5905,7 @@ $type=$this->input->get_post("type");
                     $image=$this->image_lib->dest_image;
                     //return false;
                 }
-                
+
 			}
     $id=$this->diaryarticle_model->edit($id,$status,$diarycategory,$diarysubcategory,$name,$image,$timestamp,$content,$date,$type);
 if($id==0)
@@ -5920,9 +5924,9 @@ $this->diaryarticle_model->delete($this->input->get("id"));
 $data["redirect"]="site/viewdiaryarticle";
 $this->load->view("redirect",$data);
 }
-    
+
     // TALENT VIDEOS
-    
+
     public function viewtalentvideo()
 {
 $access=array("1");
@@ -5952,7 +5956,7 @@ $elements[1]->field="`talentvideo`.`url`";
 $elements[1]->sort="1";
 $elements[1]->header="Url";
 $elements[1]->alias="url";
-    
+
 $elements[2]=new stdClass();
 $elements[2]->field="`talentvideo`.`talent`";
 $elements[2]->sort="1";
@@ -5990,7 +5994,7 @@ $data["before4"]=$this->input->get('id');
 $data["title"]="Create talent";
 $this->load->view("templatewith2",$data);
 }
-public function createtalentvideosubmit() 
+public function createtalentvideosubmit()
 {
 $access=array("1");
 $this->checkaccess($access);
@@ -6138,7 +6142,7 @@ $data["diaryarticle"]=$this->diaryarticle_model->getdropdown();
 $data["title"]="Create blogvideo";
 $this->load->view("templatewith2",$data);
 }
-public function createblogvideosubmit() 
+public function createblogvideosubmit()
 {
 $access=array("1");
 $this->checkaccess($access);
@@ -6286,7 +6290,7 @@ $data["diaryarticle"]=$this->diaryarticle_model->getdropdown();
 $data["title"]="Create blogimage";
 $this->load->view("templatewith2",$data);
 }
-public function createblogimagesubmit() 
+public function createblogimagesubmit()
 {
 $access=array("1");
 $this->checkaccess($access);
@@ -6441,7 +6445,7 @@ $data["diaryarticle"]=$this->diaryarticle_model->getdropdown();
 $data["title"]="Create blogtext";
 $this->load->view("templatewith2",$data);
 }
-public function createblogtextsubmit() 
+public function createblogtextsubmit()
 {
 $access=array("1");
 $this->checkaccess($access);
@@ -6603,7 +6607,7 @@ $data["diaryarticle"]=$this->diaryarticle_model->getdropdown();
 $data["title"]="Create previousgamevideo";
 $this->load->view("templatewith2",$data);
 }
-public function createpreviousgamevideosubmit() 
+public function createpreviousgamevideosubmit()
 {
 $access=array("1");
 $this->checkaccess($access);
@@ -6689,9 +6693,9 @@ $this->previousgamevideo_model->delete($this->input->get("id"));
 $data["redirect"]="site/viewpreviousgamevideo?id=".$this->input->get('highlightid');
 $this->load->view("redirect2",$data);
 }
-    
+
 //    talent type videos
-    
+
      public function viewtalenttypevideo()
 {
 $access=array("1");
@@ -6762,7 +6766,7 @@ $data["talenttype"]=$this->talenttype_model->getdropdown();
 $data["title"]="Create talenttypevideo";
 $this->load->view("templatewith2",$data);
 }
-public function createtalenttypevideosubmit() 
+public function createtalenttypevideosubmit()
 {
 $access=array("1");
 $this->checkaccess($access);

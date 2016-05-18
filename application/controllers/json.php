@@ -427,5 +427,38 @@ $id=$this->input->get_post("id");
 $data["message"]=$this->diaryarticle_model->getsinglediaryarticle($id);
 $this->load->view("json",$data);
 }
+public function getInTouch()
+{
+  $data = json_decode(file_get_contents('php://input'), true);
+  if(empty($data))
+  {
+    $data["message"] = 0;
+  }
+  else
+  {
+    $firstname=$data['firstname'];
+    $lastname=$data['lastname'];
+    $email=$data['email'];
+    $phone=$data['phone'];
+    $location=$data['location'];
+    $enquiry=$data['enquiry'];
+    $noofpeople=$data['noofpeople'];
+    $comment=$data['comment'];
+    $category=$data['category'];
+    $data["message"] = $this->restapi_model->getInTouch($firstname, $lastname, $email, $phone,$location,$enquiry,$noofpeople,$comment,$category);
+  }
+
+  $this->load->view("json", $data);
+}
+public function getMovieDetails()
+{
+$data["message"]=$this->restapi_model->getMovieDetails($id);
+$this->load->view("json",$data);
+}
+public function getWeddingDetails()
+{
+$data["message"]=$this->restapi_model->getWeddingDetails($id);
+$this->load->view("json",$data);
+}
 
 } ?>

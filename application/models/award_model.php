@@ -44,7 +44,7 @@ return $query;
 }
 public function getdropdown()
 {
-$query=$this->db->query("SELECT * FROM `gse_award` ORDER BY `id` 
+$query=$this->db->query("SELECT * FROM `gse_award` ORDER BY `id`
                     ASC")->result();
 $return=array(
 "" => "Select Option"

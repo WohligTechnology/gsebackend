@@ -3,9 +3,9 @@ if ( !defined( "BASEPATH" ) )
 exit( "No direct script access allowed" );
 class getintouch_model extends CI_Model
 {
-public function create($category,$firstname,$lastname,$email,$phone,$timestamp,$comment,$enquiryfor)
+public function create($category,$firstname,$lastname,$email,$phone,$timestamp,$comment,$enquiryfor,$location,$noofpeople)
 {
-$data=array("category" => $category,"firstname" => $firstname,"lastname" => $lastname,"email" => $email,"phone" => $phone,"timestamp" => $timestamp,"comment" => $comment,"enquiryfor" => $enquiryfor);
+$data=array("category" => $category,"firstname" => $firstname,"lastname" => $lastname,"email" => $email,"phone" => $phone,"timestamp" => $timestamp,"comment" => $comment,"enquiryfor" => $enquiryfor,"location" => $location,"noofpeople" => $noofpeople);
 $query=$this->db->insert( "gse_getintouch", $data );
 $id=$this->db->insert_id();
 if(!$query)
@@ -24,9 +24,9 @@ $this->db->where("id",$id);
 $query=$this->db->get("gse_getintouch")->row();
 return $query;
 }
-public function edit($id,$category,$firstname,$lastname,$email,$phone,$timestamp,$comment,$enquiryfor)
+public function edit($id,$category,$firstname,$lastname,$email,$phone,$timestamp,$comment,$enquiryfor,$location,$noofpeople)
 {
-$data=array("category" => $category,"firstname" => $firstname,"lastname" => $lastname,"email" => $email,"phone" => $phone,"timestamp" => $timestamp,"comment" => $comment,"enquiryfor" => $enquiryfor);
+$data=array("category" => $category,"firstname" => $firstname,"lastname" => $lastname,"email" => $email,"phone" => $phone,"timestamp" => $timestamp,"comment" => $comment,"enquiryfor" => $enquiryfor,"location" => $location,"noofpeople" => $noofpeople);
 $this->db->where( "id", $id );
 $query=$this->db->update( "gse_getintouch", $data );
 return 1;
@@ -43,8 +43,7 @@ return $query;
 }
 public function getdropdown()
 {
-$query=$this->db->query("SELECT * FROM `gse_getintouch` ORDER BY `id` 
-                    ASC")->row();
+$query=$this->db->query("SELECT * FROM `gse_getintouch` ORDER BY `id` ASC")->result();
 $return=array(
 "" => "Select Option"
 );

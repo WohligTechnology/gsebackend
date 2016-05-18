@@ -38,6 +38,18 @@
 </div>
 <div class="row">
 <div class="input-field col s6">
+<label for="noofpeople">No of people</label>
+<input type="text" id="noofpeople" name="noofpeople" value='<?php echo set_value('noofpeople',$before->noofpeople);?>'>
+</div>
+</div>
+<div class="row">
+<div class="input-field col s6">
+<label for="location">Location</label>
+<input type="text" id="location" name="location" value='<?php echo set_value('location',$before->location);?>'>
+</div>
+</div>
+<div class="row">
+<div class="input-field col s6">
 <label for="Timestamp">Timestamp</label>
 <input type="text" id="Timestamp" name="timestamp" value='<?php echo set_value('timestamp',$before->timestamp);?>'>
 </div>
