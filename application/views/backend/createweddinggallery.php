@@ -11,6 +11,12 @@
 </div>
 <div class=" row">
 <div class=" input-field col s6">
+<?php echo form_dropdown("weddingsubtype",$weddingsubtype,set_value('weddingsubtype'));?>
+<label>Wedding sub type</label>
+</div>
+</div>
+<div class=" row">
+<div class=" input-field col s6">
 <?php echo form_dropdown("status",$status,set_value('status'));?>
 <label>Status</label>
 </div>

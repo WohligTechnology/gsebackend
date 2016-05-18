@@ -50,6 +50,18 @@
 </div>
 <div class="row">
 <div class="input-field col s6">
+<label for="startdate">Start date</label>
+<input type="text" id="startdate" name="startdate" value='<?php echo set_value('startdate',$before->startdate);?>'>
+</div>
+</div>
+<div class="row">
+<div class="input-field col s6">
+<label for="enddate">End date</label>
+<input type="text" id="enddate" name="enddate" value='<?php echo set_value('enddate',$before->enddate);?>'>
+</div>
+</div>
+<div class="row">
+<div class="input-field col s6">
 <label for="Timestamp">Timestamp</label>
 <input type="text" id="Timestamp" name="timestamp" value='<?php echo set_value('timestamp',$before->timestamp);?>'>
 </div>

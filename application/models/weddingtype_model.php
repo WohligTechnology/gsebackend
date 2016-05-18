@@ -3,9 +3,9 @@ if ( !defined( "BASEPATH" ) )
 exit( "No direct script access allowed" );
 class weddingtype_model extends CI_Model
 {
-public function create($wedding,$name,$image,$banner)
+public function create($wedding,$name,$image,$banner,$weddingsubtype)
 {
-$data=array("wedding" => $wedding,"name" => $name,"image" => $image,"banner" => $banner);
+$data=array("wedding" => $wedding,"name" => $name,"image" => $image,"banner" => $banner,"weddingsubtype" => $weddingsubtype);
 $query=$this->db->insert( "gse_weddingtype", $data );
 $id=$this->db->insert_id();
 if(!$query)
@@ -24,7 +24,7 @@ $this->db->where("id",$id);
 $query=$this->db->get("gse_weddingtype")->row();
 return $query;
 }
-public function edit($id,$wedding,$name,$image,$banner)
+public function edit($id,$wedding,$name,$image,$banner,$weddingsubtype)
 {
 if($image=="")
 {
@@ -36,7 +36,7 @@ $image=$image->image;
 $banner=$this->weddingtype_model->getbannerbyid($id);
 $banner=$banner->banner;
 }
-$data=array("wedding" => $wedding,"name" => $name,"image" => $image,"banner" => $banner);
+$data=array("wedding" => $wedding,"name" => $name,"image" => $image,"banner" => $banner,"weddingsubtype" => $weddingsubtype);
 $this->db->where( "id", $id );
 $query=$this->db->update( "gse_weddingtype", $data );
 return 1;
@@ -58,7 +58,7 @@ return $query;
 }
 public function getdropdown()
 {
-$query=$this->db->query("SELECT * FROM `gse_weddingtype` ORDER BY `id` 
+$query=$this->db->query("SELECT * FROM `gse_weddingtype` ORDER BY `id`
                     ASC")->result();
 $return=array(
 "" => "Select Option"

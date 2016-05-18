@@ -12,6 +12,7 @@
 <label for="Wedding">Wedding</label>
 </div>
 </div>
+
 <div class="row">
 <div class="input-field col s6">
 <label for="Name">Name</label>

@@ -2329,6 +2329,7 @@ $data["before2"]=$this->input->get('id');
 $data["before3"]=$this->input->get('id');
 $data["before4"]=$this->input->get('id');
 $data["wedding"]=$this->wedding_model->getdropdown();
+$data["weddingsubtype"]=$this->weddingsubtype_model->getdropdown();
 $data["title"]="Create weddingtype";
 $this->load->view("templatewith2",$data);
 }
@@ -2345,6 +2346,7 @@ if($this->form_validation->run()==FALSE)
 $data["alerterror"]=validation_errors();
 $data["page"]="createweddingtype";
 $data["wedding"]=$this->wedding_model->getdropdown();
+$data["weddingsubtype"]=$this->weddingsubtype_model->getdropdown();
 $data["title"]="Create weddingtype";
 $this->load->view("template",$data);
 }
@@ -2352,6 +2354,7 @@ else
 {
 $id=$this->input->get_post("id");
 $wedding=$this->input->get_post("wedding");
+$weddingsubtype=$this->input->get_post("weddingsubtype");
 $name=$this->input->get_post("name");
 $image=$this->menu_model->createImage();
 //$banner=$this->input->get_post("banner");
@@ -2365,7 +2368,7 @@ $image=$this->menu_model->createImage();
 							$uploaddata = $this->upload->data();
 							$banner=$uploaddata['file_name'];
 						}
-if($this->weddingtype_model->create($wedding,$name,$image,$banner)==0)
+if($this->weddingtype_model->create($wedding,$name,$image,$banner,$weddingsubtype)==0)
 $data["alerterror"]="New weddingtype could not be created.";
 else
 $data["alertsuccess"]="weddingtype created Successfully.";
@@ -2384,6 +2387,7 @@ $data["before2"]=$this->input->get('id');
 $data["before3"]=$this->input->get('id');
 $data["before4"]=$this->input->get('id');
 $data["wedding"]=$this->wedding_model->getdropdown();
+$data["weddingsubtype"]=$this->weddingsubtype_model->getdropdown();
 $data["title"]="Edit weddingtype";
 $data["before"]=$this->weddingtype_model->beforeedit($this->input->get("id"));
 $this->load->view("templatewith2",$data);
@@ -2402,6 +2406,7 @@ if($this->form_validation->run()==FALSE)
 $data["alerterror"]=validation_errors();
 $data["page"]="editweddingtype";
 $data["wedding"]=$this->wedding_model->getdropdown();
+$data["weddingsubtype"]=$this->weddingsubtype_model->getdropdown();
 $data["title"]="Edit weddingtype";
 $data["before"]=$this->weddingtype_model->beforeedit($this->input->get("id"));
 $this->load->view("template",$data);
@@ -2411,6 +2416,7 @@ else
 $id=$this->input->get_post("id");
 $wedding=$this->input->get_post("wedding");
 $name=$this->input->get_post("name");
+$weddingsubtype=$this->input->get_post("weddingsubtype");
 $image=$this->menu_model->createImage();
 //$banner=$this->input->get_post("banner");
      $config['upload_path'] = './uploads/';
@@ -2430,7 +2436,7 @@ $image=$this->menu_model->createImage();
 						   // print_r($image);
 							$banner=$banner->banner;
 						}
-if($this->weddingtype_model->edit($id,$wedding,$name,$image,$banner)==0)
+if($this->weddingtype_model->edit($id,$wedding,$name,$image,$banner,$weddingsubtype)==0)
 $data["alerterror"]="New weddingtype could not be Updated.";
 else
 $data["alertsuccess"]="weddingtype Updated Successfully.";
@@ -2689,6 +2695,7 @@ $data["before2"]=$this->input->get('id');
 $data["before3"]=$this->input->get('id');
 $data["before4"]=$this->input->get('id');
 $data["wedding"]=$this->wedding_model->getdropdown();
+$data["weddingsubtype"]=$this->weddingsubtype_model->getdropdown();
 $data["title"]="Create weddinggallery";
 $data[ 'status' ] =$this->user_model->getstatusdropdown();
 $this->load->view("templatewith2",$data);
@@ -2707,6 +2714,7 @@ $data["alerterror"]=validation_errors();
 $data["page"]="createweddinggallery";
 $data["title"]="Create weddinggallery";
 $data["wedding"]=$this->wedding_model->getdropdown();
+$data["weddingsubtype"]=$this->weddingsubtype_model->getdropdown();
 $data[ 'status' ] =$this->user_model->getstatusdropdown();
 $this->load->view("template",$data);
 }
@@ -2716,8 +2724,10 @@ $id=$this->input->get_post("id");
 $wedding=$this->input->get_post("wedding");
 $status=$this->input->get_post("status");
 $order=$this->input->get_post("order");
+$weddingsubtype=$this->input->get_post("weddingsubtype");
+
 $image=$this->menu_model->createImage();
-if($this->weddinggallery_model->create($wedding,$status,$order,$image)==0)
+if($this->weddinggallery_model->create($wedding,$status,$order,$image,$weddingsubtype)==0)
 $data["alerterror"]="New weddinggallery could not be created.";
 else
 $data["alertsuccess"]="weddinggallery created Successfully.";
@@ -2736,6 +2746,7 @@ $data["before2"]=$this->input->get('id');
 $data["before3"]=$this->input->get('id');
 $data["before4"]=$this->input->get('id');
 $data["wedding"]=$this->wedding_model->getdropdown();
+$data["weddingsubtype"]=$this->weddingsubtype_model->getdropdown();
 $data["title"]="Edit weddinggallery";
 $data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["before"]=$this->weddinggallery_model->beforeedit($this->input->get("id"));
@@ -2757,6 +2768,7 @@ $data["page"]="editweddinggallery";
 $data["title"]="Edit weddinggallery";
 $data["wedding"]=$this->wedding_model->getdropdown();
 $data[ 'status' ] =$this->user_model->getstatusdropdown();
+$data["weddingsubtype"]=$this->weddingsubtype_model->getdropdown();
 $data["before"]=$this->weddinggallery_model->beforeedit($this->input->get("id"));
 $this->load->view("template",$data);
 }
@@ -2766,8 +2778,9 @@ $id=$this->input->get_post("id");
 $wedding=$this->input->get_post("wedding");
 $status=$this->input->get_post("status");
 $order=$this->input->get_post("order");
+$weddingsubtype=$this->input->get_post("weddingsubtype");
 $image=$this->menu_model->createImage();
-if($this->weddinggallery_model->edit($id,$wedding,$status,$order,$image)==0)
+if($this->weddinggallery_model->edit($id,$wedding,$status,$order,$image,$weddingsubtype)==0)
 $data["alerterror"]="New weddinggallery could not be Updated.";
 else
 $data["alertsuccess"]="weddinggallery Updated Successfully.";

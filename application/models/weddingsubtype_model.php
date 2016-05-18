@@ -48,8 +48,7 @@ return $query;
 }
 public function getdropdown()
 {
-$query=$this->db->query("SELECT * FROM `gse_weddingsubtype` ORDER BY `id` 
-                    ASC")->result();
+$query=$this->db->query("SELECT * FROM `gse_weddingsubtype` ORDER BY `id` ASC")->result();
 $return=array(
 "" => "Select Option"
 );

@@ -445,7 +445,9 @@ public function getInTouch()
     $noofpeople=$data['noofpeople'];
     $comment=$data['comment'];
     $category=$data['category'];
-    $data["message"] = $this->restapi_model->getInTouch($firstname, $lastname, $email, $phone,$location,$enquiry,$noofpeople,$comment,$category);
+    $startdate=$data['date'];
+    $enddate=$data['enddate'];
+    $data["message"] = $this->restapi_model->getInTouch($firstname, $lastname, $email, $phone,$location,$enquiry,$noofpeople,$comment,$category,$startdate,$enddate);
   }
 
   $this->load->view("json", $data);
@@ -455,10 +457,82 @@ public function getMovieDetails()
 $data["message"]=$this->restapi_model->getMovieDetails($id);
 $this->load->view("json",$data);
 }
+
+public function getMovieInside()
+{
+  $id=$this->input->get('id');
+$data["message"]=$this->restapi_model->getMovieInside($id);
+$this->load->view("json",$data);
+}
+
 public function getWeddingDetails()
 {
 $data["message"]=$this->restapi_model->getWeddingDetails($id);
 $this->load->view("json",$data);
+}
+
+public function getWeddingInsideBanner()
+{
+  $id=$this->input->get('id');
+$data["message"]=$this->restapi_model->getWeddingInsideBanner($id);
+$this->load->view("json",$data);
+}
+public function getWeddingImagesVideos()
+{
+  $id=$this->input->get('id');
+$data["message"]=$this->restapi_model->getWeddingImagesVideos($id);
+$this->load->view("json",$data);
+}
+public function getWeddingInside()
+{
+  $id=$this->input->get('id');
+  $elements=array();
+  $elements[0]=new stdClass();
+  $elements[0]->field="`gse_weddingsubtype`.`id`";
+  $elements[0]->sort="1";
+  $elements[0]->header="ID";
+  $elements[0]->alias="id";
+
+  $elements[1]=new stdClass();
+  $elements[1]->field="`gse_weddingsubtype`.`name`";
+  $elements[1]->sort="1";
+  $elements[1]->header="Name";
+  $elements[1]->alias="name";
+
+  $elements[2]=new stdClass();
+  $elements[2]->field="`gse_weddingsubtype`.`image`";
+  $elements[2]->sort="1";
+  $elements[2]->header="Image";
+  $elements[2]->alias="image";
+
+  $elements[3]=new stdClass();
+  $elements[3]->field="`gse_weddingsubtype`.`wedding`";
+  $elements[3]->sort="1";
+  $elements[3]->header="Wedding";
+  $elements[3]->alias="wedding";
+
+  $elements[4]=new stdClass();
+  $elements[4]->field="`gse_weddingsubtype`.`content`";
+  $elements[4]->sort="1";
+  $elements[4]->header="Content";
+  $elements[4]->alias="content";
+
+
+  $search=$this->input->get_post("search");
+  $pageno=$this->input->get_post("pageno");
+  $orderby=$this->input->get_post("orderby");
+  $orderorder=$this->input->get_post("orderorder");
+  $maxrow=$this->input->get_post("maxrow");
+  if($maxrow=="")
+  {
+  }
+  if($orderby=="")
+  {
+  $orderby="id";
+  $orderorder="ASC";
+  }
+  $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_weddingsubtype`","WHERE `gse_weddingsubtype`.`wedding`='$id'");
+  $this->load->view("json",$data);
 }
 
 } ?>

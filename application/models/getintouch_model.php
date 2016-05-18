@@ -24,9 +24,9 @@ $this->db->where("id",$id);
 $query=$this->db->get("gse_getintouch")->row();
 return $query;
 }
-public function edit($id,$category,$firstname,$lastname,$email,$phone,$timestamp,$comment,$enquiryfor,$location,$noofpeople)
+public function edit($id,$category,$firstname,$lastname,$email,$phone,$timestamp,$comment,$enquiryfor,$location,$noofpeople,$startdate,$enddate)
 {
-$data=array("category" => $category,"firstname" => $firstname,"lastname" => $lastname,"email" => $email,"phone" => $phone,"timestamp" => $timestamp,"comment" => $comment,"enquiryfor" => $enquiryfor,"location" => $location,"noofpeople" => $noofpeople);
+$data=array("category" => $category,"firstname" => $firstname,"lastname" => $lastname,"email" => $email,"phone" => $phone,"timestamp" => $timestamp,"comment" => $comment,"enquiryfor" => $enquiryfor,"location" => $location,"noofpeople" => $noofpeople,"startdate" => $startdate,"enddate" => $enddate);
 $this->db->where( "id", $id );
 $query=$this->db->update( "gse_getintouch", $data );
 return 1;
