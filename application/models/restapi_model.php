@@ -90,9 +90,9 @@ class restapi_model extends CI_Model
 
     public function getMovieInside($id){
       $query['moviedetail']=$this->db->query("SELECT `id`, `isupcoming`, `isreleased`, `name`, `banner`, `imdb`, `producer`, `director`, `cast`, `music`, `synopsis`, `videos`, `releasedate`, `image` FROM `gse_moviedetail` WHERE `id`='$id'")->row();
-      $query['featuredvideos']=$this->db->query("SELECT `id`, `isupcoming`, `isreleased`, `name`, `banner`, `imdb`, `producer`, `director`, `cast`, `music`, `synopsis`, `videos`, `releasedate`, `image` FROM `gse_moviedetail` WHERE `id`='$id'")->result();
+      $query['wallpaper']=$this->db->query("SELECT `id`, `movie`, `image` FROM `gse_moviewallpaper` WHERE `movie`='$id'")->result();
       $query['imagegallery']=$this->db->query("SELECT `id`, `movie`, `order`, `status`, `image` FROM `gse_moviegallery` WHERE `movie`='$id' AND `status`=1 ORDER BY `order`")->result();
-      $query['wallpaper']=$this->db->query("SELECT `id`, `content`, `movie` FROM `gse_movie` WHERE `movie`='$id'")->result();
+      $query['featuredvideos']=$this->db->query("SELECT `id`, `content`, `movie` FROM `gse_movie` WHERE `movie`='$id'")->result();
       $query['award']=$this->db->query("SELECT `id`, `award`, `awardname`, `awardreceiver`, `winnername`, `movie` FROM `gse_awarddetail` WHERE `movie`='$id'")->result();
       if($query)
       {
