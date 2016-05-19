@@ -2300,6 +2300,12 @@ $elements[4]->field="`gse_weddingtype`.`banner`";
 $elements[4]->sort="1";
 $elements[4]->header="Banner";
 $elements[4]->alias="banner";
+
+$elements[5]=new stdClass();
+$elements[5]->field="`gse_weddingsubtype`.`name`";
+$elements[5]->sort="1";
+$elements[5]->header="Wedding Sub Type";
+$elements[5]->alias="weddingsubtype";
 $search=$this->input->get_post("search");
 $pageno=$this->input->get_post("pageno");
 $orderby=$this->input->get_post("orderby");
@@ -2314,7 +2320,7 @@ if($orderby=="")
 $orderby="id";
 $orderorder="ASC";
 }
-$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_weddingtype`","WHERE `gse_weddingtype`.`wedding`='$id'");
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_weddingtype` LEFT OUTER JOIN `gse_weddingsubtype` ON `gse_weddingsubtype`.`id`=`gse_weddingtype`.`weddingsubtype`","WHERE `gse_weddingtype`.`wedding`='$id'");
 $this->load->view("json",$data);
 }
 
@@ -2666,6 +2672,12 @@ $elements[4]->field="`gse_weddinggallery`.`image`";
 $elements[4]->sort="1";
 $elements[4]->header="Image";
 $elements[4]->alias="image";
+
+$elements[5]=new stdClass();
+$elements[5]->field="`gse_weddingsubtype`.`name`";
+$elements[5]->sort="1";
+$elements[5]->header="Wedding Sub Type";
+$elements[5]->alias="weddingsubtype";
 $search=$this->input->get_post("search");
 $pageno=$this->input->get_post("pageno");
 $orderby=$this->input->get_post("orderby");
@@ -2680,7 +2692,7 @@ if($orderby=="")
 $orderby="id";
 $orderorder="ASC";
 }
-$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_weddinggallery`","WHERE `gse_weddinggallery`.`wedding`='$id'");
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_weddinggallery` LEFT OUTER JOIN `gse_weddingsubtype` ON `gse_weddingsubtype`.`id`=`gse_weddinggallery`.`weddingsubtype`","WHERE `gse_weddinggallery`.`wedding`='$id'");
 $this->load->view("json",$data);
 }
 

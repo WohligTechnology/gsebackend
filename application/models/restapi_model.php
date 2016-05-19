@@ -126,8 +126,8 @@ class restapi_model extends CI_Model
     }
 
     public function getWeddingImagesVideos($id){
-      $query['Images']=$this->db->query("SELECT `id`, `wedding`, `status`, `order`, `image`, `weddingsubtype` FROM `gse_weddinggallery` WHERE `weddingsubtype`='$id'")->result();
-      $query['Videos']=$this->db->query("SELECT `id`, `wedding`, `name`, `image`, `banner`, `weddingsubtype` FROM `gse_weddingtype` WHERE `weddingsubtype`='$id'")->result();
+      $query['Images']=$this->db->query("SELECT `id`, `wedding`, `status`, `order`, `image`, `weddingsubtype` FROM `gse_weddinggallery` WHERE `weddingsubtype`='$id' AND `status`=1 ORDER BY `order` ASC")->result();
+      $query['Videos']=$this->db->query("SELECT `name` as `url` FROM `gse_weddingtype` WHERE `weddingsubtype`='$id'")->result();
       if($query)
       {
         $obj->value = true;
