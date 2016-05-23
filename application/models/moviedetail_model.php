@@ -33,7 +33,7 @@ return $query;
     "1" => "Yes",
     "2" => "No"
     );
-            
+
     return $return;
     }
 public function edit($id,$isupcoming,$isreleased,$name,$banner,$imdb,$producer,$director,$cast,$music,$synopsis,$videos,$releasedate,$image)
@@ -72,7 +72,7 @@ return $query;
 }
 public function getdropdown()
 {
-$query=$this->db->query("SELECT * FROM `gse_moviedetail` ORDER BY `id` 
+$query=$this->db->query("SELECT * FROM `gse_moviedetail` ORDER BY `id`
                     ASC")->result();
 $return=array(
 "" => "Select Option"
