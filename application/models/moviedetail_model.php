@@ -38,8 +38,10 @@ return $query;
     }
 public function edit($id,$isupcoming,$isreleased,$name,$banner,$imdb,$producer,$director,$cast,$music,$synopsis,$videos,$releasedate,$image)
 {
-     $releasedate = new DateTime($releasedate);
-        $releasedate = $releasedate->format('Y-m-d');
+  $releasedate = explode(" ",$releasedate);
+  $nmonth = date('m',strtotime($releasedate[1]));
+  $releasedate=$releasedate[2]."-".$nmonth."-".$releasedate[0];
+
 if($banner=="")
 {
 $banner=$this->moviedetail_model->getimagebyid($id);
