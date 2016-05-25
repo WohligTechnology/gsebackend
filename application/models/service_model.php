@@ -44,7 +44,7 @@ return $query;
 }
 public function getdropdown()
 {
-$query=$this->db->query("SELECT * FROM `gse_service` ORDER BY `id` 
+$query=$this->db->query("SELECT * FROM `gse_service` ORDER BY `id`
                     ASC")->result();
 $return=array(
 "" => "Select Option"
@@ -55,16 +55,18 @@ $return[$row->id]=$row->name;
 }
 return $return;
 }
-    
+
             public function getservicetypedropdown()
         {
-  
+
         $return=array(
         "" => "Select type",
         "1" => "Wedding",
         "2" => "Sports",
+        "3" => "Events",
+        "4" => "Talents"
         );
-     
+
         return $return;
         }
 }
