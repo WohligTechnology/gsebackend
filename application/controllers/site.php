@@ -2113,6 +2113,174 @@ $this->wedding_model->delete($this->input->get("id"));
 $data["redirect"]="site/viewwedding";
 $this->load->view("redirect",$data);
 }
+public function viewevent()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="viewevent";
+$data["base_url"]=site_url("site/vieweventjson");
+$data["title"]="View event";
+$this->load->view("template",$data);
+}
+function vieweventjson()
+{
+$elements=array();
+$elements[0]=new stdClass();
+$elements[0]->field="`gse_event`.`id`";
+$elements[0]->sort="1";
+$elements[0]->header="id";
+$elements[0]->alias="id";
+$elements[1]=new stdClass();
+$elements[1]->field="`gse_event`.`name`";
+$elements[1]->sort="1";
+$elements[1]->header="name";
+$elements[1]->alias="name";
+$elements[2]=new stdClass();
+$elements[2]->field="`gse_event`.`image`";
+$elements[2]->sort="1";
+$elements[2]->header="image";
+$elements[2]->alias="image";
+$elements[3]=new stdClass();
+$elements[3]->field="`gse_event`.`banner`";
+$elements[3]->sort="1";
+$elements[3]->header="banner";
+$elements[3]->alias="banner";
+$elements[4]=new stdClass();
+$elements[4]->field="`gse_event`.`order`";
+$elements[4]->sort="1";
+$elements[4]->header="order";
+$elements[4]->alias="order";
+$search=$this->input->get_post("search");
+$pageno=$this->input->get_post("pageno");
+$orderby=$this->input->get_post("orderby");
+$orderorder=$this->input->get_post("orderorder");
+$maxrow=$this->input->get_post("maxrow");
+if($maxrow=="")
+{
+$maxrow=20;
+}
+if($orderby=="")
+{
+$orderby="id";
+$orderorder="ASC";
+}
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_event`");
+$this->load->view("json",$data);
+}
+
+public function createevent()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="createevent";
+$data["title"]="Create event";
+$this->load->view("template",$data);
+}
+public function createeventsubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("name","Name","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="createevent";
+$data["title"]="Create event";
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$name=$this->input->get_post("name");
+$order=$this->input->get_post("order");
+$image=$this->menu_model->createImage();
+//$banner=$this->input->get_post("banner");
+    $config['upload_path'] = './uploads/';
+						$config['allowed_types'] = 'gif|jpg|png|jpeg';
+						$this->load->library('upload', $config);
+						$filename="banner";
+						$banner="";
+						if (  $this->upload->do_upload($filename))
+						{
+							$uploaddata = $this->upload->data();
+							$banner=$uploaddata['file_name'];
+						}
+if($this->event_model->create($name,$image,$banner,$order)==0)
+$data["alerterror"]="New event could not be created.";
+else
+$data["alertsuccess"]="event created Successfully.";
+$data["redirect"]="site/viewevent";
+$this->load->view("redirect",$data);
+}
+}
+public function editevent()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="editevent";
+$data["page2"]="block/eventblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
+$data["title"]="Edit event";
+$data["before"]=$this->event_model->beforeedit($this->input->get("id"));
+$this->load->view("templatewith2",$data);
+}
+public function editeventsubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("id","ID","trim");
+$this->form_validation->set_rules("name","Name","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="editevent";
+$data["title"]="Edit event";
+$data["before"]=$this->event_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$name=$this->input->get_post("name");
+$order=$this->input->get_post("order");
+$image=$this->menu_model->createImage();
+//$banner=$this->input->get_post("banner");
+     $config['upload_path'] = './uploads/';
+						$config['allowed_types'] = 'gif|jpg|png|jpeg';
+						$this->load->library('upload', $config);
+						$filename="banner";
+						$banner="";
+						if (  $this->upload->do_upload($filename))
+						{
+							$uploaddata = $this->upload->data();
+							$banner=$uploaddata['file_name'];
+						}
+
+						if($banner=="")
+						{
+						$banner=$this->event_model->getbannerbyid($id);
+						   // print_r($image);
+							$banner=$banner->banner;
+						}
+if($this->event_model->edit($id,$name,$image,$banner,$order)==0)
+$data["alerterror"]="New event could not be Updated.";
+else
+$data["alertsuccess"]="event Updated Successfully.";
+$data["redirect"]="site/viewevent";
+$this->load->view("redirect",$data);
+}
+}
+public function deleteevent()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->event_model->delete($this->input->get("id"));
+$data["redirect"]="site/viewevent";
+$this->load->view("redirect",$data);
+}
 public function viewservice()
 {
 $access=array("1");
