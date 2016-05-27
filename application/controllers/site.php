@@ -7973,5 +7973,184 @@ $this->micesubtype_model->delete($this->input->get("id"));
 $data["redirect"]="site/viewmicesubtype?id=".$this->input->get("miceid");
 $this->load->view("redirect2",$data);
 }
+public function viewmicegallery()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="viewmicegallery";
+$data["page2"]="block/miceblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
+$data["base_url"]=site_url("site/viewmicegalleryjson?id=").$this->input->get('id');
+$data["title"]="View micegallery";
+$this->load->view("templatewith2",$data);
+}
+function viewmicegalleryjson()
+{
+    $id=$this->input->get('id');
+$elements=array();
+$elements[0]=new stdClass();
+$elements[0]->field="`gse_micegallery`.`id`";
+$elements[0]->sort="1";
+$elements[0]->header="ID";
+$elements[0]->alias="id";
+$elements[1]=new stdClass();
+$elements[1]->field="`gse_micegallery`.`mice`";
+$elements[1]->sort="1";
+$elements[1]->header="Mice";
+$elements[1]->alias="mice";
+$elements[2]=new stdClass();
+$elements[2]->field="`gse_micegallery`.`status`";
+$elements[2]->sort="1";
+$elements[2]->header="Status";
+$elements[2]->alias="status";
+$elements[3]=new stdClass();
+$elements[3]->field="`gse_micegallery`.`order`";
+$elements[3]->sort="1";
+$elements[3]->header="Order";
+$elements[3]->alias="order";
+$elements[4]=new stdClass();
+$elements[4]->field="`gse_micegallery`.`image`";
+$elements[4]->sort="1";
+$elements[4]->header="Image";
+$elements[4]->alias="image";
+
+$elements[5]=new stdClass();
+$elements[5]->field="`gse_micesubtype`.`name`";
+$elements[5]->sort="1";
+$elements[5]->header="Mice Sub Type";
+$elements[5]->alias="micesubtype";
+$search=$this->input->get_post("search");
+$pageno=$this->input->get_post("pageno");
+$orderby=$this->input->get_post("orderby");
+$orderorder=$this->input->get_post("orderorder");
+$maxrow=$this->input->get_post("maxrow");
+if($maxrow=="")
+{
+$maxrow=20;
+}
+if($orderby=="")
+{
+$orderby="id";
+$orderorder="ASC";
+}
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_micegallery` LEFT OUTER JOIN `gse_micesubtype` ON `gse_micesubtype`.`id`=`gse_micegallery`.`micesubtype`","WHERE `gse_micegallery`.`mice`='$id'");
+$this->load->view("json",$data);
+}
+
+public function createmicegallery()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="createmicegallery";
+$data["page2"]="block/miceblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
+$data["mice"]=$this->mice_model->getdropdown();
+$data["micesubtype"]=$this->micesubtype_model->getdropdown();
+$data["title"]="Create micegallery";
+$data[ 'status' ] =$this->user_model->getstatusdropdown();
+$this->load->view("templatewith2",$data);
+}
+public function createmicegallerysubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("mice","Wedding","trim");
+$this->form_validation->set_rules("status","Status","trim");
+$this->form_validation->set_rules("order","Order","trim");
+$this->form_validation->set_rules("image","Image","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="createmicegallery";
+$data["title"]="Create micegallery";
+$data["mice"]=$this->mice_model->getdropdown();
+$data["micesubtype"]=$this->micesubtype_model->getdropdown();
+$data[ 'status' ] =$this->user_model->getstatusdropdown();
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$mice=$this->input->get_post("mice");
+$status=$this->input->get_post("status");
+$order=$this->input->get_post("order");
+$micesubtype=$this->input->get_post("micesubtype");
+
+$image=$this->menu_model->createImage();
+if($this->micegallery_model->create($mice,$status,$order,$image,$micesubtype)==0)
+$data["alerterror"]="New micegallery could not be created.";
+else
+$data["alertsuccess"]="micegallery created Successfully.";
+$data["redirect"]="site/viewmicegallery?id=".$mice;
+$this->load->view("redirect2",$data);
+}
+}
+public function editmicegallery()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="editmicegallery";
+$data["page2"]="block/miceblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
+$data["mice"]=$this->mice_model->getdropdown();
+$data["micesubtype"]=$this->micesubtype_model->getdropdown();
+$data["title"]="Edit micegallery";
+$data[ 'status' ] =$this->user_model->getstatusdropdown();
+$data["before"]=$this->micegallery_model->beforeedit($this->input->get("id"));
+$this->load->view("templatewith2",$data);
+}
+public function editmicegallerysubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("id","ID","trim");
+$this->form_validation->set_rules("mice","Wedding","trim");
+$this->form_validation->set_rules("status","Status","trim");
+$this->form_validation->set_rules("order","Order","trim");
+$this->form_validation->set_rules("image","Image","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="editmicegallery";
+$data["title"]="Edit micegallery";
+$data["mice"]=$this->mice_model->getdropdown();
+$data[ 'status' ] =$this->user_model->getstatusdropdown();
+$data["micesubtype"]=$this->micesubtype_model->getdropdown();
+$data["before"]=$this->micegallery_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$mice=$this->input->get_post("mice");
+$status=$this->input->get_post("status");
+$order=$this->input->get_post("order");
+$micesubtype=$this->input->get_post("micesubtype");
+$image=$this->menu_model->createImage();
+if($this->micegallery_model->edit($id,$mice,$status,$order,$image,$micesubtype)==0)
+$data["alerterror"]="New micegallery could not be Updated.";
+else
+$data["alertsuccess"]="micegallery Updated Successfully.";
+$data["redirect"]="site/viewmicegallery?id=".$mice;
+$this->load->view("redirect2",$data);
+}
+}
+public function deletemicegallery()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->micegallery_model->delete($this->input->get("id"));
+$data["redirect"]="site/viewmicegallery?id=".$this->input->get("miceid");
+$this->load->view("redirect2",$data);
+}
 }
 ?>
