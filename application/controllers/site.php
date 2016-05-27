@@ -7593,5 +7593,167 @@ $this->eventgallery_model->delete($this->input->get("id"));
 $data["redirect"]="site/vieweventgallery?id=".$this->input->get("eventid");
 $this->load->view("redirect2",$data);
 }
+public function viewmice()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="viewmice";
+$data["base_url"]=site_url("site/viewmicejson");
+$data["title"]="View mice";
+$this->load->view("template",$data);
+}
+function viewmicejson()
+{
+$elements=array();
+$elements[0]=new stdClass();
+$elements[0]->field="`gse_mice`.`id`";
+$elements[0]->sort="1";
+$elements[0]->header="ID";
+$elements[0]->alias="id";
+$elements[1]=new stdClass();
+$elements[1]->field="`gse_mice`.`name`";
+$elements[1]->sort="1";
+$elements[1]->header="Name";
+$elements[1]->alias="name";
+$elements[2]=new stdClass();
+$elements[2]->field="`gse_mice`.`link`";
+$elements[2]->sort="1";
+$elements[2]->header="Url";
+$elements[2]->alias="link";
+
+$elements[3]=new stdClass();
+$elements[3]->field="`gse_mice`.`order`";
+$elements[3]->sort="1";
+$elements[3]->header="Order";
+$elements[3]->alias="order";
+$search=$this->input->get_post("search");
+$pageno=$this->input->get_post("pageno");
+$orderby=$this->input->get_post("orderby");
+$orderorder=$this->input->get_post("orderorder");
+$maxrow=$this->input->get_post("maxrow");
+if($maxrow=="")
+{
+$maxrow=20;
+}
+if($orderby=="")
+{
+$orderby="id";
+$orderorder="ASC";
+}
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_mice`");
+$this->load->view("json",$data);
+}
+
+public function createmice()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="createmice";
+$data["title"]="Create mice";
+$this->load->view("template",$data);
+}
+public function createmicesubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("name","Name","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="createmice";
+$data["title"]="Create mice";
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$name=$this->input->get_post("name");
+$image=$this->menu_model->createImage();
+//$banner=$this->input->get_post("banner");
+    $config['upload_path'] = './uploads/';
+						$config['allowed_types'] = 'gif|jpg|png|jpeg';
+						$this->load->library('upload', $config);
+						$filename="banner";
+						$banner="";
+						if (  $this->upload->do_upload($filename))
+						{
+							$uploaddata = $this->upload->data();
+							$banner=$uploaddata['file_name'];
+						}
+if($this->mice_model->create($name,$image,$banner)==0)
+$data["alerterror"]="New mice could not be created.";
+else
+$data["alertsuccess"]="mice created Successfully.";
+$data["redirect"]="site/viewmice";
+$this->load->view("redirect",$data);
+}
+}
+public function editmice()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="editmice";
+$data["page2"]="block/miceblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
+$data["title"]="Edit mice";
+$data["before"]=$this->mice_model->beforeedit($this->input->get("id"));
+$this->load->view("templatewith2",$data);
+}
+public function editmicesubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("id","ID","trim");
+$this->form_validation->set_rules("name","Name","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="editmice";
+$data["title"]="Edit mice";
+$data["before"]=$this->mice_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$name=$this->input->get_post("name");
+$image=$this->menu_model->createImage();
+//$banner=$this->input->get_post("banner");
+     $config['upload_path'] = './uploads/';
+						$config['allowed_types'] = 'gif|jpg|png|jpeg';
+						$this->load->library('upload', $config);
+						$filename="banner";
+						$banner="";
+						if (  $this->upload->do_upload($filename))
+						{
+							$uploaddata = $this->upload->data();
+							$banner=$uploaddata['file_name'];
+						}
+
+						if($banner=="")
+						{
+						$banner=$this->mice_model->getbannerbyid($id);
+						   // print_r($image);
+							$banner=$banner->banner;
+						}
+if($this->mice_model->edit($id,$name,$image,$banner)==0)
+$data["alerterror"]="New mice could not be Updated.";
+else
+$data["alertsuccess"]="mice Updated Successfully.";
+$data["redirect"]="site/viewmice";
+$this->load->view("redirect",$data);
+}
+}
+public function deletemice()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->mice_model->delete($this->input->get("id"));
+$data["redirect"]="site/viewmice";
+$this->load->view("redirect",$data);
+}
 }
 ?>
