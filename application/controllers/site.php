@@ -7759,5 +7759,219 @@ $this->mice_model->delete($this->input->get("id"));
 $data["redirect"]="site/viewmice";
 $this->load->view("redirect",$data);
 }
+public function viewmicesubtype()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="viewmicesubtype";
+    $data["page2"]="block/miceblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
+$data["base_url"]=site_url("site/viewmicesubtypejson?id=").$this->input->get('id');
+$data["title"]="View micesubtype";
+$this->load->view("templatewith2",$data);
+}
+function viewmicesubtypejson()
+{
+    $id=$this->input->get('id');
+$elements=array();
+$elements[0]=new stdClass();
+$elements[0]->field="`gse_micesubtype`.`id`";
+$elements[0]->sort="1";
+$elements[0]->header="ID";
+$elements[0]->alias="id";
+$elements[1]=new stdClass();
+$elements[1]->field="`gse_micesubtype`.`mice`";
+$elements[1]->sort="1";
+$elements[1]->header="mice";
+$elements[1]->alias="mice";
+$elements[2]=new stdClass();
+$elements[2]->field="`gse_micesubtype`.`name`";
+$elements[2]->sort="1";
+$elements[2]->header="Name";
+$elements[2]->alias="name";
+$elements[3]=new stdClass();
+$elements[3]->field="`gse_micesubtype`.`image`";
+$elements[3]->sort="1";
+$elements[3]->header="Image";
+$elements[3]->alias="image";
+$elements[4]=new stdClass();
+$elements[4]->field="`gse_micesubtype`.`content`";
+$elements[4]->sort="1";
+$elements[4]->header="Content";
+$elements[4]->alias="content";
+$elements[5]=new stdClass();
+$elements[5]->field="`gse_micesubtype`.`url`";
+$elements[5]->sort="1";
+$elements[5]->header="Url";
+$elements[5]->alias="url";
+$elements[6]=new stdClass();
+$elements[6]->field="`gse_micesubtype`.`order`";
+$elements[6]->sort="1";
+$elements[6]->header="Order";
+$elements[6]->alias="order";
+// $elements[5]=new stdClass();
+// $elements[5]->field="`gse_micesubtype`.`videos`";
+// $elements[5]->sort="1";
+// $elements[5]->header="Videos";
+// $elements[5]->alias="videos";
+$search=$this->input->get_post("search");
+$pageno=$this->input->get_post("pageno");
+$orderby=$this->input->get_post("orderby");
+$orderorder=$this->input->get_post("orderorder");
+$maxrow=$this->input->get_post("maxrow");
+if($maxrow=="")
+{
+$maxrow=20;
+}
+if($orderby=="")
+{
+$orderby="id";
+$orderorder="ASC";
+}
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_micesubtype`","WHERE `gse_micesubtype`.`mice`='$id'");
+$this->load->view("json",$data);
+}
+
+public function createmicesubtype()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="createmicesubtype";
+$data["page2"]="block/miceblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
+$data["mice"]=$this->mice_model->getdropdown();
+$data["title"]="Create micesubtype";
+$this->load->view("templatewith2",$data);
+}
+public function createmicesubtypesubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("mice","mice","trim");
+$this->form_validation->set_rules("name","Name","trim");
+$this->form_validation->set_rules("image","Image","trim");
+$this->form_validation->set_rules("content","Content","trim");
+$this->form_validation->set_rules("videos","Videos","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="createmicesubtype";
+$data["title"]="Create micesubtype";
+$data["mice"]=$this->mice_model->getdropdown();
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$mice=$this->input->get_post("mice");
+$name=$this->input->get_post("name");
+$url=$this->input->get_post("url");
+$order=$this->input->get_post("order");
+$image=$this->menu_model->createImage();
+$config['upload_path'] = './uploads/';
+					$config['allowed_types'] = 'gif|jpg|png|jpeg';
+					$this->load->library('upload', $config);
+					$filename="banner";
+					$banner="";
+					if (  $this->upload->do_upload($filename))
+					{
+						$uploaddata = $this->upload->data();
+						$banner=$uploaddata['file_name'];
+					}
+$content=$this->input->get_post("content");
+// $videos=$this->input->get_post("videos");
+if($this->micesubtype_model->create($mice,$name,$image,$content,$banner,$url,$order)==0)
+$data["alerterror"]="New micesubtype could not be created.";
+else
+$data["alertsuccess"]="micesubtype created Successfully.";
+$data["redirect"]="site/viewmicesubtype?id=".$mice;
+$this->load->view("redirect2",$data);
+}
+}
+public function editmicesubtype()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="editmicesubtype";
+$data["page2"]="block/miceblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
+$data["mice"]=$this->mice_model->getdropdown();
+$data["title"]="Edit micesubtype";
+$data["before"]=$this->micesubtype_model->beforeedit($this->input->get("id"));
+$this->load->view("templatewith2",$data);
+}
+public function editmicesubtypesubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("id","ID","trim");
+$this->form_validation->set_rules("mice","Wedding","trim");
+$this->form_validation->set_rules("name","Name","trim");
+$this->form_validation->set_rules("image","Image","trim");
+$this->form_validation->set_rules("content","Content","trim");
+$this->form_validation->set_rules("videos","Videos","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="editmicesubtype";
+$data["title"]="Edit micesubtype";
+$data["mice"]=$this->mice_model->getdropdown();
+$data["before"]=$this->micesubtype_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$mice=$this->input->get_post("mice");
+$name=$this->input->get_post("name");
+$url=$this->input->get_post("url");
+$order=$this->input->get_post("order");
+// $image=$this->menu_model->createImage();
+$content=$this->input->get_post("content");
+// $videos=$this->input->get_post("videos");
+$image=$this->menu_model->createImage();
+//$banner=$this->input->get_post("banner");
+     $config['upload_path'] = './uploads/';
+						$config['allowed_types'] = 'gif|jpg|png|jpeg';
+						$this->load->library('upload', $config);
+						$filename="banner";
+						$banner="";
+						if (  $this->upload->do_upload($filename))
+						{
+							$uploaddata = $this->upload->data();
+							$banner=$uploaddata['file_name'];
+						}
+
+						if($banner=="")
+						{
+						$banner=$this->mice_model->getbannerbyid($id);
+						   // print_r($image);
+							$banner=$banner->banner;
+						}
+if($this->micesubtype_model->edit($id,$mice,$name,$image,$content,$banner,$url,$order)==0)
+$data["alerterror"]="New micesubtype could not be Updated.";
+else
+$data["alertsuccess"]="micesubtype Updated Successfully.";
+$data["redirect"]="site/viewmicesubtype?id=".$mice;
+$this->load->view("redirect2",$data);
+}
+}
+public function deletemicesubtype()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->micesubtype_model->delete($this->input->get("id"));
+$data["redirect"]="site/viewmicesubtype?id=".$this->input->get("miceid");
+$this->load->view("redirect2",$data);
+}
 }
 ?>
