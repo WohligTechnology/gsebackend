@@ -7085,8 +7085,8 @@ $elements[4]->alias="order";
 $elements[5]=new stdClass();
 $elements[5]->field="`gse_eventsubtype`.`name`";
 $elements[5]->sort="1";
-$elements[5]->header="Wedding Sub Type";
-$elements[5]->alias="weddingsubtype";
+$elements[5]->header="Event Sub Type";
+$elements[5]->alias="eventsubtype";
 $search=$this->input->get_post("search");
 $pageno=$this->input->get_post("pageno");
 $orderby=$this->input->get_post("orderby");
@@ -7203,28 +7203,29 @@ else
 {
 $id=$this->input->get_post("id");
 $event=$this->input->get_post("event");
-$name=$this->input->get_post("name");
+$url=$this->input->get_post("url");
+$order=$this->input->get_post("order");
 $eventsubtype=$this->input->get_post("eventsubtype");
-$image=$this->menu_model->createImage();
-//$banner=$this->input->get_post("banner");
-     $config['upload_path'] = './uploads/';
-						$config['allowed_types'] = 'gif|jpg|png|jpeg';
-						$this->load->library('upload', $config);
-						$filename="banner";
-						$banner="";
-						if (  $this->upload->do_upload($filename))
-						{
-							$uploaddata = $this->upload->data();
-							$banner=$uploaddata['file_name'];
-						}
-
-						if($banner=="")
-						{
-						$banner=$this->eventtype_model->getbannerbyid($id);
-						   // print_r($image);
-							$banner=$banner->banner;
-						}
-if($this->eventtype_model->edit($id,$event,$name,$image,$banner,$eventsubtype)==0)
+// $image=$this->menu_model->createImage();
+// //$banner=$this->input->get_post("banner");
+//      $config['upload_path'] = './uploads/';
+// 						$config['allowed_types'] = 'gif|jpg|png|jpeg';
+// 						$this->load->library('upload', $config);
+// 						$filename="banner";
+// 						$banner="";
+// 						if (  $this->upload->do_upload($filename))
+// 						{
+// 							$uploaddata = $this->upload->data();
+// 							$banner=$uploaddata['file_name'];
+// 						}
+//
+// 						if($banner=="")
+// 						{
+// 						$banner=$this->eventtype_model->getbannerbyid($id);
+// 						   // print_r($image);
+// 							$banner=$banner->banner;
+// 						}
+if($this->eventtype_model->edit($id,$event,$url,$order,$eventsubtype)==0)
 $data["alerterror"]="New eventtype could not be Updated.";
 else
 $data["alertsuccess"]="eventtype Updated Successfully.";
@@ -7238,6 +7239,358 @@ $access=array("1");
 $this->checkaccess($access);
 $this->eventtype_model->delete($this->input->get("id"));
 $data["redirect"]="site/vieweventtype?id=".$this->input->get("eventid");
+$this->load->view("redirect2",$data);
+}
+public function vieweventsubtype()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="vieweventsubtype";
+    $data["page2"]="block/eventblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
+$data["base_url"]=site_url("site/vieweventsubtypejson?id=").$this->input->get('id');
+$data["title"]="View eventsubtype";
+$this->load->view("templatewith2",$data);
+}
+function vieweventsubtypejson()
+{
+    $id=$this->input->get('id');
+$elements=array();
+$elements[0]=new stdClass();
+$elements[0]->field="`gse_eventsubtype`.`id`";
+$elements[0]->sort="1";
+$elements[0]->header="ID";
+$elements[0]->alias="id";
+$elements[1]=new stdClass();
+$elements[1]->field="`gse_eventsubtype`.`event`";
+$elements[1]->sort="1";
+$elements[1]->header="Wedding";
+$elements[1]->alias="event";
+$elements[2]=new stdClass();
+$elements[2]->field="`gse_eventsubtype`.`name`";
+$elements[2]->sort="1";
+$elements[2]->header="Name";
+$elements[2]->alias="name";
+$elements[3]=new stdClass();
+$elements[3]->field="`gse_eventsubtype`.`image`";
+$elements[3]->sort="1";
+$elements[3]->header="Image";
+$elements[3]->alias="image";
+$elements[4]=new stdClass();
+$elements[4]->field="`gse_eventsubtype`.`content`";
+$elements[4]->sort="1";
+$elements[4]->header="Content";
+$elements[4]->alias="content";
+$elements[5]=new stdClass();
+$elements[5]->field="`gse_eventsubtype`.`order`";
+$elements[5]->sort="1";
+$elements[5]->header="Order";
+$elements[5]->alias="order";
+$search=$this->input->get_post("search");
+$pageno=$this->input->get_post("pageno");
+$orderby=$this->input->get_post("orderby");
+$orderorder=$this->input->get_post("orderorder");
+$maxrow=$this->input->get_post("maxrow");
+if($maxrow=="")
+{
+$maxrow=20;
+}
+if($orderby=="")
+{
+$orderby="id";
+$orderorder="ASC";
+}
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_eventsubtype`","WHERE `gse_eventsubtype`.`event`='$id'");
+$this->load->view("json",$data);
+}
+
+public function createeventsubtype()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="createeventsubtype";
+$data["page2"]="block/eventblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
+$data["event"]=$this->event_model->getdropdown();
+$data["title"]="Create eventsubtype";
+$this->load->view("templatewith2",$data);
+}
+public function createeventsubtypesubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("event","Wedding","trim");
+$this->form_validation->set_rules("name","Name","trim");
+$this->form_validation->set_rules("image","Image","trim");
+$this->form_validation->set_rules("content","Content","trim");
+$this->form_validation->set_rules("videos","Videos","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="createeventsubtype";
+$data["title"]="Create eventsubtype";
+$data["event"]=$this->event_model->getdropdown();
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$event=$this->input->get_post("event");
+$name=$this->input->get_post("name");
+$order=$this->input->get_post("order");
+$image=$this->menu_model->createImage();
+$content=$this->input->get_post("content");
+$videos=$this->input->get_post("videos");
+if($this->eventsubtype_model->create($event,$name,$image,$content,$order)==0)
+$data["alerterror"]="New eventsubtype could not be created.";
+else
+$data["alertsuccess"]="eventsubtype created Successfully.";
+$data["redirect"]="site/vieweventsubtype?id=".$event;
+$this->load->view("redirect2",$data);
+}
+}
+public function editeventsubtype()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="editeventsubtype";
+$data["page2"]="block/eventblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
+$data["event"]=$this->event_model->getdropdown();
+$data["title"]="Edit eventsubtype";
+$data["before"]=$this->eventsubtype_model->beforeedit($this->input->get("id"));
+$this->load->view("templatewith2",$data);
+}
+public function editeventsubtypesubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("id","ID","trim");
+$this->form_validation->set_rules("event","Wedding","trim");
+$this->form_validation->set_rules("name","Name","trim");
+$this->form_validation->set_rules("image","Image","trim");
+$this->form_validation->set_rules("content","Content","trim");
+$this->form_validation->set_rules("videos","Videos","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="editeventsubtype";
+$data["title"]="Edit eventsubtype";
+$data["event"]=$this->event_model->getdropdown();
+$data["before"]=$this->eventsubtype_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$event=$this->input->get_post("event");
+$name=$this->input->get_post("name");
+$order=$this->input->get_post("order");
+$image=$this->menu_model->createImage();
+$content=$this->input->get_post("content");
+$videos=$this->input->get_post("videos");
+if($this->eventsubtype_model->edit($id,$event,$name,$image,$content,$order)==0)
+$data["alerterror"]="New eventsubtype could not be Updated.";
+else
+$data["alertsuccess"]="eventsubtype Updated Successfully.";
+$data["redirect"]="site/vieweventsubtype?id=".$event;
+$this->load->view("redirect2",$data);
+}
+}
+public function deleteeventsubtype()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->eventsubtype_model->delete($this->input->get("id"));
+$data["redirect"]="site/vieweventsubtype?id=".$this->input->get("eventid");
+$this->load->view("redirect2",$data);
+}
+public function vieweventgallery()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="vieweventgallery";
+$data["page2"]="block/eventblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
+$data["base_url"]=site_url("site/vieweventgalleryjson?id=").$this->input->get('id');
+$data["title"]="View eventgallery";
+$this->load->view("templatewith2",$data);
+}
+function vieweventgalleryjson()
+{
+    $id=$this->input->get('id');
+$elements=array();
+$elements[0]=new stdClass();
+$elements[0]->field="`gse_eventgallery`.`id`";
+$elements[0]->sort="1";
+$elements[0]->header="ID";
+$elements[0]->alias="id";
+$elements[1]=new stdClass();
+$elements[1]->field="`gse_eventgallery`.`event`";
+$elements[1]->sort="1";
+$elements[1]->header="Wedding";
+$elements[1]->alias="event";
+$elements[2]=new stdClass();
+$elements[2]->field="`gse_eventgallery`.`status`";
+$elements[2]->sort="1";
+$elements[2]->header="Status";
+$elements[2]->alias="status";
+$elements[3]=new stdClass();
+$elements[3]->field="`gse_eventgallery`.`order`";
+$elements[3]->sort="1";
+$elements[3]->header="Order";
+$elements[3]->alias="order";
+$elements[4]=new stdClass();
+$elements[4]->field="`gse_eventgallery`.`image`";
+$elements[4]->sort="1";
+$elements[4]->header="Image";
+$elements[4]->alias="image";
+
+$elements[5]=new stdClass();
+$elements[5]->field="`gse_eventsubtype`.`name`";
+$elements[5]->sort="1";
+$elements[5]->header="Event Sub Type";
+$elements[5]->alias="eventsubtype";
+$search=$this->input->get_post("search");
+$pageno=$this->input->get_post("pageno");
+$orderby=$this->input->get_post("orderby");
+$orderorder=$this->input->get_post("orderorder");
+$maxrow=$this->input->get_post("maxrow");
+if($maxrow=="")
+{
+$maxrow=20;
+}
+if($orderby=="")
+{
+$orderby="id";
+$orderorder="ASC";
+}
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_eventgallery` LEFT OUTER JOIN `gse_eventsubtype` ON `gse_eventsubtype`.`id`=`gse_eventgallery`.`eventsubtype`","WHERE `gse_eventgallery`.`event`='$id'");
+$this->load->view("json",$data);
+}
+
+public function createeventgallery()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="createeventgallery";
+$data["page2"]="block/eventblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
+$data["event"]=$this->event_model->getdropdown();
+$data["eventsubtype"]=$this->eventsubtype_model->getdropdown();
+$data["title"]="Create eventgallery";
+$data[ 'status' ] =$this->user_model->getstatusdropdown();
+$this->load->view("templatewith2",$data);
+}
+public function createeventgallerysubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("event","Wedding","trim");
+$this->form_validation->set_rules("status","Status","trim");
+$this->form_validation->set_rules("order","Order","trim");
+$this->form_validation->set_rules("image","Image","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="createeventgallery";
+$data["title"]="Create eventgallery";
+$data["event"]=$this->event_model->getdropdown();
+$data["eventsubtype"]=$this->eventsubtype_model->getdropdown();
+$data[ 'status' ] =$this->user_model->getstatusdropdown();
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$event=$this->input->get_post("event");
+$status=$this->input->get_post("status");
+$order=$this->input->get_post("order");
+$eventsubtype=$this->input->get_post("eventsubtype");
+
+$image=$this->menu_model->createImage();
+if($this->eventgallery_model->create($event,$status,$order,$image,$eventsubtype)==0)
+$data["alerterror"]="New eventgallery could not be created.";
+else
+$data["alertsuccess"]="eventgallery created Successfully.";
+$data["redirect"]="site/vieweventgallery?id=".$event;
+$this->load->view("redirect2",$data);
+}
+}
+public function editeventgallery()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="editeventgallery";
+$data["page2"]="block/eventblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
+$data["event"]=$this->event_model->getdropdown();
+$data["eventsubtype"]=$this->eventsubtype_model->getdropdown();
+$data["title"]="Edit eventgallery";
+$data[ 'status' ] =$this->user_model->getstatusdropdown();
+$data["before"]=$this->eventgallery_model->beforeedit($this->input->get("id"));
+$this->load->view("templatewith2",$data);
+}
+public function editeventgallerysubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("id","ID","trim");
+$this->form_validation->set_rules("event","Wedding","trim");
+$this->form_validation->set_rules("status","Status","trim");
+$this->form_validation->set_rules("order","Order","trim");
+$this->form_validation->set_rules("image","Image","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="editeventgallery";
+$data["title"]="Edit eventgallery";
+$data["event"]=$this->event_model->getdropdown();
+$data[ 'status' ] =$this->user_model->getstatusdropdown();
+$data["eventsubtype"]=$this->eventsubtype_model->getdropdown();
+$data["before"]=$this->eventgallery_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$event=$this->input->get_post("event");
+$status=$this->input->get_post("status");
+$order=$this->input->get_post("order");
+$eventsubtype=$this->input->get_post("eventsubtype");
+$image=$this->menu_model->createImage();
+if($this->eventgallery_model->edit($id,$event,$status,$order,$image,$eventsubtype)==0)
+$data["alerterror"]="New eventgallery could not be Updated.";
+else
+$data["alertsuccess"]="eventgallery Updated Successfully.";
+$data["redirect"]="site/vieweventgallery?id=".$event;
+$this->load->view("redirect2",$data);
+}
+}
+public function deleteeventgallery()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->eventgallery_model->delete($this->input->get("id"));
+$data["redirect"]="site/vieweventgallery?id=".$this->input->get("eventid");
 $this->load->view("redirect2",$data);
 }
 }

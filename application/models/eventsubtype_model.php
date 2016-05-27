@@ -3,9 +3,9 @@ if ( !defined( "BASEPATH" ) )
 exit( "No direct script access allowed" );
 class eventsubtype_model extends CI_Model
 {
-public function create($event,$name,$image,$content,$order,$status)
+public function create($event,$name,$image,$content,$order)
 {
-$data=array("event" => $event,"name" => $name,"image" => $image,"content" => $content,"order" => $order,"status" => $status);
+$data=array("event" => $event,"name" => $name,"image" => $image,"content" => $content,"order" => $order);
 $query=$this->db->insert( "gse_eventsubtype", $data );
 $id=$this->db->insert_id();
 if(!$query)
@@ -48,7 +48,7 @@ return $query;
 }
 public function getdropdown()
 {
-$query=$this->db->query("SELECT * FROM `gse_eventsubtype` ORDER BY `id` 
+$query=$this->db->query("SELECT * FROM `gse_eventsubtype` ORDER BY `id`
                     ASC")->result();
 $return=array(
 "" => "Select Option"

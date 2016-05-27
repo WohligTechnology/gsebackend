@@ -24,14 +24,14 @@ $this->db->where("id",$id);
 $query=$this->db->get("gse_eventvideos")->row();
 return $query;
 }
-public function edit($id,$event,$status,$order,$url,$eventsubtype)
+public function edit($id,$event,$url,$order,$eventsubtype)
 {
-if($image=="")
-{
-$image=$this->eventtype_model->getimagebyid($id);
-$image=$image->image;
-}
-$data=array("event" => $event,"status" => $status,"order" => $order,"url" => $url,"eventsubtype" => $eventsubtype);
+// if($image=="")
+// {
+// $image=$this->eventtype_model->getimagebyid($id);
+// $image=$image->image;
+// }
+$data=array("event" => $event,"order" => $order,"url" => $url,"eventsubtype" => $eventsubtype);
 $this->db->where( "id", $id );
 $query=$this->db->update( "gse_eventvideos", $data );
 return 1;
