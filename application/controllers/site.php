@@ -7668,6 +7668,8 @@ else
 {
 $id=$this->input->get_post("id");
 $name=$this->input->get_post("name");
+$link=$this->input->get_post("link");
+$order=$this->input->get_post("order");
 $image=$this->menu_model->createImage();
 //$banner=$this->input->get_post("banner");
     $config['upload_path'] = './uploads/';
@@ -7680,7 +7682,7 @@ $image=$this->menu_model->createImage();
 							$uploaddata = $this->upload->data();
 							$banner=$uploaddata['file_name'];
 						}
-if($this->mice_model->create($name,$image,$banner)==0)
+if($this->mice_model->create($name,$image,$banner,$link,$order)==0)
 $data["alerterror"]="New mice could not be created.";
 else
 $data["alertsuccess"]="mice created Successfully.";
@@ -7720,6 +7722,8 @@ else
 {
 $id=$this->input->get_post("id");
 $name=$this->input->get_post("name");
+$link=$this->input->get_post("link");
+$order=$this->input->get_post("name");
 $image=$this->menu_model->createImage();
 //$banner=$this->input->get_post("banner");
      $config['upload_path'] = './uploads/';
@@ -7739,7 +7743,7 @@ $image=$this->menu_model->createImage();
 						   // print_r($image);
 							$banner=$banner->banner;
 						}
-if($this->mice_model->edit($id,$name,$image,$banner)==0)
+if($this->mice_model->edit($id,$name,$image,$banner,$link,$order)==0)
 $data["alerterror"]="New mice could not be Updated.";
 else
 $data["alertsuccess"]="mice Updated Successfully.";
