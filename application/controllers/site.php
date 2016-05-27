@@ -7038,6 +7038,207 @@ $data["redirect"]="site/viewtalenttypevideo?id=".$this->input->get('talenttypeid
 $this->load->view("redirect2",$data);
 }
 
+public function vieweventtype()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="vieweventtype";
+$data["page2"]="block/eventblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
+$data["base_url"]=site_url("site/vieweventtypejson?id=").$this->input->get('id');
+$data["title"]="View eventtype";
+$this->load->view("templatewith2",$data);
+}
+function vieweventtypejson()
+{
+    $id=$this->input->get('id');
+$elements=array();
+$elements[0]=new stdClass();
+$elements[0]->field="`gse_eventvideos`.`id`";
+$elements[0]->sort="1";
+$elements[0]->header="ID";
+$elements[0]->alias="id";
+$elements[1]=new stdClass();
+$elements[1]->field="`gse_eventvideos`.`event`";
+$elements[1]->sort="1";
+$elements[1]->header="event";
+$elements[1]->alias="event";
+$elements[2]=new stdClass();
+$elements[2]->field="`gse_eventvideos`.`url`";
+$elements[2]->sort="1";
+$elements[2]->header="Url";
+$elements[2]->alias="url";
+$elements[3]=new stdClass();
+$elements[3]->field="`gse_eventvideos`.`status`";
+$elements[3]->sort="1";
+$elements[3]->header="Status";
+$elements[3]->alias="status";
+$elements[4]=new stdClass();
+$elements[4]->field="`gse_eventvideos`.`order`";
+$elements[4]->sort="1";
+$elements[4]->header="Order";
+$elements[4]->alias="order";
 
+$elements[5]=new stdClass();
+$elements[5]->field="`gse_eventsubtype`.`name`";
+$elements[5]->sort="1";
+$elements[5]->header="Wedding Sub Type";
+$elements[5]->alias="weddingsubtype";
+$search=$this->input->get_post("search");
+$pageno=$this->input->get_post("pageno");
+$orderby=$this->input->get_post("orderby");
+$orderorder=$this->input->get_post("orderorder");
+$maxrow=$this->input->get_post("maxrow");
+if($maxrow=="")
+{
+$maxrow=20;
+}
+if($orderby=="")
+{
+$orderby="id";
+$orderorder="ASC";
+}
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_eventvideos` LEFT OUTER JOIN `gse_eventsubtype` ON `gse_eventsubtype`.`id`=`gse_eventvideos`.`eventsubtype`","WHERE `gse_eventvideos`.`event`='$id'");
+$this->load->view("json",$data);
+}
+
+public function createeventtype()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="createeventtype";
+$data["page2"]="block/eventblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
+$data["event"]=$this->event_model->getdropdown();
+$data["eventsubtype"]=$this->eventsubtype_model->getdropdown();
+$data["title"]="Create eventtype";
+$this->load->view("templatewith2",$data);
+}
+public function createeventtypesubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("event","Wedding","trim");
+$this->form_validation->set_rules("name","Name","trim");
+$this->form_validation->set_rules("image","Image","trim");
+$this->form_validation->set_rules("banner","Banner","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="createeventtype";
+$data["event"]=$this->event_model->getdropdown();
+$data["eventsubtype"]=$this->eventsubtype_model->getdropdown();
+$data["title"]="Create eventtype";
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$event=$this->input->get_post("event");
+$eventsubtype=$this->input->get_post("eventsubtype");
+$url=$this->input->get_post("url");
+$order=$this->input->get_post("order");
+$image=$this->menu_model->createImage();
+//$banner=$this->input->get_post("banner");
+    $config['upload_path'] = './uploads/';
+						$config['allowed_types'] = 'gif|jpg|png|jpeg';
+						$this->load->library('upload', $config);
+						$filename="banner";
+						$banner="";
+						if (  $this->upload->do_upload($filename))
+						{
+							$uploaddata = $this->upload->data();
+							$banner=$uploaddata['file_name'];
+						}
+if($this->eventtype_model->create($event,$url,$order,$eventsubtype)==0)
+$data["alerterror"]="New eventtype could not be created.";
+else
+$data["alertsuccess"]="eventtype created Successfully.";
+$data["redirect"]="site/vieweventtype?id=".$event;
+$this->load->view("redirect2",$data);
+}
+}
+public function editeventtype()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="editeventtype";
+$data["page2"]="block/eventblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
+$data["event"]=$this->event_model->getdropdown();
+$data["eventsubtype"]=$this->eventsubtype_model->getdropdown();
+$data["title"]="Edit eventtype";
+$data["before"]=$this->eventtype_model->beforeedit($this->input->get("id"));
+$this->load->view("templatewith2",$data);
+}
+public function editeventtypesubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("id","ID","trim");
+$this->form_validation->set_rules("event","Wedding","trim");
+$this->form_validation->set_rules("name","Name","trim");
+$this->form_validation->set_rules("image","Image","trim");
+$this->form_validation->set_rules("banner","Banner","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="editeventtype";
+$data["event"]=$this->event_model->getdropdown();
+$data["eventsubtype"]=$this->eventsubtype_model->getdropdown();
+$data["title"]="Edit eventtype";
+$data["before"]=$this->eventtype_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$event=$this->input->get_post("event");
+$name=$this->input->get_post("name");
+$eventsubtype=$this->input->get_post("eventsubtype");
+$image=$this->menu_model->createImage();
+//$banner=$this->input->get_post("banner");
+     $config['upload_path'] = './uploads/';
+						$config['allowed_types'] = 'gif|jpg|png|jpeg';
+						$this->load->library('upload', $config);
+						$filename="banner";
+						$banner="";
+						if (  $this->upload->do_upload($filename))
+						{
+							$uploaddata = $this->upload->data();
+							$banner=$uploaddata['file_name'];
+						}
+
+						if($banner=="")
+						{
+						$banner=$this->eventtype_model->getbannerbyid($id);
+						   // print_r($image);
+							$banner=$banner->banner;
+						}
+if($this->eventtype_model->edit($id,$event,$name,$image,$banner,$eventsubtype)==0)
+$data["alerterror"]="New eventtype could not be Updated.";
+else
+$data["alertsuccess"]="eventtype Updated Successfully.";
+$data["redirect"]="site/vieweventtype?id=".$event;
+$this->load->view("redirect2",$data);
+}
+}
+public function deleteeventtype()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->eventtype_model->delete($this->input->get("id"));
+$data["redirect"]="site/vieweventtype?id=".$this->input->get("eventid");
+$this->load->view("redirect2",$data);
+}
 }
 ?>
