@@ -8546,16 +8546,16 @@ $elements[0]->field="`gse_worldtour`.`id`";
 $elements[0]->sort="1";
 $elements[0]->header="id";
 $elements[0]->alias="id";
-$elements[1]=new stdClass();
-$elements[1]->field="`gse_worldtour`.`ispastconcert`";
-$elements[1]->sort="1";
-$elements[1]->header="ispastconcert";
-$elements[1]->alias="ispastconcert";
+// $elements[1]=new stdClass();
+// $elements[1]->field="`gse_worldtour`.`ispastconcert`";
+// $elements[1]->sort="1";
+// $elements[1]->header="ispastconcert";
+// $elements[1]->alias="ispastconcert";
 $elements[2]=new stdClass();
-$elements[2]->field="`gse_worldtour`.`isupcomingconcert`";
+$elements[2]->field="`gse_worldtour`.`type`";
 $elements[2]->sort="1";
-$elements[2]->header="isupcomingconcert";
-$elements[2]->alias="isupcomingconcert";
+$elements[2]->header="type";
+$elements[2]->alias="type";
 $elements[3]=new stdClass();
 $elements[3]->field="`gse_worldtour`.`image`";
 $elements[3]->sort="1";
@@ -8603,7 +8603,7 @@ $maxrow=20;
 if($orderby=="")
 {
 $orderby="id";
-$orderorder="ASC";
+$orderorder="DESC";
 }
 $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_worldtour`");
 $this->load->view("json",$data);
@@ -8614,6 +8614,7 @@ public function createworldtour()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="createworldtour";
+$data["type"]=$this->worldtour_model->gettypedropdown();
 $data["title"]="Create worldtour";
 $this->load->view("template",$data);
 }
@@ -8640,16 +8641,28 @@ $this->load->view("template",$data);
 else
 {
 $id=$this->input->get_post("id");
-$ispastconcert=$this->input->get_post("ispastconcert");
-$isupcomingconcert=$this->input->get_post("isupcomingconcert");
-$image=$this->input->get_post("image");
+// $ispastconcert=$this->input->get_post("ispastconcert");
+$type=$this->input->get_post("type");
+// $image=$this->input->get_post("image");
 $name=$this->input->get_post("name");
 $location=$this->input->get_post("location");
 $date=$this->input->get_post("date");
 $venue=$this->input->get_post("venue");
 $content=$this->input->get_post("content");
-$banner=$this->input->get_post("banner");
-if($this->worldtour_model->create($ispastconcert,$isupcomingconcert,$image,$name,$location,$date,$venue,$content,$banner)==0)
+// $banner=$this->input->get_post("banner");
+$image=$this->menu_model->createImage();
+//$banner=$this->input->get_post("banner");
+    $config['upload_path'] = './uploads/';
+						$config['allowed_types'] = 'gif|jpg|png|jpeg';
+						$this->load->library('upload', $config);
+						$filename="banner";
+						$banner="";
+						if (  $this->upload->do_upload($filename))
+						{
+							$uploaddata = $this->upload->data();
+							$banner=$uploaddata['file_name'];
+						}
+if($this->worldtour_model->create($type,$image,$name,$location,$date,$venue,$content,$banner)==0)
 $data["alerterror"]="New worldtour could not be created.";
 else
 $data["alertsuccess"]="worldtour created Successfully.";
@@ -8662,9 +8675,14 @@ public function editworldtour()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="editworldtour";
-$data["title"]="Edit worldtour";
+$data["page2"]="block/tourblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
+$data["title"]="Edit event";
 $data["before"]=$this->worldtour_model->beforeedit($this->input->get("id"));
-$this->load->view("template",$data);
+$this->load->view("templatewith2",$data);
 }
 public function editworldtoursubmit()
 {
@@ -8691,16 +8709,35 @@ $this->load->view("template",$data);
 else
 {
 $id=$this->input->get_post("id");
-$ispastconcert=$this->input->get_post("ispastconcert");
-$isupcomingconcert=$this->input->get_post("isupcomingconcert");
-$image=$this->input->get_post("image");
+// $ispastconcert=$this->input->get_post("ispastconcert");
+$type=$this->input->get_post("type");
+// $image=$this->input->get_post("image");
 $name=$this->input->get_post("name");
 $location=$this->input->get_post("location");
 $date=$this->input->get_post("date");
 $venue=$this->input->get_post("venue");
 $content=$this->input->get_post("content");
-$banner=$this->input->get_post("banner");
-if($this->worldtour_model->edit($id,$ispastconcert,$isupcomingconcert,$image,$name,$location,$date,$venue,$content,$banner)==0)
+// $banner=$this->input->get_post("banner");
+$image=$this->menu_model->createImage();
+//$banner=$this->input->get_post("banner");
+     $config['upload_path'] = './uploads/';
+						$config['allowed_types'] = 'gif|jpg|png|jpeg';
+						$this->load->library('upload', $config);
+						$filename="banner";
+						$banner="";
+						if (  $this->upload->do_upload($filename))
+						{
+							$uploaddata = $this->upload->data();
+							$banner=$uploaddata['file_name'];
+						}
+
+						if($banner=="")
+						{
+						$banner=$this->event_model->getbannerbyid($id);
+						   // print_r($image);
+							$banner=$banner->banner;
+						}
+if($this->worldtour_model->edit($id,$type,$image,$name,$location,$date,$venue,$content,$banner)==0)
 $data["alerterror"]="New worldtour could not be Updated.";
 else
 $data["alertsuccess"]="worldtour Updated Successfully.";
