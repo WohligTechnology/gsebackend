@@ -8337,5 +8337,385 @@ $this->micetype_model->delete($this->input->get("id"));
 $data["redirect"]="site/viewmicetype?id=".$this->input->get("miceid");
 $this->load->view("redirect2",$data);
 }
+
+public function viewmediacorner()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="viewmediacorner";
+$data["base_url"]=site_url("site/viewmediacornerjson");
+$data["title"]="View mediacorner";
+$this->load->view("template",$data);
+}
+function viewmediacornerjson()
+{
+$elements=array();
+$elements[0]=new stdClass();
+$elements[0]->field="`gse_mediacorner`.`id`";
+$elements[0]->sort="1";
+$elements[0]->header="id";
+$elements[0]->alias="id";
+$elements[1]=new stdClass();
+$elements[1]->field="`gse_mediacorner`.`name`";
+$elements[1]->sort="1";
+$elements[1]->header="name";
+$elements[1]->alias="name";
+$elements[2]=new stdClass();
+$elements[2]->field="`gse_mediacorner`.`image`";
+$elements[2]->sort="1";
+$elements[2]->header="image";
+$elements[2]->alias="image";
+$elements[3]=new stdClass();
+$elements[3]->field="`gse_mediacorner`.`date`";
+$elements[3]->sort="1";
+$elements[3]->header="date";
+$elements[3]->alias="date";
+$elements[4]=new stdClass();
+$elements[4]->field="`gse_mediacorner`.`date`";
+$elements[4]->sort="1";
+$elements[4]->header="date";
+$elements[4]->alias="date";
+$elements[5]=new stdClass();
+$elements[5]->field="`gse_mediacorner`.`medianame`";
+$elements[5]->sort="1";
+$elements[5]->header="medianame";
+$elements[5]->alias="medianame";
+$elements[6]=new stdClass();
+$elements[6]->field="`gse_mediacorner`.`url`";
+$elements[6]->sort="1";
+$elements[6]->header="url";
+$elements[6]->alias="url";
+$elements[7]=new stdClass();
+$elements[7]->field="`gse_mediacorner`.`facebook`";
+$elements[7]->sort="1";
+$elements[7]->header="facebook";
+$elements[7]->alias="facebook";
+$elements[8]=new stdClass();
+$elements[8]->field="`gse_mediacorner`.`twitter`";
+$elements[8]->sort="1";
+$elements[8]->header="twitter";
+$elements[8]->alias="twitter";
+$elements[9]=new stdClass();
+$elements[9]->field="`gse_mediacorner`.`message`";
+$elements[9]->sort="1";
+$elements[9]->header="message";
+$elements[9]->alias="message";
+$search=$this->input->get_post("search");
+$pageno=$this->input->get_post("pageno");
+$orderby=$this->input->get_post("orderby");
+$orderorder=$this->input->get_post("orderorder");
+$maxrow=$this->input->get_post("maxrow");
+if($maxrow=="")
+{
+$maxrow=20;
+}
+if($orderby=="")
+{
+$orderby="id";
+$orderorder="ASC";
+}
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_mediacorner`");
+$this->load->view("json",$data);
+}
+
+public function createmediacorner()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="createmediacorner";
+$data["title"]="Create mediacorner";
+$this->load->view("template",$data);
+}
+public function createmediacornersubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("name","name","trim");
+$this->form_validation->set_rules("image","image","trim");
+$this->form_validation->set_rules("date","date","trim");
+$this->form_validation->set_rules("date","date","trim");
+$this->form_validation->set_rules("medianame","medianame","trim");
+$this->form_validation->set_rules("url","url","trim");
+$this->form_validation->set_rules("facebook","facebook","trim");
+$this->form_validation->set_rules("twitter","twitter","trim");
+$this->form_validation->set_rules("message","message","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="createmediacorner";
+$data["title"]="Create mediacorner";
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$name=$this->input->get_post("name");
+// $image=$this->input->get_post("image");
+$date=$this->input->get_post("date");
+// $date=$this->input->get_post("date");
+$medianame=$this->input->get_post("medianame");
+$url=$this->input->get_post("url");
+$facebook=$this->input->get_post("facebook");
+$twitter=$this->input->get_post("twitter");
+$message=$this->input->get_post("message");
+$image=$this->menu_model->createImage();
+//$banner=$this->input->get_post("banner");
+
+if($this->mediacorner_model->create($name,$image,$date,$medianame,$url,$facebook,$twitter,$message)==0)
+$data["alerterror"]="New mediacorner could not be created.";
+else
+$data["alertsuccess"]="mediacorner created Successfully.";
+$data["redirect"]="site/viewmediacorner";
+$this->load->view("redirect",$data);
+}
+}
+public function editmediacorner()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="editmediacorner";
+$data["title"]="Edit mediacorner";
+$data["before"]=$this->mediacorner_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+public function editmediacornersubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("id","id","trim");
+$this->form_validation->set_rules("name","name","trim");
+$this->form_validation->set_rules("image","image","trim");
+$this->form_validation->set_rules("date","date","trim");
+$this->form_validation->set_rules("date","date","trim");
+$this->form_validation->set_rules("medianame","medianame","trim");
+$this->form_validation->set_rules("url","url","trim");
+$this->form_validation->set_rules("facebook","facebook","trim");
+$this->form_validation->set_rules("twitter","twitter","trim");
+$this->form_validation->set_rules("message","message","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="editmediacorner";
+$data["title"]="Edit mediacorner";
+$data["before"]=$this->mediacorner_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$name=$this->input->get_post("name");
+// $image=$this->input->get_post("image");
+$date=$this->input->get_post("date");
+// $date=$this->input->get_post("date");
+$medianame=$this->input->get_post("medianame");
+$url=$this->input->get_post("url");
+$facebook=$this->input->get_post("facebook");
+$twitter=$this->input->get_post("twitter");
+$message=$this->input->get_post("message");
+$image=$this->menu_model->createImage();
+if($this->mediacorner_model->edit($id,$name,$image,$date,$medianame,$url,$facebook,$twitter,$message)==0)
+$data["alerterror"]="New mediacorner could not be Updated.";
+else
+$data["alertsuccess"]="mediacorner Updated Successfully.";
+$data["redirect"]="site/viewmediacorner";
+$this->load->view("redirect",$data);
+}
+}
+public function deletemediacorner()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->mediacorner_model->delete($this->input->get("id"));
+$data["redirect"]="site/viewmediacorner";
+$this->load->view("redirect",$data);
+}
+public function viewworldtour()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="viewworldtour";
+$data["base_url"]=site_url("site/viewworldtourjson");
+$data["title"]="View worldtour";
+$this->load->view("template",$data);
+}
+function viewworldtourjson()
+{
+$elements=array();
+$elements[0]=new stdClass();
+$elements[0]->field="`gse_worldtour`.`id`";
+$elements[0]->sort="1";
+$elements[0]->header="id";
+$elements[0]->alias="id";
+$elements[1]=new stdClass();
+$elements[1]->field="`gse_worldtour`.`ispastconcert`";
+$elements[1]->sort="1";
+$elements[1]->header="ispastconcert";
+$elements[1]->alias="ispastconcert";
+$elements[2]=new stdClass();
+$elements[2]->field="`gse_worldtour`.`isupcomingconcert`";
+$elements[2]->sort="1";
+$elements[2]->header="isupcomingconcert";
+$elements[2]->alias="isupcomingconcert";
+$elements[3]=new stdClass();
+$elements[3]->field="`gse_worldtour`.`image`";
+$elements[3]->sort="1";
+$elements[3]->header="image";
+$elements[3]->alias="image";
+$elements[4]=new stdClass();
+$elements[4]->field="`gse_worldtour`.`name`";
+$elements[4]->sort="1";
+$elements[4]->header="name";
+$elements[4]->alias="name";
+$elements[5]=new stdClass();
+$elements[5]->field="`gse_worldtour`.`location`";
+$elements[5]->sort="1";
+$elements[5]->header="location";
+$elements[5]->alias="location";
+$elements[6]=new stdClass();
+$elements[6]->field="`gse_worldtour`.`date`";
+$elements[6]->sort="1";
+$elements[6]->header="date";
+$elements[6]->alias="date";
+$elements[7]=new stdClass();
+$elements[7]->field="`gse_worldtour`.`venue`";
+$elements[7]->sort="1";
+$elements[7]->header="venue";
+$elements[7]->alias="venue";
+$elements[8]=new stdClass();
+$elements[8]->field="`gse_worldtour`.`content`";
+$elements[8]->sort="1";
+$elements[8]->header="content";
+$elements[8]->alias="content";
+$elements[9]=new stdClass();
+$elements[9]->field="`gse_worldtour`.`banner`";
+$elements[9]->sort="1";
+$elements[9]->header="banner";
+$elements[9]->alias="banner";
+$search=$this->input->get_post("search");
+$pageno=$this->input->get_post("pageno");
+$orderby=$this->input->get_post("orderby");
+$orderorder=$this->input->get_post("orderorder");
+$maxrow=$this->input->get_post("maxrow");
+if($maxrow=="")
+{
+$maxrow=20;
+}
+if($orderby=="")
+{
+$orderby="id";
+$orderorder="ASC";
+}
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_worldtour`");
+$this->load->view("json",$data);
+}
+
+public function createworldtour()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="createworldtour";
+$data["title"]="Create worldtour";
+$this->load->view("template",$data);
+}
+public function createworldtoursubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("ispastconcert","ispastconcert","trim");
+$this->form_validation->set_rules("isupcomingconcert","isupcomingconcert","trim");
+$this->form_validation->set_rules("image","image","trim");
+$this->form_validation->set_rules("name","name","trim");
+$this->form_validation->set_rules("location","location","trim");
+$this->form_validation->set_rules("date","date","trim");
+$this->form_validation->set_rules("venue","venue","trim");
+$this->form_validation->set_rules("content","content","trim");
+$this->form_validation->set_rules("banner","banner","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="createworldtour";
+$data["title"]="Create worldtour";
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$ispastconcert=$this->input->get_post("ispastconcert");
+$isupcomingconcert=$this->input->get_post("isupcomingconcert");
+$image=$this->input->get_post("image");
+$name=$this->input->get_post("name");
+$location=$this->input->get_post("location");
+$date=$this->input->get_post("date");
+$venue=$this->input->get_post("venue");
+$content=$this->input->get_post("content");
+$banner=$this->input->get_post("banner");
+if($this->worldtour_model->create($ispastconcert,$isupcomingconcert,$image,$name,$location,$date,$venue,$content,$banner)==0)
+$data["alerterror"]="New worldtour could not be created.";
+else
+$data["alertsuccess"]="worldtour created Successfully.";
+$data["redirect"]="site/viewworldtour";
+$this->load->view("redirect",$data);
+}
+}
+public function editworldtour()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="editworldtour";
+$data["title"]="Edit worldtour";
+$data["before"]=$this->worldtour_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+public function editworldtoursubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("id","id","trim");
+$this->form_validation->set_rules("ispastconcert","ispastconcert","trim");
+$this->form_validation->set_rules("isupcomingconcert","isupcomingconcert","trim");
+$this->form_validation->set_rules("image","image","trim");
+$this->form_validation->set_rules("name","name","trim");
+$this->form_validation->set_rules("location","location","trim");
+$this->form_validation->set_rules("date","date","trim");
+$this->form_validation->set_rules("venue","venue","trim");
+$this->form_validation->set_rules("content","content","trim");
+$this->form_validation->set_rules("banner","banner","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="editworldtour";
+$data["title"]="Edit worldtour";
+$data["before"]=$this->worldtour_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$ispastconcert=$this->input->get_post("ispastconcert");
+$isupcomingconcert=$this->input->get_post("isupcomingconcert");
+$image=$this->input->get_post("image");
+$name=$this->input->get_post("name");
+$location=$this->input->get_post("location");
+$date=$this->input->get_post("date");
+$venue=$this->input->get_post("venue");
+$content=$this->input->get_post("content");
+$banner=$this->input->get_post("banner");
+if($this->worldtour_model->edit($id,$ispastconcert,$isupcomingconcert,$image,$name,$location,$date,$venue,$content,$banner)==0)
+$data["alerterror"]="New worldtour could not be Updated.";
+else
+$data["alertsuccess"]="worldtour Updated Successfully.";
+$data["redirect"]="site/viewworldtour";
+$this->load->view("redirect",$data);
+}
+}
+public function deleteworldtour()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->worldtour_model->delete($this->input->get("id"));
+$data["redirect"]="site/viewworldtour";
+$this->load->view("redirect",$data);
+}
+
 }
 ?>
