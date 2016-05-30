@@ -8753,6 +8753,410 @@ $this->worldtour_model->delete($this->input->get("id"));
 $data["redirect"]="site/viewworldtour";
 $this->load->view("redirect",$data);
 }
+public function viewworldtourtype()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="viewworldtourtype";
+$data["page2"]="block/tourblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
+$data["base_url"]=site_url("site/viewworldtourtypejson?id=").$this->input->get('id');
+$data["title"]="View worldtourtype";
+$this->load->view("templatewith2",$data);
+}
+function viewworldtourtypejson()
+{
+    $id=$this->input->get('id');
+$elements=array();
+$elements[0]=new stdClass();
+$elements[0]->field="`gse_worldtourvideos`.`id`";
+$elements[0]->sort="1";
+$elements[0]->header="ID";
+$elements[0]->alias="id";
+$elements[1]=new stdClass();
+$elements[1]->field="`gse_worldtourvideos`.`worldtour`";
+$elements[1]->sort="1";
+$elements[1]->header="worldtour";
+$elements[1]->alias="worldtour";
+$elements[2]=new stdClass();
+$elements[2]->field="`gse_worldtourvideos`.`url`";
+$elements[2]->sort="1";
+$elements[2]->header="Url";
+$elements[2]->alias="url";
+// $elements[3]=new stdClass();
+// $elements[3]->field="`gse_worldtourvideos`.`status`";
+// $elements[3]->sort="1";
+// $elements[3]->header="Status";
+// $elements[3]->alias="status";
+$elements[4]=new stdClass();
+$elements[4]->field="`gse_worldtourvideos`.`order`";
+$elements[4]->sort="1";
+$elements[4]->header="Order";
+$elements[4]->alias="order";
 
+$elements[5]=new stdClass();
+$elements[5]->field="`gse_worldtour`.`name`";
+$elements[5]->sort="1";
+$elements[5]->header="World Tour";
+$elements[5]->alias="name";
+$search=$this->input->get_post("search");
+$pageno=$this->input->get_post("pageno");
+$orderby=$this->input->get_post("orderby");
+$orderorder=$this->input->get_post("orderorder");
+$maxrow=$this->input->get_post("maxrow");
+if($maxrow=="")
+{
+$maxrow=20;
+}
+if($orderby=="")
+{
+$orderby="id";
+$orderorder="ASC";
+}
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_worldtourvideos` LEFT OUTER JOIN `gse_worldtour` ON `gse_worldtour`.`id`=`gse_worldtourvideos`.`worldtour`","WHERE `gse_worldtourvideos`.`worldtour`='$id'");
+$this->load->view("json",$data);
+}
+
+public function createworldtourtype()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="createworldtourtype";
+$data["page2"]="block/tourblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
+$data["worldtour"]=$this->worldtour_model->getdropdown();
+// $data["worldtoursubtype"]=$this->worldtoursubtype_model->getdropdown();
+$data["title"]="Create worldtourtype";
+$this->load->view("templatewith2",$data);
+}
+public function createworldtourtypesubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("worldtour","Wedding","trim");
+$this->form_validation->set_rules("name","Name","trim");
+$this->form_validation->set_rules("image","Image","trim");
+$this->form_validation->set_rules("banner","Banner","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="createworldtourtype";
+$data["worldtour"]=$this->worldtour_model->getdropdown();
+// $data["worldtoursubtype"]=$this->worldtoursubtype_model->getdropdown();
+$data["title"]="Create worldtourtype";
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$worldtour=$this->input->get_post("worldtour");
+$worldtoursubtype=$this->input->get_post("worldtoursubtype");
+$url=$this->input->get_post("url");
+$order=$this->input->get_post("order");
+$image=$this->menu_model->createImage();
+//$banner=$this->input->get_post("banner");
+    $config['upload_path'] = './uploads/';
+						$config['allowed_types'] = 'gif|jpg|png|jpeg';
+						$this->load->library('upload', $config);
+						$filename="banner";
+						$banner="";
+						if (  $this->upload->do_upload($filename))
+						{
+							$uploaddata = $this->upload->data();
+							$banner=$uploaddata['file_name'];
+						}
+if($this->worldtourtype_model->create($worldtour,$url,$order,$worldtoursubtype)==0)
+$data["alerterror"]="New worldtourtype could not be created.";
+else
+$data["alertsuccess"]="worldtourtype created Successfully.";
+$data["redirect"]="site/viewworldtourtype?id=".$worldtour;
+$this->load->view("redirect2",$data);
+}
+}
+public function editworldtourtype()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="editworldtourtype";
+$data["page2"]="block/tourblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
+$data["worldtour"]=$this->worldtour_model->getdropdown();
+// $data["worldtoursubtype"]=$this->worldtoursubtype_model->getdropdown();
+$data["title"]="Edit worldtourtype";
+$data["before"]=$this->worldtourtype_model->beforeedit($this->input->get("id"));
+$this->load->view("templatewith2",$data);
+}
+public function editworldtourtypesubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("id","ID","trim");
+$this->form_validation->set_rules("worldtour","Wedding","trim");
+$this->form_validation->set_rules("name","Name","trim");
+$this->form_validation->set_rules("image","Image","trim");
+$this->form_validation->set_rules("banner","Banner","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="editworldtourtype";
+$data["worldtour"]=$this->worldtour_model->getdropdown();
+$data["worldtoursubtype"]=$this->worldtoursubtype_model->getdropdown();
+$data["title"]="Edit worldtourtype";
+$data["before"]=$this->worldtourtype_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$worldtour=$this->input->get_post("worldtour");
+$url=$this->input->get_post("url");
+$order=$this->input->get_post("order");
+$worldtoursubtype=$this->input->get_post("worldtoursubtype");
+// $image=$this->menu_model->createImage();
+// //$banner=$this->input->get_post("banner");
+//      $config['upload_path'] = './uploads/';
+// 						$config['allowed_types'] = 'gif|jpg|png|jpeg';
+// 						$this->load->library('upload', $config);
+// 						$filename="banner";
+// 						$banner="";
+// 						if (  $this->upload->do_upload($filename))
+// 						{
+// 							$uploaddata = $this->upload->data();
+// 							$banner=$uploaddata['file_name'];
+// 						}
+//
+// 						if($banner=="")
+// 						{
+// 						$banner=$this->worldtourtype_model->getbannerbyid($id);
+// 						   // print_r($image);
+// 							$banner=$banner->banner;
+// 						}
+if($this->worldtourtype_model->edit($id,$worldtour,$url,$order,$worldtoursubtype)==0)
+$data["alerterror"]="New worldtourtype could not be Updated.";
+else
+$data["alertsuccess"]="worldtourtype Updated Successfully.";
+$data["redirect"]="site/viewworldtourtype?id=".$worldtour;
+$this->load->view("redirect2",$data);
+}
+}
+public function deleteworldtourtype()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->worldtourtype_model->delete($this->input->get("id"));
+$data["redirect"]="site/viewworldtourtype?id=".$this->input->get("worldtourid");
+$this->load->view("redirect2",$data);
+}
+public function viewworldtourgallery()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="viewworldtourgallery";
+$data["page2"]="block/tourblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
+$data["base_url"]=site_url("site/viewworldtourgalleryjson?id=").$this->input->get('id');
+$data["title"]="View worldtourgallery";
+$this->load->view("templatewith2",$data);
+}
+function viewworldtourgalleryjson()
+{
+$id=$this->input->get('id');
+$elements=array();
+$elements[0]=new stdClass();
+$elements[0]->field="`gse_worldtourimage`.`id`";
+$elements[0]->sort="1";
+$elements[0]->header="ID";
+$elements[0]->alias="id";
+$elements[1]=new stdClass();
+$elements[1]->field="`gse_worldtourimage`.`worldtour`";
+$elements[1]->sort="1";
+$elements[1]->header="worldtour";
+$elements[1]->alias="worldtour";
+$elements[2]=new stdClass();
+$elements[2]->field="`gse_worldtourimage`.`image`";
+$elements[2]->sort="1";
+$elements[2]->header="image";
+$elements[2]->alias="image";
+// $elements[3]=new stdClass();
+// $elements[3]->field="`gse_worldtourimage`.`status`";
+// $elements[3]->sort="1";
+// $elements[3]->header="Status";
+// $elements[3]->alias="status";
+$elements[4]=new stdClass();
+$elements[4]->field="`gse_worldtourimage`.`order`";
+$elements[4]->sort="1";
+$elements[4]->header="Order";
+$elements[4]->alias="order";
+$elements[5]=new stdClass();
+$elements[5]->field="`gse_worldtour`.`name`";
+$elements[5]->sort="1";
+$elements[5]->header="World Tour";
+$elements[5]->alias="name";
+$search=$this->input->get_post("search");
+$pageno=$this->input->get_post("pageno");
+$orderby=$this->input->get_post("orderby");
+$orderorder=$this->input->get_post("orderorder");
+$maxrow=$this->input->get_post("maxrow");
+if($maxrow=="")
+{
+$maxrow=20;
+}
+if($orderby=="")
+{
+$orderby="id";
+$orderorder="ASC";
+}
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_worldtourimage` LEFT OUTER JOIN `gse_worldtour` ON `gse_worldtour`.`id`=`gse_worldtourimage`.`worldtour`","WHERE `gse_worldtourimage`.`worldtour`='$id'");
+$this->load->view("json",$data);
+}
+
+public function createworldtourgallery()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="createworldtourgallery";
+$data["page2"]="block/tourblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
+$data["worldtour"]=$this->worldtour_model->getdropdown();
+// $data["worldtoursubgallery"]=$this->worldtoursubgallery_model->getdropdown();
+$data["title"]="Create worldtourgallery";
+$this->load->view("templatewith2",$data);
+}
+public function createworldtourgallerysubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("worldtour","Wedding","trim");
+$this->form_validation->set_rules("name","Name","trim");
+$this->form_validation->set_rules("image","Image","trim");
+$this->form_validation->set_rules("banner","Banner","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="createworldtourgallery";
+$data["worldtour"]=$this->worldtour_model->getdropdown();
+// $data["worldtoursubgallery"]=$this->worldtoursubgallery_model->getdropdown();
+$data["title"]="Create worldtourgallery";
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$worldtour=$this->input->get_post("worldtour");
+$worldtoursubgallery=$this->input->get_post("worldtoursubgallery");
+$url=$this->input->get_post("url");
+$order=$this->input->get_post("order");
+$image=$this->menu_model->createImage();
+//$banner=$this->input->get_post("banner");
+    $config['upload_path'] = './uploads/';
+						$config['allowed_gallerys'] = 'gif|jpg|png|jpeg';
+						$this->load->library('upload', $config);
+						$filename="banner";
+						$banner="";
+						if (  $this->upload->do_upload($filename))
+						{
+							$uploaddata = $this->upload->data();
+							$banner=$uploaddata['file_name'];
+						}
+if($this->worldtourgallery_model->create($worldtour,$url,$order,$worldtoursubgallery)==0)
+$data["alerterror"]="New worldtourgallery could not be created.";
+else
+$data["alertsuccess"]="worldtourgallery created Successfully.";
+$data["redirect"]="site/viewworldtourgallery?id=".$worldtour;
+$this->load->view("redirect2",$data);
+}
+}
+public function editworldtourgallery()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="editworldtourgallery";
+$data["page2"]="block/tourblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
+$data["worldtour"]=$this->worldtour_model->getdropdown();
+// $data["worldtoursubgallery"]=$this->worldtoursubgallery_model->getdropdown();
+$data["title"]="Edit worldtourgallery";
+$data["before"]=$this->worldtourgallery_model->beforeedit($this->input->get("id"));
+$this->load->view("templatewith2",$data);
+}
+public function editworldtourgallerysubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("id","ID","trim");
+$this->form_validation->set_rules("worldtour","Wedding","trim");
+$this->form_validation->set_rules("name","Name","trim");
+$this->form_validation->set_rules("image","Image","trim");
+$this->form_validation->set_rules("banner","Banner","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="editworldtourgallery";
+$data["worldtour"]=$this->worldtour_model->getdropdown();
+$data["worldtoursubgallery"]=$this->worldtoursubgallery_model->getdropdown();
+$data["title"]="Edit worldtourgallery";
+$data["before"]=$this->worldtourgallery_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$worldtour=$this->input->get_post("worldtour");
+$url=$this->input->get_post("url");
+$order=$this->input->get_post("order");
+$worldtoursubgallery=$this->input->get_post("worldtoursubgallery");
+// $image=$this->menu_model->createImage();
+// //$banner=$this->input->get_post("banner");
+//      $config['upload_path'] = './uploads/';
+// 						$config['allowed_gallerys'] = 'gif|jpg|png|jpeg';
+// 						$this->load->library('upload', $config);
+// 						$filename="banner";
+// 						$banner="";
+// 						if (  $this->upload->do_upload($filename))
+// 						{
+// 							$uploaddata = $this->upload->data();
+// 							$banner=$uploaddata['file_name'];
+// 						}
+//
+// 						if($banner=="")
+// 						{
+// 						$banner=$this->worldtourgallery_model->getbannerbyid($id);
+// 						   // print_r($image);
+// 							$banner=$banner->banner;
+// 						}
+if($this->worldtourgallery_model->edit($id,$worldtour,$url,$order,$worldtoursubgallery)==0)
+$data["alerterror"]="New worldtourgallery could not be Updated.";
+else
+$data["alertsuccess"]="worldtourgallery Updated Successfully.";
+$data["redirect"]="site/viewworldtourgallery?id=".$worldtour;
+$this->load->view("redirect2",$data);
+}
+}
+public function deleteworldtourgallery()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->worldtourgallery_model->delete($this->input->get("id"));
+$data["redirect"]="site/viewworldtourgallery?id=".$this->input->get("worldtourid");
+$this->load->view("redirect2",$data);
+}
 }
 ?>
