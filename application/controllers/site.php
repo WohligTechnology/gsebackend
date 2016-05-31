@@ -9178,27 +9178,27 @@ function viewworldtourwallpaperjson()
 $id=$this->input->get('id');
 $elements=array();
 $elements[0]=new stdClass();
-$elements[0]->field="`gse_worldtourimage`.`id`";
+$elements[0]->field="`gse_worldtourwallpaper`.`id`";
 $elements[0]->sort="1";
 $elements[0]->header="ID";
 $elements[0]->alias="id";
 $elements[1]=new stdClass();
-$elements[1]->field="`gse_worldtourimage`.`worldtour`";
+$elements[1]->field="`gse_worldtourwallpaper`.`worldtour`";
 $elements[1]->sort="1";
 $elements[1]->header="worldtour";
 $elements[1]->alias="worldtour";
 $elements[2]=new stdClass();
-$elements[2]->field="`gse_worldtourimage`.`image`";
+$elements[2]->field="`gse_worldtourwallpaper`.`image`";
 $elements[2]->sort="1";
 $elements[2]->header="image";
 $elements[2]->alias="image";
 // $elements[3]=new stdClass();
-// $elements[3]->field="`gse_worldtourimage`.`status`";
+// $elements[3]->field="`gse_worldtourwallpaper`.`status`";
 // $elements[3]->sort="1";
 // $elements[3]->header="Status";
 // $elements[3]->alias="status";
 $elements[4]=new stdClass();
-$elements[4]->field="`gse_worldtourimage`.`order`";
+$elements[4]->field="`gse_worldtourwallpaper`.`order`";
 $elements[4]->sort="1";
 $elements[4]->header="Order";
 $elements[4]->alias="order";
@@ -9221,7 +9221,7 @@ if($orderby=="")
 $orderby="id";
 $orderorder="ASC";
 }
-$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_worldtourimage` LEFT OUTER JOIN `gse_worldtour` ON `gse_worldtour`.`id`=`gse_worldtourimage`.`worldtour`","WHERE `gse_worldtourimage`.`worldtour`='$id'");
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_worldtourwallpaper` LEFT OUTER JOIN `gse_worldtour` ON `gse_worldtour`.`id`=`gse_worldtourwallpaper`.`worldtour`","WHERE `gse_worldtourwallpaper`.`worldtour`='$id'");
 $this->load->view("json",$data);
 }
 
