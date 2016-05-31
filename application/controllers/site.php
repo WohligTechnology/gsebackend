@@ -9058,7 +9058,7 @@ else
 {
 $id=$this->input->get_post("id");
 $worldtour=$this->input->get_post("worldtour");
-$worldtoursubgallery=$this->input->get_post("worldtoursubgallery");
+// $worldtoursubgallery=$this->input->get_post("worldtoursubgallery");
 $url=$this->input->get_post("url");
 $order=$this->input->get_post("order");
 $image=$this->menu_model->createImage();
@@ -9073,7 +9073,7 @@ $image=$this->menu_model->createImage();
 							$uploaddata = $this->upload->data();
 							$banner=$uploaddata['file_name'];
 						}
-if($this->worldtourgallery_model->create($worldtour,$url,$order,$worldtoursubgallery)==0)
+if($this->worldtourgallery_model->create($worldtour,$image,$order,$worldtoursubgallery)==0)
 $data["alerterror"]="New worldtourgallery could not be created.";
 else
 $data["alertsuccess"]="worldtourgallery created Successfully.";
@@ -9123,26 +9123,26 @@ $worldtour=$this->input->get_post("worldtour");
 $url=$this->input->get_post("url");
 $order=$this->input->get_post("order");
 $worldtoursubgallery=$this->input->get_post("worldtoursubgallery");
-// $image=$this->menu_model->createImage();
-// //$banner=$this->input->get_post("banner");
-//      $config['upload_path'] = './uploads/';
-// 						$config['allowed_gallerys'] = 'gif|jpg|png|jpeg';
-// 						$this->load->library('upload', $config);
-// 						$filename="banner";
-// 						$banner="";
-// 						if (  $this->upload->do_upload($filename))
-// 						{
-// 							$uploaddata = $this->upload->data();
-// 							$banner=$uploaddata['file_name'];
-// 						}
-//
-// 						if($banner=="")
-// 						{
-// 						$banner=$this->worldtourgallery_model->getbannerbyid($id);
-// 						   // print_r($image);
-// 							$banner=$banner->banner;
-// 						}
-if($this->worldtourgallery_model->edit($id,$worldtour,$url,$order,$worldtoursubgallery)==0)
+$image=$this->menu_model->createImage();
+//$banner=$this->input->get_post("banner");
+     $config['upload_path'] = './uploads/';
+						$config['allowed_gallerys'] = 'gif|jpg|png|jpeg';
+						$this->load->library('upload', $config);
+						$filename="banner";
+						$banner="";
+						if (  $this->upload->do_upload($filename))
+						{
+							$uploaddata = $this->upload->data();
+							$banner=$uploaddata['file_name'];
+						}
+
+						// if($banner=="")
+						// {
+						// $banner=$this->worldtourgallery_model->getbannerbyid($id);
+						//    // print_r($image);
+						// 	$banner=$banner->banner;
+						// }
+if($this->worldtourgallery_model->edit($id,$worldtour,$image,$order,$worldtoursubgallery)==0)
 $data["alerterror"]="New worldtourgallery could not be Updated.";
 else
 $data["alertsuccess"]="worldtourgallery Updated Successfully.";
@@ -9156,6 +9156,209 @@ $access=array("1");
 $this->checkaccess($access);
 $this->worldtourgallery_model->delete($this->input->get("id"));
 $data["redirect"]="site/viewworldtourgallery?id=".$this->input->get("worldtourid");
+$this->load->view("redirect2",$data);
+}
+
+public function viewworldtourwallpaper()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="viewworldtourwallpaper";
+$data["page2"]="block/tourblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
+$data["base_url"]=site_url("site/viewworldtourwallpaperjson?id=").$this->input->get('id');
+$data["title"]="View worldtourwallpaper";
+$this->load->view("templatewith2",$data);
+}
+function viewworldtourwallpaperjson()
+{
+$id=$this->input->get('id');
+$elements=array();
+$elements[0]=new stdClass();
+$elements[0]->field="`gse_worldtourimage`.`id`";
+$elements[0]->sort="1";
+$elements[0]->header="ID";
+$elements[0]->alias="id";
+$elements[1]=new stdClass();
+$elements[1]->field="`gse_worldtourimage`.`worldtour`";
+$elements[1]->sort="1";
+$elements[1]->header="worldtour";
+$elements[1]->alias="worldtour";
+$elements[2]=new stdClass();
+$elements[2]->field="`gse_worldtourimage`.`image`";
+$elements[2]->sort="1";
+$elements[2]->header="image";
+$elements[2]->alias="image";
+// $elements[3]=new stdClass();
+// $elements[3]->field="`gse_worldtourimage`.`status`";
+// $elements[3]->sort="1";
+// $elements[3]->header="Status";
+// $elements[3]->alias="status";
+$elements[4]=new stdClass();
+$elements[4]->field="`gse_worldtourimage`.`order`";
+$elements[4]->sort="1";
+$elements[4]->header="Order";
+$elements[4]->alias="order";
+$elements[5]=new stdClass();
+$elements[5]->field="`gse_worldtour`.`name`";
+$elements[5]->sort="1";
+$elements[5]->header="World Tour";
+$elements[5]->alias="name";
+$search=$this->input->get_post("search");
+$pageno=$this->input->get_post("pageno");
+$orderby=$this->input->get_post("orderby");
+$orderorder=$this->input->get_post("orderorder");
+$maxrow=$this->input->get_post("maxrow");
+if($maxrow=="")
+{
+$maxrow=20;
+}
+if($orderby=="")
+{
+$orderby="id";
+$orderorder="ASC";
+}
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_worldtourimage` LEFT OUTER JOIN `gse_worldtour` ON `gse_worldtour`.`id`=`gse_worldtourimage`.`worldtour`","WHERE `gse_worldtourimage`.`worldtour`='$id'");
+$this->load->view("json",$data);
+}
+
+public function createworldtourwallpaper()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="createworldtourwallpaper";
+$data["page2"]="block/tourblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
+$data["worldtour"]=$this->worldtour_model->getdropdown();
+// $data["worldtoursubwallpaper"]=$this->worldtoursubwallpaper_model->getdropdown();
+$data["title"]="Create worldtourwallpaper";
+$this->load->view("templatewith2",$data);
+}
+public function createworldtourwallpapersubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("worldtour","Wedding","trim");
+$this->form_validation->set_rules("name","Name","trim");
+$this->form_validation->set_rules("image","Image","trim");
+$this->form_validation->set_rules("banner","Banner","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="createworldtourwallpaper";
+$data["worldtour"]=$this->worldtour_model->getdropdown();
+// $data["worldtoursubwallpaper"]=$this->worldtoursubwallpaper_model->getdropdown();
+$data["title"]="Create worldtourwallpaper";
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$worldtour=$this->input->get_post("worldtour");
+// $worldtoursubwallpaper=$this->input->get_post("worldtoursubwallpaper");
+$url=$this->input->get_post("url");
+$order=$this->input->get_post("order");
+$image=$this->menu_model->createImage();
+//$banner=$this->input->get_post("banner");
+    $config['upload_path'] = './uploads/';
+						$config['allowed_wallpapers'] = 'gif|jpg|png|jpeg';
+						$this->load->library('upload', $config);
+						$filename="banner";
+						$banner="";
+						if (  $this->upload->do_upload($filename))
+						{
+							$uploaddata = $this->upload->data();
+							$banner=$uploaddata['file_name'];
+						}
+if($this->worldtourwallpaper_model->create($worldtour,$image,$order,$worldtoursubwallpaper)==0)
+$data["alerterror"]="New worldtourwallpaper could not be created.";
+else
+$data["alertsuccess"]="worldtourwallpaper created Successfully.";
+$data["redirect"]="site/viewworldtourwallpaper?id=".$worldtour;
+$this->load->view("redirect2",$data);
+}
+}
+public function editworldtourwallpaper()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="editworldtourwallpaper";
+$data["page2"]="block/tourblock";
+$data["before1"]=$this->input->get('id');
+$data["before2"]=$this->input->get('id');
+$data["before3"]=$this->input->get('id');
+$data["before4"]=$this->input->get('id');
+$data["worldtour"]=$this->worldtour_model->getdropdown();
+// $data["worldtoursubwallpaper"]=$this->worldtoursubwallpaper_model->getdropdown();
+$data["title"]="Edit worldtourwallpaper";
+$data["before"]=$this->worldtourwallpaper_model->beforeedit($this->input->get("id"));
+$this->load->view("templatewith2",$data);
+}
+public function editworldtourwallpapersubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("id","ID","trim");
+$this->form_validation->set_rules("worldtour","Wedding","trim");
+$this->form_validation->set_rules("name","Name","trim");
+$this->form_validation->set_rules("image","Image","trim");
+$this->form_validation->set_rules("banner","Banner","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="editworldtourwallpaper";
+$data["worldtour"]=$this->worldtour_model->getdropdown();
+$data["worldtoursubwallpaper"]=$this->worldtoursubwallpaper_model->getdropdown();
+$data["title"]="Edit worldtourwallpaper";
+$data["before"]=$this->worldtourwallpaper_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$worldtour=$this->input->get_post("worldtour");
+$url=$this->input->get_post("url");
+$order=$this->input->get_post("order");
+$worldtoursubwallpaper=$this->input->get_post("worldtoursubwallpaper");
+$image=$this->menu_model->createImage();
+//$banner=$this->input->get_post("banner");
+     $config['upload_path'] = './uploads/';
+						$config['allowed_wallpapers'] = 'gif|jpg|png|jpeg';
+						$this->load->library('upload', $config);
+						$filename="banner";
+						$banner="";
+						if (  $this->upload->do_upload($filename))
+						{
+							$uploaddata = $this->upload->data();
+							$banner=$uploaddata['file_name'];
+						}
+
+						// if($banner=="")
+						// {
+						// $banner=$this->worldtourwallpaper_model->getbannerbyid($id);
+						//    // print_r($image);
+						// 	$banner=$banner->banner;
+						// }
+if($this->worldtourwallpaper_model->edit($id,$worldtour,$image,$order,$worldtoursubwallpaper)==0)
+$data["alerterror"]="New worldtourwallpaper could not be Updated.";
+else
+$data["alertsuccess"]="worldtourwallpaper Updated Successfully.";
+$data["redirect"]="site/viewworldtourwallpaper?id=".$worldtour;
+$this->load->view("redirect2",$data);
+}
+}
+public function deleteworldtourwallpaper()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->worldtourwallpaper_model->delete($this->input->get("id"));
+$data["redirect"]="site/viewworldtourwallpaper?id=".$this->input->get("worldtourid");
 $this->load->view("redirect2",$data);
 }
 }
