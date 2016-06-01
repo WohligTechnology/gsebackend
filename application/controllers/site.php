@@ -7383,7 +7383,9 @@ $order=$this->input->get_post("order");
 $image=$this->menu_model->createImage();
 $content=$this->input->get_post("content");
 $videos=$this->input->get_post("videos");
-if($this->eventsubtype_model->create($event,$name,$image,$content,$order)==0)
+$releasedate=$this->input->get_post("releasedate");
+$location=$this->input->get_post("location");
+if($this->eventsubtype_model->create($event,$name,$image,$content,$order,$releasedate,$location)==0)
 $data["alerterror"]="New eventsubtype could not be created.";
 else
 $data["alertsuccess"]="eventsubtype created Successfully.";
