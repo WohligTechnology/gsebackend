@@ -8270,15 +8270,16 @@ public function createmicetype()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="createmicetype";
-$data["page2"]="block/miceblock";
-$data["before1"]=$this->input->get('id');
-$data["before2"]=$this->input->get('id');
-$data["before3"]=$this->input->get('id');
-$data["before4"]=$this->input->get('id');
+// $data["page2"]="block/miceblock";
+// $data["before1"]=$this->input->get('id');
+// $data["before2"]=$this->input->get('id');
+// $data["before3"]=$this->input->get('id');
+// $data["before4"]=$this->input->get('id');
 $data["mice"]=$this->mice_model->getdropdown();
 $data["micesubtype"]=$this->micesubtype_model->getdropdown();
 $data["title"]="Create micetype";
-$this->load->view("templatewith2",$data);
+// $this->load->view("templatewith2",$data);
+$this->load->view("template",$data);
 }
 public function createmicetypesubmit()
 {
@@ -8329,16 +8330,17 @@ public function editmicetype()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="editmicetype";
-$data["page2"]="block/miceblock";
-$data["before1"]=$this->input->get('id');
-$data["before2"]=$this->input->get('id');
-$data["before3"]=$this->input->get('id');
-$data["before4"]=$this->input->get('id');
+// $data["page2"]="block/miceblock";
+// $data["before1"]=$this->input->get('id');
+// $data["before2"]=$this->input->get('id');
+// $data["before3"]=$this->input->get('id');
+// $data["before4"]=$this->input->get('id');
 $data["mice"]=$this->mice_model->getdropdown();
 $data["micesubtype"]=$this->micesubtype_model->getdropdown();
 $data["title"]="Edit micetype";
 $data["before"]=$this->micetype_model->beforeedit($this->input->get("id"));
-$this->load->view("templatewith2",$data);
+// $this->load->view("templatewith2",$data);
+$this->load->view("template",$data);
 }
 public function editmicetypesubmit()
 {
@@ -8870,15 +8872,16 @@ public function createworldtourtype()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="createworldtourtype";
-$data["page2"]="block/tourblock";
-$data["before1"]=$this->input->get('id');
-$data["before2"]=$this->input->get('id');
-$data["before3"]=$this->input->get('id');
-$data["before4"]=$this->input->get('id');
+// $data["page2"]="block/tourblock";
+// $data["before1"]=$this->input->get('id');
+// $data["before2"]=$this->input->get('id');
+// $data["before3"]=$this->input->get('id');
+// $data["before4"]=$this->input->get('id');
 $data["worldtour"]=$this->worldtour_model->getdropdown();
 // $data["worldtoursubtype"]=$this->worldtoursubtype_model->getdropdown();
 $data["title"]="Create worldtourtype";
-$this->load->view("templatewith2",$data);
+// $this->load->view("templatewith2",$data);
+$this->load->view("template",$data);
 }
 public function createworldtourtypesubmit()
 {
@@ -8929,16 +8932,17 @@ public function editworldtourtype()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="editworldtourtype";
-$data["page2"]="block/tourblock";
-$data["before1"]=$this->input->get('id');
-$data["before2"]=$this->input->get('id');
-$data["before3"]=$this->input->get('id');
-$data["before4"]=$this->input->get('id');
+// $data["page2"]="block/tourblock";
+// $data["before1"]=$this->input->get('id');
+// $data["before2"]=$this->input->get('id');
+// $data["before3"]=$this->input->get('id');
+// $data["before4"]=$this->input->get('id');
 $data["worldtour"]=$this->worldtour_model->getdropdown();
 // $data["worldtoursubtype"]=$this->worldtoursubtype_model->getdropdown();
 $data["title"]="Edit worldtourtype";
 $data["before"]=$this->worldtourtype_model->beforeedit($this->input->get("id"));
-$this->load->view("templatewith2",$data);
+// $this->load->view("templatewith2",$data);
+$this->load->view("template",$data);
 }
 public function editworldtourtypesubmit()
 {
@@ -9014,6 +9018,7 @@ $data["before4"]=$this->input->get('id');
 $data["base_url"]=site_url("site/viewworldtourgalleryjson?id=").$this->input->get('id');
 $data["title"]="View worldtourgallery";
 $this->load->view("templatewith2",$data);
+// $this->load->view("template",$data);
 }
 function viewworldtourgalleryjson()
 {
@@ -9072,15 +9077,16 @@ public function createworldtourgallery()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="createworldtourgallery";
-$data["page2"]="block/tourblock";
-$data["before1"]=$this->input->get('id');
-$data["before2"]=$this->input->get('id');
-$data["before3"]=$this->input->get('id');
-$data["before4"]=$this->input->get('id');
+// $data["page2"]="block/tourblock";
+// $data["before1"]=$this->input->get('id');
+// $data["before2"]=$this->input->get('id');
+// $data["before3"]=$this->input->get('id');
+// $data["before4"]=$this->input->get('id');
 $data["worldtour"]=$this->worldtour_model->getdropdown();
 // $data["worldtoursubgallery"]=$this->worldtoursubgallery_model->getdropdown();
 $data["title"]="Create worldtourgallery";
-$this->load->view("templatewith2",$data);
+// $this->load->view("templatewith2",$data);
+$this->load->view("template",$data);
 }
 public function createworldtourgallerysubmit()
 {
@@ -9131,16 +9137,17 @@ public function editworldtourgallery()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="editworldtourgallery";
-$data["page2"]="block/tourblock";
-$data["before1"]=$this->input->get('id');
-$data["before2"]=$this->input->get('id');
-$data["before3"]=$this->input->get('id');
-$data["before4"]=$this->input->get('id');
+// $data["page2"]="block/tourblock";
+// $data["before1"]=$this->input->get('id');
+// $data["before2"]=$this->input->get('id');
+// $data["before3"]=$this->input->get('id');
+// $data["before4"]=$this->input->get('id');
 $data["worldtour"]=$this->worldtour_model->getdropdown();
 // $data["worldtoursubgallery"]=$this->worldtoursubgallery_model->getdropdown();
 $data["title"]="Edit worldtourgallery";
 $data["before"]=$this->worldtourgallery_model->beforeedit($this->input->get("id"));
-$this->load->view("templatewith2",$data);
+// $this->load->view("templatewith2",$data);
+$this->load->view("template",$data);
 }
 public function editworldtourgallerysubmit()
 {
@@ -9275,15 +9282,16 @@ public function createworldtourwallpaper()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="createworldtourwallpaper";
-$data["page2"]="block/tourblock";
-$data["before1"]=$this->input->get('id');
-$data["before2"]=$this->input->get('id');
-$data["before3"]=$this->input->get('id');
-$data["before4"]=$this->input->get('id');
+// $data["page2"]="block/tourblock";
+// $data["before1"]=$this->input->get('id');
+// $data["before2"]=$this->input->get('id');
+// $data["before3"]=$this->input->get('id');
+// $data["before4"]=$this->input->get('id');
 $data["worldtour"]=$this->worldtour_model->getdropdown();
 // $data["worldtoursubwallpaper"]=$this->worldtoursubwallpaper_model->getdropdown();
 $data["title"]="Create worldtourwallpaper";
-$this->load->view("templatewith2",$data);
+// $this->load->view("templatewith2",$data);
+$this->load->view("template",$data);
 }
 public function createworldtourwallpapersubmit()
 {
@@ -9334,16 +9342,17 @@ public function editworldtourwallpaper()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="editworldtourwallpaper";
-$data["page2"]="block/tourblock";
-$data["before1"]=$this->input->get('id');
-$data["before2"]=$this->input->get('id');
-$data["before3"]=$this->input->get('id');
-$data["before4"]=$this->input->get('id');
+// $data["page2"]="block/tourblock";
+// $data["before1"]=$this->input->get('id');
+// $data["before2"]=$this->input->get('id');
+// $data["before3"]=$this->input->get('id');
+// $data["before4"]=$this->input->get('id');
 $data["worldtour"]=$this->worldtour_model->getdropdown();
 // $data["worldtoursubwallpaper"]=$this->worldtoursubwallpaper_model->getdropdown();
 $data["title"]="Edit worldtourwallpaper";
 $data["before"]=$this->worldtourwallpaper_model->beforeedit($this->input->get("id"));
-$this->load->view("templatewith2",$data);
+// $this->load->view("templatewith2",$data);
+$this->load->view("template",$data);
 }
 public function editworldtourwallpapersubmit()
 {
