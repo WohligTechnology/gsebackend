@@ -460,14 +460,21 @@ $this->load->view("json",$data);
 
 public function getMovieInside()
 {
-  $id=$this->input->get('id');
+$id=$this->input->get('id');
 $data["message"]=$this->restapi_model->getMovieInside($id);
 $this->load->view("json",$data);
 }
 
 public function getWeddingDetails()
 {
+$id=$this->input->get('id');
 $data["message"]=$this->restapi_model->getWeddingDetails($id);
+$this->load->view("json",$data);
+}
+public function getWeddingInsideDetails()
+{
+$id=$this->input->get('id');
+$data["message"]=$this->restapi_model->getWeddingInsideDetails($id);
 $this->load->view("json",$data);
 }
 

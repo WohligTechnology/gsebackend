@@ -2497,15 +2497,16 @@ public function createweddingtype()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="createweddingtype";
-$data["page2"]="block/weddingblock";
-$data["before1"]=$this->input->get('id');
-$data["before2"]=$this->input->get('id');
-$data["before3"]=$this->input->get('id');
-$data["before4"]=$this->input->get('id');
+// $data["page2"]="block/weddingblock";
+// $data["before1"]=$this->input->get('id');
+// $data["before2"]=$this->input->get('id');
+// $data["before3"]=$this->input->get('id');
+// $data["before4"]=$this->input->get('id');
 $data["wedding"]=$this->wedding_model->getdropdown();
 $data["weddingsubtype"]=$this->weddingsubtype_model->getdropdown();
 $data["title"]="Create weddingtype";
-$this->load->view("templatewith2",$data);
+// $this->load->view("templatewith2",$data);
+$this->load->view("template",$data);
 }
 public function createweddingtypesubmit()
 {
@@ -2555,16 +2556,17 @@ public function editweddingtype()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="editweddingtype";
-$data["page2"]="block/weddingblock";
-$data["before1"]=$this->input->get('id');
-$data["before2"]=$this->input->get('id');
-$data["before3"]=$this->input->get('id');
-$data["before4"]=$this->input->get('id');
+// $data["page2"]="block/weddingblock";
+// $data["before1"]=$this->input->get('id');
+// $data["before2"]=$this->input->get('id');
+// $data["before3"]=$this->input->get('id');
+// $data["before4"]=$this->input->get('id');
 $data["wedding"]=$this->wedding_model->getdropdown();
 $data["weddingsubtype"]=$this->weddingsubtype_model->getdropdown();
 $data["title"]="Edit weddingtype";
 $data["before"]=$this->weddingtype_model->beforeedit($this->input->get("id"));
-$this->load->view("templatewith2",$data);
+// $this->load->view("templatewith2",$data);
+$this->load->view("template",$data);
 }
 public function editweddingtypesubmit()
 {
@@ -2697,14 +2699,15 @@ public function createweddingsubtype()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="createweddingsubtype";
-$data["page2"]="block/weddingblock";
-$data["before1"]=$this->input->get('id');
-$data["before2"]=$this->input->get('id');
-$data["before3"]=$this->input->get('id');
-$data["before4"]=$this->input->get('id');
+// $data["page2"]="block/weddingblock";
+// $data["before1"]=$this->input->get('id');
+// $data["before2"]=$this->input->get('id');
+// $data["before3"]=$this->input->get('id');
+// $data["before4"]=$this->input->get('id');
 $data["wedding"]=$this->wedding_model->getdropdown();
 $data["title"]="Create weddingsubtype";
-$this->load->view("templatewith2",$data);
+// $this->load->view("templatewith2",$data);
+$this->load->view("template",$data);
 }
 public function createweddingsubtypesubmit()
 {
@@ -2731,7 +2734,17 @@ $name=$this->input->get_post("name");
 $image=$this->menu_model->createImage();
 $content=$this->input->get_post("content");
 $videos=$this->input->get_post("videos");
-if($this->weddingsubtype_model->create($wedding,$name,$image,$content,$videos)==0)
+$config['upload_path'] = './uploads/';
+				$config['allowed_types'] = 'gif|jpg|png|jpeg';
+				$this->load->library('upload', $config);
+				$filename="banner";
+				$banner="";
+				if (  $this->upload->do_upload($filename))
+				{
+					$uploaddata = $this->upload->data();
+					$banner=$uploaddata['file_name'];
+				}
+if($this->weddingsubtype_model->create($wedding,$name,$image,$banner,$content,$videos)==0)
 $data["alerterror"]="New weddingsubtype could not be created.";
 else
 $data["alertsuccess"]="weddingsubtype created Successfully.";
@@ -2744,15 +2757,16 @@ public function editweddingsubtype()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="editweddingsubtype";
-$data["page2"]="block/weddingblock";
-$data["before1"]=$this->input->get('id');
-$data["before2"]=$this->input->get('id');
-$data["before3"]=$this->input->get('id');
-$data["before4"]=$this->input->get('id');
+// $data["page2"]="block/weddingblock";
+// $data["before1"]=$this->input->get('id');
+// $data["before2"]=$this->input->get('id');
+// $data["before3"]=$this->input->get('id');
+// $data["before4"]=$this->input->get('id');
 $data["wedding"]=$this->wedding_model->getdropdown();
 $data["title"]="Edit weddingsubtype";
 $data["before"]=$this->weddingsubtype_model->beforeedit($this->input->get("id"));
-$this->load->view("templatewith2",$data);
+// $this->load->view("templatewith2",$data);
+$this->load->view("template",$data);
 }
 public function editweddingsubtypesubmit()
 {
@@ -2781,7 +2795,23 @@ $name=$this->input->get_post("name");
 $image=$this->menu_model->createImage();
 $content=$this->input->get_post("content");
 $videos=$this->input->get_post("videos");
-if($this->weddingsubtype_model->edit($id,$wedding,$name,$image,$content,$videos)==0)
+$config['upload_path'] = './uploads/';
+			 $config['allowed_types'] = 'gif|jpg|png|jpeg';
+			 $this->load->library('upload', $config);
+			 $filename="banner";
+			 $banner="";
+			 if (  $this->upload->do_upload($filename))
+			 {
+				 $uploaddata = $this->upload->data();
+				 $banner=$uploaddata['file_name'];
+			 }
+			 if($banner=="")
+			 {
+			 $banner=$this->weddingtype_model->getbannerbyid($id);
+					// print_r($image);
+				 $banner=$banner->banner;
+			 }
+if($this->weddingsubtype_model->edit($id,$wedding,$name,$image,$banner,$content,$videos)==0)
 $data["alerterror"]="New weddingsubtype could not be Updated.";
 else
 $data["alertsuccess"]="weddingsubtype Updated Successfully.";
@@ -2869,16 +2899,17 @@ public function createweddinggallery()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="createweddinggallery";
-$data["page2"]="block/weddingblock";
-$data["before1"]=$this->input->get('id');
-$data["before2"]=$this->input->get('id');
-$data["before3"]=$this->input->get('id');
-$data["before4"]=$this->input->get('id');
+// $data["page2"]="block/weddingblock";
+// $data["before1"]=$this->input->get('id');
+// $data["before2"]=$this->input->get('id');
+// $data["before3"]=$this->input->get('id');
+// $data["before4"]=$this->input->get('id');
 $data["wedding"]=$this->wedding_model->getdropdown();
 $data["weddingsubtype"]=$this->weddingsubtype_model->getdropdown();
 $data["title"]="Create weddinggallery";
 $data[ 'status' ] =$this->user_model->getstatusdropdown();
-$this->load->view("templatewith2",$data);
+// $this->load->view("templatewith2",$data);
+$this->load->view("template",$data);
 }
 public function createweddinggallerysubmit()
 {
@@ -2920,17 +2951,18 @@ public function editweddinggallery()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="editweddinggallery";
-$data["page2"]="block/weddingblock";
-$data["before1"]=$this->input->get('id');
-$data["before2"]=$this->input->get('id');
-$data["before3"]=$this->input->get('id');
-$data["before4"]=$this->input->get('id');
+// $data["page2"]="block/weddingblock";
+// $data["before1"]=$this->input->get('id');
+// $data["before2"]=$this->input->get('id');
+// $data["before3"]=$this->input->get('id');
+// $data["before4"]=$this->input->get('id');
 $data["wedding"]=$this->wedding_model->getdropdown();
 $data["weddingsubtype"]=$this->weddingsubtype_model->getdropdown();
 $data["title"]="Edit weddinggallery";
 $data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["before"]=$this->weddinggallery_model->beforeedit($this->input->get("id"));
-$this->load->view("templatewith2",$data);
+// $this->load->view("templatewith2",$data);
+$this->load->view("template",$data);
 }
 public function editweddinggallerysubmit()
 {
@@ -7110,15 +7142,16 @@ public function createeventtype()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="createeventtype";
-$data["page2"]="block/eventblock";
-$data["before1"]=$this->input->get('id');
-$data["before2"]=$this->input->get('id');
-$data["before3"]=$this->input->get('id');
-$data["before4"]=$this->input->get('id');
+// $data["page2"]="block/eventblock";
+// $data["before1"]=$this->input->get('id');
+// $data["before2"]=$this->input->get('id');
+// $data["before3"]=$this->input->get('id');
+// $data["before4"]=$this->input->get('id');
 $data["event"]=$this->event_model->getdropdown();
 $data["eventsubtype"]=$this->eventsubtype_model->getdropdown();
 $data["title"]="Create eventtype";
-$this->load->view("templatewith2",$data);
+// $this->load->view("templatewith2",$data);
+$this->load->view("template",$data);
 }
 public function createeventtypesubmit()
 {
@@ -7169,16 +7202,17 @@ public function editeventtype()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="editeventtype";
-$data["page2"]="block/eventblock";
-$data["before1"]=$this->input->get('id');
-$data["before2"]=$this->input->get('id');
-$data["before3"]=$this->input->get('id');
-$data["before4"]=$this->input->get('id');
+// $data["page2"]="block/eventblock";
+// $data["before1"]=$this->input->get('id');
+// $data["before2"]=$this->input->get('id');
+// $data["before3"]=$this->input->get('id');
+// $data["before4"]=$this->input->get('id');
 $data["event"]=$this->event_model->getdropdown();
 $data["eventsubtype"]=$this->eventsubtype_model->getdropdown();
 $data["title"]="Edit eventtype";
 $data["before"]=$this->eventtype_model->beforeedit($this->input->get("id"));
-$this->load->view("templatewith2",$data);
+// $this->load->view("templatewith2",$data);
+$this->load->view("template",$data);
 }
 public function editeventtypesubmit()
 {
@@ -7254,6 +7288,7 @@ $data["before4"]=$this->input->get('id');
 $data["base_url"]=site_url("site/vieweventsubtypejson?id=").$this->input->get('id');
 $data["title"]="View eventsubtype";
 $this->load->view("templatewith2",$data);
+// $this->load->view("template",$data);
 }
 function vieweventsubtypejson()
 {
@@ -7312,14 +7347,15 @@ public function createeventsubtype()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="createeventsubtype";
-$data["page2"]="block/eventblock";
-$data["before1"]=$this->input->get('id');
-$data["before2"]=$this->input->get('id');
-$data["before3"]=$this->input->get('id');
-$data["before4"]=$this->input->get('id');
+// $data["page2"]="block/eventblock";
+// $data["before1"]=$this->input->get('id');
+// $data["before2"]=$this->input->get('id');
+// $data["before3"]=$this->input->get('id');
+// $data["before4"]=$this->input->get('id');
 $data["event"]=$this->event_model->getdropdown();
 $data["title"]="Create eventsubtype";
-$this->load->view("templatewith2",$data);
+// $this->load->view("templatewith2",$data);
+$this->load->view("template",$data);
 }
 public function createeventsubtypesubmit()
 {
@@ -7360,15 +7396,16 @@ public function editeventsubtype()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="editeventsubtype";
-$data["page2"]="block/eventblock";
-$data["before1"]=$this->input->get('id');
-$data["before2"]=$this->input->get('id');
-$data["before3"]=$this->input->get('id');
-$data["before4"]=$this->input->get('id');
+// $data["page2"]="block/eventblock";
+// $data["before1"]=$this->input->get('id');
+// $data["before2"]=$this->input->get('id');
+// $data["before3"]=$this->input->get('id');
+// $data["before4"]=$this->input->get('id');
 $data["event"]=$this->event_model->getdropdown();
 $data["title"]="Edit eventsubtype";
 $data["before"]=$this->eventsubtype_model->beforeedit($this->input->get("id"));
-$this->load->view("templatewith2",$data);
+// $this->load->view("templatewith2",$data);
+$this->load->view("template",$data);
 }
 public function editeventsubtypesubmit()
 {
@@ -7427,6 +7464,7 @@ $data["before4"]=$this->input->get('id');
 $data["base_url"]=site_url("site/vieweventgalleryjson?id=").$this->input->get('id');
 $data["title"]="View eventgallery";
 $this->load->view("templatewith2",$data);
+// $this->load->view("template",$data);
 }
 function vieweventgalleryjson()
 {
@@ -7486,16 +7524,17 @@ public function createeventgallery()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="createeventgallery";
-$data["page2"]="block/eventblock";
-$data["before1"]=$this->input->get('id');
-$data["before2"]=$this->input->get('id');
-$data["before3"]=$this->input->get('id');
-$data["before4"]=$this->input->get('id');
+// $data["page2"]="block/eventblock";
+// $data["before1"]=$this->input->get('id');
+// $data["before2"]=$this->input->get('id');
+// $data["before3"]=$this->input->get('id');
+// $data["before4"]=$this->input->get('id');
 $data["event"]=$this->event_model->getdropdown();
 $data["eventsubtype"]=$this->eventsubtype_model->getdropdown();
 $data["title"]="Create eventgallery";
 $data[ 'status' ] =$this->user_model->getstatusdropdown();
-$this->load->view("templatewith2",$data);
+// $this->load->view("templatewith2",$data);
+$this->load->view("template",$data);
 }
 public function createeventgallerysubmit()
 {
@@ -7537,17 +7576,18 @@ public function editeventgallery()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="editeventgallery";
-$data["page2"]="block/eventblock";
-$data["before1"]=$this->input->get('id');
-$data["before2"]=$this->input->get('id');
-$data["before3"]=$this->input->get('id');
-$data["before4"]=$this->input->get('id');
+// $data["page2"]="block/eventblock";
+// $data["before1"]=$this->input->get('id');
+// $data["before2"]=$this->input->get('id');
+// $data["before3"]=$this->input->get('id');
+// $data["before4"]=$this->input->get('id');
 $data["event"]=$this->event_model->getdropdown();
 $data["eventsubtype"]=$this->eventsubtype_model->getdropdown();
 $data["title"]="Edit eventgallery";
 $data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["before"]=$this->eventgallery_model->beforeedit($this->input->get("id"));
-$this->load->view("templatewith2",$data);
+// $this->load->view("templatewith2",$data);
+$this->load->view("template",$data);
 }
 public function editeventgallerysubmit()
 {
@@ -7772,10 +7812,11 @@ $data["before4"]=$this->input->get('id');
 $data["base_url"]=site_url("site/viewmicesubtypejson?id=").$this->input->get('id');
 $data["title"]="View micesubtype";
 $this->load->view("templatewith2",$data);
+// $this->load->view("template",$data);
 }
 function viewmicesubtypejson()
 {
-    $id=$this->input->get('id');
+$id=$this->input->get('id');
 $elements=array();
 $elements[0]=new stdClass();
 $elements[0]->field="`gse_micesubtype`.`id`";
@@ -7840,14 +7881,15 @@ public function createmicesubtype()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="createmicesubtype";
-$data["page2"]="block/miceblock";
-$data["before1"]=$this->input->get('id');
-$data["before2"]=$this->input->get('id');
-$data["before3"]=$this->input->get('id');
-$data["before4"]=$this->input->get('id');
+// $data["page2"]="block/miceblock";
+// $data["before1"]=$this->input->get('id');
+// $data["before2"]=$this->input->get('id');
+// $data["before3"]=$this->input->get('id');
+// $data["before4"]=$this->input->get('id');
 $data["mice"]=$this->mice_model->getdropdown();
 $data["title"]="Create micesubtype";
-$this->load->view("templatewith2",$data);
+// $this->load->view("templatewith2",$data);
+$this->load->view("template",$data);
 }
 public function createmicesubtypesubmit()
 {
@@ -7899,15 +7941,16 @@ public function editmicesubtype()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="editmicesubtype";
-$data["page2"]="block/miceblock";
-$data["before1"]=$this->input->get('id');
-$data["before2"]=$this->input->get('id');
-$data["before3"]=$this->input->get('id');
-$data["before4"]=$this->input->get('id');
+// $data["page2"]="block/miceblock";
+// $data["before1"]=$this->input->get('id');
+// $data["before2"]=$this->input->get('id');
+// $data["before3"]=$this->input->get('id');
+// $data["before4"]=$this->input->get('id');
 $data["mice"]=$this->mice_model->getdropdown();
 $data["title"]="Edit micesubtype";
 $data["before"]=$this->micesubtype_model->beforeedit($this->input->get("id"));
-$this->load->view("templatewith2",$data);
+// $this->load->view("templatewith2",$data);
+$this->load->view("template",$data);
 }
 public function editmicesubtypesubmit()
 {
@@ -8045,16 +8088,17 @@ public function createmicegallery()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="createmicegallery";
-$data["page2"]="block/miceblock";
-$data["before1"]=$this->input->get('id');
-$data["before2"]=$this->input->get('id');
-$data["before3"]=$this->input->get('id');
-$data["before4"]=$this->input->get('id');
+// $data["page2"]="block/miceblock";
+// $data["before1"]=$this->input->get('id');
+// $data["before2"]=$this->input->get('id');
+// $data["before3"]=$this->input->get('id');
+// $data["before4"]=$this->input->get('id');
 $data["mice"]=$this->mice_model->getdropdown();
 $data["micesubtype"]=$this->micesubtype_model->getdropdown();
 $data["title"]="Create micegallery";
 $data[ 'status' ] =$this->user_model->getstatusdropdown();
-$this->load->view("templatewith2",$data);
+// $this->load->view("templatewith2",$data);
+$this->load->view("template",$data);
 }
 public function createmicegallerysubmit()
 {
@@ -8096,17 +8140,18 @@ public function editmicegallery()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="editmicegallery";
-$data["page2"]="block/miceblock";
-$data["before1"]=$this->input->get('id');
-$data["before2"]=$this->input->get('id');
-$data["before3"]=$this->input->get('id');
-$data["before4"]=$this->input->get('id');
+// $data["page2"]="block/miceblock";
+// $data["before1"]=$this->input->get('id');
+// $data["before2"]=$this->input->get('id');
+// $data["before3"]=$this->input->get('id');
+// $data["before4"]=$this->input->get('id');
 $data["mice"]=$this->mice_model->getdropdown();
 $data["micesubtype"]=$this->micesubtype_model->getdropdown();
 $data["title"]="Edit micegallery";
 $data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["before"]=$this->micegallery_model->beforeedit($this->input->get("id"));
-$this->load->view("templatewith2",$data);
+// $this->load->view("templatewith2",$data);
+$this->load->view("template",$data);
 }
 public function editmicegallerysubmit()
 {
