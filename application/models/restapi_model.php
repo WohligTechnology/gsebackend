@@ -168,6 +168,23 @@ class restapi_model extends CI_Model
 
     }
 
+    public function getEvents()
+    {
+      $query = $this->db->query("SELECT `id`, `name`, `image`, `banner`, `order` FROM `gse_event` WHERE 1")->result();
+      if($query)
+      {
+        $obj->value = true;
+        $obj->data = $query;
+        return $obj;
+      }
+      else
+      {
+        $obj->value = false;
+        $obj->data = "No data found";
+        return $obj;
+      }
+    }
+
 
 }
 ?>

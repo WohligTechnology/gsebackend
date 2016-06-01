@@ -542,4 +542,11 @@ public function getWeddingInside()
   $this->load->view("json",$data);
 }
 
+public function getEvents()
+{
+// $id=$this->input->get('id');
+$data["message"]=$this->restapi_model->getEvents();
+$this->load->view("json",$data);
+}
+
 } ?>
