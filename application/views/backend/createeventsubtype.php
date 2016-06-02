@@ -48,7 +48,7 @@
 </div>
 <div class="row">
 <div class="input-field col s6">
-<label for="Release Date">Release Date</label>
+<label for="Release Date">Date</label>
 <input type="date" id="Release Date" class="datepicker" name="releasedate" value='<?php echo set_value('releasedate');?>'>
 </div>
 </div>

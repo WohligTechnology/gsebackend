@@ -55,6 +55,18 @@
 </div>
 </div>
 <div class="row">
+<div class="input-field col s6">
+<label for="Release Date">Date</label>
+<input type="date" id="Release Date" class="datepicker" name="releasedate" value='<?php echo set_value('releasedate',$before->date);?>'>
+</div>
+</div>
+<div class="row">
+<div class="input-field col s6">
+<label for="Location">Location</label>
+<input type="text" id="Location" name="location" value='<?php echo set_value('location',$before->location);?>'>
+</div>
+</div>
+<div class="row">
 <div class="col s6">
 <button type="submit" class="btn btn-primary waves-effect waves-light  blue darken-4">Save</button>
 <a href='<?php echo site_url("site/vieweventsubtype?id=").$this->input->get('eventid'); ?>' class='btn btn-secondary waves-effect waves-light red'>Cancel</a>
