@@ -499,32 +499,26 @@ public function getWeddingInside()
   $elements[0]->sort="1";
   $elements[0]->header="ID";
   $elements[0]->alias="id";
-
   $elements[1]=new stdClass();
   $elements[1]->field="`gse_weddingsubtype`.`name`";
   $elements[1]->sort="1";
   $elements[1]->header="Name";
   $elements[1]->alias="name";
-
   $elements[2]=new stdClass();
   $elements[2]->field="`gse_weddingsubtype`.`image`";
   $elements[2]->sort="1";
   $elements[2]->header="Image";
   $elements[2]->alias="image";
-
   $elements[3]=new stdClass();
   $elements[3]->field="`gse_weddingsubtype`.`wedding`";
   $elements[3]->sort="1";
   $elements[3]->header="Wedding";
   $elements[3]->alias="wedding";
-
   $elements[4]=new stdClass();
   $elements[4]->field="`gse_weddingsubtype`.`content`";
   $elements[4]->sort="1";
   $elements[4]->header="Content";
   $elements[4]->alias="content";
-
-
   $search=$this->input->get_post("search");
   $pageno=$this->input->get_post("pageno");
   $orderby=$this->input->get_post("orderby");
@@ -544,8 +538,100 @@ public function getWeddingInside()
 
 public function getEvents()
 {
-// $id=$this->input->get('id');
 $data["message"]=$this->restapi_model->getEvents();
+$this->load->view("json",$data);
+}
+public function getEventInsideBanner()
+{
+$id=$this->input->get('id');
+$data["message"]=$this->restapi_model->getEventInsideBanner($id);
+$this->load->view("json",$data);
+}
+
+public function getEventInside()
+{
+    $where = ' WHERE 1 ';
+    $id = $this->input->get_post('id');
+    $this->chintantable->createelement('`id`', '1', 'ID', 'id');
+    $this->chintantable->createelement('`name`', '1', 'name', 'name');
+    $this->chintantable->createelement('`image`', '0', 'image', 'image');
+    $this->chintantable->createelement('`content`', '0', 'content', 'content');
+    $this->chintantable->createelement('`date`', '0', 'date', 'date');
+    $this->chintantable->createelement('`location`', '0', 'location', 'location');
+    $this->chintantable->createelement('`order`', '0', 'order', 'order');
+    $search = $this->input->get_post('search');
+    $pageno = $this->input->get_post('pageno');
+    $orderby = $this->input->get_post('orderby');
+    $orderorder = $this->input->get_post('orderorder');
+    $maxrow = $this->input->get_post('maxrow');
+    if ($maxrow == '') {
+        $maxrow = 20;
+    }
+    if ($orderby == '') {
+        $orderby = 'id';
+        $orderorder = 'DESC';
+    }
+
+    if ($id != '') {
+        $where = " WHERE `event` = '$id'";
+    }
+    $data['message'] = $this->chintantable->query($pageno, $maxrow, $orderby, $orderorder, $search, $elements, 'FROM `gse_eventsubtype`', $where, '' );
+
+    $this->load->view('json', $data);
+}
+public function getEventInsideDetails()
+{
+$id=$this->input->get('id');
+$data["message"]=$this->restapi_model->getEventInsideDetails($id);
+$this->load->view("json",$data);
+}
+public function getMices()
+{
+$data["message"]=$this->restapi_model->getMices();
+$this->load->view("json",$data);
+}
+public function getMiceInsideBanner()
+{
+$id=$this->input->get('id');
+$data["message"]=$this->restapi_model->getMiceInsideBanner($id);
+$this->load->view("json",$data);
+}
+
+public function getMiceInside()
+{
+    $where = ' WHERE 1 ';
+    $id = $this->input->get_post('id');
+    $this->chintantable->createelement('`id`', '1', 'ID', 'id');
+    $this->chintantable->createelement('`name`', '1', 'name', 'name');
+    $this->chintantable->createelement('`image`', '0', 'image', 'image');
+    $this->chintantable->createelement('`content`', '0', 'content', 'content');
+    $this->chintantable->createelement('`date`', '0', 'date', 'date');
+    $this->chintantable->createelement('`location`', '0', 'location', 'location');
+    $this->chintantable->createelement('`order`', '0', 'order', 'order');
+    $search = $this->input->get_post('search');
+    $pageno = $this->input->get_post('pageno');
+    $orderby = $this->input->get_post('orderby');
+    $orderorder = $this->input->get_post('orderorder');
+    $maxrow = $this->input->get_post('maxrow');
+    if ($maxrow == '') {
+        $maxrow = 20;
+    }
+    if ($orderby == '') {
+        $orderby = 'id';
+        $orderorder = 'DESC';
+    }
+
+    if ($id != '') {
+        $where = " WHERE `event` = '$id'";
+    }
+    $data['message'] = $this->chintantable->query($pageno, $maxrow, $orderby, $orderorder, $search, $elements, 'FROM `gse_eventsubtype`', $where, '' );
+
+    $this->load->view('json', $data);
+}
+public function getMiceInsideDetails()
+{
+$id=$this->input->get('id');
+$data["message"]=$this->restapi_model->getMiceInsideDetails($id);
 $this->load->view("json",$data);
 }
 

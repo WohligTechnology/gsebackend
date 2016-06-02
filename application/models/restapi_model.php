@@ -70,9 +70,7 @@ class restapi_model extends CI_Model
           $query['weddingdiaries'] = $this->db->query("SELECT `gse_diaryarticle`.`id`, `gse_diaryarticle`.`status`, `gse_diaryarticle`.`diarycategory`, `gse_diaryarticle`.`diarysubcategory`, `gse_diaryarticle`.`name`, `gse_diaryarticle`.`image`, `gse_diaryarticle`.`timestamp`, `gse_diaryarticle`.`content`, `gse_diaryarticle`.`date`, `gse_diaryarticle`.`type`, `gse_diaryarticle`.`showhide` FROM `gse_diaryarticle`
           LEFT OUTER JOIN `gse_diarycategory` ON `gse_diarycategory`.`id`=`gse_diaryarticle`.`diarycategory`
           WHERE `gse_diarycategory`.`name` LIKE '%movie%' OR `gse_diarycategory`.`name` LIKE '%movies%' ORDER BY `date` DESC LIMIT 3 ")->result();
-
           $query['testimonial'] = $this->db->query("SELECT * FROM `gse_testimonial` WHERE `category`=2")->result();
-
           if (!query)
           {
           $obj->value = false;
@@ -114,8 +112,9 @@ class restapi_model extends CI_Model
       $query['weddingdetail']=$this->db->query("SELECT `id`, `wedding`, `name`, `image`, `content`, `videos` FROM `gse_weddingsubtype` WHERE `id`='$id'")->row();
       // $query['wallpaper']=$this->db->query("SELECT `id`, `movie`, `image` FROM `gse_moviewallpaper` WHERE `movie`='$id'")->result();
       $query['imagegallery']=$this->db->query("SELECT `id`, `wedding`, `status`, `order`, `image`, `weddingsubtype` FROM `gse_weddinggallery` WHERE `weddingsubtype`=$id AND `status`=1 ORDER BY `order`")->result();
+      $query['featuredvideos']=$this->db->query("SELECT `id`, `wedding`, `name`, `image`, `banner`, `weddingsubtype` FROM `gse_weddingtype` WHERE `weddingsubtype`=$id")->result();
       $wedding = $this->db->query("SELECT `wedding` FROM `gse_weddingsubtype` WHERE `id`='$id'")->row();
-      $query['relatedarticles'] = $this->db->query("SELECT `id`, `wedding`, `name`, `image`, `content`, `videos` FROM `gse_weddingsubtype` WHERE `wedding` = $wedding->wedding AND `id` !='$id'")->result();
+      $query['relatedarticles'] = $this->db->query("SELECT `id`, `wedding`, `name`, `image`, `content`, `videos` FROM `gse_weddingsubtype` WHERE `wedding` = $wedding->wedding AND `id` !='$id' ORDER BY `id` DESC LIMIT 0,3")->result();
       if($query)
       {
         $obj->value = true;
@@ -168,7 +167,131 @@ class restapi_model extends CI_Model
 
     public function getEvents()
     {
-      $query = $this->db->query("SELECT `id`, `name`, `image`, `banner`, `order` FROM `gse_event` WHERE 1 ORDER BY `order`")->result();
+      $query['description'] = $this->db->query("SELECT `id`, `order`, `status`, `name`, `content` FROM `gse_category` WHERE `status`=1 AND `id`=4")->row();
+
+      $query['events'] = $this->db->query("SELECT * FROM `gse_event`")->result();
+
+      $query['services'] = $this->db->query("SELECT `id`, `name`, `content`, `type`, `order` FROM `gse_service` WHERE `type`=1 ORDER BY `order`")->result();
+
+      $query['eventdiaries'] = $this->db->query("SELECT `gse_diaryarticle`.`id`, `gse_diaryarticle`.`status`, `gse_diaryarticle`.`diarycategory`, `gse_diaryarticle`.`diarysubcategory`, `gse_diaryarticle`.`name`, `gse_diaryarticle`.`image`, `gse_diaryarticle`.`timestamp`, `gse_diaryarticle`.`content`, `gse_diaryarticle`.`date`, `gse_diaryarticle`.`type`, `gse_diaryarticle`.`showhide` FROM `gse_diaryarticle`
+      LEFT OUTER JOIN `gse_diarycategory` ON `gse_diarycategory`.`id`=`gse_diaryarticle`.`diarycategory`
+      WHERE `gse_diarycategory`.`name` LIKE '%event%' OR `gse_diarycategory`.`name` LIKE '%events%' ORDER BY `date` DESC LIMIT 3 ")->result();
+      $query['testimonial'] = $this->db->query("SELECT * FROM `gse_testimonial` WHERE `category`=4")->result();
+      if (!query)
+      {
+      $obj->value = false;
+      $obj->data = "No data found";
+      return $obj;
+      }
+      else
+      {
+      $obj->value = true;
+      $obj->data = $query;
+      return $obj;
+      }
+    }
+
+
+    public function getEventInsideBanner($id){
+      $query=$this->db->query("SELECT `id`, `name`, `image`, `banner` FROM `gse_event` WHERE `id`='$id'")->row();
+      if($query)
+      {
+        $obj->value = true;
+        $obj->data = $query;
+        return $obj;
+      }
+      else
+      {
+        $obj->value = false;
+        $obj->data = "No data found";
+        return $obj;
+      }
+    }
+
+    public function getEventInsideDetails($id){
+      $query['eventdetail']=$this->db->query("SELECT `id`, `event`, `name`, `image`, `content`, `order`, `status`, `date`, `location` FROM `gse_eventsubtype` WHERE `id`='$id'")->row();
+      $query['imagegallery']=$this->db->query("SELECT `id`, `event`, `status`, `order`, `image`, `eventsubtype` FROM `gse_eventgallery` WHERE `eventsubtype`=$id AND `status`=1 ORDER BY `order`")->result();
+      $query['featuredvideos']=$this->db->query("SELECT `id`, `event`, `status`, `order`, `url`, `eventsubtype` FROM `gse_eventvideos` WHERE `eventsubtype`=$id")->result();
+      $event = $this->db->query("SELECT `event` FROM `gse_eventsubtype` WHERE `id`='$id'")->row();
+      if(empty($event))
+      {
+        $query['relatedarticles'] =[];
+      }
+      else
+      {
+        $query['relatedarticles'] = $this->db->query("SELECT `id`, `event`, `name`, `image`, `content`, `order`, `status`, `date`, `location` FROM `gse_eventsubtype` WHERE `event` = $event->event AND `id` !='$id' ORDER BY `id` DESC LIMIT 0,3")->result();
+      }
+
+      if($query)
+      {
+        $obj->value = true;
+        $obj->data = $query;
+        return $obj;
+      }
+      else
+      {
+        $obj->value = false;
+        $obj->data = "No data found";
+        return $obj;
+      }
+    }
+
+    public function getMices()
+    {
+      $query['description'] = $this->db->query("SELECT `id`, `order`, `status`, `name`, `content` FROM `gse_category` WHERE `status`=1 AND `id`=6")->row();
+
+      $query['mice'] = $this->db->query("SELECT * FROM `gse_mice`")->result();
+
+      $query['services'] = $this->db->query("SELECT `id`, `name`, `content`, `type`, `order` FROM `gse_service` WHERE `type`=1 ORDER BY `order`")->result();
+
+      $query['micediaries'] = $this->db->query("SELECT `gse_diaryarticle`.`id`, `gse_diaryarticle`.`status`, `gse_diaryarticle`.`diarycategory`, `gse_diaryarticle`.`diarysubcategory`, `gse_diaryarticle`.`name`, `gse_diaryarticle`.`image`, `gse_diaryarticle`.`timestamp`, `gse_diaryarticle`.`content`, `gse_diaryarticle`.`date`, `gse_diaryarticle`.`type`, `gse_diaryarticle`.`showhide` FROM `gse_diaryarticle`
+      LEFT OUTER JOIN `gse_diarycategory` ON `gse_diarycategory`.`id`=`gse_diaryarticle`.`diarycategory`
+      WHERE `gse_diarycategory`.`name` LIKE '%mice%' OR `gse_diarycategory`.`name` LIKE '%mices%' ORDER BY `date` DESC LIMIT 3 ")->result();
+      $query['testimonial'] = $this->db->query("SELECT * FROM `gse_testimonial` WHERE `category`=6")->result();
+      if (!query)
+      {
+      $obj->value = false;
+      $obj->data = "No data found";
+      return $obj;
+      }
+      else
+      {
+      $obj->value = true;
+      $obj->data = $query;
+      return $obj;
+      }
+    }
+    public function getMiceInsideBanner($id){
+      $query=$this->db->query("SELECT `id`, `name`, `image`, `banner` FROM `gse_mice` WHERE `id`='$id'")->row();
+      if($query)
+      {
+        $obj->value = true;
+        $obj->data = $query;
+        return $obj;
+      }
+      else
+      {
+        $obj->value = false;
+        $obj->data = "No data found";
+        return $obj;
+      }
+    }
+
+    public function getMiceInsideDetails($id){
+      $query['micedetail']=$this->db->query("SELECT `id`, `mice`, `order`, `name`, `image`, `url`, `banner`, `content` FROM `gse_micesubtype` WHERE `id`='$id'")->row();
+      $query['imagegallery']=$this->db->query("SELECT `id`, `mice`, `status`, `order`, `image`, `micesubtype` FROM `gse_micegallery` WHERE `micesubtype`=$id AND `status`=1 ORDER BY `order`")->result();
+      $query['featuredvideos']=$this->db->query("SELECT `id`, `mice`, `status`, `order`, `url`, `micesubtype` FROM `gse_micevideos` WHERE `micesubtype`=$id")->result();
+      $mice = $this->db->query("SELECT `mice` FROM `gse_micesubtype` WHERE `id`='$id'")->row();
+      // print_r($mice);
+      if(empty($mice))
+      {
+        $query['relatedarticles'] = [];
+      }
+      else
+      {
+          $query['relatedarticles'] = $this->db->query("SELECT `id`, `mice`, `order`, `name`, `image`, `url`, `banner`, `content` FROM `gse_micesubtype` WHERE `mice` = $mice->mice AND `id` !='$id' ORDER BY `id` DESC LIMIT 0,3")->result();
+      }
+
       if($query)
       {
         $obj->value = true;
