@@ -306,6 +306,31 @@ class restapi_model extends CI_Model
       }
     }
 
+    public function getWorldTour()
+    {
+      $query['description'] = $this->db->query("SELECT `id`, `order`, `status`, `name`, `content` FROM `gse_category` WHERE `status`=1 AND `id`=7")->row();
+
+      $query['worldtour'] = $this->db->query("SELECT * FROM `gse_worldtour`")->result();
+
+      $query['services'] = $this->db->query("SELECT `id`, `name`, `content`, `type`, `order` FROM `gse_service` WHERE `type`=1 ORDER BY `order`")->result();
+
+      $query['worldtourdiaries'] = $this->db->query("SELECT `gse_diaryarticle`.`id`, `gse_diaryarticle`.`status`, `gse_diaryarticle`.`diarycategory`, `gse_diaryarticle`.`diarysubcategory`, `gse_diaryarticle`.`name`, `gse_diaryarticle`.`image`, `gse_diaryarticle`.`timestamp`, `gse_diaryarticle`.`content`, `gse_diaryarticle`.`date`, `gse_diaryarticle`.`type`, `gse_diaryarticle`.`showhide` FROM `gse_diaryarticle`
+      LEFT OUTER JOIN `gse_diarycategory` ON `gse_diarycategory`.`id`=`gse_diaryarticle`.`diarycategory`
+      WHERE `gse_diarycategory`.`name` LIKE '%world tour%' OR `gse_diarycategory`.`name` LIKE '%worldtour%' ORDER BY `date` DESC LIMIT 3 ")->result();
+      if (!query)
+      {
+      $obj->value = false;
+      $obj->data = "No data found";
+      return $obj;
+      }
+      else
+      {
+      $obj->value = true;
+      $obj->data = $query;
+      return $obj;
+      }
+    }
+
 
 }
 ?>

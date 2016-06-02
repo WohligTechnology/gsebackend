@@ -585,9 +585,9 @@ $id=$this->input->get('id');
 $data["message"]=$this->restapi_model->getEventInsideDetails($id);
 $this->load->view("json",$data);
 }
-public function getMices()
+public function getMice()
 {
-$data["message"]=$this->restapi_model->getMices();
+$data["message"]=$this->restapi_model->getMice();
 $this->load->view("json",$data);
 }
 public function getMiceInsideBanner()
@@ -632,6 +632,55 @@ public function getMiceInsideDetails()
 {
 $id=$this->input->get('id');
 $data["message"]=$this->restapi_model->getMiceInsideDetails($id);
+$this->load->view("json",$data);
+}
+public function getWorldTour()
+{
+$data["message"]=$this->restapi_model->getWorldTour();
+$this->load->view("json",$data);
+}
+public function getWorldTourInsideBanner()
+{
+$id=$this->input->get('id');
+$data["message"]=$this->restapi_model->getWorldTourInsideBanner($id);
+$this->load->view("json",$data);
+}
+
+public function getWorldTourInside()
+{
+    $where = ' WHERE 1 ';
+    $id = $this->input->get_post('id');
+    $this->chintantable->createelement('`id`', '1', 'ID', 'id');
+    $this->chintantable->createelement('`name`', '1', 'name', 'name');
+    $this->chintantable->createelement('`image`', '0', 'image', 'image');
+    $this->chintantable->createelement('`content`', '0', 'content', 'content');
+    $this->chintantable->createelement('`date`', '0', 'date', 'date');
+    $this->chintantable->createelement('`location`', '0', 'location', 'location');
+    $this->chintantable->createelement('`order`', '0', 'order', 'order');
+    $search = $this->input->get_post('search');
+    $pageno = $this->input->get_post('pageno');
+    $orderby = $this->input->get_post('orderby');
+    $orderorder = $this->input->get_post('orderorder');
+    $maxrow = $this->input->get_post('maxrow');
+    if ($maxrow == '') {
+        $maxrow = 20;
+    }
+    if ($orderby == '') {
+        $orderby = 'id';
+        $orderorder = 'DESC';
+    }
+
+    if ($id != '') {
+        $where = " WHERE `event` = '$id'";
+    }
+    $data['message'] = $this->chintantable->query($pageno, $maxrow, $orderby, $orderorder, $search, $elements, 'FROM `gse_eventsubtype`', $where, '' );
+
+    $this->load->view('json', $data);
+}
+public function getWorldTourInsideDetails()
+{
+$id=$this->input->get('id');
+$data["message"]=$this->restapi_model->getWorldTourInsideDetails($id);
 $this->load->view("json",$data);
 }
 
