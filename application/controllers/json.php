@@ -683,5 +683,17 @@ $id=$this->input->get('id');
 $data["message"]=$this->restapi_model->getWorldTourInsideDetails($id);
 $this->load->view("json",$data);
 }
+public function getMediaCorner()
+{
+// $id=$this->input->get('id');
+$data["message"]=$this->restapi_model->getMediaCorner();
+$this->load->view("json",$data);
+}
+public function getSport()
+{
+// $id=$this->input->get('id');
+$data["message"]=$this->restapi_model->getSport();
+$this->load->view("json",$data);
+}
 
 } ?>

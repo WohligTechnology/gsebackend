@@ -171,7 +171,7 @@ class restapi_model extends CI_Model
 
       $query['events'] = $this->db->query("SELECT * FROM `gse_event`")->result();
 
-      $query['services'] = $this->db->query("SELECT `id`, `name`, `content`, `type`, `order` FROM `gse_service` WHERE `type`=1 ORDER BY `order`")->result();
+      $query['services'] = $this->db->query("SELECT `id`, `name`, `content`, `type`, `order` FROM `gse_service` WHERE `type`=3 ORDER BY `order`")->result();
 
       $query['eventdiaries'] = $this->db->query("SELECT `gse_diaryarticle`.`id`, `gse_diaryarticle`.`status`, `gse_diaryarticle`.`diarycategory`, `gse_diaryarticle`.`diarysubcategory`, `gse_diaryarticle`.`name`, `gse_diaryarticle`.`image`, `gse_diaryarticle`.`timestamp`, `gse_diaryarticle`.`content`, `gse_diaryarticle`.`date`, `gse_diaryarticle`.`type`, `gse_diaryarticle`.`showhide` FROM `gse_diaryarticle`
       LEFT OUTER JOIN `gse_diarycategory` ON `gse_diarycategory`.`id`=`gse_diaryarticle`.`diarycategory`
@@ -242,7 +242,7 @@ class restapi_model extends CI_Model
 
       $query['mice'] = $this->db->query("SELECT * FROM `gse_mice`")->result();
 
-      $query['services'] = $this->db->query("SELECT `id`, `name`, `content`, `type`, `order` FROM `gse_service` WHERE `type`=1 ORDER BY `order`")->result();
+      $query['services'] = $this->db->query("SELECT `id`, `name`, `content`, `type`, `order` FROM `gse_service` WHERE `type`=5 ORDER BY `order`")->result();
 
       $query['micediaries'] = $this->db->query("SELECT `gse_diaryarticle`.`id`, `gse_diaryarticle`.`status`, `gse_diaryarticle`.`diarycategory`, `gse_diaryarticle`.`diarysubcategory`, `gse_diaryarticle`.`name`, `gse_diaryarticle`.`image`, `gse_diaryarticle`.`timestamp`, `gse_diaryarticle`.`content`, `gse_diaryarticle`.`date`, `gse_diaryarticle`.`type`, `gse_diaryarticle`.`showhide` FROM `gse_diaryarticle`
       LEFT OUTER JOIN `gse_diarycategory` ON `gse_diarycategory`.`id`=`gse_diaryarticle`.`diarycategory`
@@ -310,9 +310,10 @@ class restapi_model extends CI_Model
     {
       $query['description'] = $this->db->query("SELECT `id`, `order`, `status`, `name`, `content` FROM `gse_category` WHERE `status`=1 AND `id`=7")->row();
 
-      $query['worldtour'] = $this->db->query("SELECT * FROM `gse_worldtour`")->result();
+      $query['worldtourpast'] = $this->db->query("SELECT * FROM `gse_worldtour` WHERE `type`=1")->result();
+      $query['worldtourupcoming'] = $this->db->query("SELECT * FROM `gse_worldtour` WHERE `type`=2")->result();
 
-      $query['services'] = $this->db->query("SELECT `id`, `name`, `content`, `type`, `order` FROM `gse_service` WHERE `type`=1 ORDER BY `order`")->result();
+      $query['services'] = $this->db->query("SELECT `id`, `name`, `content`, `type`, `order` FROM `gse_service` WHERE `type`=6 ORDER BY `order`")->result();
 
       $query['worldtourdiaries'] = $this->db->query("SELECT `gse_diaryarticle`.`id`, `gse_diaryarticle`.`status`, `gse_diaryarticle`.`diarycategory`, `gse_diaryarticle`.`diarysubcategory`, `gse_diaryarticle`.`name`, `gse_diaryarticle`.`image`, `gse_diaryarticle`.`timestamp`, `gse_diaryarticle`.`content`, `gse_diaryarticle`.`date`, `gse_diaryarticle`.`type`, `gse_diaryarticle`.`showhide` FROM `gse_diaryarticle`
       LEFT OUTER JOIN `gse_diarycategory` ON `gse_diarycategory`.`id`=`gse_diaryarticle`.`diarycategory`
@@ -331,6 +332,22 @@ class restapi_model extends CI_Model
       }
     }
 
+    public function getMediaCorner(){
+      $query['description'] = $this->db->query("SELECT `id`, `order`, `status`, `name`, `content` FROM `gse_category` WHERE `status`=1 AND `id`=9")->row();
+      $query['media']=$this->db->query("SELECT `id`, `name`, `image`, `date`, `medianame`, `url`, `facebook`, `twitter`, `message` FROM `gse_mediacorner` WHERE 1")->result();
+      if($query)
+      {
+        $obj->value = true;
+        $obj->data = $query;
+        return $obj;
+      }
+      else
+      {
+        $obj->value = false;
+        $obj->data = "No data found";
+        return $obj;
+      }
+    }
 
 }
 ?>

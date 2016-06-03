@@ -64,7 +64,9 @@ return $return;
         "1" => "Wedding",
         "2" => "Sports",
         "3" => "Events",
-        "4" => "Talents"
+        "4" => "Talents",
+        "5" => "Mice",
+        "6" => "World Tour"
         );
 
         return $return;
