@@ -7437,7 +7437,9 @@ $order=$this->input->get_post("order");
 $image=$this->menu_model->createImage();
 $content=$this->input->get_post("content");
 $videos=$this->input->get_post("videos");
-if($this->eventsubtype_model->edit($id,$event,$name,$image,$content,$order)==0)
+$location=$this->input->get_post("location");
+$releasedate=$this->input->get_post("releasedate");
+if($this->eventsubtype_model->edit($id,$event,$name,$image,$content,$order,$location,$releasedate)==0)
 $data["alerterror"]="New eventsubtype could not be Updated.";
 else
 $data["alertsuccess"]="eventsubtype Updated Successfully.";
