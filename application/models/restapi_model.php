@@ -209,7 +209,7 @@ class restapi_model extends CI_Model
     }
 
     public function getEventInsideDetails($id){
-      $query['eventdetail']=$this->db->query("SELECT `id`, `event`, `name`, `image`, `content`, `order`, `status`, `date`, `location` FROM `gse_eventsubtype` WHERE `id`='$id'")->row();
+      $query['eventdetail']=$this->db->query("SELECT `id`, `event`, `name`, `image`, `content`, `order`, `status`, `date`, `location`,`banner` FROM `gse_eventsubtype` WHERE `id`='$id'")->row();
       $query['imagegallery']=$this->db->query("SELECT `id`, `event`, `status`, `order`, `image`, `eventsubtype` FROM `gse_eventgallery` WHERE `eventsubtype`=$id AND `status`=1 ORDER BY `order`")->result();
       $query['featuredvideos']=$this->db->query("SELECT `id`, `event`, `status`, `order`, `url`, `eventsubtype` FROM `gse_eventvideos` WHERE `eventsubtype`=$id")->result();
       $event = $this->db->query("SELECT `event` FROM `gse_eventsubtype` WHERE `id`='$id'")->row();

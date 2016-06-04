@@ -34,6 +34,17 @@
 			</div><span style=" display: block;
     padding-top: 30px;">630 X 285</span>
 		</div>
+		<div class="row" style="display:block">
+					<div class="file-field input-field col m6 s12">
+						<div class="btn blue darken-4">
+							<span>Banner</span>
+							<input name="banner" type="file" multiple>
+						</div>
+						<div class="file-path-wrapper">
+							<input class="file-path validate" type="text" placeholder="Upload one or more files" value="<?php echo set_value('banner');?>">
+						</div>
+					</div>
+				</div>
 <div class="row">
 <div class="input-field col s6">
 <label for="Content">Content</label>

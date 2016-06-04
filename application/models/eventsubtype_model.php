@@ -3,9 +3,9 @@ if ( !defined( "BASEPATH" ) )
 exit( "No direct script access allowed" );
 class eventsubtype_model extends CI_Model
 {
-public function create($event,$name,$image,$content,$order,$releasedate,$location)
+public function create($event,$name,$image,$content,$order,$releasedate,$location,$banner)
 {
-$data=array("event" => $event,"name" => $name,"image" => $image,"content" => $content,"order" => $order,"date" => $releasedate,"location" => $location);
+$data=array("event" => $event,"name" => $name,"image" => $image,"content" => $content,"order" => $order,"date" => $releasedate,"location" => $location,"banner" => $banner);
 $query=$this->db->insert( "gse_eventsubtype", $data );
 $id=$this->db->insert_id();
 if(!$query)
@@ -24,14 +24,19 @@ $this->db->where("id",$id);
 $query=$this->db->get("gse_eventsubtype")->row();
 return $query;
 }
-public function edit($id,$event,$name,$image,$content,$order,$status,$releasedate,$location)
+public function edit($id,$event,$name,$image,$content,$order,$releasedate,$location,$banner)
 {
 if($image=="")
 {
 $image=$this->eventsubtype_model->getimagebyid($id);
 $image=$image->image;
 }
-$data=array("event" => $event,"name" => $name,"image" => $image,"content" => $content,"order" => $order,"status" => $status,"date" => $releasedate,"location" => $location);
+if($banner=="")
+{
+$banner=$this->micesubtype_model->getbannerbyid($id);
+$banner=$banner->banner;
+}
+$data=array("event" => $event,"name" => $name,"image" => $image,"content" => $content,"order" => $order,"date" => $releasedate,"location" => $location,"banner" => $banner);
 $this->db->where( "id", $id );
 $query=$this->db->update( "gse_eventsubtype", $data );
 return 1;
@@ -44,6 +49,11 @@ return $query;
 public function getimagebyid($id)
 {
 $query=$this->db->query("SELECT `image` FROM `gse_eventsubtype` WHERE `id`='$id'")->row();
+return $query;
+}
+public function getbannerbyid($id)
+{
+$query=$this->db->query("SELECT `banner` FROM `gse_eventsubtype` WHERE `id`='$id'")->row();
 return $query;
 }
 public function getdropdown()

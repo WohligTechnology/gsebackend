@@ -7385,7 +7385,17 @@ $content=$this->input->get_post("content");
 $videos=$this->input->get_post("videos");
 $releasedate=$this->input->get_post("releasedate");
 $location=$this->input->get_post("location");
-if($this->eventsubtype_model->create($event,$name,$image,$content,$order,$releasedate,$location)==0)
+$config['upload_path'] = './uploads/';
+					$config['allowed_types'] = 'gif|jpg|png|jpeg';
+					$this->load->library('upload', $config);
+					$filename="banner";
+					$banner="";
+					if (  $this->upload->do_upload($filename))
+					{
+						$uploaddata = $this->upload->data();
+						$banner=$uploaddata['file_name'];
+					}
+if($this->eventsubtype_model->create($event,$name,$image,$content,$order,$releasedate,$location,$banner)==0)
 $data["alerterror"]="New eventsubtype could not be created.";
 else
 $data["alertsuccess"]="eventsubtype created Successfully.";
@@ -7439,7 +7449,24 @@ $content=$this->input->get_post("content");
 $videos=$this->input->get_post("videos");
 $location=$this->input->get_post("location");
 $releasedate=$this->input->get_post("releasedate");
-if($this->eventsubtype_model->edit($id,$event,$name,$image,$content,$order,$location,$releasedate)==0)
+$config['upload_path'] = './uploads/';
+			 $config['allowed_types'] = 'gif|jpg|png|jpeg';
+			 $this->load->library('upload', $config);
+			 $filename="banner";
+			 $banner="";
+			 if (  $this->upload->do_upload($filename))
+			 {
+				 $uploaddata = $this->upload->data();
+				 $banner=$uploaddata['file_name'];
+			 }
+
+			 if($banner=="")
+			 {
+			 $banner=$this->eventsubtype_model->getbannerbyid($id);
+					// print_r($image);
+				 $banner=$banner->banner;
+			 }
+if($this->eventsubtype_model->edit($id,$event,$name,$image,$content,$order,$releasedate,$location,$banner)==0)
 $data["alerterror"]="New eventsubtype could not be Updated.";
 else
 $data["alertsuccess"]="eventsubtype Updated Successfully.";
@@ -8000,7 +8027,7 @@ $image=$this->menu_model->createImage();
 
 						if($banner=="")
 						{
-						$banner=$this->mice_model->getbannerbyid($id);
+						$banner=$this->micesubtype_model->getbannerbyid($id);
 						   // print_r($image);
 							$banner=$banner->banner;
 						}
