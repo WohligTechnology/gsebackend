@@ -314,6 +314,7 @@ class restapi_model extends CI_Model
       $query['worldtourupcoming'] = $this->db->query("SELECT * FROM `gse_worldtour` WHERE `type`=2")->result();
 
       $query['services'] = $this->db->query("SELECT `id`, `name`, `content`, `type`, `order` FROM `gse_service` WHERE `type`=6 ORDER BY `order`")->result();
+      $query['testimonial'] = $this->db->query("SELECT `id`, `category`, `status`, `order`, `name`, `author`, `image`, `quote` FROM `gse_testimonial` WHERE `category`=7")->result();
 
       $query['worldtourdiaries'] = $this->db->query("SELECT `gse_diaryarticle`.`id`, `gse_diaryarticle`.`status`, `gse_diaryarticle`.`diarycategory`, `gse_diaryarticle`.`diarysubcategory`, `gse_diaryarticle`.`name`, `gse_diaryarticle`.`image`, `gse_diaryarticle`.`timestamp`, `gse_diaryarticle`.`content`, `gse_diaryarticle`.`date`, `gse_diaryarticle`.`type`, `gse_diaryarticle`.`showhide` FROM `gse_diaryarticle`
       LEFT OUTER JOIN `gse_diarycategory` ON `gse_diarycategory`.`id`=`gse_diaryarticle`.`diarycategory`
