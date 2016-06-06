@@ -372,5 +372,26 @@ class restapi_model extends CI_Model
       }
     }
 
+    public function getWorldTourInsideDetails($id){
+      $query['worldtourdetail']=$this->db->query("SELECT `id`, `type`, `image`, `name`, `location`, `date`, `venue`, `content`, `banner` FROM `gse_worldtour` WHERE `id`='$id'")->row();
+      $query['wallpaper']=$this->db->query("SELECT `id`, `image`, `order`, `worldtour` FROM `gse_worldtourwallpaper` WHERE `worldtour`='$id'")->result();
+      $query['imagegallery']=$this->db->query("SELECT `id`, `image`, `order`, `worldtour` FROM `gse_worldtourimage` WHERE `worldtour`='$id' ORDER BY `order` ASC")->result();
+      $query['featuredvideos']=$this->db->query("SELECT `id`, `worldtour`, `order`, `url` FROM `gse_worldtourvideos` WHERE `worldtour`='$id' ORDER BY `order` ASC")->result();
+      if($query)
+      {
+        $obj->value = true;
+        $obj->data = $query;
+        return $obj;
+      }
+      else
+      {
+        $obj->value = false;
+        $obj->data = "No data found";
+        return $obj;
+      }
+
+    }
+
+
 }
 ?>
