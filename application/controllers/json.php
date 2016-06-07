@@ -771,6 +771,12 @@ public function getSportsDetail()
   $data["message"]=$this->restapi_model->getSportsDetail($id);
   $this->load->view("json",$data);
 }
+public function getasfcSportsDetail()
+{
+  $id=$this->input->get('id');
+  $data["message"]=$this->restapi_model->getasfcSportsDetail($id);
+  $this->load->view("json",$data);
+}
 public function getSportsDetailInside()
 {
   $id=$this->input->get('id');

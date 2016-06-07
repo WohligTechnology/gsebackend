@@ -395,6 +395,24 @@ class restapi_model extends CI_Model
         return $obj;
       }
     }
+    public function getasfcSportsDetail($id){
+      $query['description'] = $this->db->query("SELECT `id`, `order`, `status`, `name`, `image`, `link`, `banner`, `content` FROM `gse_sportscategory` WHERE `id`=$id")->row();
+
+      $query['playerlist'] = $this->db->query("SELECT `id`, `order`, `status`, `sportscategory`, `name`, `image` FROM `gse_player`  WHERE `sportscategory`=$id")->result();
+      $query['testimonial'] = $this->db->query("SELECT * FROM `gse_testimonial` WHERE `category`=16")->result();
+      if($query)
+      {
+        $obj->value = true;
+        $obj->data = $query;
+        return $obj;
+      }
+      else
+      {
+        $obj->value = false;
+        $obj->data = "No data found";
+        return $obj;
+      }
+    }
     public function getWorldTourInsideDetails($id){
       $query['worldtourdetail']=$this->db->query("SELECT `id`, `type`, `image`, `name`, `location`, `date`, `venue`, `content`, `banner` FROM `gse_worldtour` WHERE `id`='$id'")->row();
       $query['wallpaper']=$this->db->query("SELECT `id`, `image`, `order`, `worldtour` FROM `gse_worldtourwallpaper` WHERE `worldtour`='$id'")->result();
