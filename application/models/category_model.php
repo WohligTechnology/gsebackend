@@ -53,5 +53,20 @@ $return[$row->id]=$row->name;
 }
 return $return;
 }
+public function gettestimonialdropdown()
+{
+$query=$this->db->query("SELECT * FROM `gse_category` ORDER BY `id` ASC")->result();
+$return=array(
+"" => "Select Option",
+"15" => "JPP",
+"16" => "ASFC",
+"17" => "PFH"
+);
+foreach($query as $row)
+{
+$return[$row->id]=$row->name;
+}
+return $return;
+}
 }
 ?>

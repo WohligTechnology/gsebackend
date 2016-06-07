@@ -5227,7 +5227,7 @@ if($orderby=="")
 $orderby="id";
 $orderorder="ASC";
 }
-$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_testimonial` INNER JOIN `gse_category` ON `gse_category`.`id`=`gse_testimonial`.`category`");
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_testimonial` LEFT OUTER JOIN `gse_category` ON `gse_category`.`id`=`gse_testimonial`.`category`");
 $this->load->view("json",$data);
 }
 
@@ -5237,7 +5237,7 @@ $access=array("1");
 $this->checkaccess($access);
 $data["page"]="createtestimonial";
 $data[ 'status' ] =$this->user_model->getstatusdropdown();
-     $data['category']=$this->category_model->getdropdown();
+     $data['category']=$this->category_model->gettestimonialdropdown();
 $data["title"]="Create testimonial";
 $this->load->view("template",$data);
 }
@@ -5320,7 +5320,7 @@ $this->checkaccess($access);
 $data["page"]="edittestimonial";
 $data["title"]="Edit testimonial";
 $data[ 'status' ] =$this->user_model->getstatusdropdown();
- $data['category']=$this->category_model->getdropdown();
+ $data['category']=$this->category_model->gettestimonialdropdown();
 $data["before"]=$this->testimonial_model->beforeedit($this->input->get("id"));
 $this->load->view("template",$data);
 }

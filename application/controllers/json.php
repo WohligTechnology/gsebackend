@@ -685,15 +685,109 @@ $this->load->view("json",$data);
 }
 public function getMediaCorner()
 {
-$year=$this->input->get('year');
-$data["message"]=$this->restapi_model->getMediaCorner($year);
+// $year=$this->input->get('year');
+$data["message"]=$this->restapi_model->getMediaCorner();
 $this->load->view("json",$data);
 }
+
+public function getMediaCornerDetails()
+{
+    $where = ' WHERE 1 ';
+    $year = $this->input->get_post('year');
+    $this->chintantable->createelement('`id`', '1', 'ID', 'id');
+    $this->chintantable->createelement('`name`', '1', 'name', 'name');
+    $this->chintantable->createelement('`image`', '0', 'image', 'image');
+    $this->chintantable->createelement('`medianame`', '0', 'medianame', 'medianame');
+    $this->chintantable->createelement('`date`', '0', 'date', 'date');
+    $this->chintantable->createelement('`url`', '0', 'url', 'url');
+    $this->chintantable->createelement('`facebook`', '0', 'facebook', 'facebook');
+    $this->chintantable->createelement('`twitter`', '0', 'twitter', 'twitter');
+    $this->chintantable->createelement('`message`', '0', 'message', 'message');
+    $search = $this->input->get_post('search');
+    $pageno = $this->input->get_post('pageno');
+    $orderby = $this->input->get_post('orderby');
+    $orderorder = $this->input->get_post('orderorder');
+    $maxrow = $this->input->get_post('maxrow');
+    if ($maxrow == '') {
+        $maxrow = 20;
+    }
+    if ($orderby == '') {
+        $orderby = 'date';
+        $orderorder = 'DESC';
+    }
+
+    if ($year != '') {
+        $where = " WHERE year(date) = '$year'";
+    }
+    $data['message'] = $this->chintantable->query($pageno, $maxrow, $orderby, $orderorder, $search, $elements, 'FROM `gse_mediacorner`', $where, '' );
+
+    $this->load->view('json', $data);
+}
+
 public function getSport()
 {
 // $id=$this->input->get('id');
 $data["message"]=$this->restapi_model->getSport();
 $this->load->view("json",$data);
+}
+
+public function getSportInside()
+{
+    $where = ' WHERE 1 ';
+    $sportscategory = $this->input->get_post('sportscategory');
+    $this->chintantable->createelement('`id`', '1', 'ID', 'id');
+    $this->chintantable->createelement('`name`', '1', 'name', 'name');
+    $this->chintantable->createelement('`image`', '0', 'image', 'image');
+    $this->chintantable->createelement('`sportscategory`', '0', 'sportscategory', 'sportscategory');
+    $this->chintantable->createelement('`date`', '0', 'date', 'date');
+    $this->chintantable->createelement('`link`', '0', 'link', 'link');
+    $this->chintantable->createelement('`location`', '0', 'location', 'location');
+    $this->chintantable->createelement('`content`', '0', 'content', 'content');
+    $this->chintantable->createelement('`videos`', '0', 'videos', 'videos');
+    $search = $this->input->get_post('search');
+    $pageno = $this->input->get_post('pageno');
+    $orderby = $this->input->get_post('orderby');
+    $orderorder = $this->input->get_post('orderorder');
+    $maxrow = $this->input->get_post('maxrow');
+    if ($maxrow == '') {
+        $maxrow = 20;
+    }
+    if ($orderby == '') {
+        $orderby = 'date';
+        $orderorder = 'DESC';
+    }
+
+    if ($sportscategory != '') {
+        $where = " WHERE sportscategory = '$sportscategory'";
+    }
+    $data['message'] = $this->chintantable->query($pageno, $maxrow, $orderby, $orderorder, $search, $elements, 'FROM `gse_highlight`', $where, '' );
+
+    $this->load->view('json', $data);
+}
+
+public function getSportsDetail()
+{
+  $id=$this->input->get('id');
+  $data["message"]=$this->restapi_model->getSportsDetail($id);
+  $this->load->view("json",$data);
+}
+public function getSportsDetailInside()
+{
+  $id=$this->input->get('id');
+  $data["message"]=$this->restapi_model->getSportsDetailInside($id);
+  $this->load->view("json",$data);
+}
+public function getHome()
+{
+// $id=$this->input->get('id');
+$data["message"]=$this->restapi_model->getHome();
+$this->load->view("json",$data);
+}
+public function subscribeSubmit()
+{
+  $email=$this->input->get('email');
+  $data["message"]=$this->restapi_model->subscribeSubmit($email);
+  $this->load->view("json",$data);
 }
 
 } ?>

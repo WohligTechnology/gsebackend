@@ -333,14 +333,15 @@ class restapi_model extends CI_Model
       }
     }
 
-    public function getMediaCorner($year){
-$where = " WHERE 1";
-if(!empty($year))
-{
-  $where = "WHERE year(date)='$year'";
-}     $query['years']= $this->db->query("SELECT DISTINCT year(date) AS 'year' FROM `gse_mediacorner`")->result();
+    public function getMediaCorner(){
+// $where = " WHERE 1";
+// if(!empty($year))
+// {
+//   $where = "WHERE year(date)='$year'";
+// }
+ $query['years']= $this->db->query("SELECT DISTINCT year(date) AS 'year' FROM `gse_mediacorner`")->result();
       $query['description'] = $this->db->query("SELECT `id`, `order`, `status`, `name`, `content` FROM `gse_category` WHERE `status`=1 AND `id`=9")->row();
-      $query['media']=$this->db->query("SELECT `id`, `name`, `image`, `date`, `medianame`, `url`, `facebook`, `twitter`, `message` FROM `gse_mediacorner` $where")->result();
+
       if($query)
       {
         $obj->value = true;
@@ -377,6 +378,23 @@ if(!empty($year))
       }
     }
 
+    public function getSportsDetail($id){
+      $query['description'] = $this->db->query("SELECT `id`, `order`, `status`, `name`, `image`, `link`, `banner`, `content` FROM `gse_sportscategory` WHERE `id`=$id")->row();
+
+      $query['testimonial'] = $this->db->query("SELECT * FROM `gse_testimonial` WHERE `category`=15")->result();
+      if($query)
+      {
+        $obj->value = true;
+        $obj->data = $query;
+        return $obj;
+      }
+      else
+      {
+        $obj->value = false;
+        $obj->data = "No data found";
+        return $obj;
+      }
+    }
     public function getWorldTourInsideDetails($id){
       $query['worldtourdetail']=$this->db->query("SELECT `id`, `type`, `image`, `name`, `location`, `date`, `venue`, `content`, `banner` FROM `gse_worldtour` WHERE `id`='$id'")->row();
       $query['wallpaper']=$this->db->query("SELECT `id`, `image`, `order`, `worldtour` FROM `gse_worldtourwallpaper` WHERE `worldtour`='$id'")->result();
@@ -396,6 +414,87 @@ if(!empty($year))
       }
 
     }
+
+    public function getHome(){
+      $query['description'] = $this->db->query("SELECT `id`, `order`, `status`, `name`, `content` FROM `gse_category` WHERE `status`=1 AND `id`=11")->row();
+          $query['homediaries'] = $this->db->query("SELECT `gse_diaryarticle`.`id`, `gse_diaryarticle`.`status`, `gse_diaryarticle`.`diarycategory`, `gse_diaryarticle`.`diarysubcategory`, `gse_diaryarticle`.`name`, `gse_diaryarticle`.`image`, `gse_diaryarticle`.`timestamp`, `gse_diaryarticle`.`content`, `gse_diaryarticle`.`date`, `gse_diaryarticle`.`type`, `gse_diaryarticle`.`showhide` FROM `gse_diaryarticle`
+      LEFT OUTER JOIN `gse_diarycategory` ON `gse_diarycategory`.`id`=`gse_diaryarticle`.`diarycategory`
+      WHERE `gse_diarycategory`.`name` LIKE '%home' ORDER BY `date` DESC LIMIT 3 ")->result();
+      $query['testimonial'] = $this->db->query("SELECT * FROM `gse_testimonial` WHERE `category`=11")->result();
+      if($query)
+      {
+        $obj->value = true;
+        $obj->data = $query;
+        return $obj;
+      }
+      else
+      {
+        $obj->value = false;
+        $obj->data = "No data found";
+        return $obj;
+      }
+    }
+
+public function subscribeSubmit($email)
+{
+  if(!empty($email))
+  {
+    $query1 = $this->db->query("SELECT * FROM `gse_subscribe` WHERE `email`='$email'");
+    $num = $query1->num_rows();
+    if ($num > 0) {
+        $object = new stdClass();
+        $object->value = false;
+        $object->comment = 'already exists';
+
+        return $object;
+    } else {
+        $this->db->query("INSERT INTO `gse_subscribe`(`email`) VALUE('$email')");
+        $id = $this->db->insert_id();
+        $object = new stdClass();
+        $object->value = true;
+
+        return $object;
+    }
+  }
+  else
+  {
+    $object = new stdClass();
+    $object->value = false;
+    $object->message = "Please Enter Email Id";
+    }
+    return $object;
+}
+
+public function getSportsDetailInside($id){
+  $query['sportdetail']=$this->db->query("SELECT `id`, `sportscategory`, `name`, `image`, `link`, `location`, `content`, `videos`, `date` FROM `gse_highlight` WHERE `id`='$id'")->row();
+  $query['imagegallery']=$this->db->query("SELECT `id`, `order`, `status`, `highlight`, `sportscategory`, `image` FROM `gse_previousgamegallery` WHERE `highlight`=$id AND `status`=1 ORDER BY `order`")->result();
+  $query['featuredvideos']=$this->db->query("SELECT `id`, `url`, `order`, `highlight`, `sportscategory` FROM `gse_previousgamevideo` WHERE `sportscategory`=$id")->result();
+  $sport = $this->db->query("SELECT `sportscategory` FROM `gse_highlight` WHERE `id`='$id'")->row();
+  // print_r($mice);
+  if(empty($sport))
+  {
+    $query['relatedarticles'] = [];
+  }
+  else
+  {
+      $query['relatedarticles'] = $this->db->query("SELECT `id`, `sportscategory`, `name`, `image`, `link`, `location`, `content`, `videos`, `date` FROM `gse_highlight` WHERE `sportscategory` = $sport->sportscategory AND `id` !='$id' ORDER BY `id` DESC LIMIT 0,3")->result();
+  }
+
+  if($query)
+  {
+    $obj->value = true;
+    $obj->data = $query;
+    return $obj;
+  }
+  else
+  {
+    $obj->value = false;
+    $obj->data = "No data found";
+    return $obj;
+  }
+}
+
+
 
 
 }
