@@ -587,7 +587,7 @@ $this->load->view("json",$data);
 }
 public function getMice()
 {
-$data["message"]=$this->restapi_model->getMice();
+$data["message"]=$this->restapi_model->getMices();
 $this->load->view("json",$data);
 }
 public function getMiceInsideBanner()
@@ -605,8 +605,8 @@ public function getMiceInside()
     $this->chintantable->createelement('`name`', '1', 'name', 'name');
     $this->chintantable->createelement('`image`', '0', 'image', 'image');
     $this->chintantable->createelement('`content`', '0', 'content', 'content');
-    $this->chintantable->createelement('`date`', '0', 'date', 'date');
-    $this->chintantable->createelement('`location`', '0', 'location', 'location');
+    // $this->chintantable->createelement('`date`', '0', 'date', 'date');
+    // $this->chintantable->createelement('`location`', '0', 'location', 'location');
     $this->chintantable->createelement('`order`', '0', 'order', 'order');
     $search = $this->input->get_post('search');
     $pageno = $this->input->get_post('pageno');
@@ -622,9 +622,9 @@ public function getMiceInside()
     }
 
     if ($id != '') {
-        $where = " WHERE `event` = '$id'";
+        $where = " WHERE `mice` = '$id'";
     }
-    $data['message'] = $this->chintantable->query($pageno, $maxrow, $orderby, $orderorder, $search, $elements, 'FROM `gse_eventsubtype`', $where, '' );
+    $data['message'] = $this->chintantable->query($pageno, $maxrow, $orderby, $orderorder, $search, $elements, 'FROM `gse_micesubtype`', $where, '' );
 
     $this->load->view('json', $data);
 }
@@ -685,8 +685,8 @@ $this->load->view("json",$data);
 }
 public function getMediaCorner()
 {
-// $id=$this->input->get('id');
-$data["message"]=$this->restapi_model->getMediaCorner();
+$year=$this->input->get('year');
+$data["message"]=$this->restapi_model->getMediaCorner($year);
 $this->load->view("json",$data);
 }
 public function getSport()

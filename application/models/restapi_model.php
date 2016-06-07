@@ -333,9 +333,14 @@ class restapi_model extends CI_Model
       }
     }
 
-    public function getMediaCorner(){
+    public function getMediaCorner($year){
+$where = " WHERE 1";
+if(!empty($year))
+{
+  $where = "WHERE year(date)='$year'";
+}     $query['years']= $this->db->query("SELECT DISTINCT year(date) AS 'year' FROM `gse_mediacorner`")->result();
       $query['description'] = $this->db->query("SELECT `id`, `order`, `status`, `name`, `content` FROM `gse_category` WHERE `status`=1 AND `id`=9")->row();
-      $query['media']=$this->db->query("SELECT `id`, `name`, `image`, `date`, `medianame`, `url`, `facebook`, `twitter`, `message` FROM `gse_mediacorner` WHERE 1")->result();
+      $query['media']=$this->db->query("SELECT `id`, `name`, `image`, `date`, `medianame`, `url`, `facebook`, `twitter`, `message` FROM `gse_mediacorner` $where")->result();
       if($query)
       {
         $obj->value = true;

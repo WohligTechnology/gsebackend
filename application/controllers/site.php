@@ -8754,6 +8754,7 @@ $access=array("1");
 $this->checkaccess($access);
 $data["page"]="editworldtour";
 $data["page2"]="block/tourblock";
+$data["type"]=$this->worldtour_model->gettypedropdown();
 $data["before1"]=$this->input->get('id');
 $data["before2"]=$this->input->get('id');
 $data["before3"]=$this->input->get('id');
