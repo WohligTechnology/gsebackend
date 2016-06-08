@@ -756,10 +756,11 @@ public function getSportInside()
         $orderby = 'date';
         $orderorder = 'DESC';
     }
-
+$cdate = date("Y-m-d");
     if ($sportscategory != '') {
-        $where = " WHERE sportscategory = '$sportscategory'";
+        $where = " WHERE sportscategory = '$sportscategory' AND date <= '$cdate'";
     }
+
     $data['message'] = $this->chintantable->query($pageno, $maxrow, $orderby, $orderorder, $search, $elements, 'FROM `gse_highlight`', $where, '' );
 
     $this->load->view('json', $data);

@@ -397,9 +397,10 @@ class restapi_model extends CI_Model
     }
     public function getasfcSportsDetail($id){
       $query['description'] = $this->db->query("SELECT `id`, `order`, `status`, `name`, `image`, `link`, `banner`, `content` FROM `gse_sportscategory` WHERE `id`=$id")->row();
-
+      $cdate = date("Y-m-d");
       $query['playerlist'] = $this->db->query("SELECT `id`, `order`, `status`, `sportscategory`, `name`, `image` FROM `gse_player`  WHERE `sportscategory`=$id")->result();
-      $query['testimonial'] = $this->db->query("SELECT * FROM `gse_testimonial` WHERE `category`=16")->result();
+      $query['upcomingmatch'] = $this->db->query("SELECT `id`, `sportscategory`, `name`, `image`, `link`, `location`, `content`, `videos`, `date` FROM `gse_highlight` WHERE date > '$cdate' AND `sportscategory`=$id ")->result();
+      $query['testimonial'] = $this->db->query("SELECT * FROM `gse_testimonial` WHERE`category`=16")->result();
       if($query)
       {
         $obj->value = true;
@@ -484,7 +485,7 @@ public function subscribeSubmit($email)
 }
 
 public function getSportsDetailInside($id){
-  $query['sportdetail']=$this->db->query("SELECT `id`, `sportscategory`, `name`, `image`, `link`, `location`, `content`, `videos`, `date` FROM `gse_highlight` WHERE `id`='$id'")->row();
+  $query['sportdetail']=$this->db->query("SELECT `id`, `sportscategory`, `name`, `image`, `link`, `location`, `content`, `videos`, `date`,`banner` FROM `gse_highlight` WHERE `id`='$id'")->row();
   $query['imagegallery']=$this->db->query("SELECT `id`, `order`, `status`, `highlight`, `sportscategory`, `image` FROM `gse_previousgamegallery` WHERE `highlight`=$id AND `status`=1 ORDER BY `order`")->result();
   $query['featuredvideos']=$this->db->query("SELECT `id`, `url`, `order`, `highlight`, `sportscategory` FROM `gse_previousgamevideo` WHERE `sportscategory`=$id")->result();
   $sport = $this->db->query("SELECT `sportscategory` FROM `gse_highlight` WHERE `id`='$id'")->row();

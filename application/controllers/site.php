@@ -3862,7 +3862,18 @@ $location=$this->input->get_post("location");
 $content=$this->input->get_post("content");
 $videos=$this->input->get_post("videos");
 $date=$this->input->get_post("date");
-if($this->highlight_model->create($sportscategory,$name,$image,$link,$location,$content,$videos,$date)==0)
+
+$config['upload_path'] = './uploads/';
+				$config['allowed_types'] = 'gif|jpg|png|jpeg';
+				$this->load->library('upload', $config);
+				$filename="banner";
+				$banner="";
+				if (  $this->upload->do_upload($filename))
+				{
+					$uploaddata = $this->upload->data();
+					$banner=$uploaddata['file_name'];
+				}
+if($this->highlight_model->create($sportscategory,$name,$image,$link,$location,$content,$videos,$date,$banner)==0)
 $data["alerterror"]="New highlight could not be created.";
 else
 $data["alertsuccess"]="highlight created Successfully.";
@@ -3876,11 +3887,11 @@ $access=array("1");
 $this->checkaccess($access);
 $data["page"]="edithighlight";
 $data["page2"]="block/highlightblock";
-    $data["before1"]=$this->input->get('id');
+$data["before1"]=$this->input->get('id');
 $data["before2"]=$this->input->get('id');
 $data["before3"]=$this->input->get('id');
 $data["title"]="Edit highlight";
-    $data["sportscategory"]=$this->sportscategory_model->getdropdown();
+$data["sportscategory"]=$this->sportscategory_model->getdropdown();
 $data["before"]=$this->highlight_model->beforeedit($this->input->get("id"));
 $this->load->view("templatewith2",$data);
 }
@@ -3917,7 +3928,24 @@ $location=$this->input->get_post("location");
 $content=$this->input->get_post("content");
 $videos=$this->input->get_post("videos");
 $date=$this->input->get_post("date");
-if($this->highlight_model->edit($id,$sportscategory,$name,$image,$link,$location,$content,$videos,$date)==0)
+$config['upload_path'] = './uploads/';
+			 $config['allowed_types'] = 'gif|jpg|png|jpeg';
+			 $this->load->library('upload', $config);
+			 $filename="banner";
+			 $banner="";
+			 if (  $this->upload->do_upload($filename))
+			 {
+				 $uploaddata = $this->upload->data();
+				 $banner=$uploaddata['file_name'];
+			 }
+
+			 if($banner=="")
+			 {
+			 $banner=$this->highlight_model->getbannerbyid($id);
+					// print_r($image);
+				 $banner=$banner->banner;
+			 }
+if($this->highlight_model->edit($id,$sportscategory,$name,$image,$link,$location,$content,$videos,$date,$banner)==0)
 $data["alerterror"]="New highlight could not be Updated.";
 else
 $data["alertsuccess"]="highlight Updated Successfully.";
