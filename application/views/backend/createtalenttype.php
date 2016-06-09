@@ -3,7 +3,7 @@
 <h4 class="pad-left-15 capitalize">Create talent type</h4>
 </div>
 <form class='col s12' method='post' action='<?php echo site_url("site/createtalenttypesubmit");?>' enctype= 'multipart/form-data'>
-<div class=" row" style="display:none">
+<div class=" row" style="display:block">
 <div class=" input-field col s6">
 <?php echo form_dropdown("talent",$talent,set_value('talent'));?>
 <label>Talent</label>
@@ -65,6 +65,18 @@
 <div class="input-field col s12">
 <textarea name="videos" class="materialize-textarea"><?php echo set_value( 'videos');?></textarea>
 <label>Videos</label>
+</div>
+</div>
+<div class="row">
+<div class="input-field col s6">
+<label for="Location">Location</label>
+<input type="text" id="Location" name="location" value='<?php echo set_value('location');?>'>
+</div>
+</div>
+<div class="row">
+<div class="input-field col s6">
+<label for="Date">Date</label>
+<input type="date" id="Date" class="datepicker" name="date" value='<?php echo set_value('date');?>'>
 </div>
 </div>
 <div class="row">

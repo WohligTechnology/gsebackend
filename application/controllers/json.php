@@ -830,7 +830,8 @@ public function getTalentInside()
     $this->chintantable->createelement('`talent`', '0', 'talent', 'talent');
     $this->chintantable->createelement('`status`', '0', 'status', 'status');
     $this->chintantable->createelement('`url`', '0', 'url', 'url');
-    // $this->chintantable->createelement('`location`', '0', 'location', 'location');
+    $this->chintantable->createelement('`location`', '0', 'location', 'location');
+    $this->chintantable->createelement('`date`', '0', 'date', 'date');
     $this->chintantable->createelement('`content`', '0', 'content', 'content');
     $this->chintantable->createelement('`videos`', '0', 'videos', 'videos');
     $search = $this->input->get_post('search');
@@ -853,5 +854,11 @@ public function getTalentInside()
     $data['message'] = $this->chintantable->query($pageno, $maxrow, $orderby, $orderorder, $search, $elements, 'FROM `gse_talenttype`', $where, '' );
 
     $this->load->view('json', $data);
+}
+
+public function getClients()
+{
+  $data["message"]=$this->restapi_model->getClients();
+  $this->load->view("json",$data);
 }
 } ?>

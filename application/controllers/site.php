@@ -3294,6 +3294,8 @@ else
 {
 $id=$this->input->get_post("id");
 $talent=$this->input->get_post("talent");
+$location=$this->input->get_post("location");
+$date=$this->input->get_post("date");
 $order=$this->input->get_post("order");
 $status=$this->input->get_post("status");
 $name=$this->input->get_post("name");
@@ -3312,7 +3314,7 @@ $videos=$this->input->get_post("videos");
 							$uploaddata = $this->upload->data();
 							$banner=$uploaddata['file_name'];
 						}
-if($this->talenttype_model->create($talent,$order,$status,$name,$image,$url,$banner,$content,$videos)==0)
+if($this->talenttype_model->create($talent,$order,$status,$name,$image,$url,$banner,$content,$videos,$location,$date)==0)
 $data["alerterror"]="New talenttype could not be created.";
 else
 $data["alertsuccess"]="talenttype created Successfully.";
@@ -3362,6 +3364,8 @@ else
 {
 $id=$this->input->get_post("id");
 $talent=$this->input->get_post("talent");
+$location=$this->input->get_post("location");
+$date=$this->input->get_post("date");
 $order=$this->input->get_post("order");
 $status=$this->input->get_post("status");
 $name=$this->input->get_post("name");
@@ -3387,7 +3391,7 @@ $videos=$this->input->get_post("videos");
 						   // print_r($image);
 							$banner=$banner->banner;
 						}
-if($this->talenttype_model->edit($id,$talent,$order,$status,$name,$image,$url,$banner,$content,$videos)==0)
+if($this->talenttype_model->edit($id,$talent,$order,$status,$name,$image,$url,$banner,$content,$videos,$location,$date)==0)
 $data["alerterror"]="New talenttype could not be Updated.";
 else
 $data["alertsuccess"]="talenttype Updated Successfully.";

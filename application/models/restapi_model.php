@@ -599,6 +599,24 @@ public function getTalentDetailInside($id){
   }
 }
 
+public function getClients(){
+  $query['description']=$this->db->query("SELECT `id`, `order`, `status`, `name`, `content` FROM `gse_category` WHERE `status`=1 AND `id`=12")->row();
+  $query['logos']= $this->db->query("SELECT `id`, `order`, `status`, `name`, `image` FROM `gse_clientlogo` WHERE 1")->result();
+
+  if($query)
+  {
+    $obj->value = true;
+    $obj->data = $query;
+    return $obj;
+  }
+  else
+  {
+    $obj->value = false;
+    $obj->data = "No data found";
+    return $obj;
+  }
+}
+
 
 }
 ?>

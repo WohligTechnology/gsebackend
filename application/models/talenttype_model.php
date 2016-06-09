@@ -3,9 +3,9 @@ if ( !defined( "BASEPATH" ) )
 exit( "No direct script access allowed" );
 class talenttype_model extends CI_Model
 {
-public function create($talent,$order,$status,$name,$image,$url,$banner,$content,$videos)
+public function create($talent,$order,$status,$name,$image,$url,$banner,$content,$videos,$location,$date)
 {
-$data=array("talent" => $talent,"order" => $order,"status" => $status,"name" => $name,"image" => $image,"url" => $url,"banner" => $banner,"content" => $content,"videos" => $videos);
+$data=array("talent" => $talent,"order" => $order,"status" => $status,"name" => $name,"image" => $image,"url" => $url,"banner" => $banner,"content" => $content,"videos" => $videos,"location" => $location,"date" => $date);
 $query=$this->db->insert( "gse_talenttype", $data );
 $id=$this->db->insert_id();
 if(!$query)
@@ -24,7 +24,7 @@ $this->db->where("id",$id);
 $query=$this->db->get("gse_talenttype")->row();
 return $query;
 }
-public function edit($id,$talent,$order,$status,$name,$image,$url,$banner,$content,$videos)
+public function edit($id,$talent,$order,$status,$name,$image,$url,$banner,$content,$videos,$location,$date)
 {
 if($image=="")
 {
@@ -36,7 +36,7 @@ $image=$image->image;
 $banner=$this->talenttype_model->getbannerbyid($id);
 $banner=$banner->banner;
 }
-$data=array("talent" => $talent,"order" => $order,"status" => $status,"name" => $name,"image" => $image,"url" => $url,"banner" => $banner,"content" => $content,"videos" => $videos);
+$data=array("talent" => $talent,"order" => $order,"status" => $status,"name" => $name,"image" => $image,"url" => $url,"banner" => $banner,"content" => $content,"videos" => $videos,"location" => $location,"date" => $date);
 $this->db->where( "id", $id );
 $query=$this->db->update( "gse_talenttype", $data );
 return 1;
@@ -58,7 +58,7 @@ return $query;
 }
 public function getdropdown()
 {
-$query=$this->db->query("SELECT * FROM `gse_talenttype` ORDER BY `id` 
+$query=$this->db->query("SELECT * FROM `gse_talenttype` ORDER BY `id`
                     ASC")->result();
 $return=array(
 "" => "Select Option"
