@@ -582,7 +582,7 @@ public function getTalentDetailInside($id){
   }
   else
   {
-      $query['relatedarticles'] = $this->db->query("SELECT `id`, `talent`, `order`, `status`, `name`, `image`, `url`, `banner`, `content`, `videos` FROM `gse_talenttype` WHERE `talent` = $talent->talent AND `id` !='$id' ORDER BY `id` DESC LIMIT 0,3")->result();
+      $query['relatedarticles'] = $this->db->query("SELECT `id`, `talent`, `order`, `status`, `name`, `image`, `url`, `banner`, `content`, `videos`,`location`,`date` FROM `gse_talenttype` WHERE `talent` = $talent->talent AND `id` !='$id' ORDER BY `id` DESC LIMIT 0,3")->result();
   }
 
   if($query)
