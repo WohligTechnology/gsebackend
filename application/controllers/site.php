@@ -3086,7 +3086,17 @@ $id=$this->input->get_post("id");
 $name=$this->input->get_post("name");
 $image=$this->menu_model->createImage();
 $link=$this->input->get_post("link");
-if($this->talent_model->create($name,$image,$link)==0)
+$config['upload_path'] = './uploads/';
+				$config['allowed_types'] = 'gif|jpg|png|jpeg';
+				$this->load->library('upload', $config);
+				$filename="banner";
+				$banner="";
+				if (  $this->upload->do_upload($filename))
+				{
+					$uploaddata = $this->upload->data();
+					$banner=$uploaddata['file_name'];
+				}
+if($this->talent_model->create($name,$image,$link,$banner)==0)
 $data["alerterror"]="New talent could not be created.";
 else
 $data["alertsuccess"]="talent created Successfully.";
@@ -3128,7 +3138,24 @@ $id=$this->input->get_post("id");
 $name=$this->input->get_post("name");
 $image=$this->menu_model->createImage();
 $link=$this->input->get_post("link");
-if($this->talent_model->edit($id,$name,$image,$link)==0)
+$config['upload_path'] = './uploads/';
+			 $config['allowed_types'] = 'gif|jpg|png|jpeg';
+			 $this->load->library('upload', $config);
+			 $filename="banner";
+			 $banner="";
+			 if (  $this->upload->do_upload($filename))
+			 {
+				 $uploaddata = $this->upload->data();
+				 $banner=$uploaddata['file_name'];
+			 }
+
+			 if($banner=="")
+			 {
+			 $banner=$this->event_model->getbannerbyid($id);
+					// print_r($image);
+				 $banner=$banner->banner;
+			 }
+if($this->talent_model->edit($id,$name,$image,$link,$banner)==0)
 $data["alerterror"]="New talent could not be Updated.";
 else
 $data["alertsuccess"]="talent Updated Successfully.";

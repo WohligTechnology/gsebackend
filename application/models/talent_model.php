@@ -3,9 +3,9 @@ if ( !defined( "BASEPATH" ) )
 exit( "No direct script access allowed" );
 class talent_model extends CI_Model
 {
-public function create($name,$image,$link)
+public function create($name,$image,$link,$banner)
 {
-$data=array("name" => $name,"image" => $image,"link" => $link);
+$data=array("name" => $name,"image" => $image,"link" => $link,"banner" => $banner);
 $query=$this->db->insert( "gse_talent", $data );
 $id=$this->db->insert_id();
 if(!$query)
@@ -24,14 +24,19 @@ $this->db->where("id",$id);
 $query=$this->db->get("gse_talent")->row();
 return $query;
 }
-public function edit($id,$name,$image,$link)
+public function edit($id,$name,$image,$link,$banner)
 {
 if($image=="")
 {
 $image=$this->talent_model->getimagebyid($id);
 $image=$image->image;
 }
-$data=array("name" => $name,"image" => $image,"link" => $link);
+if($banner=="")
+{
+$banner=$this->talent_model->getbannerbyid($id);
+$banner=$banner->banner;
+}
+$data=array("name" => $name,"image" => $image,"link" => $link,"banner" => $banner);
 $this->db->where( "id", $id );
 $query=$this->db->update( "gse_talent", $data );
 return 1;
@@ -46,9 +51,14 @@ public function getimagebyid($id)
 $query=$this->db->query("SELECT `image` FROM `gse_talent` WHERE `id`='$id'")->row();
 return $query;
 }
+public function getbannerbyid($id)
+{
+$query=$this->db->query("SELECT `banner` FROM `gse_talent` WHERE `id`='$id'")->row();
+return $query;
+}
 public function getdropdown()
 {
-$query=$this->db->query("SELECT * FROM `gse_talent` ORDER BY `id` 
+$query=$this->db->query("SELECT * FROM `gse_talent` ORDER BY `id`
                     ASC")->result();
 $return=array(
 "" => "Select Option"

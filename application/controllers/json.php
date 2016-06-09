@@ -802,5 +802,11 @@ public function subscribeSubmit()
   $data["message"]=$this->restapi_model->subscribeSubmit($email);
   $this->load->view("json",$data);
 }
+public function getTalent()
+{
+// $id=$this->input->get('id');
+$data["message"]=$this->restapi_model->getTalent();
+$this->load->view("json",$data);
+}
 
 } ?>

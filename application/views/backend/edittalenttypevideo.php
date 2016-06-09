@@ -4,7 +4,7 @@
 </div>
 </div>
 <div class="row">
-<form class='col s12' method='post' action='<?php echo site_url("site/edittalentvideosubmit");?>' enctype= 'multipart/form-data'>
+<form class='col s12' method='post' action='<?php echo site_url("site/edittalenttypevideosubmit");?>' enctype= 'multipart/form-data'>
 <input type="hidden" id="normal-field" class="form-control" name="id" value="<?php echo set_value('id',$before->id);?>" style="display:none;">
 <div class="row">
 <div class="input-field col s6">

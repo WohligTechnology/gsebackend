@@ -505,7 +505,7 @@ public function subscribeSubmit($email)
 public function getSportsDetailInside($id){
   $query['sportdetail']=$this->db->query("SELECT `id`, `sportscategory`, `name`, `image`, `link`, `location`, `content`, `videos`, `date`,`banner` FROM `gse_highlight` WHERE `id`='$id'")->row();
   $query['imagegallery']=$this->db->query("SELECT `id`, `order`, `status`, `highlight`, `sportscategory`, `image` FROM `gse_previousgamegallery` WHERE `highlight`=$id AND `status`=1 ORDER BY `order`")->result();
-  $query['featuredvideos']=$this->db->query("SELECT `id`, `url`, `order`, `highlight`, `sportscategory` FROM `gse_previousgamevideo` WHERE `sportscategory`=$id")->result();
+  $query['featuredvideos']=$this->db->query("SELECT `id`, `url`, `order`, `highlight`, `sportscategory` FROM `gse_previousgamevideo` WHERE `highlight`=$id")->result();
   $sport = $this->db->query("SELECT `sportscategory` FROM `gse_highlight` WHERE `id`='$id'")->row();
   // print_r($mice);
   if(empty($sport))
@@ -531,7 +531,28 @@ public function getSportsDetailInside($id){
   }
 }
 
+public function getTalent(){
+  $query['description'] = $this->db->query("SELECT `id`, `order`, `status`, `name`, `content` FROM `gse_category` WHERE `status`=1 AND `id`=5")->row();
+  $query['talent']=$this->db->query("SELECT `id`, `name`, `image`, `link` FROM `gse_talent` WHERE 1")->result();
+  $query['services'] = $this->db->query("SELECT `id`, `name`, `content`, `type`, `order` FROM `gse_service` WHERE `type`=4 ORDER BY `order`")->result();
 
+  $query['talentdiaries'] = $this->db->query("SELECT `gse_diaryarticle`.`id`, `gse_diaryarticle`.`status`, `gse_diaryarticle`.`diarycategory`, `gse_diaryarticle`.`diarysubcategory`, `gse_diaryarticle`.`name`, `gse_diaryarticle`.`image`, `gse_diaryarticle`.`timestamp`, `gse_diaryarticle`.`content`, `gse_diaryarticle`.`date`, `gse_diaryarticle`.`type`, `gse_diaryarticle`.`showhide` FROM `gse_diaryarticle`
+  LEFT OUTER JOIN `gse_diarycategory` ON `gse_diarycategory`.`id`=`gse_diaryarticle`.`diarycategory`
+  WHERE `gse_diarycategory`.`name` LIKE '%talent%' OR `gse_diarycategory`.`name` LIKE '%talents%' ORDER BY `date` DESC LIMIT 3 ")->result();
+  $query['testimonial'] = $this->db->query("SELECT * FROM `gse_testimonial` WHERE `category`=5")->result();
+  if($query)
+  {
+    $obj->value = true;
+    $obj->data = $query;
+    return $obj;
+  }
+  else
+  {
+    $obj->value = false;
+    $obj->data = "No data found";
+    return $obj;
+  }
+}
 
 
 }
