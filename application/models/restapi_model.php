@@ -554,6 +554,51 @@ public function getTalent(){
   }
 }
 
+public function getTalentInsideBanner($id){
+  $query = $this->db->query("SELECT `id`, `name`, `image`, `link`, `banner` FROM `gse_talent` WHERE `id`=$id")->row();
+if($query)
+  {
+    $obj->value = true;
+    $obj->data = $query;
+    return $obj;
+  }
+  else
+  {
+    $obj->value = false;
+    $obj->data = "No data found";
+    return $obj;
+  }
+}
+
+public function getTalentDetailInside($id){
+  $query['talentdetail']=$this->db->query("SELECT `id`, `talent`, `order`, `status`, `name`, `image`, `url`, `banner`, `content`, `videos` FROM `gse_talenttype` WHERE `id`='$id'")->row();
+  $query['imagegallery']=$this->db->query("SELECT `id`, `order`, `status`, `talenttype`, `talent`, `image` FROM `gse_talenttypegallery` WHERE `talenttype`=$id AND `status`=1 ORDER BY `order`")->result();
+  $query['featuredvideos']=$this->db->query("SELECT `id`, `url`, `order`, `talenttype` FROM `gse_talenttypevideo` WHERE `talenttype`=$id")->result();
+  $talent = $this->db->query("SELECT `talent` FROM `gse_talenttype` WHERE `id`='$id'")->row();
+  // print_r($mice);
+  if(empty($talent))
+  {
+    $query['relatedarticles'] = [];
+  }
+  else
+  {
+      $query['relatedarticles'] = $this->db->query("SELECT `id`, `talent`, `order`, `status`, `name`, `image`, `url`, `banner`, `content`, `videos` FROM `gse_talenttype` WHERE `talent` = $talent->talent AND `id` !='$id' ORDER BY `id` DESC LIMIT 0,3")->result();
+  }
+
+  if($query)
+  {
+    $obj->value = true;
+    $obj->data = $query;
+    return $obj;
+  }
+  else
+  {
+    $obj->value = false;
+    $obj->data = "No data found";
+    return $obj;
+  }
+}
+
 
 }
 ?>

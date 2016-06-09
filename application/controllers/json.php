@@ -808,5 +808,50 @@ public function getTalent()
 $data["message"]=$this->restapi_model->getTalent();
 $this->load->view("json",$data);
 }
+public function getTalentInsideBanner()
+{
+$id=$this->input->get('id');
+$data["message"]=$this->restapi_model->getTalentInsideBanner($id);
+$this->load->view("json",$data);
+}
+public function getTalentDetailInside()
+{
+$id=$this->input->get('id');
+$data["message"]=$this->restapi_model->getTalentDetailInside($id);
+$this->load->view("json",$data);
+}
+public function getTalentInside()
+{
+    $where = ' WHERE 1 ';
+    $talent = $this->input->get_post('talent');
+    $this->chintantable->createelement('`id`', '1', 'ID', 'id');
+    $this->chintantable->createelement('`name`', '1', 'name', 'name');
+    $this->chintantable->createelement('`image`', '0', 'image', 'image');
+    $this->chintantable->createelement('`talent`', '0', 'talent', 'talent');
+    $this->chintantable->createelement('`status`', '0', 'status', 'status');
+    $this->chintantable->createelement('`url`', '0', 'url', 'url');
+    // $this->chintantable->createelement('`location`', '0', 'location', 'location');
+    $this->chintantable->createelement('`content`', '0', 'content', 'content');
+    $this->chintantable->createelement('`videos`', '0', 'videos', 'videos');
+    $search = $this->input->get_post('search');
+    $pageno = $this->input->get_post('pageno');
+    $orderby = $this->input->get_post('orderby');
+    $orderorder = $this->input->get_post('orderorder');
+    $maxrow = $this->input->get_post('maxrow');
+    if ($maxrow == '') {
+        $maxrow = 20;
+    }
+    if ($orderby == '') {
+        $orderby = 'date';
+        $orderorder = 'DESC';
+    }
 
+    if ($talent != '') {
+        $where = " WHERE talent = '$talent'";
+    }
+
+    $data['message'] = $this->chintantable->query($pageno, $maxrow, $orderby, $orderorder, $search, $elements, 'FROM `gse_talenttype`', $where, '' );
+
+    $this->load->view('json', $data);
+}
 } ?>
