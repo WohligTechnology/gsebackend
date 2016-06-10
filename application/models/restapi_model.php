@@ -616,6 +616,29 @@ public function getClients(){
     return $obj;
   }
 }
+public function careersSubmit($category,$name,$email, $phone,$resume,$address,$suburb,$state,$postcode,$dob,$linkedin,$twitter,$github,$portfolio,$otherwebsite,$type,$salary,$expectedctc){
+  if(!empty($email))
+  {
+    $query=$this->db->query("INSERT INTO `gse_careerform`(`category`, `name`, `email`, `phone`, `resume`, `address`, `suburb`, `state`, `postcode`, `dob`, `linkedin`, `twitter`, `github`, `portfolio`, `otherwebsite`, `type`, `salary`, `expectedctc`) VALUES ('$category','$name','$email', '$phone','$resume','$address','$suburb','$state','$postcode','$dob','$linkedin','$twitter','$github','$portfolio','$otherwebsite','$type','$salary','$expectedctc')");
+    if($query)
+    {
+      $obj->value = true;
+      $obj->data = "data saved";
+      return $obj;
+    }
+    else
+    {
+      $obj->value = false;
+      return $obj;
+    }
+  }
+  else {
+    $obj->value = false;
+    $obj->data = "Plaese enter email";
+    return $obj;
+  }
+
+}
 
 
 }
