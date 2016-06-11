@@ -886,7 +886,7 @@ public function careersSubmit()
  $data['message'] = $this->restapi_model->careersSubmit($category,$name,$email, $phone,$resume,$address,$suburb,$state,$postcode,$dob,$linkedin,$twitter,$github,$portfolio,$otherwebsite,$type,$salary,$expectedctc);
 $this->load->view('json', $data);
   }
-public function fileUpload()
+public function imageUpload()
 {
   $config['upload_path'] = './uploads/';
   $config['allowed_types'] = '*';

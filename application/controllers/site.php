@@ -9506,5 +9506,261 @@ $this->worldtourwallpaper_model->delete($this->input->get("id"));
 $data["redirect"]="site/viewworldtourwallpaper?id=".$this->input->get("worldtourid");
 $this->load->view("redirect2",$data);
 }
+
+public function viewmatch()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="viewmatch";
+$data["base_url"]=site_url("site/viewmatchjson");
+$data["title"]="View match";
+$this->load->view("template",$data);
+}
+function viewmatchjson()
+{
+$elements=array();
+$elements[0]=new stdClass();
+$elements[0]->field="`gse_match`.`id`";
+$elements[0]->sort="1";
+$elements[0]->header="id";
+$elements[0]->alias="id";
+$elements[1]=new stdClass();
+$elements[1]->field="`gse_match`.`team1`";
+$elements[1]->sort="1";
+$elements[1]->header="team1";
+$elements[1]->alias="team1";
+$elements[2]=new stdClass();
+$elements[2]->field="`gse_match`.`logo1`";
+$elements[2]->sort="1";
+$elements[2]->header="logo1";
+$elements[2]->alias="logo1";
+$elements[3]=new stdClass();
+$elements[3]->field="`gse_match`.`team2`";
+$elements[3]->sort="1";
+$elements[3]->header="team2";
+$elements[3]->alias="team2";
+$elements[4]=new stdClass();
+$elements[4]->field="`gse_match`.`logo2`";
+$elements[4]->sort="1";
+$elements[4]->header="logo2";
+$elements[4]->alias="logo2";
+$elements[5]=new stdClass();
+$elements[5]->field="`gse_match`.`location`";
+$elements[5]->sort="1";
+$elements[5]->header="location";
+$elements[5]->alias="location";
+$elements[6]=new stdClass();
+$elements[6]->field="`gse_match`.`date`";
+$elements[6]->sort="1";
+$elements[6]->header="date";
+$elements[6]->alias="date";
+$elements[7]=new stdClass();
+$elements[7]->field="`gse_match`.`time`";
+$elements[7]->sort="1";
+$elements[7]->header="time";
+$elements[7]->alias="time";
+$elements[8]=new stdClass();
+$elements[8]->field="`gse_match`.`link`";
+$elements[8]->sort="1";
+$elements[8]->header="link";
+$elements[8]->alias="link";
+$elements[9]=new stdClass();
+$elements[9]->field="`gse_match`.`team1score`";
+$elements[9]->sort="1";
+$elements[9]->header="team1score";
+$elements[9]->alias="team1score";
+$elements[10]=new stdClass();
+$elements[10]->field="`gse_match`.`team2score`";
+$elements[10]->sort="1";
+$elements[10]->header="team2score";
+$elements[10]->alias="team2score";
+$search=$this->input->get_post("search");
+$pageno=$this->input->get_post("pageno");
+$orderby=$this->input->get_post("orderby");
+$orderorder=$this->input->get_post("orderorder");
+$maxrow=$this->input->get_post("maxrow");
+if($maxrow=="")
+{
+$maxrow=20;
+}
+if($orderby=="")
+{
+$orderby="id";
+$orderorder="ASC";
+}
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_match`");
+$this->load->view("json",$data);
+}
+
+public function creatematch()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="creatematch";
+$data["title"]="Create match";
+$this->load->view("template",$data);
+}
+public function creatematchsubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("team1","team1","trim");
+// $this->form_validation->set_rules("logo1","logo1","trim");
+$this->form_validation->set_rules("team2","team2","trim");
+// $this->form_validation->set_rules("logo2","logo2","trim");
+$this->form_validation->set_rules("location","location","trim");
+$this->form_validation->set_rules("date","date","trim");
+$this->form_validation->set_rules("time","time","trim");
+$this->form_validation->set_rules("link","link","trim");
+$this->form_validation->set_rules("team1score","team1score","trim");
+$this->form_validation->set_rules("team2score","team2score","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="creatematch";
+$data["title"]="Create match";
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$team1=$this->input->get_post("team1");
+// $logo1=$this->input->get_post("logo1");
+$team2=$this->input->get_post("team2");
+// $logo2=$this->input->get_post("logo2");
+$location=$this->input->get_post("location");
+$date=$this->input->get_post("date");
+$time=$this->input->get_post("time");
+$link=$this->input->get_post("link");
+$team1score=$this->input->get_post("team1score");
+$team2score=$this->input->get_post("team2score");
+$logo1=$this->menu_model->createImage();
+//$banner=$this->input->get_post("banner");
+    $config['upload_path'] = './uploads/';
+						$config['allowed_types'] = 'gif|jpg|png|jpeg';
+						$this->load->library('upload', $config);
+						$filename="logo2";
+						$logo2="";
+						if (  $this->upload->do_upload($filename))
+						{
+							$uploaddata = $this->upload->data();
+							$logo2=$uploaddata['file_name'];
+						}
+						$config['upload_path'] = './uploads/';
+										$config['allowed_types'] = 'gif|jpg|png|jpeg';
+										$this->load->library('upload', $config);
+										$filename="banner";
+										$banner="";
+										if (  $this->upload->do_upload($filename))
+										{
+											$uploaddata = $this->upload->data();
+											$banner=$uploaddata['file_name'];
+										}
+if($this->match_model->create($team1,$logo1,$team2,$logo2,$location,$date,$time,$link,$team1score,$team2score,$banner)==0)
+$data["alerterror"]="New match could not be created.";
+else
+$data["alertsuccess"]="match created Successfully.";
+$data["redirect"]="site/viewmatch";
+$this->load->view("redirect",$data);
+}
+}
+public function editmatch()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="editmatch";
+$data["title"]="Edit match";
+$data["before"]=$this->match_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+public function editmatchsubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("id","id","trim");
+$this->form_validation->set_rules("team1","team1","trim");
+$this->form_validation->set_rules("logo1","logo1","trim");
+$this->form_validation->set_rules("team2","team2","trim");
+$this->form_validation->set_rules("logo2","logo2","trim");
+$this->form_validation->set_rules("location","location","trim");
+$this->form_validation->set_rules("date","date","trim");
+$this->form_validation->set_rules("time","time","trim");
+$this->form_validation->set_rules("link","link","trim");
+$this->form_validation->set_rules("team1score","team1score","trim");
+$this->form_validation->set_rules("team2score","team2score","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="editmatch";
+$data["title"]="Edit match";
+$data["before"]=$this->match_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$team1=$this->input->get_post("team1");
+// $logo1=$this->input->get_post("logo1");
+$team2=$this->input->get_post("team2");
+// $logo2=$this->input->get_post("logo2");
+$location=$this->input->get_post("location");
+$date=$this->input->get_post("date");
+$time=$this->input->get_post("time");
+$link=$this->input->get_post("link");
+$team1score=$this->input->get_post("team1score");
+$team2score=$this->input->get_post("team2score");
+$logo1=$this->menu_model->createImage();
+$config['upload_path'] = './uploads/';
+			 $config['allowed_types'] = 'gif|jpg|png|jpeg';
+			 $this->load->library('upload', $config);
+			 $filename="logo2";
+			 $logo2="";
+			 if (  $this->upload->do_upload($filename))
+			 {
+				 $uploaddata = $this->upload->data();
+				 $logo2=$uploaddata['file_name'];
+			 }
+
+			 if($logo2=="")
+			 {
+			 $logo2=$this->match_model->getlogo2byid($id);
+					// print_r($image);
+				 $logo2=$logo2->logo2;
+			 }
+$config['upload_path'] = './uploads/';
+			 $config['allowed_types'] = 'gif|jpg|png|jpeg';
+			 $this->load->library('upload', $config);
+			 $filename="banner";
+			 $banner="";
+			 if (  $this->upload->do_upload($filename))
+			 {
+				 $uploaddata = $this->upload->data();
+				 $banner=$uploaddata['file_name'];
+			 }
+
+			 if($banner=="")
+			 {
+			 $banner=$this->match_model->getbannerbyid($id);
+					// print_r($image);
+				 $banner=$banner->banner;
+			 }
+if($this->match_model->edit($id,$team1,$logo1,$team2,$logo2,$location,$date,$time,$link,$team1score,$team2score,$banner)==0)
+$data["alerterror"]="New match could not be Updated.";
+else
+$data["alertsuccess"]="match Updated Successfully.";
+$data["redirect"]="site/viewmatch";
+$this->load->view("redirect",$data);
+}
+}
+public function deletematch()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->match_model->delete($this->input->get("id"));
+$data["redirect"]="site/viewmatch";
+$this->load->view("redirect",$data);
+}
+
+
 }
 ?>
