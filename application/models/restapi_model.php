@@ -673,15 +673,26 @@ public function getDiary(){
     return $obj;
   }
 }
-public function getDiaryInside(){
+public function getDiaryInside($page){
   $queryid=$this->db->query("SELECT DISTINCT `id`,`name` FROM `gse_diarycategory` WHERE 1")->result();
   // print_r($queryid);
-  $rearr =  array();
+  if(!empty($page))
+  {
+    $startingfrom = ($page - 1) * 1;
+    $page = "$startingfrom,1";
+  }
+  else {
+    $page = "1";
+  }
+
   if($queryid)
   {
     foreach ($queryid as $value) {
       $string = str_replace(" ", "", $value->name);
-      $query[$string]=$this->db->query("SELECT `id`, `status`, `diarycategory`, `diarysubcategory`, `name`, `image`, `timestamp`, `content`, `date`, `type`, `showhide` FROM `gse_diaryarticle` WHERE `diarycategory`='$value->id'")->result();
+      $q="SELECT `id`, `status`, `diarycategory`, `diarysubcategory`, `name`, `image`, `timestamp`, `content`, `date`, `type`, `showhide` FROM `gse_diaryarticle` WHERE `diarycategory`='$value->id' ORDER BY `id` DESC LIMIT $page";
+      // echo $q;
+      $query[$string]=$this->db->query($q)->result();
+
   }
     $obj->value = true;
     $obj->data = $query;

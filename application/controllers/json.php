@@ -919,9 +919,51 @@ public function getDiary()
 }
 public function getDiaryInside()
 {
-  $data["message"]=$this->restapi_model->getDiaryInside();
+  $page = $this->input->get_post('page');
+  $data["message"]=$this->restapi_model->getDiaryInside($page);
   $this->load->view("json",$data);
 }
+public function getDiaryInsideFilter()
+{
+    $where = ' WHERE 1 ';
+    $category = $this->input->get_post('category');
+    $year = $this->input->get_post('year');
+    $month = $this->input->get_post('month');
+    $this->chintantable->createelement('`id`', '1', 'ID', 'id');
+    $this->chintantable->createelement('`diarycategory`', '1', 'diarycategory', 'diarycategory');
+    $this->chintantable->createelement('`name`', '1', 'name', 'name');
+    $this->chintantable->createelement('`image`', '0', 'image', 'image');
+    $this->chintantable->createelement('`status`', '0', 'status', 'status');
+    $this->chintantable->createelement('`date`', '0', 'date', 'date');
+    $this->chintantable->createelement('`content`', '0', 'content', 'content');
+    $this->chintantable->createelement('`type`', '0', 'type', 'type');
+    $this->chintantable->createelement('`showhide`', '0', 'showhide', 'showhide');
+    $search = $this->input->get_post('search');
+    $pageno = $this->input->get_post('pageno');
+    $orderby = $this->input->get_post('orderby');
+    $orderorder = $this->input->get_post('orderorder');
+    $maxrow = $this->input->get_post('maxrow');
+    if ($maxrow == '') {
+        $maxrow = 20;
+    }
+    if ($orderby == '') {
+        $orderby = 'date';
+        $orderorder = 'DESC';
+    }
 
+    if ($category != '') {
+        $where = " WHERE diarycategory = '$category' AND status=1 ";
+    }
+    if ($year != '') {
+        $where .= " AND year(date) = '$year'";
+    }
+    if ($month != '') {
+        $where .= " AND month(date) = '$month'";
+    }
+
+    $data['message'] = $this->chintantable->query($pageno, $maxrow, $orderby, $orderorder, $search, $elements, 'FROM `gse_diaryarticle`', $where, '' );
+
+    $this->load->view('json', $data);
+}
 
 } ?>
