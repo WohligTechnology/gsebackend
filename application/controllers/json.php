@@ -923,6 +923,12 @@ public function getDiaryInside()
   $data["message"]=$this->restapi_model->getDiaryInside($page);
   $this->load->view("json",$data);
 }
+public function getDiaryInsideDetail()
+{
+  $id = $this->input->get_post('id');
+  $data["message"]=$this->restapi_model->getDiaryInsideDetail($id);
+  $this->load->view("json",$data);
+}
 public function getDiaryInsideFilter()
 {
     $where = ' WHERE 1 ';
@@ -964,6 +970,16 @@ public function getDiaryInsideFilter()
     $data['message'] = $this->chintantable->query($pageno, $maxrow, $orderby, $orderorder, $search, $elements, 'FROM `gse_diaryarticle`', $where, '' );
 
     $this->load->view('json', $data);
+}
+public function commentSubmit()
+{
+  $data = json_decode(file_get_contents('php://input'), true);
+  $diaryarticle = $data['diaryarticle'];
+  $userid = $data['userid'];
+  $name = $data['name'];
+  $comment = $data['comment'];
+  $data['message'] = $this->restapi_model->commentSubmit($diaryarticle,$userid,$name,$comment);
+ $this->load->view('json', $data);
 }
 
 } ?>

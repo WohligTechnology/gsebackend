@@ -659,7 +659,7 @@ public function getMatch(){
 public function getDiary(){
     $query['description']=$this->db->query("SELECT `id`, `order`, `status`, `name`, `content` FROM `gse_category` WHERE `status`=1 AND `id`=13")->row();
   $query['category']=$this->db->query("SELECT `id`, `order`, `status`, `name` FROM `gse_diarycategory` WHERE 1")->result();
-  $query['years']=$this->db->query("SELECT DISTINCT year(`date`) AS 'year',month(`date`) AS 'month' FROM `gse_diaryarticle` WHERE 1")->result();
+  $query['years']=$this->db->query("SELECT DISTINCT year(`date`) AS 'year',MONTHNAME(`date`) AS 'month' FROM `gse_diaryarticle` WHERE 1")->result();
   if($query)
   {
     $obj->value = true;
@@ -684,7 +684,6 @@ public function getDiaryInside($page){
   else {
     $page = "1";
   }
-
   if($queryid)
   {
     foreach ($queryid as $value) {
@@ -692,7 +691,6 @@ public function getDiaryInside($page){
       $q="SELECT `id`, `status`, `diarycategory`, `diarysubcategory`, `name`, `image`, `timestamp`, `content`, `date`, `type`, `showhide` FROM `gse_diaryarticle` WHERE `diarycategory`='$value->id' ORDER BY `id` DESC LIMIT $page";
       // echo $q;
       $query[$string]=$this->db->query($q)->result();
-
   }
     $obj->value = true;
     $obj->data = $query;
@@ -705,6 +703,65 @@ public function getDiaryInside($page){
     return $obj;
   }
 }
+
+public function getDiaryInsideDetail($id){
+  $query['description']=$this->db->query("SELECT `id`, `status`, `diarycategory`, `diarysubcategory`, `name`, `image`, `timestamp`, `content`, `date`, `type`, `showhide` FROM `gse_diaryarticle` WHERE `id`=$id")->row();
+  if($query['description']->type==1)
+  {
+      $query['text']=$this->db->query("SELECT `id`, `diaryarticle`, `content`, `image`, `order` FROM `gse_blogtext` WHERE `diaryarticle`=$id ORDER BY `order` ASC")->result();
+  }
+  if($query['description']->type==2)
+  {
+    $query['image']=$this->db->query("SELECT `id`, `diaryarticle`, `image`, `order` FROM `gse_blogimage` WHERE `diaryarticle`=$id ORDER BY `order` ASC")->result();
+  }
+  if($query['description']->type==3)
+  {
+  $query['video']=$this->db->query("SELECT `id`, `diaryarticle`, `url`, `order` FROM `gse_blogvideo` WHERE  `diaryarticle`=$id ORDER BY `order` ASC")->result();
+    // echo "video";
+  }
+  $dcat=$query["description"]->diarycategory;
+  if(!empty($dcat))
+  {
+  $query['relatedarticles']=$this->db->query("SELECT `id`, `status`, `diarycategory`, `diarysubcategory`, `name`, `image`, `timestamp`, `content`, `date`, `type`, `showhide` FROM `gse_diaryarticle` WHERE `id`!=$id AND `diarycategory`='$dcat'")->result();
+  }
+  $query['comments']=$this->db->query("SELECT `id`, `diaryarticle`, `userid`, `timestamp`, `name`, `comment` FROM `gse_comment` WHERE `diaryarticle`=$id ORDER BY `id` DESC")->result();
+  if($query)
+  {
+    $obj->value = true;
+    $obj->data = $query;
+    return $obj;
+  }
+  else
+  {
+    $obj->value = false;
+    $obj->data = "No data found";
+    return $obj;
+  }
+}
+public function commentSubmit($diaryarticle,$userid,$name,$comment)
+{
+  if(!empty($comment))
+  {
+    $query=$this->db->query("INSERT INTO `gse_comment`(`diaryarticle`, `userid`, `name`, `comment`) VALUES ('$diaryarticle','$userid','$name','$comment')");
+    if($query)
+    {
+      $obj->value = true;
+      $obj->data = "data saved";
+      return $obj;
+    }
+    else
+    {
+      $obj->value = false;
+      return $obj;
+    }
+  }
+  else {
+    $obj->value = false;
+    $obj->data = "Plaese enter comment";
+    return $obj;
+  }
+}
+
 
 }
 ?>
