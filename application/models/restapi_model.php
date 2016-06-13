@@ -720,9 +720,11 @@ public function getDiaryInsideDetail($id){
     // echo "video";
   }
   $dcat=$query["description"]->diarycategory;
+  $cdate = new DateTime();
   if(!empty($dcat))
   {
   $query['relatedarticles']=$this->db->query("SELECT `id`, `status`, `diarycategory`, `diarysubcategory`, `name`, `image`, `timestamp`, `content`, `date`, `type`, `showhide` FROM `gse_diaryarticle` WHERE `id`!=$id AND `diarycategory`='$dcat'")->result();
+  // $query['relatedarticles']=$this->db->query("SELECT `id`, `status`, `diarycategory`, `diarysubcategory`, `name`, `image`, (SELECT TIMEDIFF('$cdate','timestamp') as `difference` FROM gse_comment), `content`, `date`, `type`, `showhide` FROM `gse_diaryarticle` WHERE `id`!=$id AND `diarycategory`='$dcat'")->result();
   }
   $query['comments']=$this->db->query("SELECT `id`, `diaryarticle`, `userid`, `timestamp`, `name`, `comment` FROM `gse_comment` WHERE `diaryarticle`=$id ORDER BY `id` DESC")->result();
   if($query)
