@@ -907,5 +907,22 @@ public function imageUpload()
   }
 }
 
+public function getMatch()
+{
+  $data["message"]=$this->restapi_model->getMatch();
+  $this->load->view("json",$data);
+}
+public function getDiary()
+{
+  $data["message"]=$this->restapi_model->getDiary();
+  $this->load->view("json",$data);
+}
+public function getDiaryDetails()
+{
+
+  $data["message"]=$this->restapi_model->getDiaryDetails();
+  $this->load->view("json",$data);
+}
+
 
 } ?>

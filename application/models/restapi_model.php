@@ -639,7 +639,58 @@ public function careersSubmit($category,$name,$email, $phone,$resume,$address,$s
   }
 
 }
+public function getMatch(){
+  $cdate = date("Y-m-d");
+  $query['upcoming']=$this->db->query("SELECT `id`, `team1`, `logo1`, `team2`, `logo2`, `location`, `date`, `time`, `link`, `team1score`, `team2score`, `banner` FROM `gse_match` WHERE `date` > '$cdate'")->result();
+  $query['previous']=$this->db->query("SELECT `id`, `team1`, `logo1`, `team2`, `logo2`, `location`, `date`, `time`, `link`, `team1score`, `team2score`, `banner` FROM `gse_match` WHERE `date` < '$cdate'")->result();
+  if($query)
+  {
+    $obj->value = true;
+    $obj->data = $query;
+    return $obj;
+  }
+  else
+  {
+    $obj->value = false;
+    $obj->data = "No data found";
+    return $obj;
+  }
+}
+public function getDiary(){
+    $query['description']=$this->db->query("SELECT `id`, `order`, `status`, `name`, `content` FROM `gse_category` WHERE `status`=1 AND `id`=13")->row();
+  $query['category']=$this->db->query("SELECT `id`, `order`, `status`, `name` FROM `gse_diarycategory` WHERE 1")->result();
+  $query['years']=$this->db->query("SELECT DISTINCT year(`date`) AS 'year',month(`date`) AS 'month' FROM `gse_diaryarticle` WHERE 1")->result();
+  $query['data']=$this->db->query("SELECT * FROM `gse_diaryarticle`")->result();
+  if($query)
+  {
+    $obj->value = true;
+    $obj->data = $query;
+    return $obj;
+  }
+  else
+  {
+    $obj->value = false;
+    $obj->data = "No data found";
+    return $obj;
+  }
+}
+public function getDiaryDetails(){
 
+  // $query['category']=$this->db->query("SELECT `id`, `order`, `status`, `name` FROM `gse_diarycategory` WHERE 1")->result();
+  // $query['years']=$this->db->query("SELECT DISTINCT year(`date`) AS 'year',month(`date`) AS 'month' FROM `gse_diaryarticle` WHERE 1")->result();
+  if($query)
+  {
+    $obj->value = true;
+    $obj->data = $query;
+    return $obj;
+  }
+  else
+  {
+    $obj->value = false;
+    $obj->data = "No data found";
+    return $obj;
+  }
+}
 
 }
 ?>

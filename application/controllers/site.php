@@ -6196,8 +6196,9 @@ if($id==0)
 $data["alerterror"]="New diaryarticle could not be Updated.";
 else
 $data["alertsuccess"]="diaryarticle Updated Successfully.";
-$data["redirect"]="site/editdiaryarticle?id=".$id;
-$this->load->view("redirect2",$data);
+$data["redirect"]="site/viewdiaryarticle";
+// $data["redirect"]="site/editdiaryarticle?id=".$id;
+$this->load->view("redirect",$data);
 }
 }
 public function deletediaryarticle()
