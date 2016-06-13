@@ -660,7 +660,6 @@ public function getDiary(){
     $query['description']=$this->db->query("SELECT `id`, `order`, `status`, `name`, `content` FROM `gse_category` WHERE `status`=1 AND `id`=13")->row();
   $query['category']=$this->db->query("SELECT `id`, `order`, `status`, `name` FROM `gse_diarycategory` WHERE 1")->result();
   $query['years']=$this->db->query("SELECT DISTINCT year(`date`) AS 'year',month(`date`) AS 'month' FROM `gse_diaryarticle` WHERE 1")->result();
-  $query['data']=$this->db->query("SELECT * FROM `gse_diaryarticle`")->result();
   if($query)
   {
     $obj->value = true;
@@ -674,12 +673,16 @@ public function getDiary(){
     return $obj;
   }
 }
-public function getDiaryDetails(){
-
-  // $query['category']=$this->db->query("SELECT `id`, `order`, `status`, `name` FROM `gse_diarycategory` WHERE 1")->result();
-  // $query['years']=$this->db->query("SELECT DISTINCT year(`date`) AS 'year',month(`date`) AS 'month' FROM `gse_diaryarticle` WHERE 1")->result();
-  if($query)
+public function getDiaryInside(){
+  $queryid=$this->db->query("SELECT DISTINCT `id`,`name` FROM `gse_diarycategory` WHERE 1")->result();
+  // print_r($queryid);
+  $rearr =  array();
+  if($queryid)
   {
+    foreach ($queryid as $value) {
+      $string = str_replace(" ", "", $value->name);
+      $query[$string]=$this->db->query("SELECT `id`, `status`, `diarycategory`, `diarysubcategory`, `name`, `image`, `timestamp`, `content`, `date`, `type`, `showhide` FROM `gse_diaryarticle` WHERE `diarycategory`='$value->id'")->result();
+  }
     $obj->value = true;
     $obj->data = $query;
     return $obj;

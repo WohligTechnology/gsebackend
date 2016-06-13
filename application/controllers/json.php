@@ -917,10 +917,9 @@ public function getDiary()
   $data["message"]=$this->restapi_model->getDiary();
   $this->load->view("json",$data);
 }
-public function getDiaryDetails()
+public function getDiaryInside()
 {
-
-  $data["message"]=$this->restapi_model->getDiaryDetails();
+  $data["message"]=$this->restapi_model->getDiaryInside();
   $this->load->view("json",$data);
 }
 
