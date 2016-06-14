@@ -982,5 +982,10 @@ public function commentSubmit()
   $data['message'] = $this->restapi_model->commentSubmit($diaryarticle,$userid,$name,$comment);
  $this->load->view('json', $data);
 }
+public function authenticate()
+{
+    $data['message'] = $this->user_model->authenticate();
+    $this->load->view('json', $data);
+}
 
 } ?>
