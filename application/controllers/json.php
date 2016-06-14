@@ -935,15 +935,16 @@ public function getDiaryInsideFilter()
     $category = $this->input->get_post('category');
     $year = $this->input->get_post('year');
     $month = $this->input->get_post('month');
-    $this->chintantable->createelement('`id`', '1', 'ID', 'id');
-    $this->chintantable->createelement('`diarycategory`', '1', 'diarycategory', 'diarycategory');
-    $this->chintantable->createelement('`name`', '1', 'name', 'name');
-    $this->chintantable->createelement('`image`', '0', 'image', 'image');
-    $this->chintantable->createelement('`status`', '0', 'status', 'status');
-    $this->chintantable->createelement('`date`', '0', 'date', 'date');
-    $this->chintantable->createelement('`content`', '0', 'content', 'content');
-    $this->chintantable->createelement('`type`', '0', 'type', 'type');
-    $this->chintantable->createelement('`showhide`', '0', 'showhide', 'showhide');
+    $this->chintantable->createelement('`gse_diaryarticle`.`id`', '1', 'ID', 'id');
+    $this->chintantable->createelement('`gse_diaryarticle`.`diarycategory`', '1', 'diarycategory', 'diarycategory');
+    $this->chintantable->createelement('`gse_diaryarticle`.`name`', '1', 'name', 'name');
+    $this->chintantable->createelement('`gse_diaryarticle`.`image`', '0', 'image', 'image');
+    $this->chintantable->createelement('`gse_diaryarticle`.`status`', '0', 'status', 'status');
+    $this->chintantable->createelement('`gse_diaryarticle`.`date`', '0', 'date', 'date');
+    $this->chintantable->createelement('`gse_diaryarticle`.`content`', '0', 'content', 'content');
+    $this->chintantable->createelement('`gse_diaryarticle`.`type`', '0', 'type', 'type');
+    $this->chintantable->createelement('`gse_diaryarticle`.`showhide`', '0', 'showhide', 'showhide');
+    $this->chintantable->createelement('`gse_diarycategory`.`name`', '0', 'categoryname', 'categoryname');
     $search = $this->input->get_post('search');
     $pageno = $this->input->get_post('pageno');
     $orderby = $this->input->get_post('orderby');
@@ -958,16 +959,16 @@ public function getDiaryInsideFilter()
     }
 
     if ($category != '') {
-        $where = " WHERE diarycategory = '$category' AND status=1 ";
+        $where = " WHERE `gse_diaryarticle`.`diarycategory` = '$category' AND `gse_diaryarticle`.`status`=1 ";
     }
     if ($year != '') {
-        $where .= " AND year(date) = '$year'";
+        $where .= " AND year(`gse_diaryarticle`.`date`) = '$year'";
     }
     if ($month != '') {
         $where .= " AND month(date) = '$month'";
     }
 
-    $data['message'] = $this->chintantable->query($pageno, $maxrow, $orderby, $orderorder, $search, $elements, 'FROM `gse_diaryarticle`', $where, '' );
+    $data['message'] = $this->chintantable->query($pageno, $maxrow, $orderby, $orderorder, $search, $elements, 'FROM `gse_diaryarticle` LEFT OUTER JOIN `gse_diarycategory` ON `gse_diaryarticle`.`diarycategory`=`gse_diarycategory`.`id`', $where, '' );
 
     $this->load->view('json', $data);
 }

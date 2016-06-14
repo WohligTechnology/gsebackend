@@ -688,7 +688,7 @@ public function getDiaryInside($page){
   {
     foreach ($queryid as $value) {
       $string = str_replace(" ", "", $value->name);
-      $q="SELECT `id`, `status`, `diarycategory`, `diarysubcategory`, `name`, `image`, `timestamp`, `content`, `date`, `type`, `showhide` FROM `gse_diaryarticle` WHERE `diarycategory`='$value->id' ORDER BY `id` DESC LIMIT $page";
+      $q="SELECT `gse_diaryarticle`.`id`, `gse_diaryarticle`.`status`, `gse_diaryarticle`.`diarycategory`, `gse_diaryarticle`.`diarysubcategory`, `gse_diaryarticle`.`name`, `gse_diaryarticle`.`image`, `gse_diaryarticle`.`timestamp`, `gse_diaryarticle`.`content`, `gse_diaryarticle`.`date`, `gse_diaryarticle`.`type`, `gse_diaryarticle`.`showhide`,`gse_diarycategory`.`name` AS 'categoryname' FROM `gse_diaryarticle` LEFT OUTER JOIN `gse_diarycategory` ON `gse_diaryarticle`.`diarycategory`=`gse_diarycategory`.`id` WHERE `diarycategory`='$value->id' ORDER BY `id` DESC LIMIT $page";
       // echo $q;
       $query[$string]=$this->db->query($q)->result();
   }
@@ -724,7 +724,6 @@ public function getDiaryInsideDetail($id){
   if(!empty($dcat))
   {
   $query['relatedarticles']=$this->db->query("SELECT `id`, `status`, `diarycategory`, `diarysubcategory`, `name`, `image`, `timestamp`, `content`, `date`, `type`, `showhide` FROM `gse_diaryarticle` WHERE `id`!=$id AND `diarycategory`='$dcat'")->result();
-  // $query['relatedarticles']=$this->db->query("SELECT `id`, `status`, `diarycategory`, `diarysubcategory`, `name`, `image`, (SELECT TIMEDIFF('$cdate','timestamp') as `difference` FROM gse_comment), `content`, `date`, `type`, `showhide` FROM `gse_diaryarticle` WHERE `id`!=$id AND `diarycategory`='$dcat'")->result();
   }
   $query['comments']=$this->db->query("SELECT `id`, `diaryarticle`, `userid`, `timestamp`, `name`, `comment` FROM `gse_comment` WHERE `diaryarticle`=$id ORDER BY `id` DESC")->result();
   if($query)
