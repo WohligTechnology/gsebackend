@@ -965,7 +965,7 @@ public function getDiaryInsideFilter()
         $where .= " AND year(`gse_diaryarticle`.`date`) = '$year'";
     }
     if ($month != '') {
-        $where .= " AND month(date) = '$month'";
+        $where .= " AND MONTHNAME(date) = '$month'";
     }
 
     $data['message'] = $this->chintantable->query($pageno, $maxrow, $orderby, $orderorder, $search, $elements, 'FROM `gse_diaryarticle` LEFT OUTER JOIN `gse_diarycategory` ON `gse_diaryarticle`.`diarycategory`=`gse_diarycategory`.`id`', $where, '' );
