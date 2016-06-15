@@ -723,7 +723,7 @@ public function getDiaryInsideDetail($id){
   $cdate = new DateTime();
   if(!empty($dcat))
   {
-  $query['relatedarticles']=$this->db->query("SELECT `id`, `status`, `diarycategory`, `diarysubcategory`, `name`, `image`, `timestamp`, `content`, `date`, `type`, `showhide` FROM `gse_diaryarticle` WHERE `id`!=$id AND `diarycategory`='$dcat'")->result();
+  $query['relatedarticles']=$this->db->query("SELECT `gse_diaryarticle`.`id`, `gse_diaryarticle`.`status`, `gse_diaryarticle`.`diarycategory`, `gse_diaryarticle`.`diarysubcategory`, `gse_diaryarticle`.`name`, `gse_diaryarticle`.`image`, `gse_diaryarticle`.`timestamp`, `gse_diaryarticle`.`content`, `gse_diaryarticle`.`date`, `gse_diaryarticle`.`type`, `gse_diaryarticle`.`showhide`,`gse_diarycategory`.`name` AS 'categoryname' FROM `gse_diaryarticle` LEFT OUTER JOIN `gse_diarycategory` ON `gse_diaryarticle`.`diarycategory`=`gse_diarycategory`.`id` WHERE `gse_diaryarticle`.`id`!=$id AND `gse_diaryarticle`.`diarycategory`='$dcat'")->result();
   }
   $query['comments']=$this->db->query("SELECT `id`, `diaryarticle`, `userid`, `timestamp`, `name`, `comment` FROM `gse_comment` WHERE `diaryarticle`=$id ORDER BY `id` DESC")->result();
   if($query)
