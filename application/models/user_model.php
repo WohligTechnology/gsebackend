@@ -342,22 +342,14 @@ class User_model extends CI_Model
 
     }
     function authenticate() {
-         $is_logged_in = $this->session->userdata( 'logged_in' );
-//        return $is_logged_in;
-        if ( $is_logged_in != true) {
+			$is_logged_in = $this->session->userdata( 'logged_in' );
+        if ( $is_logged_in != 1) {
 					$obj = new stdClass();
-					$obj->value=false;
+					$obj->value = false;
             return $obj;
-        } //$is_logged_in !== 'true' || !isset( $is_logged_in )
+        }
         else {
-		$userid=$this->session->userdata('id');
-		$query=$this->db->query("SELECT * FROM `user` WHERE `id`='$userid'")->row();
-           // $userid = $this->session->userdata( );
-        //  return $query;
-				$obj = new stdClass();
-				$obj->value=true;
-				$obj->data=$query;
-					return $obj;
+         return $this->session->all_userdata();;
         }
     }
 
@@ -543,7 +535,9 @@ class User_model extends CI_Model
 
             $this->session->set_userdata($newdata);
             print_r($newdata);
-            return $newdata;
+						echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%";
+						print_r($this->session->all_userdata());
+            // return $newdata;
 
         }
         else
@@ -561,6 +555,7 @@ class User_model extends CI_Model
 
             $this->session->set_userdata($newdata);
              print_r($newdata);
+
             return $newdata;
         }
     }

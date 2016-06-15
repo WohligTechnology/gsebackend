@@ -29,7 +29,7 @@ class HAuth extends CI_Controller {
 
                     $sociallogin=$this->user_model->sociallogin($user_profile,$provider);
 
-                    redirect($this->input->get_post("returnurl"));
+                    // redirect($this->input->get_post("returnurl"));
 
 					// $data['message'] = $sociallogin;
 
@@ -168,7 +168,7 @@ class HAuth extends CI_Controller {
 
             if(isset($data["message"]["id"]))
             {
-                
+
                 redirect($this->input->get_post("returnurl"));
 
             $this->load->view("json",$data);
@@ -176,7 +176,7 @@ class HAuth extends CI_Controller {
             else
             {
 
-                
+
                 redirect($this->input->get_post("returnurl"));
                 $this->load->view("json",$data);
             }

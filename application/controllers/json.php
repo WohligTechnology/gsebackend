@@ -987,5 +987,14 @@ public function authenticate()
     $data['message'] = $this->user_model->authenticate();
     $this->load->view('json', $data);
 }
+public function logout()
+{
+    $this->session->sess_destroy();
+    $object = new stdClass();
+    $object->value = true;
+    //return $object;
+    $data['message'] = $object;
+    $this->load->view('json', $data);
+}
 
 } ?>
