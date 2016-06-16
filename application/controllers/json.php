@@ -978,8 +978,9 @@ public function commentSubmit()
   $diaryarticle = $data['diaryarticle'];
   $userid = $data['userid'];
   $name = $data['name'];
+  $image = $data['image'];
   $comment = $data['comment'];
-  $data['message'] = $this->restapi_model->commentSubmit($diaryarticle,$userid,$name,$comment);
+  $data['message'] = $this->restapi_model->commentSubmit($diaryarticle,$userid,$name,$image,$comment);
  $this->load->view('json', $data);
 }
 public function authenticate()

@@ -725,7 +725,7 @@ public function getDiaryInsideDetail($id){
   {
   $query['relatedarticles']=$this->db->query("SELECT `gse_diaryarticle`.`id`, `gse_diaryarticle`.`status`, `gse_diaryarticle`.`diarycategory`, `gse_diaryarticle`.`diarysubcategory`, `gse_diaryarticle`.`name`, `gse_diaryarticle`.`image`, `gse_diaryarticle`.`timestamp`, `gse_diaryarticle`.`content`, `gse_diaryarticle`.`date`, `gse_diaryarticle`.`type`, `gse_diaryarticle`.`showhide`,`gse_diarycategory`.`name` AS 'categoryname' FROM `gse_diaryarticle` LEFT OUTER JOIN `gse_diarycategory` ON `gse_diaryarticle`.`diarycategory`=`gse_diarycategory`.`id` WHERE `gse_diaryarticle`.`id`!=$id AND `gse_diaryarticle`.`diarycategory`='$dcat'")->result();
   }
-  $query['comments']=$this->db->query("SELECT `id`, `diaryarticle`, `userid`, `timestamp`, `name`, `comment` FROM `gse_comment` WHERE `diaryarticle`=$id ORDER BY `id` DESC")->result();
+  $query['comments']=$this->db->query("SELECT `id`, `diaryarticle`, `userid`, `timestamp`, `name`,`image`, `comment` FROM `gse_comment` WHERE `diaryarticle`=$id ORDER BY `id` DESC")->result();
   if($query)
   {
     $obj->value = true;
@@ -739,11 +739,11 @@ public function getDiaryInsideDetail($id){
     return $obj;
   }
 }
-public function commentSubmit($diaryarticle,$userid,$name,$comment)
+public function commentSubmit($diaryarticle,$userid,$name,$image,$comment)
 {
   if(!empty($comment))
   {
-    $query=$this->db->query("INSERT INTO `gse_comment`(`diaryarticle`, `userid`, `name`, `comment`) VALUES ('$diaryarticle','$userid','$name','$comment')");
+    $query=$this->db->query("INSERT INTO `gse_comment`(`diaryarticle`, `userid`, `name`, `image`,`comment`) VALUES ('$diaryarticle','$userid','$name','$image','$comment')");
     if($query)
     {
       $obj->value = true;

@@ -342,14 +342,15 @@ class User_model extends CI_Model
 
     }
     function authenticate() {
-			$is_logged_in = $this->session->userdata( 'logged_in' );
+			$is_logged_in = $this->session->userdata('logged_in');
+			// print_r($is_logged_in);
         if ( $is_logged_in != 1) {
 					$obj = new stdClass();
 					$obj->value = false;
             return $obj;
         }
         else {
-         return $this->session->all_userdata();;
+         return $this->session->all_userdata();
         }
     }
 
@@ -534,10 +535,10 @@ class User_model extends CI_Model
             );
 
             $this->session->set_userdata($newdata);
-            print_r($newdata);
-						echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%";
-						print_r($this->session->all_userdata());
-            // return $newdata;
+            // print_r($newdata);
+						// echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%";
+						// print_r($this->session->all_userdata());
+            return $newdata;
 
         }
         else
