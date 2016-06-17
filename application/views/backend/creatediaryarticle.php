@@ -17,6 +17,12 @@
 </div>
 <div class=" row">
 <div class=" input-field col s6">
+<?php echo form_dropdown("author",$author,set_value('author'));?>
+<label>Author</label>
+</div>
+</div>
+<div class=" row">
+<div class=" input-field col s6">
 <?php echo form_dropdown("diarysubcategory",$diarysubcategory,set_value('diarysubcategory'));?>
 <label>Diary Sub Category</label>
 </div>

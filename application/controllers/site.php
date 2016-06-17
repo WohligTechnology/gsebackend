@@ -6020,9 +6020,10 @@ $this->checkaccess($access);
 $data["page"]="creatediaryarticle";
 $data["title"]="Create diaryarticle";
 $data[ 'status' ] =$this->user_model->getstatusdropdown();
-    $data[ 'diarycategory' ] =$this->diarycategory_model->getdropdown();
-    $data[ 'diarysubcategory' ] =$this->diarysubcategory_model->getdropdown();
-    $data[ 'type' ] =$this->diarycategory_model->gettypedropdown();
+$data[ 'author' ] =$this->author_model->getdropdown();
+$data[ 'diarycategory' ] =$this->diarycategory_model->getdropdown();
+$data[ 'diarysubcategory' ] =$this->diarysubcategory_model->getdropdown();
+$data[ 'type' ] =$this->diarycategory_model->gettypedropdown();
 $this->load->view("template",$data);
 }
 public function creatediaryarticlesubmit()
@@ -6053,6 +6054,7 @@ else
 $id=$this->input->get_post("id");
 $status=$this->input->get_post("status");
 $diarycategory=$this->input->get_post("diarycategory");
+$author=$this->input->get_post("author");
 $diarysubcategory=$this->input->get_post("diarysubcategory");
 $name=$this->input->get_post("name");
 //$image=$this->menu_model->createImage();
@@ -6093,7 +6095,7 @@ $type=$this->input->get_post("type");
                 }
 
 			}
-if($this->diaryarticle_model->create($status,$diarycategory,$diarysubcategory,$name,$image,$timestamp,$content,$date,$type)==0)
+if($this->diaryarticle_model->create($status,$diarycategory,$diarysubcategory,$name,$image,$timestamp,$content,$date,$type,$author)==0)
 $data["alerterror"]="New diaryarticle could not be created.";
 else
 $data["alertsuccess"]="diaryarticle created Successfully.";
@@ -6113,6 +6115,7 @@ $data["before2"]=$this->input->get('id');
 $data["before3"]=$this->input->get('id');
 $data["before4"]=$this->input->get('id');
 $data[ 'status' ] =$this->user_model->getstatusdropdown();
+$data[ 'author' ] =$this->author_model->getdropdown();
 $data[ 'diarycategory' ] =$this->diarycategory_model->getdropdown();
  $data[ 'diarysubcategory' ] =$this->diarysubcategory_model->getdropdown();
 $data[ 'type' ] =$this->diarycategory_model->gettypedropdown();
@@ -6150,6 +6153,7 @@ else
 $id=$this->input->get_post("id");
 $status=$this->input->get_post("status");
 $diarycategory=$this->input->get_post("diarycategory");
+$author=$this->input->get_post("author");
 $diarysubcategory=$this->input->get_post("diarysubcategory");
 $name=$this->input->get_post("name");
 //$image=$this->menu_model->createImage();
@@ -6191,7 +6195,7 @@ $type=$this->input->get_post("type");
                 }
 
 			}
-    $id=$this->diaryarticle_model->edit($id,$status,$diarycategory,$diarysubcategory,$name,$image,$timestamp,$content,$date,$type);
+    $id=$this->diaryarticle_model->edit($id,$status,$diarycategory,$diarysubcategory,$name,$image,$timestamp,$content,$date,$type,$author);
 if($id==0)
 $data["alerterror"]="New diaryarticle could not be Updated.";
 else

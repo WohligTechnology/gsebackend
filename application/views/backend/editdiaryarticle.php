@@ -20,6 +20,12 @@
 </div>
 <div class=" row">
 <div class=" input-field col s12 m6">
+<?php echo form_dropdown("author",$author,set_value('author',$before->author));?>
+<label for="Diary Category">Author</label>
+</div>
+</div>
+<div class=" row">
+<div class=" input-field col s12 m6">
 <?php echo form_dropdown("diarysubcategory",$diarysubcategory,set_value('diarysubcategory',$before->diarysubcategory));?>
 <label for="Diary Sub Category">Diary Sub Category</label>
 </div>
@@ -88,7 +94,7 @@
          type: 'post',
          success: function(output) {}
                   	});
-        
+
 //        if chanegs made
 	$('#dropdown_selector').change(function()
 	{
@@ -97,12 +103,12 @@
          data: {id: $('.id').val(),type : type },
          type: 'post',
          success: function(output) {
-                     
+
                   }
 	});
      location.reload();
-      
+
 });
-        
+
 });
 </script>

@@ -3,14 +3,14 @@ if ( !defined( "BASEPATH" ) )
 exit( "No direct script access allowed" );
 class diaryarticle_model extends CI_Model
 {
-public function create($status,$diarycategory,$diarysubcategory,$name,$image,$timestamp,$content,$date,$type)
+public function create($status,$diarycategory,$diarysubcategory,$name,$image,$timestamp,$content,$date,$type,$author)
 {
     //  $date = new DateTime($date);
     // $date = $date->format('Y-m-d');
     $date = explode(" ",$date);
     $nmonth = date('m',strtotime($date[1]));
     $date=$date[2]."-".$nmonth."-".$date[0];
-$data=array("status" => $status,"diarycategory" => $diarycategory,"diarysubcategory" => $diarysubcategory,"name" => $name,"image" => $image,"timestamp" => $timestamp,"content" => $content,"date" => $date,"type" => $type);
+$data=array("status" => $status,"diarycategory" => $diarycategory,"diarysubcategory" => $diarysubcategory,"name" => $name,"image" => $image,"timestamp" => $timestamp,"content" => $content,"date" => $date,"type" => $type,"author" => $author);
 $query=$this->db->insert( "gse_diaryarticle", $data );
 $id=$this->db->insert_id();
 if(!$query)
@@ -29,7 +29,7 @@ $this->db->where("id",$id);
 $query=$this->db->get("gse_diaryarticle")->row();
 return $query;
 }
-public function edit($id,$status,$diarycategory,$diarysubcategory,$name,$image,$timestamp,$content,$date,$type)
+public function edit($id,$status,$diarycategory,$diarysubcategory,$name,$image,$timestamp,$content,$date,$type,$author)
 {
 if($image=="")
 {
@@ -41,7 +41,7 @@ $image=$image->image;
     $date = explode(" ",$date);
     $nmonth = date('m',strtotime($date[1]));
     $date=$date[2]."-".$nmonth."-".$date[0];
-$data=array("status" => $status,"diarycategory" => $diarycategory,"diarysubcategory" => $diarysubcategory,"name" => $name,"image" => $image,"timestamp" => $timestamp,"content" => $content,"date" => $date,"type" => $type);
+$data=array("status" => $status,"diarycategory" => $diarycategory,"diarysubcategory" => $diarysubcategory,"name" => $name,"image" => $image,"timestamp" => $timestamp,"content" => $content,"date" => $date,"type" => $type,"author" => $author);
 $this->db->where( "id", $id );
 $query=$this->db->update( "gse_diaryarticle", $data );
 return $id;

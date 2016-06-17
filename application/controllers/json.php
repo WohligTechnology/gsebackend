@@ -751,6 +751,7 @@ public function getSportInside()
     $maxrow = $this->input->get_post('maxrow');
     if ($maxrow == '') {
         $maxrow = 20;
+        // $maxrow = 20;
     }
     if ($orderby == '') {
         $orderby = 'date';
