@@ -688,7 +688,7 @@ public function getDiaryInside($page){
   {
     foreach ($queryid as $value) {
       $string = str_replace(" ", "", $value->name);
-      $q="SELECT `gse_diaryarticle`.`id`, `gse_diaryarticle`.`status`, `gse_diaryarticle`.`diarycategory`, `gse_diaryarticle`.`diarysubcategory`, `gse_diaryarticle`.`name`, `gse_diaryarticle`.`image`, `gse_diaryarticle`.`timestamp`, `gse_diaryarticle`.`content`, `gse_diaryarticle`.`date`, `gse_diaryarticle`.`type`, `gse_diaryarticle`.`showhide`,`gse_diarycategory`.`name` AS 'categoryname' FROM `gse_diaryarticle` LEFT OUTER JOIN `gse_diarycategory` ON `gse_diaryarticle`.`diarycategory`=`gse_diarycategory`.`id` WHERE `diarycategory`='$value->id' ORDER BY `id` DESC LIMIT $page";
+      $q="SELECT `gse_diaryarticle`.`id`, `gse_diaryarticle`.`status`, `gse_diaryarticle`.`diarycategory`, `gse_diaryarticle`.`diarysubcategory`, `gse_diaryarticle`.`name`, `gse_diaryarticle`.`image`, `gse_diaryarticle`.`timestamp`, `gse_diaryarticle`.`content`, `gse_diaryarticle`.`date`, `gse_diaryarticle`.`type`, `gse_diaryarticle`.`showhide`,`gse_diarycategory`.`name` AS 'categoryname',`author`.`id` AS 'authorid',`author`.`name` AS 'authorname',`gse_diaryarticle`.`views` FROM `gse_diaryarticle` LEFT OUTER JOIN `gse_diarycategory` ON `gse_diaryarticle`.`diarycategory`=`gse_diarycategory`.`id` LEFT OUTER JOIN `author` ON `gse_diaryarticle`.`author`=`author`.`id` WHERE `diarycategory`='$value->id' ORDER BY `id` DESC LIMIT $page";
       // echo $q;
       $query[$string]=$this->db->query($q)->result();
   }
@@ -705,7 +705,11 @@ public function getDiaryInside($page){
 }
 
 public function getDiaryInsideDetail($id){
-  $query['description']=$this->db->query("SELECT `id`, `status`, `diarycategory`, `diarysubcategory`, `name`, `image`, `timestamp`, `content`, `date`, `type`, `showhide` FROM `gse_diaryarticle` WHERE `id`=$id")->row();
+
+  $getview = $this->db->query("SELECT `views` FROM `gse_diaryarticle` WHERE `id`=$id")->row();
+  // print_r($getview);
+$uhetview = $this->db->query("UPDATE `gse_diaryarticle` SET `views`=$getview->views+1 WHERE `id`=$id");
+  $query['description']=$this->db->query("SELECT `gse_diaryarticle`.`id`, `gse_diaryarticle`.`status`, `gse_diaryarticle`.`diarycategory`, `gse_diaryarticle`.`diarysubcategory`, `gse_diaryarticle`.`name`, `gse_diaryarticle`.`image`, `gse_diaryarticle`.`timestamp`, `gse_diaryarticle`.`content`, `gse_diaryarticle`.`date`, `gse_diaryarticle`.`type`, `gse_diaryarticle`.`showhide`,`gse_diaryarticle`.`views`,`author`.`id` AS 'authorid',`author`.`name` AS 'authorname' FROM `gse_diaryarticle` LEFT OUTER JOIN `author` ON `gse_diaryarticle`.`author`=`author`.`id` WHERE `gse_diaryarticle`.`id`=$id")->row();
   if($query['description']->type==1)
   {
       $query['text']=$this->db->query("SELECT `id`, `diaryarticle`, `content`, `image`, `order` FROM `gse_blogtext` WHERE `diaryarticle`=$id ORDER BY `order` ASC")->result();
@@ -762,7 +766,23 @@ public function commentSubmit($diaryarticle,$userid,$name,$image,$comment)
     return $obj;
   }
 }
+public function getAuthor($id){
+    $query['description']=$this->db->query("SELECT `id`, `name`, `image`, `description`, `facebook`, `twitter`, `google` FROM `author` WHERE `id`='$id'")->row();
+  $query['articles']=$this->db->query("SELECT `id`, `status`, `diarycategory`, `diarysubcategory`, `name`, `image`, `timestamp`, `content`, `date`, `type`, `showhide`, `author`, `views` FROM `gse_diaryarticle` WHERE `author`=$id ORDER BY `date` DESC")->result();
 
+  if($query)
+  {
+    $obj->value = true;
+    $obj->data = $query;
+    return $obj;
+  }
+  else
+  {
+    $obj->value = false;
+    $obj->data = "No data found";
+    return $obj;
+  }
+}
 
 }
 ?>

@@ -9765,7 +9765,147 @@ $this->match_model->delete($this->input->get("id"));
 $data["redirect"]="site/viewmatch";
 $this->load->view("redirect",$data);
 }
+public function viewauthor()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="viewauthor";
+$data["base_url"]=site_url("site/viewauthorjson");
+$data["title"]="View author";
+$this->load->view("template",$data);
+}
+function viewauthorjson()
+{
+$elements=array();
+$elements[0]=new stdClass();
+$elements[0]->field="`author`.`id`";
+$elements[0]->sort="1";
+$elements[0]->header="ID";
+$elements[0]->alias="id";
+$elements[1]=new stdClass();
+$elements[1]->field="`author`.`name`";
+$elements[1]->sort="1";
+$elements[1]->header="Names";
+$elements[1]->alias="name";
+$elements[2]=new stdClass();
+$elements[2]->field="`author`.`image`";
+$elements[2]->sort="1";
+$elements[2]->header="Image";
+$elements[2]->alias="image";
+$search=$this->input->get_post("search");
+$pageno=$this->input->get_post("pageno");
+$orderby=$this->input->get_post("orderby");
+$orderorder=$this->input->get_post("orderorder");
+$maxrow=$this->input->get_post("maxrow");
+if($maxrow=="")
+{
+$maxrow=20;
+}
+if($orderby=="")
+{
+$orderby="id";
+$orderorder="ASC";
+}
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `author`");
+$this->load->view("json",$data);
+}
 
+public function createauthor()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="createauthor";
+$data["title"]="Create author";
+$data[ 'status' ] =$this->user_model->getstatusdropdown();
+    $data[ 'sportscategory' ] =$this->sportscategory_model->getdropdown();
+$this->load->view("template",$data);
+}
+public function createauthorsubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("order","Order","trim");
+$this->form_validation->set_rules("status","Status","trim");
+$this->form_validation->set_rules("name","Name","trim");
+$this->form_validation->set_rules("image","Image","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="createauthor";
+$data["title"]="Create author";
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$google=$this->input->get_post("google");
+$twitter=$this->input->get_post("twitter");
+$facebook=$this->input->get_post("facebook");
+$name=$this->input->get_post("name");
+$description=$this->input->get_post("description");
+$image=$this->menu_model->createImage();
+if($this->author_model->create($google,$twitter,$facebook,$name,$image,$description)==0)
+$data["alerterror"]="New author could not be created.";
+else
+$data["alertsuccess"]="author created Successfully.";
+$data["redirect"]="site/viewauthor";
+$this->load->view("redirect",$data);
+}
+}
+public function editauthor()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="editauthor";
+$data["title"]="Edit author";
+// $data[ 'status' ] =$this->user_model->getstatusdropdown();
+// $data[ 'sportscategory' ] =$this->sportscategory_model->getdropdown();
+$data["before"]=$this->author_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+public function editauthorsubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("id","ID","trim");
+$this->form_validation->set_rules("order","Order","trim");
+$this->form_validation->set_rules("name","Name","trim");
+$this->form_validation->set_rules("image","Image","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="editauthor";
+$data["title"]="Edit author";
+// $data[ 'status' ] =$this->user_model->getstatusdropdown();
+// $data[ 'sportscategory' ] =$this->sportscategory_model->getdropdown();
+$data["before"]=$this->author_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$google=$this->input->get_post("google");
+$twitter=$this->input->get_post("twitter");
+$facebook=$this->input->get_post("facebook");
+$name=$this->input->get_post("name");
+$description=$this->input->get_post("description");
+$image=$this->menu_model->createImage();
+if($this->author_model->edit($id,$google,$twitter,$facebook,$name,$image,$description)==0)
+$data["alerterror"]="New author could not be Updated.";
+else
+$data["alertsuccess"]="author Updated Successfully.";
+$data["redirect"]="site/viewauthor";
+$this->load->view("redirect",$data);
+}
+}
+public function deleteauthor()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->author_model->delete($this->input->get("id"));
+$data["redirect"]="site/viewauthor";
+$this->load->view("redirect",$data);
+}
 
 }
 ?>

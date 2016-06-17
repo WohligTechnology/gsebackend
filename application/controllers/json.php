@@ -945,6 +945,9 @@ public function getDiaryInsideFilter()
     $this->chintantable->createelement('`gse_diaryarticle`.`content`', '0', 'content', 'content');
     $this->chintantable->createelement('`gse_diaryarticle`.`type`', '0', 'type', 'type');
     $this->chintantable->createelement('`gse_diaryarticle`.`showhide`', '0', 'showhide', 'showhide');
+    $this->chintantable->createelement('`gse_diaryarticle`.`views`', '0', 'views', 'views');
+    $this->chintantable->createelement('`author`.`name`', '0', 'authorname', 'authorname');
+    $this->chintantable->createelement('`author`.`id`', '0', 'authorid', 'authorid');
     $this->chintantable->createelement('`gse_diarycategory`.`name`', '0', 'categoryname', 'categoryname');
     $search = $this->input->get_post('search');
     $pageno = $this->input->get_post('pageno');
@@ -969,7 +972,7 @@ public function getDiaryInsideFilter()
         $where .= " AND MONTHNAME(date) = '$month'";
     }
 
-    $data['message'] = $this->chintantable->query($pageno, $maxrow, $orderby, $orderorder, $search, $elements, 'FROM `gse_diaryarticle` LEFT OUTER JOIN `gse_diarycategory` ON `gse_diaryarticle`.`diarycategory`=`gse_diarycategory`.`id`', $where, '' );
+    $data['message'] = $this->chintantable->query($pageno, $maxrow, $orderby, $orderorder, $search, $elements, 'FROM `gse_diaryarticle` LEFT OUTER JOIN `gse_diarycategory` ON `gse_diaryarticle`.`diarycategory`=`gse_diarycategory`.`id` LEFT OUTER JOIN `author` ON `gse_diaryarticle`.`author`=`author`.`id`', $where, '' );
 
     $this->load->view('json', $data);
 }
@@ -997,6 +1000,12 @@ public function logout()
     //return $object;
     $data['message'] = $object;
     $this->load->view('json', $data);
+}
+public function getAuthor()
+{
+  $id = $this->input->get_post('id');
+  $data["message"]=$this->restapi_model->getAuthor($id);
+  $this->load->view("json",$data);
 }
 
 } ?>

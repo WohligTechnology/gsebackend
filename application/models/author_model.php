@@ -3,9 +3,9 @@ if ( !defined( "BASEPATH" ) )
 exit( "No direct script access allowed" );
 class author_model extends CI_Model
 {
-public function create($order,$status,$name)
+public function create($google,$twitter,$facebook,$name,$image,$description)
 {
-$data=array("order" => $order,"status" => $status,"name" => $name);
+$data=array("google" => $google,"twitter" => $twitter,"facebook" => $facebook,"name" => $name,"image" => $image,"description" => $description);
 $query=$this->db->insert( "author", $data );
 $id=$this->db->insert_id();
 if(!$query)
@@ -24,9 +24,14 @@ $this->db->where("id",$id);
 $query=$this->db->get("author")->row();
 return $query;
 }
-public function edit($id,$order,$status,$name)
+public function edit($id,$google,$twitter,$facebook,$name,$image,$description)
 {
-$data=array("order" => $order,"status" => $status,"name" => $name);
+  if($image=="")
+  {
+  $image=$this->author_model->getimagebyid($id);
+  $image=$image->image;
+  }
+$data=array("google" => $google,"twitter" => $twitter,"facebook" => $facebook,"name" => $name,"image" => $image,"description" => $description);
 $this->db->where( "id", $id );
 $query=$this->db->update( "author", $data );
 return 1;
@@ -53,6 +58,6 @@ $return[$row->id]=$row->name;
 }
 return $return;
 }
-  
+
 }
 ?>
