@@ -9906,6 +9906,149 @@ $this->author_model->delete($this->input->get("id"));
 $data["redirect"]="site/viewauthor";
 $this->load->view("redirect",$data);
 }
+public function viewcomment()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="viewcomment";
+$data["base_url"]=site_url("site/viewcommentjson");
+$data["title"]="View comment";
+$this->load->view("template",$data);
+}
+function viewcommentjson()
+{
+$elements=array();
+$elements[0]=new stdClass();
+$elements[0]->field="`gse_comment`.`id`";
+$elements[0]->sort="1";
+$elements[0]->header="ID";
+$elements[0]->alias="id";
+$elements[1]=new stdClass();
+$elements[1]->field="`gse_comment`.`diaryarticle`";
+$elements[1]->sort="1";
+$elements[1]->header="Names";
+$elements[1]->alias="name";
+$elements[2]=new stdClass();
+$elements[2]->field="`gse_comment`.`name`";
+$elements[2]->sort="1";
+$elements[2]->header="Name";
+$elements[2]->alias="name";
+$elements[3]=new stdClass();
+$elements[3]->field="`gse_comment`.`image`";
+$elements[3]->sort="1";
+$elements[3]->header="Image";
+$elements[3]->alias="image";
+$search=$this->input->get_post("search");
+$pageno=$this->input->get_post("pageno");
+$orderby=$this->input->get_post("orderby");
+$orderorder=$this->input->get_post("orderorder");
+$maxrow=$this->input->get_post("maxrow");
+if($maxrow=="")
+{
+$maxrow=20;
+}
+if($orderby=="")
+{
+$orderby="id";
+$orderorder="ASC";
+}
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_comment`");
+$this->load->view("json",$data);
+}
 
+public function createcomment()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="createcomment";
+$data["title"]="Create comment";
+$this->load->view("template",$data);
+}
+public function createcommentsubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("order","Order","trim");
+$this->form_validation->set_rules("status","Status","trim");
+$this->form_validation->set_rules("name","Name","trim");
+$this->form_validation->set_rules("image","Image","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="createcomment";
+$data["title"]="Create comment";
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$google=$this->input->get_post("google");
+$twitter=$this->input->get_post("twitter");
+$facebook=$this->input->get_post("facebook");
+$name=$this->input->get_post("name");
+$description=$this->input->get_post("description");
+$image=$this->menu_model->createImage();
+if($this->comment_model->create($google,$twitter,$facebook,$name,$image,$description)==0)
+$data["alerterror"]="New comment could not be created.";
+else
+$data["alertsuccess"]="comment created Successfully.";
+$data["redirect"]="site/viewcomment";
+$this->load->view("redirect",$data);
+}
+}
+public function editcomment()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="editcomment";
+$data["title"]="Edit comment";
+// $data[ 'status' ] =$this->user_model->getstatusdropdown();
+// $data[ 'sportscategory' ] =$this->sportscategory_model->getdropdown();
+$data["before"]=$this->comment_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+public function editcommentsubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("id","ID","trim");
+$this->form_validation->set_rules("order","Order","trim");
+$this->form_validation->set_rules("name","Name","trim");
+$this->form_validation->set_rules("image","Image","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="editcomment";
+$data["title"]="Edit comment";
+// $data[ 'status' ] =$this->user_model->getstatusdropdown();
+// $data[ 'sportscategory' ] =$this->sportscategory_model->getdropdown();
+$data["before"]=$this->comment_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$google=$this->input->get_post("google");
+$twitter=$this->input->get_post("twitter");
+$facebook=$this->input->get_post("facebook");
+$name=$this->input->get_post("name");
+$description=$this->input->get_post("description");
+$image=$this->menu_model->createImage();
+if($this->comment_model->edit($id,$google,$twitter,$facebook,$name,$image,$description)==0)
+$data["alerterror"]="New comment could not be Updated.";
+else
+$data["alertsuccess"]="comment Updated Successfully.";
+$data["redirect"]="site/viewcomment";
+$this->load->view("redirect",$data);
+}
+}
+public function deletecomment()
+{
+	$access=array("1");
+	$this->checkaccess($access);
+	$this->comment_model->delete($this->input->get("id"));
+	$data["redirect"]="site/viewcomment";
+	$this->load->view("redirect",$data);
+}
 }
 ?>
