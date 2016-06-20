@@ -24,21 +24,15 @@ $this->db->where("id",$id);
 $query=$this->db->get("gse_comment")->row();
 return $query;
 }
-public function edit($id,$google,$twitter,$facebook,$name,$image,$description)
+public function edit($id,$name,$comment)
 {
-  if($image=="")
-  {
-  $image=$this->comment_model->getimagebyid($id);
-  $image=$image->image;
-  }
-$data=array("google" => $google,"twitter" => $twitter,"facebook" => $facebook,"name" => $name,"image" => $image,"description" => $description);
+$data=array("name" => $name,"comment" => $comment);
 $this->db->where( "id", $id );
 $query=$this->db->update( "gse_comment", $data );
 return 1;
 }
 public function delete($id)
 {
-  echo"id".$id;
 $query=$this->db->query("DELETE FROM `gse_comment` WHERE `id`='$id'");
 return $query;
 }

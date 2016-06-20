@@ -9938,6 +9938,11 @@ $elements[3]->field="`gse_comment`.`image`";
 $elements[3]->sort="1";
 $elements[3]->header="Image";
 $elements[3]->alias="image";
+$elements[4]=new stdClass();
+$elements[4]->field="`gse_diaryarticle`.`name`";
+$elements[4]->sort="1";
+$elements[4]->header="Article Name";
+$elements[4]->alias="diaryname";
 $search=$this->input->get_post("search");
 $pageno=$this->input->get_post("pageno");
 $orderby=$this->input->get_post("orderby");
@@ -9950,9 +9955,9 @@ $maxrow=20;
 if($orderby=="")
 {
 $orderby="id";
-$orderorder="ASC";
+$orderorder="DESC";
 }
-$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_comment`");
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_comment` LEFT OUTER JOIN `gse_diaryarticle` ON `gse_comment`.`diaryarticle`=`gse_diaryarticle`.`id`");
 $this->load->view("json",$data);
 }
 
@@ -10028,13 +10033,10 @@ $this->load->view("template",$data);
 else
 {
 $id=$this->input->get_post("id");
-$google=$this->input->get_post("google");
-$twitter=$this->input->get_post("twitter");
-$facebook=$this->input->get_post("facebook");
 $name=$this->input->get_post("name");
-$description=$this->input->get_post("description");
-$image=$this->menu_model->createImage();
-if($this->comment_model->edit($id,$google,$twitter,$facebook,$name,$image,$description)==0)
+$comment=$this->input->get_post("comment");
+// $image=$this->menu_model->createImage();
+if($this->comment_model->edit($id,$name,$comment)==0)
 $data["alerterror"]="New comment could not be Updated.";
 else
 $data["alertsuccess"]="comment Updated Successfully.";
