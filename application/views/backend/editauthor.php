@@ -28,7 +28,7 @@
 				</div>
 			</div>
 			<span style=" display: block;
-	 padding-top: 30px;">310 X 330</span>
+	 padding-top: 30px;">315 X 310</span>
 		</div>
 		<div class="row">
 		<div class="input-field col s6">
