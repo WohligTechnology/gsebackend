@@ -862,6 +862,17 @@ public function getClients()
   $data["message"]=$this->restapi_model->getClients();
   $this->load->view("json",$data);
 }
+public function getCareer()
+{
+  $data["message"]=$this->restapi_model->getCareer();
+  $this->load->view("json",$data);
+}
+public function getClientDetail()
+{
+  $id = $this->input->get_post('id');
+  $data["message"]=$this->restapi_model->getClientDetail($id);
+  $this->load->view("json",$data);
+}
 
 public function careersSubmit()
 {

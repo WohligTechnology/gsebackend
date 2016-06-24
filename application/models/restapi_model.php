@@ -454,9 +454,7 @@ class restapi_model extends CI_Model
 
     public function getHome(){
       $query['description'] = $this->db->query("SELECT `id`, `order`, `status`, `name`, `content` FROM `gse_category` WHERE `status`=1 AND `id`=11")->row();
-          $query['homediaries'] = $this->db->query("SELECT `gse_diaryarticle`.`id`, `gse_diaryarticle`.`status`, `gse_diaryarticle`.`diarycategory`, `gse_diaryarticle`.`diarysubcategory`, `gse_diaryarticle`.`name`, `gse_diaryarticle`.`image`, `gse_diaryarticle`.`timestamp`, `gse_diaryarticle`.`content`, `gse_diaryarticle`.`date`, `gse_diaryarticle`.`type`, `gse_diaryarticle`.`showhide` FROM `gse_diaryarticle`
-      LEFT OUTER JOIN `gse_diarycategory` ON `gse_diarycategory`.`id`=`gse_diaryarticle`.`diarycategory`
-      WHERE `gse_diarycategory`.`name` LIKE '%home' ORDER BY `date` DESC LIMIT 3 ")->result();
+          $query['homediaries'] = $this->db->query("SELECT `id`, `status`, `diarycategory`, `diarysubcategory`, `name`, `image`, `timestamp`, `content`, `date`, `type`, `showhide`, `author`, `views` FROM `gse_diaryarticle` WHERE 1 ORDER BY `date` DESC LIMIT 3 ")->result();
       $query['testimonial'] = $this->db->query("SELECT * FROM `gse_testimonial` WHERE `category`=11")->result();
       if($query)
       {
@@ -603,6 +601,43 @@ public function getClients(){
   $query['description']=$this->db->query("SELECT `id`, `order`, `status`, `name`, `content` FROM `gse_category` WHERE `status`=1 AND `id`=12")->row();
   $query['logos']= $this->db->query("SELECT `id`, `order`, `status`, `name`, `image` FROM `gse_clientlogo` WHERE 1")->result();
 
+  if($query)
+  {
+    $obj->value = true;
+    $obj->data = $query;
+    return $obj;
+  }
+  else
+  {
+    $obj->value = false;
+    $obj->data = "No data found";
+    return $obj;
+  }
+}
+public function getCareer(){
+  $query= $this->db->query("SELECT * FROM `gse_careerposition` WHERE 1")->result();
+
+  if($query)
+  {
+    $obj->value = true;
+    $obj->data = $query;
+    return $obj;
+  }
+  else
+  {
+    $obj->value = false;
+    $obj->data = "No data found";
+    return $obj;
+  }
+}
+public function getClientDetail($id){
+  if(!empty($id))
+  {
+$query= $this->db->query("SELECT `id`, `order`, `status`, `name`, `image`, `title`, `url`, `content`, `banner` FROM `gse_clientdetail` WHERE `id`=$id")->row();
+  }
+  else {
+    $query= $this->db->query("SELECT `id`, `order`, `status`, `name`, `image`, `title`, `url`, `content`, `banner` FROM `gse_clientdetail` WHERE 1 LIMIT 0,4")->result();
+  }
   if($query)
   {
     $obj->value = true;

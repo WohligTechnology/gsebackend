@@ -55,14 +55,14 @@ $ip = substr($myserver,0,7);
 if($myserver != "localhost"  && $ip != "192.168")
 {
     $db['default']['hostname'] = 'localhost';
-    // $db['default']['username'] = 'root';
-    // $db['default']['password'] = '';
-    // $db['default']['database'] = 'gse';
-    // $db['default']['dbdriver'] = 'mysqli';
-    $db['default']['username'] = 'wohligco_gse';
-    $db['default']['password'] = 'chintan123';
-    $db['default']['database'] = 'wohligco_gse';
-    $db['default']['dbdriver'] = 'mysql';
+    $db['default']['username'] = 'root';
+    $db['default']['password'] = '';
+    $db['default']['database'] = 'gse';
+    $db['default']['dbdriver'] = 'mysqli';
+    // $db['default']['username'] = 'wohligco_gse';
+    // $db['default']['password'] = 'chintan123';
+    // $db['default']['database'] = 'wohligco_gse';
+    // $db['default']['dbdriver'] = 'mysql';
     $db['default']['dbprefix'] = '';
     $db['default']['pconnect'] = TRUE;
     $db['default']['db_debug'] = TRUE;
