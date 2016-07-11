@@ -59,12 +59,12 @@
 			</div><span style=" display: block;
     padding-top: 30px;">405 X 390</span>
 		</div>
-<div class="row">
+<!-- <div class="row">
 <div class="input-field col s6">
 <label for="Timestamp">Timestamp</label>
 <input type="text" id="Timestamp" name="timestamp" value='<?php echo set_value('timestamp',$before->timestamp);?>'>
 </div>
-</div>
+</div> -->
 <div class="row">
 <div class="col s12 m6">
 <label>Content</label>

@@ -5967,7 +5967,7 @@ $elements[1]->sort="1";
 $elements[1]->header="Status";
 $elements[1]->alias="status";
 $elements[2]=new stdClass();
-$elements[2]->field="`gse_diaryarticle`.`diarycategory`";
+$elements[2]->field="`gse_diarycategory`.`name`";
 $elements[2]->sort="1";
 $elements[2]->header="Diary Category";
 $elements[2]->alias="diarycategory";
@@ -6015,7 +6015,7 @@ if($orderby=="")
 $orderby="id";
 $orderorder="ASC";
 }
-$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_diaryarticle`");
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_diaryarticle` LEFT OUTER JOIN `gse_diarycategory` ON `gse_diarycategory`.`id`=`gse_diaryarticle`.`diarycategory`");
 $this->load->view("json",$data);
 }
 
