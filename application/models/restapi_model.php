@@ -459,7 +459,7 @@ class restapi_model extends CI_Model
 
     public function getHome(){
       $query['description'] = $this->db->query("SELECT `id`, `order`, `status`, `name`, `content` FROM `gse_category` WHERE `status`=1 AND `id`=11")->row();
-          $query['homediaries'] = $this->db->query("SELECT `gse_diaryarticle`.`id`, `gse_diaryarticle`.`status`, `gse_diaryarticle`.`diarycategory`, `gse_diaryarticle`.`diarysubcategory`, `gse_diaryarticle`.`name`, `gse_diaryarticle`.`image`, `gse_diaryarticle`.`timestamp`, `gse_diaryarticle`.`content`, `gse_diaryarticle`.`date`, `gse_diaryarticle`.`type`, `gse_diaryarticle`.`showhide`, `gse_diaryarticle`.`author`,`author`.`name` AS 'authorname', `gse_diaryarticle`.`views` FROM `gse_diaryarticle` LEFT OUTER JOIN `author` ON `gse_diaryarticle`.`author`=`author`.`id` WHERE 1 ORDER BY `gse_diaryarticle`.`date` DESC LIMIT 3 ")->result();
+          $query['homediaries'] = $this->db->query("SELECT `gse_diaryarticle`.`id`, `gse_diaryarticle`.`status`, `gse_diaryarticle`.`diarycategory`, `gse_diaryarticle`.`diarysubcategory`, `gse_diaryarticle`.`name`, `gse_diaryarticle`.`image`, `gse_diaryarticle`.`timestamp`, `gse_diaryarticle`.`content`, `gse_diaryarticle`.`date`, `gse_diaryarticle`.`type`, `gse_diaryarticle`.`showhide`, `gse_diaryarticle`.`author`,`author`.`name` AS 'authorname', `gse_diaryarticle`.`views` FROM `gse_diaryarticle` LEFT OUTER JOIN `author` ON `gse_diaryarticle`.`author`=`author`.`id` WHERE 1 ORDER BY `gse_diaryarticle`.`date` DESC")->result();
       $query['testimonial'] = $this->db->query("SELECT * FROM `gse_testimonial` WHERE `category`=11")->result();
       if($query)
       {

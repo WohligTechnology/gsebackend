@@ -929,12 +929,12 @@ public function getDiary()
   $data["message"]=$this->restapi_model->getDiary();
   $this->load->view("json",$data);
 }
-public function getDiaryInside()
-{
-  $page = $this->input->get_post('page');
-  $data["message"]=$this->restapi_model->getDiaryInside($page);
-  $this->load->view("json",$data);
-}
+// public function getDiaryInside()
+// {
+//   $page = $this->input->get_post('page');
+//   $data["message"]=$this->restapi_model->getDiaryInside($page);
+//   $this->load->view("json",$data);
+// }
 public function getDiaryInsideDetail()
 {
   $id = $this->input->get_post('id');
@@ -981,6 +981,39 @@ public function getDiaryInsideFilter()
     }
     if ($month != '') {
         $where .= " AND MONTHNAME(date) = '$month'";
+    }
+
+    $data['message'] = $this->chintantable->query($pageno, $maxrow, $orderby, $orderorder, $search, $elements, 'FROM `gse_diaryarticle` LEFT OUTER JOIN `gse_diarycategory` ON `gse_diaryarticle`.`diarycategory`=`gse_diarycategory`.`id` LEFT OUTER JOIN `author` ON `gse_diaryarticle`.`author`=`author`.`id`', $where, '' );
+
+    $this->load->view('json', $data);
+}
+public function getDiaryInside()
+{
+    $where = ' WHERE 1 ';
+    $this->chintantable->createelement('`gse_diaryarticle`.`id`', '1', 'ID', 'id');
+    $this->chintantable->createelement('`gse_diaryarticle`.`diarycategory`', '1', 'diarycategory', 'diarycategory');
+    $this->chintantable->createelement('`gse_diaryarticle`.`name`', '1', 'name', 'name');
+    $this->chintantable->createelement('`gse_diaryarticle`.`image`', '0', 'image', 'image');
+    $this->chintantable->createelement('`gse_diaryarticle`.`status`', '0', 'status', 'status');
+    $this->chintantable->createelement('`gse_diaryarticle`.`date`', '0', 'date', 'date');
+    $this->chintantable->createelement('`gse_diaryarticle`.`content`', '0', 'content', 'content');
+    $this->chintantable->createelement('`gse_diaryarticle`.`type`', '0', 'type', 'type');
+    $this->chintantable->createelement('`gse_diaryarticle`.`showhide`', '0', 'showhide', 'showhide');
+    $this->chintantable->createelement('`gse_diaryarticle`.`views`', '0', 'views', 'views');
+    $this->chintantable->createelement('`author`.`name`', '0', 'authorname', 'authorname');
+    $this->chintantable->createelement('`author`.`id`', '0', 'authorid', 'authorid');
+    $this->chintantable->createelement('`gse_diarycategory`.`name`', '0', 'categoryname', 'categoryname');
+    $search = $this->input->get_post('search');
+    $pageno = $this->input->get_post('pageno');
+    $orderby = $this->input->get_post('orderby');
+    $orderorder = $this->input->get_post('orderorder');
+    $maxrow = $this->input->get_post('maxrow');
+    if ($maxrow == '') {
+        $maxrow = 20;
+    }
+    if ($orderby == '') {
+        $orderby = 'date';
+        $orderorder = 'DESC';
     }
 
     $data['message'] = $this->chintantable->query($pageno, $maxrow, $orderby, $orderorder, $search, $elements, 'FROM `gse_diaryarticle` LEFT OUTER JOIN `gse_diarycategory` ON `gse_diaryarticle`.`diarycategory`=`gse_diarycategory`.`id` LEFT OUTER JOIN `author` ON `gse_diaryarticle`.`author`=`author`.`id`', $where, '' );
