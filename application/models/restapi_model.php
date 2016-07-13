@@ -32,8 +32,64 @@ class restapi_model extends CI_Model
          }
       }
     }
+    public function generalenquirySubmit($firstname,$middlename, $lastname,$companyname, $email, $phone,$webaddress,$message)
+    {
+          $data=array("firstname" => $firstname,"middlename" => $middlename,"lastname" => $lastname,"companyname" => $companyname,"email" => $email,"phone" => $phone,"webaddress" => $webaddress,"message" => $message);
+          $query=$this->db->insert( "gse_generalenquiry", $data );
+          $id=$this->db->insert_id();
+          $obj = new stdClass();
+         if(!$query)
+         {  $obj->value = false;
+            return $obj;
+         }
+         else
+         {
+           $obj->value = true;
+           $obj->data = "Successfully sent";
+           return $obj;
+         }
+    }
+    public function projectSubmit($name,$company, $webaddress,$country, $phone, $email,$question1ans,$question2ans,$question3ans,$content)
+    {
+          $data=array("name" => $name,"company" => $company,"webaddress" => $webaddress,"country" => $country,"phone" => $phone,"email" => $email,"question1ans" => $question1ans,"question2ans" => $question2ans,"question3ans" => $question3ans,"content" => $content);
+          $query=$this->db->insert( "gse_proposedproject", $data );
+          $id=$this->db->insert_id();
+          $obj = new stdClass();
+         if(!$query)
+         {  $obj->value = false;
+            return $obj;
+         }
+         else
+         {
+           $obj->value = true;
+           $obj->data = "Successfully saved";
+           return $obj;
+         }
+    }
 
 
+    public function getAllCount()
+    {
+          $movie = $this->db->query("SELECT count(id) AS `movie` FROM `gse_moviedetail` WHERE 1")->row();
+          $query['movie'] = $movie->movie;
+          $wedding = $this->db->query("SELECT count(id) AS 'wedding' FROM `gse_weddingsubtype` WHERE 1")->row();
+          $query['wedding'] = $wedding->wedding;
+          // $query['isupcoming'] = $this->db->query("SELECT `id`, `name`, `banner`, `releasedate`, `image` FROM `gse_moviedetail`
+
+          if (!query)
+          {
+          $obj->value = false;
+          $obj->data = "No data found";
+          return $obj;
+          }
+          else
+          {
+          $obj->value = true;
+          $obj->data = $query;
+          return $obj;
+          }
+
+    }
     public function getMovieDetails()
     {
           $query['description'] = $this->db->query("SELECT `id`, `order`, `status`, `name`, `content` FROM `gse_category` WHERE `status`=1")->row();

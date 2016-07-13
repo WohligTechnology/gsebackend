@@ -452,6 +452,51 @@ public function getInTouch()
 
   $this->load->view("json", $data);
 }
+public function generalenquirySubmit()
+{
+  $data = json_decode(file_get_contents('php://input'), true);
+  if(empty($data))
+  {
+    $data["message"] = 0;
+  }
+  else
+  {
+    $firstname=$data['firstname'];
+    $middlename=$data['middlename'];
+    $lastname=$data['lastname'];
+    $companyname=$data['companyname'];
+    $email=$data['email'];
+    $phone=$data['phone'];
+    $webaddress=$data['webaddress'];
+    $message=$data['message'];
+
+    $data["message"] = $this->restapi_model->generalenquirySubmit($firstname,$middlename, $lastname,$companyname, $email, $phone,$webaddress,$message);
+  }
+  $this->load->view("json", $data);
+}
+public function projectSubmit()
+{
+  $data = json_decode(file_get_contents('php://input'), true);
+  if(empty($data))
+  {
+    $data["message"] = 0;
+  }
+  else
+  {
+    $name=$data['name'];
+    $company=$data['company'];
+    $webaddress=$data['webaddress'];
+    $country=$data['country'];
+    $phone=$data['phone'];
+    $email=$data['email'];
+    $question1ans=$data['question1ans'];
+    $question2ans=$data['question2ans'];
+    $question3ans=$data['question3ans'];
+    $content=$data['content'];
+    $data["message"] = $this->restapi_model->projectSubmit($name,$company, $webaddress,$country, $phone, $email,$question1ans,$question2ans,$question3ans,$content);
+  }
+  $this->load->view("json", $data);
+}
 public function getMovieDetails()
 {
 $data["message"]=$this->restapi_model->getMovieDetails($id);
@@ -482,6 +527,12 @@ public function getWeddingInsideBanner()
 {
   $id=$this->input->get('id');
 $data["message"]=$this->restapi_model->getWeddingInsideBanner($id);
+$this->load->view("json",$data);
+}
+public function getAllCount()
+{
+  // $id=$this->input->get('id');
+$data["message"]=$this->restapi_model->getAllCount();
 $this->load->view("json",$data);
 }
 public function getWeddingImagesVideos()
