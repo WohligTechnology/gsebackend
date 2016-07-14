@@ -6199,8 +6199,7 @@ $type=$this->input->get_post("type");
                     $image=$this->image_lib->dest_image;
                     //return false;
                 }
-
-			}
+							}
     $id=$this->diaryarticle_model->edit($id,$status,$diarycategory,$diarysubcategory,$name,$image,$timestamp,$content,$date,$type,$author);
 if($id==0)
 $data["alerterror"]="New diaryarticle could not be Updated.";
@@ -6209,6 +6208,7 @@ $data["alertsuccess"]="diaryarticle Updated Successfully.";
 $data["redirect"]="site/viewdiaryarticle";
 // $data["redirect"]="site/editdiaryarticle?id=".$id;
 $this->load->view("redirect",$data);
+
 }
 }
 public function deletediaryarticle()

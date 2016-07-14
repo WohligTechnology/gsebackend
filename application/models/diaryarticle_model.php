@@ -36,11 +36,21 @@ if($image=="")
 $image=$this->diaryarticle_model->getimagebyid($id);
 $image=$image->image;
 }
-    // $date = new DateTime($date);
-    // $date = $date->format('Y-m-d');
-    $date = explode(" ",$date);
-    $nmonth = date('m',strtotime($date[1]));
-    $date=$date[2]."-".$nmonth."-".$date[0];
+if (preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/",$date))
+    {
+      echo "done";
+        // return true;
+    }else{
+      $date = explode(" ",$date);
+      $nmonth = date('m',strtotime($date[1]));
+      $date=$date[2]."-".$nmonth."-".$date[0];
+        // return false;
+    }
+
+
+
+
+
 $data=array("status" => $status,"diarycategory" => $diarycategory,"diarysubcategory" => $diarysubcategory,"name" => $name,"image" => $image,"timestamp" => $timestamp,"content" => $content,"date" => $date,"type" => $type,"author" => $author);
 $this->db->where( "id", $id );
 $query=$this->db->update( "gse_diaryarticle", $data );

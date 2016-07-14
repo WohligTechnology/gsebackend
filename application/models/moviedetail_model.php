@@ -38,9 +38,17 @@ return $query;
     }
 public function edit($id,$isupcoming,$isreleased,$name,$banner,$imdb,$producer,$director,$cast,$music,$synopsis,$videos,$releasedate,$image)
 {
-  $releasedate = explode(" ",$releasedate);
-  $nmonth = date('m',strtotime($releasedate[1]));
-  $releasedate=$releasedate[2]."-".$nmonth."-".$releasedate[0];
+  if (preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/",$releasedate))
+      {
+        echo "done";
+          // return true;
+      }else{
+        $releasedate = explode(" ",$releasedate);
+        $nmonth = date('m',strtotime($releasedate[1]));
+        $releasedate=$releasedate[2]."-".$nmonth."-".$releasedate[0];
+          // return false;
+      }
+
 
 if($banner=="")
 {
