@@ -44,9 +44,16 @@ if($banner=="")
 $banner=$this->match_model->getbannerbyid($id);
 $banner=$banner->banner;
 }
-$date = explode(" ",$date);
-$nmonth = date('m',strtotime($date[1]));
-$date=$date[2]."-".$nmonth."-".$date[0];
+if (preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/",$date))
+    {
+      echo "done";
+        // return true;
+    }else{
+      $date = explode(" ",$date);
+      $nmonth = date('m',strtotime($date[1]));
+      $date=$date[2]."-".$nmonth."-".$date[0];
+        // return false;
+    }
 $data=array("team1" => $team1,"logo1" => $logo1,"team2" => $team2,"logo2" => $logo2,"location" => $location,"date" => $date,"time" => $time,"link" => $link,"team1score" => $team1score,"team2score" => $team2score,"banner" => $banner);
 $this->db->where( "id", $id );
 $query=$this->db->update( "gse_match", $data );
