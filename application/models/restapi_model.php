@@ -187,6 +187,24 @@ class restapi_model extends CI_Model
       }
 
     }
+    public function getSangeetInsideDetails($id){
+      $query['imagegallery']=$this->db->query("SELECT `id`, `wedding`, `status`, `order`, `image`, `weddingsubtype` FROM `gse_weddinggallery` WHERE `wedding`=$id AND `status`=1 ORDER BY `order`")->result();
+      $query['featuredvideos']=$this->db->query("SELECT `id`, `wedding`, `name`, `image`, `banner`, `weddingsubtype` FROM `gse_weddingtype` WHERE `wedding`=$id")->result();
+      $query['relatedarticles'] = $this->db->query("SELECT `id`, `wedding`, `name`, `image`, `content`, `videos` FROM `gse_weddingsubtype` ORDER BY `id` DESC LIMIT 0,3")->result();
+      if($query)
+      {
+        $obj->value = true;
+        $obj->data = $query;
+        return $obj;
+      }
+      else
+      {
+        $obj->value = false;
+        $obj->data = "No data found";
+        return $obj;
+      }
+
+    }
 
     public function getWeddingInsideBanner($id){
       $query=$this->db->query("SELECT `id`, `name`, `image`, `banner` FROM `gse_wedding` WHERE `id`='$id'")->row();

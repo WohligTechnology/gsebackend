@@ -522,6 +522,12 @@ $id=$this->input->get('id');
 $data["message"]=$this->restapi_model->getWeddingInsideDetails($id);
 $this->load->view("json",$data);
 }
+public function getSangeetInsideDetails()
+{
+$id=$this->input->get('id');
+$data["message"]=$this->restapi_model->getSangeetInsideDetails($id);
+$this->load->view("json",$data);
+}
 
 public function getWeddingInsideBanner()
 {

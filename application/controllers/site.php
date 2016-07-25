@@ -2475,6 +2475,16 @@ $elements[5]->field="`gse_weddingsubtype`.`name`";
 $elements[5]->sort="1";
 $elements[5]->header="Wedding Sub Type";
 $elements[5]->alias="weddingsubtype";
+$elements[6]=new stdClass();
+$elements[6]->field="`gse_weddingtype`.`status`";
+$elements[6]->sort="1";
+$elements[6]->header="Status";
+$elements[6]->alias="status";
+$elements[7]=new stdClass();
+$elements[7]->field="`gse_weddingtype`.`order`";
+$elements[7]->sort="1";
+$elements[7]->header="Order";
+$elements[7]->alias="order";
 $search=$this->input->get_post("search");
 $pageno=$this->input->get_post("pageno");
 $orderby=$this->input->get_post("orderby");
@@ -2504,6 +2514,7 @@ $data["page"]="createweddingtype";
 // $data["before3"]=$this->input->get('id');
 // $data["before4"]=$this->input->get('id');
 $data["wedding"]=$this->wedding_model->getdropdown();
+$data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["weddingsubtype"]=$this->weddingsubtype_model->getdropdown();
 $data["title"]="Create weddingtype";
 // $this->load->view("templatewith2",$data);
@@ -2531,6 +2542,8 @@ else
 $id=$this->input->get_post("id");
 $wedding=$this->input->get_post("wedding");
 $weddingsubtype=$this->input->get_post("weddingsubtype");
+$status=$this->input->get_post("status");
+$order=$this->input->get_post("order");
 $name=$this->input->get_post("name");
 $image=$this->menu_model->createImage();
 //$banner=$this->input->get_post("banner");
@@ -2544,7 +2557,7 @@ $image=$this->menu_model->createImage();
 							$uploaddata = $this->upload->data();
 							$banner=$uploaddata['file_name'];
 						}
-if($this->weddingtype_model->create($wedding,$name,$image,$banner,$weddingsubtype)==0)
+if($this->weddingtype_model->create($wedding,$name,$image,$banner,$weddingsubtype,$status,$order)==0)
 $data["alerterror"]="New weddingtype could not be created.";
 else
 $data["alertsuccess"]="weddingtype created Successfully.";
@@ -2563,6 +2576,7 @@ $data["page"]="editweddingtype";
 // $data["before3"]=$this->input->get('id');
 // $data["before4"]=$this->input->get('id');
 $data["wedding"]=$this->wedding_model->getdropdown();
+$data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["weddingsubtype"]=$this->weddingsubtype_model->getdropdown();
 $data["title"]="Edit weddingtype";
 $data["before"]=$this->weddingtype_model->beforeedit($this->input->get("id"));
@@ -2593,6 +2607,8 @@ else
 $id=$this->input->get_post("id");
 $wedding=$this->input->get_post("wedding");
 $name=$this->input->get_post("name");
+$status=$this->input->get_post("status");
+$order=$this->input->get_post("order");
 $weddingsubtype=$this->input->get_post("weddingsubtype");
 $image=$this->menu_model->createImage();
 //$banner=$this->input->get_post("banner");
@@ -2613,7 +2629,7 @@ $image=$this->menu_model->createImage();
 						   // print_r($image);
 							$banner=$banner->banner;
 						}
-if($this->weddingtype_model->edit($id,$wedding,$name,$image,$banner,$weddingsubtype)==0)
+if($this->weddingtype_model->edit($id,$wedding,$name,$image,$banner,$weddingsubtype,$status,$order)==0)
 $data["alerterror"]="New weddingtype could not be Updated.";
 else
 $data["alertsuccess"]="weddingtype Updated Successfully.";

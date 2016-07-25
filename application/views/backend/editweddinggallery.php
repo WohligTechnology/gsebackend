@@ -12,12 +12,19 @@
 <label for="Wedding">Wedding</label>
 </div>
 </div>
+<?php
+if($before->wedding != 2 && $before->wedding != 3)
+{
+  ?>
 <div class=" row">
 <div class=" input-field col s12 m6">
 <?php echo form_dropdown("weddingsubtype",$weddingsubtype,set_value('weddingsubtype',$before->weddingsubtype));?>
 <label for="Wedding Sub Type">Wedding Sub Type</label>
 </div>
 </div>
+<?php
+}
+?>
 <div class=" row">
 <div class=" input-field col s12 m6">
 <?php echo form_dropdown("status",$status,set_value('status',$before->status));?>
