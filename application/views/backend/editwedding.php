@@ -46,6 +46,20 @@
 			</div><span style=" display: block;
     padding-top: 30px;">1800 X 440</span>
 		</div>
+
+		<?php
+		if($before->id == 2 || $before->id == 3)
+		{
+		  ?>
+			<div class="row">
+			<div class="input-field col s12">
+			<label for="Content">Content</label>
+			<textarea name="content" class="materialize-textarea" placeholder="Enter text ..."><?php echo set_value( 'content',$before->content);?></textarea>
+			</div>
+			</div>
+		<?php
+		}
+		?>
 <div class="row">
 <div class="col s6">
 <button type="submit" class="btn btn-primary waves-effect waves-light  blue darken-4">Save</button>
