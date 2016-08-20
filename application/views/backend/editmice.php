@@ -58,6 +58,31 @@
 			</div><span style=" display: block;
     padding-top: 30px;">1800 X 440</span>
 		</div>
+
+		<div class="row">
+		<div class="input-field col s6">
+		<label for="Hashtag">Hashtag</label>
+		<input type="text" id="Hashtag" name="hashtag" value='<?php echo set_value('hashtag',$before->hashtag);?>'>
+		</div>
+		</div>
+		<div class="row">
+		<div class="input-field col s6">
+		<label for="Facebook">Facebook</label>
+		<input type="text" id="Facebook" name="facebook" value='<?php echo set_value('facebook',$before->facebook);?>'>
+		</div>
+		</div>
+		<div class="row">
+		<div class="input-field col s6">
+		<label for="Twitter">Twitter</label>
+		<input type="text" id="Twitter" name="twitter" value='<?php echo set_value('twitter',$before->twitter);?>'>
+		</div>
+		</div>
+		<div class="row">
+		<div class="input-field col s6">
+		<label for="Instagram">Instagram</label>
+		<input type="text" id="instagram" name="instagram" value='<?php echo set_value('instagram',$before->instagram);?>'>
+		</div>
+		</div>
 <div class="row">
 <div class="col s6">
 <button type="submit" class="btn btn-primary waves-effect waves-light  blue darken-4">Save</button>

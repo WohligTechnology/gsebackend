@@ -3,9 +3,9 @@ if ( !defined( "BASEPATH" ) )
 exit( "No direct script access allowed" );
 class sportscategory_model extends CI_Model
 {
-public function create($order,$status,$name,$image,$link,$banner,$content)
+public function create($order,$status,$name,$image,$link,$banner,$content,$hashtag,$facebook,$twitter,$instagram)
 {
-$data=array("order" => $order,"status" => $status,"name" => $name,"image" => $image,"link" => $link,"banner" => $banner,"content" => $content);
+$data=array("order" => $order,"status" => $status,"name" => $name,"image" => $image,"link" => $link,"banner" => $banner,"content" => $content,"hashtag" => $hashtag,"facebook" => $facebook,"twitter" => $twitter,"instagram" => $instagram);
 $query=$this->db->insert( "gse_sportscategory", $data );
 $id=$this->db->insert_id();
 if(!$query)
@@ -24,7 +24,7 @@ $this->db->where("id",$id);
 $query=$this->db->get("gse_sportscategory")->row();
 return $query;
 }
-public function edit($id,$order,$status,$name,$image,$link,$banner,$content)
+public function edit($id,$order,$status,$name,$image,$link,$banner,$content,$hashtag,$facebook,$twitter,$instagram)
 {
 if($image=="")
 {
@@ -36,7 +36,7 @@ $image=$image->image;
 $banner=$this->weddingtype_model->getbannerbyid($id);
 $banner=$banner->banner;
 }
-$data=array("order" => $order,"status" => $status,"name" => $name,"image" => $image,"link" => $link,"banner" => $banner,"content" => $content);
+$data=array("order" => $order,"status" => $status,"name" => $name,"image" => $image,"link" => $link,"banner" => $banner,"content" => $content,"hashtag" => $hashtag,"facebook" => $facebook,"twitter" => $twitter,"instagram" => $instagram);
 $this->db->where( "id", $id );
 $query=$this->db->update( "gse_sportscategory", $data );
 return 1;

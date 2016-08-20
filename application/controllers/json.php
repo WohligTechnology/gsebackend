@@ -499,7 +499,7 @@ public function projectSubmit()
 }
 public function getMovieDetails()
 {
-$data["message"]=$this->restapi_model->getMovieDetails($id);
+$data["message"]=$this->restapi_model->getMovieDetails();
 $this->load->view("json",$data);
 }
 

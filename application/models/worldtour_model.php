@@ -3,9 +3,9 @@ if ( !defined( "BASEPATH" ) )
 exit( "No direct script access allowed" );
 class worldtour_model extends CI_Model
 {
-public function create($type,$image,$name,$location,$date,$venue,$content,$banner)
+public function create($type,$image,$name,$location,$date,$venue,$content,$banner,$hashtag,$facebook,$twitter,$instagram)
 {
-$data=array("type" => $type,"image" => $image,"name" => $name,"location" => $location,"date" => $date,"venue" => $venue,"content" => $content,"banner" => $banner);
+$data=array("type" => $type,"image" => $image,"name" => $name,"location" => $location,"date" => $date,"venue" => $venue,"content" => $content,"banner" => $banner,"hashtag" => $hashtag,"facebook" => $facebook,"twitter" => $twitter,"instagram" => $instagram);
 $query=$this->db->insert( "gse_worldtour", $data );
 $id=$this->db->insert_id();
 if(!$query)
@@ -24,14 +24,14 @@ $this->db->where("id",$id);
 $query=$this->db->get("gse_worldtour")->row();
 return $query;
 }
-public function edit($id,$type,$image,$name,$location,$date,$venue,$content,$banner)
+public function edit($id,$type,$image,$name,$location,$date,$venue,$content,$banner,$hashtag,$facebook,$twitter,$instagram)
 {
 if($image=="")
 {
 $image=$this->worldtour_model->getimagebyid($id);
 $image=$image->image;
 }
-$data=array("type" => $type,"image" => $image,"name" => $name,"location" => $location,"date" => $date,"venue" => $venue,"content" => $content,"banner" => $banner);
+$data=array("type" => $type,"image" => $image,"name" => $name,"location" => $location,"date" => $date,"venue" => $venue,"content" => $content,"banner" => $banner,"hashtag" => $hashtag,"facebook" => $facebook,"twitter" => $twitter,"instagram" => $instagram);
 $this->db->where( "id", $id );
 $query=$this->db->update( "gse_worldtour", $data );
 return 1;

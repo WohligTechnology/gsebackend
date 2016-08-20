@@ -32,8 +32,11 @@ function drawtable(resultrow) {
   {
     var etype = "Past Concert"
   }
-  else {
+  else if(resultrow.type ==2) {
       var etype = "upcoming Concert"
+  }
+  else {
+    var etype = ""
   }
 return "<tr><td>" + resultrow.id + "</td><td>" + etype + "</td><td>" + resultrow.name + "</td><td>" + resultrow.location + "</td><td>" + resultrow.date + "</td><td><a class='btn btn-primary btn-xs waves-effect waves-light blue darken-4 z-depth-0 less-pad' href='<?php echo site_url('site/editworldtour?id=');?>"+resultrow.id+"' data-position='top' data-delay='50' data-tooltip='Edit'><i class='fa fa-pencil propericon'></i></a><a class='btn btn-danger btn-xs waves-effect waves-light red pad10 z-depth-0 less-pad' onclick=\"return confirm('Are you sure you want to delete?');\") href='<?php echo site_url('site/deleteworldtour?id='); ?>"+resultrow.id+"' data-position='top' data-delay='50' data-tooltip='Delete'><i class='material-icons propericon'>delete</i></a></td></tr>";
 }

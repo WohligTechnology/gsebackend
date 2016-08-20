@@ -3,9 +3,9 @@ if ( !defined( "BASEPATH" ) )
 exit( "No direct script access allowed" );
 class category_model extends CI_Model
 {
-public function create($order,$status,$name,$content)
+public function create($order,$status,$name,$content,$hashtag,$facebook,$twitter,$instagram)
 {
-$data=array("order" => $order,"status" => $status,"name" => $name,"content" => $content);
+$data=array("order" => $order,"status" => $status,"name" => $name,"content" => $content,"hashtag" => $hashtag,"facebook" => $facebook,"twitter" => $twitter,"instagram" => $instagram);
 $query=$this->db->insert( "gse_category", $data );
 $id=$this->db->insert_id();
 if(!$query)
@@ -24,9 +24,9 @@ $this->db->where("id",$id);
 $query=$this->db->get("gse_category")->row();
 return $query;
 }
-public function edit($id,$order,$status,$name,$content)
+public function edit($id,$order,$status,$name,$content,$hashtag,$facebook,$twitter,$instagram)
 {
-$data=array("order" => $order,"status" => $status,"name" => $name,"content" => $content);
+$data=array("order" => $order,"status" => $status,"name" => $name,"content" => $content,"hashtag" => $hashtag,"facebook" => $facebook,"twitter" => $twitter,"instagram" => $instagram);
 $this->db->where( "id", $id );
 $query=$this->db->update( "gse_category", $data );
 return 1;

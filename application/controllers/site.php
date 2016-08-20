@@ -1221,6 +1221,10 @@ $cast=$this->input->get_post("cast");
 $music=$this->input->get_post("music");
 $synopsis=$this->input->get_post("synopsis");
 $videos=$this->input->get_post("videos");
+$hashtag=$this->input->get_post("hashtag");
+$facebook=$this->input->get_post("facebook");
+$twitter=$this->input->get_post("twitter");
+$instagram=$this->input->get_post("instagram");
 $releasedate=$this->input->get_post("releasedate");
     $image=$this->menu_model->createImage();
 	$config['upload_path'] = './uploads/';
@@ -1233,7 +1237,7 @@ $releasedate=$this->input->get_post("releasedate");
 							$uploaddata = $this->upload->data();
 							$banner=$uploaddata['file_name'];
 						}
-if($this->moviedetail_model->create($isupcoming,$isreleased,$name,$banner,$imdb,$producer,$director,$cast,$music,$synopsis,$videos,$releasedate,$image)==0)
+if($this->moviedetail_model->create($isupcoming,$isreleased,$name,$banner,$imdb,$producer,$director,$cast,$music,$synopsis,$videos,$releasedate,$image,$hashtag,$facebook,$twitter,$instagram)==0)
 $data["alerterror"]="New moviedetail could not be created.";
 else
 $data["alertsuccess"]="moviedetail created Successfully.";
@@ -1246,7 +1250,7 @@ public function editmoviedetail()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="editmoviedetail";
-    $data["isupcoming"]=$this->moviedetail_model->getisupomingdropdown();
+$data["isupcoming"]=$this->moviedetail_model->getisupomingdropdown();
 $data["isreleased"]=$this->moviedetail_model->getisupomingdropdown();
 $data["page2"]="block/movieblock";
 $data["before1"]=$this->input->get('id');
@@ -1299,6 +1303,10 @@ $music=$this->input->get_post("music");
 $synopsis=$this->input->get_post("synopsis");
 $videos=$this->input->get_post("videos");
 $releasedate=$this->input->get_post("releasedate");
+$hashtag=$this->input->get_post("hashtag");
+$facebook=$this->input->get_post("facebook");
+$twitter=$this->input->get_post("twitter");
+$instagram=$this->input->get_post("instagram");
  $image=$this->menu_model->createImage();
     $config['upload_path'] = './uploads/';
 						$config['allowed_types'] = 'gif|jpg|png|jpeg';
@@ -1317,7 +1325,7 @@ $releasedate=$this->input->get_post("releasedate");
 						   // print_r($image);
 							$banner=$banner->banner;
 						}
-if($this->moviedetail_model->edit($id,$isupcoming,$isreleased,$name,$banner,$imdb,$producer,$director,$cast,$music,$synopsis,$videos,$releasedate,$image)==0)
+if($this->moviedetail_model->edit($id,$isupcoming,$isreleased,$name,$banner,$imdb,$producer,$director,$cast,$music,$synopsis,$videos,$releasedate,$image,$hashtag,$facebook,$twitter,$instagram)==0)
 $data["alerterror"]="New moviedetail could not be Updated.";
 else
 $data["alertsuccess"]="moviedetail Updated Successfully.";
@@ -2196,6 +2204,10 @@ $id=$this->input->get_post("id");
 $name=$this->input->get_post("name");
 $order=$this->input->get_post("order");
 $image=$this->menu_model->createImage();
+$hashtag=$this->input->get_post("hashtag");
+$facebook=$this->input->get_post("facebook");
+$twitter=$this->input->get_post("twitter");
+$instagram=$this->input->get_post("instagram");
 //$banner=$this->input->get_post("banner");
     $config['upload_path'] = './uploads/';
 						$config['allowed_types'] = 'gif|jpg|png|jpeg';
@@ -2207,7 +2219,7 @@ $image=$this->menu_model->createImage();
 							$uploaddata = $this->upload->data();
 							$banner=$uploaddata['file_name'];
 						}
-if($this->event_model->create($name,$image,$banner,$order)==0)
+if($this->event_model->create($name,$image,$banner,$order,$hashtag,$facebook,$twitter,$instagram)==0)
 $data["alerterror"]="New event could not be created.";
 else
 $data["alertsuccess"]="event created Successfully.";
@@ -2249,6 +2261,10 @@ $id=$this->input->get_post("id");
 $name=$this->input->get_post("name");
 $order=$this->input->get_post("order");
 $image=$this->menu_model->createImage();
+$hashtag=$this->input->get_post("hashtag");
+$facebook=$this->input->get_post("facebook");
+$twitter=$this->input->get_post("twitter");
+$instagram=$this->input->get_post("instagram");
 //$banner=$this->input->get_post("banner");
      $config['upload_path'] = './uploads/';
 						$config['allowed_types'] = 'gif|jpg|png|jpeg';
@@ -2267,7 +2283,7 @@ $image=$this->menu_model->createImage();
 						   // print_r($image);
 							$banner=$banner->banner;
 						}
-if($this->event_model->edit($id,$name,$image,$banner,$order)==0)
+if($this->event_model->edit($id,$name,$image,$banner,$order,$hashtag,$facebook,$twitter,$instagram)==0)
 $data["alerterror"]="New event could not be Updated.";
 else
 $data["alertsuccess"]="event Updated Successfully.";
@@ -3105,6 +3121,10 @@ $id=$this->input->get_post("id");
 $name=$this->input->get_post("name");
 $image=$this->menu_model->createImage();
 $link=$this->input->get_post("link");
+$hashtag=$this->input->get_post("hashtag");
+$facebook=$this->input->get_post("facebook");
+$twitter=$this->input->get_post("twitter");
+$instagram=$this->input->get_post("instagram");
 $config['upload_path'] = './uploads/';
 				$config['allowed_types'] = 'gif|jpg|png|jpeg';
 				$this->load->library('upload', $config);
@@ -3115,7 +3135,7 @@ $config['upload_path'] = './uploads/';
 					$uploaddata = $this->upload->data();
 					$banner=$uploaddata['file_name'];
 				}
-if($this->talent_model->create($name,$image,$link,$banner)==0)
+if($this->talent_model->create($name,$image,$link,$banner,$hashtag,$facebook,$twitter,$instagram)==0)
 $data["alerterror"]="New talent could not be created.";
 else
 $data["alertsuccess"]="talent created Successfully.";
@@ -3157,6 +3177,10 @@ $id=$this->input->get_post("id");
 $name=$this->input->get_post("name");
 $image=$this->menu_model->createImage();
 $link=$this->input->get_post("link");
+$hashtag=$this->input->get_post("hashtag");
+$facebook=$this->input->get_post("facebook");
+$twitter=$this->input->get_post("twitter");
+$instagram=$this->input->get_post("instagram");
 $config['upload_path'] = './uploads/';
 			 $config['allowed_types'] = 'gif|jpg|png|jpeg';
 			 $this->load->library('upload', $config);
@@ -3174,7 +3198,7 @@ $config['upload_path'] = './uploads/';
 					// print_r($image);
 				 $banner=$banner->banner;
 			 }
-if($this->talent_model->edit($id,$name,$image,$link,$banner)==0)
+if($this->talent_model->edit($id,$name,$image,$link,$banner,$hashtag,$facebook,$twitter,$instagram)==0)
 $data["alerterror"]="New talent could not be Updated.";
 else
 $data["alertsuccess"]="talent Updated Successfully.";
@@ -3705,6 +3729,10 @@ $image=$this->menu_model->createImage();
 $link=$this->input->get_post("link");
 //$banner=$this->input->get_post("banner");
 $content=$this->input->get_post("content");
+$hashtag=$this->input->get_post("hashtag");
+$facebook=$this->input->get_post("facebook");
+$twitter=$this->input->get_post("twitter");
+$instagram=$this->input->get_post("instagram");
     $config['upload_path'] = './uploads/';
 						$config['allowed_types'] = 'gif|jpg|png|jpeg';
 						$this->load->library('upload', $config);
@@ -3715,7 +3743,7 @@ $content=$this->input->get_post("content");
 							$uploaddata = $this->upload->data();
 							$banner=$uploaddata['file_name'];
 						}
-if($this->sportscategory_model->create($order,$status,$name,$image,$link,$banner,$content)==0)
+if($this->sportscategory_model->create($order,$status,$name,$image,$link,$banner,$content,$hashtag,$facebook,$twitter,$instagram)==0)
 $data["alerterror"]="New sportscategory could not be created.";
 else
 $data["alertsuccess"]="sportscategory created Successfully.";
@@ -3762,6 +3790,10 @@ $status=$this->input->get_post("status");
 $name=$this->input->get_post("name");
 $image=$this->menu_model->createImage();
 $link=$this->input->get_post("link");
+$hashtag=$this->input->get_post("hashtag");
+$facebook=$this->input->get_post("facebook");
+$twitter=$this->input->get_post("twitter");
+$instagram=$this->input->get_post("instagram");
 //$banner=$this->input->get_post("banner");
 $content=$this->input->get_post("content");
      $config['upload_path'] = './uploads/';
@@ -3781,7 +3813,7 @@ $content=$this->input->get_post("content");
 						   // print_r($image);
 							$banner=$banner->banner;
 						}
-if($this->sportscategory_model->edit($id,$order,$status,$name,$image,$link,$banner,$content)==0)
+if($this->sportscategory_model->edit($id,$order,$status,$name,$image,$link,$banner,$content,$hashtag,$facebook,$twitter,$instagram)==0)
 $data["alerterror"]="New sportscategory could not be Updated.";
 else
 $data["alertsuccess"]="sportscategory Updated Successfully.";
@@ -5100,7 +5132,11 @@ $order=$this->input->get_post("order");
 $status=$this->input->get_post("status");
 $name=$this->input->get_post("name");
 $content=$this->input->get_post("content");
-if($this->category_model->edit($id,$order,$status,$name,$content)==0)
+$hashtag=$this->input->get_post("hashtag");
+$facebook=$this->input->get_post("facebook");
+$twitter=$this->input->get_post("twitter");
+$instagram=$this->input->get_post("instagram");
+if($this->category_model->edit($id,$order,$status,$name,$content,$hashtag,$facebook,$twitter,$instagram)==0)
 $data["alerterror"]="New category could not be Updated.";
 else
 $data["alertsuccess"]="category Updated Successfully.";
@@ -7830,6 +7866,10 @@ $name=$this->input->get_post("name");
 $link=$this->input->get_post("link");
 $order=$this->input->get_post("order");
 $image=$this->menu_model->createImage();
+$hashtag=$this->input->get_post("hashtag");
+$facebook=$this->input->get_post("facebook");
+$twitter=$this->input->get_post("twitter");
+$instagram=$this->input->get_post("instagram");
 //$banner=$this->input->get_post("banner");
     $config['upload_path'] = './uploads/';
 						$config['allowed_types'] = 'gif|jpg|png|jpeg';
@@ -7841,7 +7881,7 @@ $image=$this->menu_model->createImage();
 							$uploaddata = $this->upload->data();
 							$banner=$uploaddata['file_name'];
 						}
-if($this->mice_model->create($name,$image,$banner,$link,$order)==0)
+if($this->mice_model->create($name,$image,$banner,$link,$order,$hashtag,$facebook,$twitter,$instagram)==0)
 $data["alerterror"]="New mice could not be created.";
 else
 $data["alertsuccess"]="mice created Successfully.";
@@ -7884,6 +7924,10 @@ $name=$this->input->get_post("name");
 $link=$this->input->get_post("link");
 $order=$this->input->get_post("name");
 $image=$this->menu_model->createImage();
+$hashtag=$this->input->get_post("hashtag");
+$facebook=$this->input->get_post("facebook");
+$twitter=$this->input->get_post("twitter");
+$instagram=$this->input->get_post("instagram");
 //$banner=$this->input->get_post("banner");
      $config['upload_path'] = './uploads/';
 						$config['allowed_types'] = 'gif|jpg|png|jpeg';
@@ -7902,7 +7946,7 @@ $image=$this->menu_model->createImage();
 						   // print_r($image);
 							$banner=$banner->banner;
 						}
-if($this->mice_model->edit($id,$name,$image,$banner,$link,$order)==0)
+if($this->mice_model->edit($id,$name,$image,$banner,$link,$order,$hashtag,$facebook,$twitter,$instagram)==0)
 $data["alerterror"]="New mice could not be Updated.";
 else
 $data["alertsuccess"]="mice Updated Successfully.";
@@ -8817,6 +8861,11 @@ $venue=$this->input->get_post("venue");
 $content=$this->input->get_post("content");
 // $banner=$this->input->get_post("banner");
 $image=$this->menu_model->createImage();
+$hashtag=$this->input->get_post("hashtag");
+$facebook=$this->input->get_post("facebook");
+$twitter=$this->input->get_post("twitter");
+$instagram=$this->input->get_post("instagram");
+
 //$banner=$this->input->get_post("banner");
     $config['upload_path'] = './uploads/';
 						$config['allowed_types'] = 'gif|jpg|png|jpeg';
@@ -8828,7 +8877,7 @@ $image=$this->menu_model->createImage();
 							$uploaddata = $this->upload->data();
 							$banner=$uploaddata['file_name'];
 						}
-if($this->worldtour_model->create($type,$image,$name,$location,$date,$venue,$content,$banner)==0)
+if($this->worldtour_model->create($type,$image,$name,$location,$date,$venue,$content,$banner,$hashtag,$facebook,$twitter,$instagram)==0)
 $data["alerterror"]="New worldtour could not be created.";
 else
 $data["alertsuccess"]="worldtour created Successfully.";
@@ -8886,6 +8935,11 @@ $venue=$this->input->get_post("venue");
 $content=$this->input->get_post("content");
 // $banner=$this->input->get_post("banner");
 $image=$this->menu_model->createImage();
+$hashtag=$this->input->get_post("hashtag");
+$facebook=$this->input->get_post("facebook");
+$twitter=$this->input->get_post("twitter");
+$instagram=$this->input->get_post("instagram");
+
 //$banner=$this->input->get_post("banner");
      $config['upload_path'] = './uploads/';
 						$config['allowed_types'] = 'gif|jpg|png|jpeg';
@@ -8904,7 +8958,7 @@ $image=$this->menu_model->createImage();
 						   // print_r($image);
 							$banner=$banner->banner;
 						}
-if($this->worldtour_model->edit($id,$type,$image,$name,$location,$date,$venue,$content,$banner)==0)
+if($this->worldtour_model->edit($id,$type,$image,$name,$location,$date,$venue,$content,$banner,$hashtag,$facebook,$twitter,$instagram)==0)
 $data["alerterror"]="New worldtour could not be Updated.";
 else
 $data["alertsuccess"]="worldtour Updated Successfully.";

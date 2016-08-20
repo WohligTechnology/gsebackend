@@ -3,11 +3,11 @@ if ( !defined( "BASEPATH" ) )
 exit( "No direct script access allowed" );
 class moviedetail_model extends CI_Model
 {
-public function create($isupcoming,$isreleased,$name,$banner,$imdb,$producer,$director,$cast,$music,$synopsis,$videos,$releasedate,$image)
+public function create($isupcoming,$isreleased,$name,$banner,$imdb,$producer,$director,$cast,$music,$synopsis,$videos,$releasedate,$image,$hashtag,$facebook,$twitter,$instagram)
 {
     $releasedate = new DateTime($releasedate);
         $releasedate = $releasedate->format('Y-m-d');
-$data=array("isupcoming" => $isupcoming,"isreleased" => $isreleased,"name" => $name,"banner" => $banner,"imdb" => $imdb,"producer" => $producer,"director" => $director,"cast" => $cast,"music" => $music,"synopsis" => $synopsis,"videos" => $videos,"releasedate" => $releasedate,"image" => $image);
+$data=array("isupcoming" => $isupcoming,"isreleased" => $isreleased,"name" => $name,"banner" => $banner,"imdb" => $imdb,"producer" => $producer,"director" => $director,"cast" => $cast,"music" => $music,"synopsis" => $synopsis,"videos" => $videos,"releasedate" => $releasedate,"image" => $image,"hashtag" => $hashtag,"facebook" => $facebook,"twitter" => $twitter,"instagram" => $instagram);
 $query=$this->db->insert( "gse_moviedetail", $data );
 $id=$this->db->insert_id();
 if(!$query)
@@ -36,7 +36,7 @@ return $query;
 
     return $return;
     }
-public function edit($id,$isupcoming,$isreleased,$name,$banner,$imdb,$producer,$director,$cast,$music,$synopsis,$videos,$releasedate,$image)
+public function edit($id,$isupcoming,$isreleased,$name,$banner,$imdb,$producer,$director,$cast,$music,$synopsis,$videos,$releasedate,$image,$hashtag,$facebook,$twitter,$instagram)
 {
   if (preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/",$releasedate))
       {
@@ -60,7 +60,7 @@ $banner=$banner->banner;
 $image=$this->moviedetail_model->getimage1byid($id);
 $image=$image->image;
 }
-$data=array("isupcoming" => $isupcoming,"isreleased" => $isreleased,"name" => $name,"banner" => $banner,"imdb" => $imdb,"producer" => $producer,"director" => $director,"cast" => $cast,"music" => $music,"synopsis" => $synopsis,"videos" => $videos,"releasedate" => $releasedate,"image" => $image);
+$data=array("isupcoming" => $isupcoming,"isreleased" => $isreleased,"name" => $name,"banner" => $banner,"imdb" => $imdb,"producer" => $producer,"director" => $director,"cast" => $cast,"music" => $music,"synopsis" => $synopsis,"videos" => $videos,"releasedate" => $releasedate,"image" => $image,"hashtag" => $hashtag,"facebook" => $facebook,"twitter" => $twitter,"instagram" => $instagram);
 $this->db->where( "id", $id );
 $query=$this->db->update( "gse_moviedetail", $data );
 return 1;

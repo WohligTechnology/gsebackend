@@ -92,7 +92,7 @@ class restapi_model extends CI_Model
     }
     public function getMovieDetails()
     {
-          $query['description'] = $this->db->query("SELECT `id`, `order`, `status`, `name`, `content` FROM `gse_category` WHERE `status`=1")->row();
+          $query['description'] = $this->db->query("SELECT `id`, `order`, `status`, `name`, `content`,`hashtag`,`facebook`,`twitter`,`instagram` FROM `gse_category` WHERE `status`=1 AND `id`=1")->row();
           $query['isreleased'] = $this->db->query("SELECT `id`, `name`, `banner`, `releasedate`, `image` FROM `gse_moviedetail` WHERE `isreleased`=1")->result();
           $query['isupcoming'] = $this->db->query("SELECT `id`, `name`, `banner`, `releasedate`, `image` FROM `gse_moviedetail` WHERE `isupcoming`=1")->result();
           $query['moviediaries'] = $this->db->query("SELECT `gse_diaryarticle`.`id`, `gse_diaryarticle`.`status`, `gse_diaryarticle`.`diarycategory`, `gse_diaryarticle`.`diarysubcategory`, `gse_diaryarticle`.`name`, `gse_diaryarticle`.`image`, `gse_diaryarticle`.`timestamp`, `gse_diaryarticle`.`content`, `gse_diaryarticle`.`date`, `gse_diaryarticle`.`type`, `gse_diaryarticle`.`showhide`,`author`.`name` AS 'authorname' FROM `gse_diaryarticle`
@@ -118,10 +118,8 @@ class restapi_model extends CI_Model
 
     public function getWeddingDetails()
     {
-          $query['description'] = $this->db->query("SELECT `id`, `order`, `status`, `name`, `content` FROM `gse_category` WHERE `status`=1 AND `id`=2")->row();
-
+          $query['description'] = $this->db->query("SELECT `id`, `order`, `status`, `name`, `content`,`hashtag`,`facebook`,`twitter`,`instagram` FROM `gse_category` WHERE `status`=1 AND `id`=2")->row();
           $query['weddingtype'] = $this->db->query("SELECT * FROM `gse_wedding`")->result();
-
           $query['services'] = $this->db->query("SELECT `id`, `name`, `content`, `type`, `order` FROM `gse_service` WHERE `type`=1 ORDER BY `order`")->result();
 
           $query['weddingdiaries'] = $this->db->query("SELECT `gse_diaryarticle`.`id`, `gse_diaryarticle`.`status`, `gse_diaryarticle`.`diarycategory`, `gse_diaryarticle`.`diarysubcategory`, `gse_diaryarticle`.`name`, `gse_diaryarticle`.`image`, `gse_diaryarticle`.`timestamp`, `gse_diaryarticle`.`content`, `gse_diaryarticle`.`date`, `gse_diaryarticle`.`type`, `gse_diaryarticle`.`showhide`,`author`.`name` AS 'authorname' FROM `gse_diaryarticle`
@@ -145,7 +143,7 @@ class restapi_model extends CI_Model
     }
 
     public function getMovieInside($id){
-      $query['moviedetail']=$this->db->query("SELECT `id`, `isupcoming`, `isreleased`, `name`, `banner`, `imdb`, `producer`, `director`, `cast`, `music`, `synopsis`, `videos`, `releasedate`, `image` FROM `gse_moviedetail` WHERE `id`='$id'")->row();
+      $query['moviedetail']=$this->db->query("SELECT `id`, `isupcoming`, `isreleased`, `name`, `banner`, `imdb`, `producer`, `director`, `cast`, `music`, `synopsis`, `videos`, `releasedate`, `image`,`hashtag`,`facebook`,`twitter`,`instagram` FROM `gse_moviedetail` WHERE `id`='$id'")->row();
       $query['wallpaper']=$this->db->query("SELECT `id`, `movie`, `image` FROM `gse_moviewallpaper` WHERE `movie`='$id'")->result();
       $query['imagegallery']=$this->db->query("SELECT `id`, `movie`, `order`, `status`, `image` FROM `gse_moviegallery` WHERE `movie`='$id' AND `status`=1 ORDER BY `order`")->result();
       $query['featuredvideos']=$this->db->query("SELECT `id`, `content`, `movie` FROM `gse_movie` WHERE `movie`='$id'")->result();
@@ -244,7 +242,7 @@ class restapi_model extends CI_Model
 
     public function getEvents()
     {
-      $query['description'] = $this->db->query("SELECT `id`, `order`, `status`, `name`, `content` FROM `gse_category` WHERE `status`=1 AND `id`=4")->row();
+      $query['description'] = $this->db->query("SELECT `id`, `order`, `status`, `name`, `content`,`hashtag`,`facebook`,`twitter`,`instagram` FROM `gse_category` WHERE `status`=1 AND `id`=4")->row();
 
       $query['events'] = $this->db->query("SELECT * FROM `gse_event`")->result();
 
@@ -270,7 +268,7 @@ class restapi_model extends CI_Model
 
 
     public function getEventInsideBanner($id){
-      $query=$this->db->query("SELECT `id`, `name`, `image`, `banner` FROM `gse_event` WHERE `id`='$id'")->row();
+      $query=$this->db->query("SELECT `id`, `name`, `image`, `banner`,`hashtag`,`facebook`,`twitter`,`instagram` FROM `gse_event` WHERE `id`='$id'")->row();
       if($query)
       {
         $obj->value = true;
@@ -315,7 +313,7 @@ class restapi_model extends CI_Model
 
     public function getMices()
     {
-      $query['description'] = $this->db->query("SELECT `id`, `order`, `status`, `name`, `content` FROM `gse_category` WHERE `status`=1 AND `id`=6")->row();
+      $query['description'] = $this->db->query("SELECT `id`, `order`, `status`, `name`, `content`,`hashtag`,`facebook`,`twitter`,`instagram` FROM `gse_category` WHERE `status`=1 AND `id`=6")->row();
 
       $query['mice'] = $this->db->query("SELECT * FROM `gse_mice`")->result();
 
@@ -340,7 +338,7 @@ class restapi_model extends CI_Model
       }
     }
     public function getMiceInsideBanner($id){
-      $query=$this->db->query("SELECT `id`, `name`, `image`, `banner` FROM `gse_mice` WHERE `id`='$id'")->row();
+      $query=$this->db->query("SELECT `id`, `name`, `image`, `banner`,`hashtag`,`facebook`,`twitter`,`instagram` FROM `gse_mice` WHERE `id`='$id'")->row();
       if($query)
       {
         $obj->value = true;
@@ -386,7 +384,7 @@ class restapi_model extends CI_Model
 
     public function getWorldTour()
     {
-      $query['description'] = $this->db->query("SELECT `id`, `order`, `status`, `name`, `content` FROM `gse_category` WHERE `status`=1 AND `id`=7")->row();
+      $query['description'] = $this->db->query("SELECT `id`, `order`, `status`, `name`, `content`,`hashtag`,`facebook`,`twitter`,`instagram` FROM `gse_category` WHERE `status`=1 AND `id`=7")->row();
 
       $query['worldtourpast'] = $this->db->query("SELECT * FROM `gse_worldtour` WHERE `type`=1")->result();
       $query['worldtourupcoming'] = $this->db->query("SELECT * FROM `gse_worldtour` WHERE `type`=2")->result();
@@ -435,7 +433,7 @@ class restapi_model extends CI_Model
       }
     }
     public function getSport(){
-      $query['description'] = $this->db->query("SELECT `id`, `order`, `status`, `name`, `content` FROM `gse_category` WHERE `status`=1 AND `id`=3")->row();
+      $query['description'] = $this->db->query("SELECT `id`, `order`, `status`, `name`, `content`,`hashtag`,`facebook`,`twitter`,`instagram` FROM `gse_category` WHERE `status`=1 AND `id`=3")->row();
       $query['sports']=$this->db->query("SELECT `id`, `order`, `status`, `name`, `image`, `link`, `banner`, `content` FROM `gse_sportscategory` WHERE 1")->result();
       $query['services'] = $this->db->query("SELECT `id`, `name`, `content`, `type`, `order` FROM `gse_service` WHERE `type`=2 ORDER BY `order`")->result();
 
@@ -459,7 +457,7 @@ class restapi_model extends CI_Model
     }
 
     public function getSportsDetail($id){
-      $query['description'] = $this->db->query("SELECT `id`, `order`, `status`, `name`, `image`, `link`, `banner`, `content` FROM `gse_sportscategory` WHERE `id`=$id")->row();
+      $query['description'] = $this->db->query("SELECT `id`, `order`, `status`, `name`, `image`, `link`, `banner`, `content`,`hashtag`,`facebook`,`twitter`,`instagram` FROM `gse_sportscategory` WHERE `id`=$id")->row();
 
       $query['testimonial'] = $this->db->query("SELECT * FROM `gse_testimonial` WHERE `category`=15")->result();
       if($query)
@@ -476,7 +474,7 @@ class restapi_model extends CI_Model
       }
     }
     public function getasfcSportsDetail($id){
-      $query['description'] = $this->db->query("SELECT `id`, `order`, `status`, `name`, `image`, `link`, `banner`, `content` FROM `gse_sportscategory` WHERE `id`=$id")->row();
+      $query['description'] = $this->db->query("SELECT `id`, `order`, `status`, `name`, `image`, `link`, `banner`, `content`,`hashtag`,`facebook`,`twitter`,`instagram` FROM `gse_sportscategory` WHERE `id`=$id")->row();
       $cdate = date("Y-m-d");
       $query['playerlist'] = $this->db->query("SELECT `id`, `order`, `status`, `sportscategory`, `name`, `image` FROM `gse_player`  WHERE `sportscategory`=$id")->result();
       $query['upcomingmatch'] = $this->db->query("SELECT `id`, `sportscategory`, `name`, `image`, `link`, `location`, `content`, `videos`, `date` FROM `gse_highlight` WHERE date > '$cdate' AND `sportscategory`=$id ")->result();
@@ -495,7 +493,7 @@ class restapi_model extends CI_Model
       }
     }
     public function getpfhSportsDetail($id){
-      $query['description'] = $this->db->query("SELECT `id`, `order`, `status`, `name`, `image`, `link`, `banner`, `content` FROM `gse_sportscategory` WHERE `id`=$id")->row();
+      $query['description'] = $this->db->query("SELECT `id`, `order`, `status`, `name`, `image`, `link`, `banner`, `content`,`hashtag`,`facebook`,`twitter`,`instagram` FROM `gse_sportscategory` WHERE `id`=$id")->row();
       // $query['playerlist'] = $this->db->query("SELECT `id`, `order`, `status`, `sportscategory`, `name`, `image` FROM `gse_player`  WHERE `sportscategory`=$id")->result();
       // $query['upcomingmatch'] = $this->db->query("SELECT `id`, `sportscategory`, `name`, `image`, `link`, `location`, `content`, `videos`, `date` FROM `gse_highlight` WHERE date > '$cdate' AND `sportscategory`=$id ")->result();
       $query['testimonial'] = $this->db->query("SELECT * FROM `gse_testimonial` WHERE`category`=17")->result();
@@ -513,7 +511,7 @@ class restapi_model extends CI_Model
       }
     }
     public function getWorldTourInsideDetails($id){
-      $query['worldtourdetail']=$this->db->query("SELECT `id`, `type`, `image`, `name`, `location`, `date`, `venue`, `content`, `banner` FROM `gse_worldtour` WHERE `id`='$id'")->row();
+      $query['worldtourdetail']=$this->db->query("SELECT `id`, `type`, `image`, `name`, `location`, `date`, `venue`, `content`, `banner`,`hashtag`,`facebook`,`twitter`,`instagram` FROM `gse_worldtour` WHERE `id`='$id'")->row();
       $query['wallpaper']=$this->db->query("SELECT `id`, `image`, `order`, `worldtour` FROM `gse_worldtourwallpaper` WHERE `worldtour`='$id'")->result();
       $query['imagegallery']=$this->db->query("SELECT `id`, `image`, `order`, `worldtour` FROM `gse_worldtourimage` WHERE `worldtour`='$id' ORDER BY `order` ASC")->result();
       $query['featuredvideos']=$this->db->query("SELECT `id`, `worldtour`, `order`, `url` FROM `gse_worldtourvideos` WHERE `worldtour`='$id' ORDER BY `order` ASC")->result();
@@ -610,7 +608,7 @@ public function getSportsDetailInside($id){
 }
 
 public function getTalent(){
-  $query['description'] = $this->db->query("SELECT `id`, `order`, `status`, `name`, `content` FROM `gse_category` WHERE `status`=1 AND `id`=5")->row();
+  $query['description'] = $this->db->query("SELECT `id`, `order`, `status`, `name`, `content`,`hashtag`,`facebook`,`twitter`,`instagram` FROM `gse_category` WHERE `status`=1 AND `id`=5")->row();
   $query['talent']=$this->db->query("SELECT `id`, `name`, `image`, `link` FROM `gse_talent` WHERE 1")->result();
   $query['services'] = $this->db->query("SELECT `id`, `name`, `content`, `type`, `order` FROM `gse_service` WHERE `type`=4 ORDER BY `order`")->result();
 
@@ -634,7 +632,7 @@ public function getTalent(){
 }
 
 public function getTalentInsideBanner($id){
-  $query = $this->db->query("SELECT `id`, `name`, `image`, `link`, `banner` FROM `gse_talent` WHERE `id`=$id")->row();
+  $query = $this->db->query("SELECT `id`, `name`, `image`, `link`, `banner`,`hashtag`,`facebook`,`twitter`,`instagram` FROM `gse_talent` WHERE `id`=$id")->row();
 if($query)
   {
     $obj->value = true;
