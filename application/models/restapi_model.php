@@ -165,7 +165,7 @@ class restapi_model extends CI_Model
 
 
     public function getWeddingInsideDetails($id){
-      $query['weddingdetail']=$this->db->query("SELECT `id`, `wedding`, `name`, `image`, `content`, `videos` FROM `gse_weddingsubtype` WHERE `id`='$id'")->row();
+      $query['weddingdetail']=$this->db->query("SELECT `id`, `wedding`, `name`, `image`,`banner`, `content`, `videos` FROM `gse_weddingsubtype` WHERE `id`='$id'")->row();
       // $query['wallpaper']=$this->db->query("SELECT `id`, `movie`, `image` FROM `gse_moviewallpaper` WHERE `movie`='$id'")->result();
       $query['imagegallery']=$this->db->query("SELECT `id`, `wedding`, `status`, `order`, `image`, `weddingsubtype` FROM `gse_weddinggallery` WHERE `weddingsubtype`=$id AND `status`=1 ORDER BY `order`")->result();
       $query['featuredvideos']=$this->db->query("SELECT `id`, `wedding`, `name`, `image`, `banner`, `weddingsubtype` FROM `gse_weddingtype` WHERE `weddingsubtype`=$id")->result();
