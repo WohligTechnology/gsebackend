@@ -31,11 +31,7 @@ if($image=="")
 $image=$this->weddingsubtype_model->getimagebyid($id);
 $image=$image->image;
 }
-if($banner=="")
-{
-$banner=$this->weddingsubtype_model->getbannerbyid($id);
-$banner=$banner->banner;
-}
+
 $data=array("wedding" => $wedding,"name" => $name,"image" => $image,"banner" => $banner,"content" => $content,"videos" => $videos);
 $this->db->where( "id", $id );
 $query=$this->db->update( "gse_weddingsubtype", $data );

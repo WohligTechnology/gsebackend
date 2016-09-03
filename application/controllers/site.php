@@ -2830,22 +2830,24 @@ $name=$this->input->get_post("name");
 $image=$this->menu_model->createImage();
 $content=$this->input->get_post("content");
 $videos=$this->input->get_post("videos");
-$config['upload_path'] = './uploads/';
-			 $config['allowed_types'] = 'gif|jpg|png|jpeg';
-			 $this->load->library('upload', $config);
-			 $filename="banner";
-			 $banner="";
-			 if (  $this->upload->do_upload($filename))
-			 {
-				 $uploaddata = $this->upload->data();
-				 $banner=$uploaddata['file_name'];
-			 }
-			 if($banner=="")
-			 {
-			 $banner=$this->weddingtype_model->getbannerbyid($id);
-					// print_r($image);
-				 $banner=$banner->banner;
-			 }
+			$config['upload_path'] = './uploads/';
+							$config['allowed_types'] = 'gif|jpg|png|jpeg';
+							$this->load->library('upload', $config);
+							$filename="banner";
+							$banner="";
+							if (  $this->upload->do_upload($filename))
+							{
+								$uploaddata = $this->upload->data();
+								$banner=$uploaddata['file_name'];
+							}
+
+							if($banner=="")
+							{
+							$banner=$this->weddingsubtype_model->getbannerbyid($id);
+							   // print_r($image);
+								$banner=$banner->banner;
+							}
+
 if($this->weddingsubtype_model->edit($id,$wedding,$name,$image,$banner,$content,$videos)==0)
 $data["alerterror"]="New weddingsubtype could not be Updated.";
 else
