@@ -33,7 +33,7 @@ class email_model extends CI_Model
 					$response = curl_exec($session);
 					// print everything out
 					////var_dump($response,curl_error($session),curl_getinfo($session));
-	       print_r($response);
+	      //  print_r($response);
 					curl_close($session);
   }
 }
