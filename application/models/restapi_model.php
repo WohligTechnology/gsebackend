@@ -7,6 +7,7 @@ class restapi_model extends CI_Model
     {
       // check if mail exist already
       $checkemail=$this->db->query("SELECT * FROM `gse_getintouch` WHERE `email`='$email'");
+        $obj = new stdClass();
       if($checkemail->num_rows() > 0)
       {
            $obj->value = false;
@@ -15,10 +16,10 @@ class restapi_model extends CI_Model
       }
       else
       {
-          $data=array("category" => $category,"firstname" => $firstname,"lastname" => $lastname,"email" => $email,"phone" => $phone,"comment" => $comment,"enquiryfor" => $enquiry,"location" => $location,"startdate" => $startdate,"enddate" => $enddate);
+          $data=array("category" => $category,"firstname" => $firstname,"lastname" => $lastname,"email" => $email,"phone" => $phone,"comment" => $comment,"enquiryfor" => $enquiry,"location" => $location,"startdate" => $startdate,"enddate" => $enddate,"noofpeople" => $noofpeople);
           $query=$this->db->insert( "gse_getintouch", $data );
           $id=$this->db->insert_id();
-          $obj = new stdClass();
+
          if(!$query)
          {  $obj->value = false;
             $obj->data = "User already exists";
@@ -26,6 +27,14 @@ class restapi_model extends CI_Model
          }
          else
          {
+           //send email
+           $data['mailer']=$this->db->query("SELECT `gse_getintouch`.`id`, `gse_getintouch`.`category`,`gse_category`.`name` as `categoryname`, `gse_getintouch`.`firstname`, `gse_getintouch`.`lastname`, `gse_getintouch`.`email`, `gse_getintouch`.`phone`, `gse_getintouch`.`timestamp`, `gse_getintouch`.`comment`, `gse_getintouch`.`enquiryfor`, `gse_getintouch`.`location`, `gse_getintouch`.`noofpeople`, `gse_getintouch`.`startdate`, `gse_getintouch`.`enddate` FROM `gse_getintouch` INNER JOIN `gse_category` ON `gse_category`.`id`=`gse_getintouch`.`category` WHERE `gse_getintouch`.`id`='$id'")->row();
+           $username=$firstname." ".$lastname;
+           $messageplan = $this->load->view('emailers/getInTouch', $data, true);
+           $this->email_model->emailer($messageplan,'Get In Touch','jsw@gsentertainment.com',$username);
+          //  $this->email_model->emailer($messageplan,'Get In Touch','pooja@wohlig.com',$username);
+
+
            $obj->value = true;
            $obj->data = "Successfully registered";
            return $obj;
@@ -715,7 +724,7 @@ public function getClientDetail($id){
 $query= $this->db->query("SELECT `id`, `order`, `status`, `name`, `image`, `title`, `url`, `content`, `banner` FROM `gse_clientdetail` WHERE `id`=$id")->row();
   }
   else {
-    $query= $this->db->query("SELECT `id`, `order`, `status`, `name`, `image`, `title`, `url`, `content`, `banner` FROM `gse_clientdetail` WHERE 1 LIMIT 0,4")->result();
+    $query= $this->db->query("SELECT `id`, `order`, `status`, `name`, `image`, `title`, `url`, `content`, `banner` FROM `gse_clientdetail`")->result();
   }
   if($query)
   {
