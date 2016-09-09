@@ -625,7 +625,7 @@ public function getEventInside()
         $maxrow = 20;
     }
     if ($orderby == '') {
-        $orderby = 'id';
+        $orderby = 'order';
         $orderorder = 'DESC';
     }
 
