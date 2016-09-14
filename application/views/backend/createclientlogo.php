@@ -32,7 +32,7 @@
 				</div>
 			</div>
 			<span style=" display: block;
-		padding-top: 30px;">250 X 250</span>
+		padding-top: 30px;">150 x 150</span>
 		</div>
 <div class="row">
 <div class="col s12 m6">
