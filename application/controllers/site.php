@@ -1179,6 +1179,7 @@ $this->checkaccess($access);
 $data["page"]="createmoviedetail";
 $data["isupcoming"]=$this->moviedetail_model->getisupomingdropdown();
 $data["isreleased"]=$this->moviedetail_model->getisupomingdropdown();
+	$data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["title"]="Create moviedetail";
 $this->load->view("template",$data);
 }
@@ -1203,6 +1204,7 @@ if($this->form_validation->run()==FALSE)
 $data["alerterror"]=validation_errors();
 $data["isupcoming"]=$this->moviedetail_model->getisupomingdropdown();
 $data["isreleased"]=$this->moviedetail_model->getisupomingdropdown();
+	$data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["page"]="createmoviedetail";
 $data["title"]="Create moviedetail";
 $this->load->view("template",$data);
@@ -1226,6 +1228,8 @@ $facebook=$this->input->get_post("facebook");
 $twitter=$this->input->get_post("twitter");
 $instagram=$this->input->get_post("instagram");
 $releasedate=$this->input->get_post("releasedate");
+$status=$this->input->get_post("status");
+$order=$this->input->get_post("order");
     $image=$this->menu_model->createImage();
 	$config['upload_path'] = './uploads/';
 						$config['allowed_types'] = 'gif|jpg|png|jpeg';
@@ -1237,7 +1241,7 @@ $releasedate=$this->input->get_post("releasedate");
 							$uploaddata = $this->upload->data();
 							$banner=$uploaddata['file_name'];
 						}
-if($this->moviedetail_model->create($isupcoming,$isreleased,$name,$banner,$imdb,$producer,$director,$cast,$music,$synopsis,$videos,$releasedate,$image,$hashtag,$facebook,$twitter,$instagram)==0)
+if($this->moviedetail_model->create($isupcoming,$isreleased,$name,$banner,$imdb,$producer,$director,$cast,$music,$synopsis,$videos,$releasedate,$image,$hashtag,$facebook,$twitter,$instagram,$order,$status)==0)
 $data["alerterror"]="New moviedetail could not be created.";
 else
 $data["alertsuccess"]="moviedetail created Successfully.";
@@ -1252,6 +1256,7 @@ $this->checkaccess($access);
 $data["page"]="editmoviedetail";
 $data["isupcoming"]=$this->moviedetail_model->getisupomingdropdown();
 $data["isreleased"]=$this->moviedetail_model->getisupomingdropdown();
+	$data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["page2"]="block/movieblock";
 $data["before1"]=$this->input->get('id');
 $data["before2"]=$this->input->get('id');
@@ -1283,6 +1288,7 @@ if($this->form_validation->run()==FALSE)
 $data["alerterror"]=validation_errors();
 $data["isupcoming"]=$this->moviedetail_model->getisupomingdropdown();
 $data["isreleased"]=$this->moviedetail_model->getisupomingdropdown();
+	$data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["page"]="editmoviedetail";
 $data["title"]="Edit moviedetail";
 $data["before"]=$this->moviedetail_model->beforeedit($this->input->get("id"));
@@ -1307,6 +1313,8 @@ $hashtag=$this->input->get_post("hashtag");
 $facebook=$this->input->get_post("facebook");
 $twitter=$this->input->get_post("twitter");
 $instagram=$this->input->get_post("instagram");
+$status=$this->input->get_post("status");
+$order=$this->input->get_post("order");
  $image=$this->menu_model->createImage();
     $config['upload_path'] = './uploads/';
 						$config['allowed_types'] = 'gif|jpg|png|jpeg';
@@ -1325,7 +1333,7 @@ $instagram=$this->input->get_post("instagram");
 						   // print_r($image);
 							$banner=$banner->banner;
 						}
-if($this->moviedetail_model->edit($id,$isupcoming,$isreleased,$name,$banner,$imdb,$producer,$director,$cast,$music,$synopsis,$videos,$releasedate,$image,$hashtag,$facebook,$twitter,$instagram)==0)
+if($this->moviedetail_model->edit($id,$isupcoming,$isreleased,$name,$banner,$imdb,$producer,$director,$cast,$music,$synopsis,$videos,$releasedate,$image,$hashtag,$facebook,$twitter,$instagram,$order,$status)==0)
 $data["alerterror"]="New moviedetail could not be Updated.";
 else
 $data["alertsuccess"]="moviedetail Updated Successfully.";
@@ -2015,6 +2023,7 @@ public function createwedding()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="createwedding";
+	$data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["title"]="Create wedding";
 $this->load->view("template",$data);
 }
@@ -2027,6 +2036,7 @@ if($this->form_validation->run()==FALSE)
 {
 $data["alerterror"]=validation_errors();
 $data["page"]="createwedding";
+	$data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["title"]="Create wedding";
 $this->load->view("template",$data);
 }
@@ -2035,7 +2045,10 @@ else
 $id=$this->input->get_post("id");
 $name=$this->input->get_post("name");
 $content=$this->input->get_post("content");
+$status=$this->input->get_post("status");
+$order=$this->input->get_post("order");
 $image=$this->menu_model->createImage();
+
 //$banner=$this->input->get_post("banner");
     $config['upload_path'] = './uploads/';
 						$config['allowed_types'] = 'gif|jpg|png|jpeg';
@@ -2047,7 +2060,7 @@ $image=$this->menu_model->createImage();
 							$uploaddata = $this->upload->data();
 							$banner=$uploaddata['file_name'];
 						}
-if($this->wedding_model->create($name,$image,$banner,$content)==0)
+if($this->wedding_model->create($name,$image,$banner,$content,$order,$status)==0)
 $data["alerterror"]="New wedding could not be created.";
 else
 $data["alertsuccess"]="wedding created Successfully.";
@@ -2061,6 +2074,7 @@ $access=array("1");
 $this->checkaccess($access);
 $data["page"]="editwedding";
 $data["page2"]="block/weddingblock";
+	$data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["before1"]=$this->input->get('id');
 $data["before2"]=$this->input->get('id');
 $data["before3"]=$this->input->get('id');
@@ -2079,6 +2093,7 @@ if($this->form_validation->run()==FALSE)
 {
 $data["alerterror"]=validation_errors();
 $data["page"]="editwedding";
+	$data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["title"]="Edit wedding";
 $data["before"]=$this->wedding_model->beforeedit($this->input->get("id"));
 $this->load->view("template",$data);
@@ -2088,6 +2103,8 @@ else
 $id=$this->input->get_post("id");
 $name=$this->input->get_post("name");
 $content=$this->input->get_post("content");
+$status=$this->input->get_post("status");
+$order=$this->input->get_post("order");
 $image=$this->menu_model->createImage();
 //$banner=$this->input->get_post("banner");
      $config['upload_path'] = './uploads/';
@@ -2107,7 +2124,7 @@ $image=$this->menu_model->createImage();
 						   // print_r($image);
 							$banner=$banner->banner;
 						}
-if($this->wedding_model->edit($id,$name,$image,$banner,$content)==0)
+if($this->wedding_model->edit($id,$name,$image,$banner,$content,$order,$status)==0)
 $data["alerterror"]="New wedding could not be Updated.";
 else
 $data["alertsuccess"]="wedding Updated Successfully.";
@@ -2183,6 +2200,7 @@ public function createevent()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="createevent";
+	$data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["title"]="Create event";
 $this->load->view("template",$data);
 }
@@ -2195,6 +2213,7 @@ if($this->form_validation->run()==FALSE)
 {
 $data["alerterror"]=validation_errors();
 $data["page"]="createevent";
+	$data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["title"]="Create event";
 $this->load->view("template",$data);
 }
@@ -2208,6 +2227,7 @@ $hashtag=$this->input->get_post("hashtag");
 $facebook=$this->input->get_post("facebook");
 $twitter=$this->input->get_post("twitter");
 $instagram=$this->input->get_post("instagram");
+$status=$this->input->get_post("status");
 //$banner=$this->input->get_post("banner");
     $config['upload_path'] = './uploads/';
 						$config['allowed_types'] = 'gif|jpg|png|jpeg';
@@ -2219,7 +2239,7 @@ $instagram=$this->input->get_post("instagram");
 							$uploaddata = $this->upload->data();
 							$banner=$uploaddata['file_name'];
 						}
-if($this->event_model->create($name,$image,$banner,$order,$hashtag,$facebook,$twitter,$instagram)==0)
+if($this->event_model->create($name,$image,$banner,$order,$hashtag,$facebook,$twitter,$instagram,$status)==0)
 $data["alerterror"]="New event could not be created.";
 else
 $data["alertsuccess"]="event created Successfully.";
@@ -2233,6 +2253,7 @@ $access=array("1");
 $this->checkaccess($access);
 $data["page"]="editevent";
 $data["page2"]="block/eventblock";
+	$data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["before1"]=$this->input->get('id');
 $data["before2"]=$this->input->get('id');
 $data["before3"]=$this->input->get('id');
@@ -2250,6 +2271,7 @@ $this->form_validation->set_rules("name","Name","trim");
 if($this->form_validation->run()==FALSE)
 {
 $data["alerterror"]=validation_errors();
+	$data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["page"]="editevent";
 $data["title"]="Edit event";
 $data["before"]=$this->event_model->beforeedit($this->input->get("id"));
@@ -2265,6 +2287,7 @@ $hashtag=$this->input->get_post("hashtag");
 $facebook=$this->input->get_post("facebook");
 $twitter=$this->input->get_post("twitter");
 $instagram=$this->input->get_post("instagram");
+$status=$this->input->get_post("status");
 //$banner=$this->input->get_post("banner");
      $config['upload_path'] = './uploads/';
 						$config['allowed_types'] = 'gif|jpg|png|jpeg';
@@ -2283,7 +2306,7 @@ $instagram=$this->input->get_post("instagram");
 						   // print_r($image);
 							$banner=$banner->banner;
 						}
-if($this->event_model->edit($id,$name,$image,$banner,$order,$hashtag,$facebook,$twitter,$instagram)==0)
+if($this->event_model->edit($id,$name,$image,$banner,$order,$hashtag,$facebook,$twitter,$instagram,$status)==0)
 $data["alerterror"]="New event could not be Updated.";
 else
 $data["alertsuccess"]="event Updated Successfully.";
@@ -2734,6 +2757,7 @@ public function createweddingsubtype()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="createweddingsubtype";
+	$data[ 'status' ] =$this->user_model->getstatusdropdown();
 // $data["page2"]="block/weddingblock";
 // $data["before1"]=$this->input->get('id');
 // $data["before2"]=$this->input->get('id');
@@ -2757,6 +2781,7 @@ if($this->form_validation->run()==FALSE)
 {
 $data["alerterror"]=validation_errors();
 $data["page"]="createweddingsubtype";
+	$data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["title"]="Create weddingsubtype";
 $data["wedding"]=$this->wedding_model->getdropdown();
 $this->load->view("template",$data);
@@ -2765,6 +2790,8 @@ else
 {
 $id=$this->input->get_post("id");
 $wedding=$this->input->get_post("wedding");
+$status=$this->input->get_post("status");
+$order=$this->input->get_post("order");
 $name=$this->input->get_post("name");
 $image=$this->menu_model->createImage();
 $content=$this->input->get_post("content");
@@ -2779,7 +2806,7 @@ $config['upload_path'] = './uploads/';
 					$uploaddata = $this->upload->data();
 					$banner=$uploaddata['file_name'];
 				}
-if($this->weddingsubtype_model->create($wedding,$name,$image,$banner,$content,$videos)==0)
+if($this->weddingsubtype_model->create($wedding,$name,$image,$banner,$content,$videos,$order,$status)==0)
 $data["alerterror"]="New weddingsubtype could not be created.";
 else
 $data["alertsuccess"]="weddingsubtype created Successfully.";
@@ -2798,6 +2825,7 @@ $data["page"]="editweddingsubtype";
 // $data["before3"]=$this->input->get('id');
 // $data["before4"]=$this->input->get('id');
 $data["wedding"]=$this->wedding_model->getdropdown();
+	$data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["title"]="Edit weddingsubtype";
 $data["before"]=$this->weddingsubtype_model->beforeedit($this->input->get("id"));
 // $this->load->view("templatewith2",$data);
@@ -2819,6 +2847,7 @@ $data["alerterror"]=validation_errors();
 $data["page"]="editweddingsubtype";
 $data["title"]="Edit weddingsubtype";
 $data["wedding"]=$this->wedding_model->getdropdown();
+	$data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["before"]=$this->weddingsubtype_model->beforeedit($this->input->get("id"));
 $this->load->view("template",$data);
 }
@@ -2826,6 +2855,8 @@ else
 {
 $id=$this->input->get_post("id");
 $wedding=$this->input->get_post("wedding");
+$status=$this->input->get_post("status");
+$order=$this->input->get_post("order");
 $name=$this->input->get_post("name");
 $image=$this->menu_model->createImage();
 $content=$this->input->get_post("content");
@@ -2848,7 +2879,7 @@ $videos=$this->input->get_post("videos");
 								$banner=$banner->banner;
 							}
 
-if($this->weddingsubtype_model->edit($id,$wedding,$name,$image,$banner,$content,$videos)==0)
+if($this->weddingsubtype_model->edit($id,$wedding,$name,$image,$banner,$content,$videos,$order,$status)==0)
 $data["alerterror"]="New weddingsubtype could not be Updated.";
 else
 $data["alertsuccess"]="weddingsubtype Updated Successfully.";
@@ -3100,6 +3131,7 @@ public function createtalent()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="createtalent";
+	$data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["title"]="Create talent";
 $this->load->view("template",$data);
 }
@@ -3114,6 +3146,7 @@ if($this->form_validation->run()==FALSE)
 {
 $data["alerterror"]=validation_errors();
 $data["page"]="createtalent";
+	$data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["title"]="Create talent";
 $this->load->view("template",$data);
 }
@@ -3127,6 +3160,8 @@ $hashtag=$this->input->get_post("hashtag");
 $facebook=$this->input->get_post("facebook");
 $twitter=$this->input->get_post("twitter");
 $instagram=$this->input->get_post("instagram");
+$order=$this->input->get_post("order");
+$status=$this->input->get_post("status");
 $config['upload_path'] = './uploads/';
 				$config['allowed_types'] = 'gif|jpg|png|jpeg';
 				$this->load->library('upload', $config);
@@ -3137,7 +3172,7 @@ $config['upload_path'] = './uploads/';
 					$uploaddata = $this->upload->data();
 					$banner=$uploaddata['file_name'];
 				}
-if($this->talent_model->create($name,$image,$link,$banner,$hashtag,$facebook,$twitter,$instagram)==0)
+if($this->talent_model->create($name,$image,$link,$banner,$hashtag,$facebook,$twitter,$instagram,$order,$status)==0)
 $data["alerterror"]="New talent could not be created.";
 else
 $data["alertsuccess"]="talent created Successfully.";
@@ -3151,6 +3186,7 @@ $access=array("1");
 $this->checkaccess($access);
 $data["page"]="edittalent";
 $data["page2"]="block/talent";
+	$data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["before1"]=$this->input->get('id');
 $data["before2"]=$this->input->get('id');
 $data["title"]="Edit talent";
@@ -3169,6 +3205,7 @@ if($this->form_validation->run()==FALSE)
 {
 $data["alerterror"]=validation_errors();
 $data["page"]="edittalent";
+	$data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["title"]="Edit talent";
 $data["before"]=$this->talent_model->beforeedit($this->input->get("id"));
 $this->load->view("template",$data);
@@ -3183,6 +3220,8 @@ $hashtag=$this->input->get_post("hashtag");
 $facebook=$this->input->get_post("facebook");
 $twitter=$this->input->get_post("twitter");
 $instagram=$this->input->get_post("instagram");
+$order=$this->input->get_post("order");
+$status=$this->input->get_post("status");
 $config['upload_path'] = './uploads/';
 			 $config['allowed_types'] = 'gif|jpg|png|jpeg';
 			 $this->load->library('upload', $config);
@@ -3200,7 +3239,7 @@ $config['upload_path'] = './uploads/';
 					// print_r($image);
 				 $banner=$banner->banner;
 			 }
-if($this->talent_model->edit($id,$name,$image,$link,$banner,$hashtag,$facebook,$twitter,$instagram)==0)
+if($this->talent_model->edit($id,$name,$image,$link,$banner,$hashtag,$facebook,$twitter,$instagram,$order,$status)==0)
 $data["alerterror"]="New talent could not be Updated.";
 else
 $data["alertsuccess"]="talent Updated Successfully.";
@@ -3918,6 +3957,7 @@ $access=array("1");
 $this->checkaccess($access);
 $data["page"]="createhighlight";
 $data["sportscategory"]=$this->sportscategory_model->getdropdown();
+	$data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["title"]="Create highlight";
 $this->load->view("template",$data);
 }
@@ -3937,6 +3977,7 @@ if($this->form_validation->run()==FALSE)
 {
 $data["alerterror"]=validation_errors();
     $data["sportscategory"]=$this->sportscategory_model->getdropdown();
+			$data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["page"]="createhighlight";
 $data["title"]="Create highlight";
 $this->load->view("template",$data);
@@ -3953,6 +3994,7 @@ $content=$this->input->get_post("content");
 $videos=$this->input->get_post("videos");
 $date=$this->input->get_post("date");
 $order=$this->input->get_post("order");
+$status=$this->input->get_post("status");
 
 $config['upload_path'] = './uploads/';
 				$config['allowed_types'] = 'gif|jpg|png|jpeg';
@@ -3964,7 +4006,7 @@ $config['upload_path'] = './uploads/';
 					$uploaddata = $this->upload->data();
 					$banner=$uploaddata['file_name'];
 				}
-if($this->highlight_model->create($sportscategory,$name,$image,$link,$location,$content,$videos,$date,$banner,$order)==0)
+if($this->highlight_model->create($sportscategory,$name,$image,$link,$location,$content,$videos,$date,$banner,$order,$status)==0)
 $data["alerterror"]="New highlight could not be created.";
 else
 $data["alertsuccess"]="highlight created Successfully.";
@@ -3983,6 +4025,7 @@ $data["before2"]=$this->input->get('id');
 $data["before3"]=$this->input->get('id');
 $data["title"]="Edit highlight";
 $data["sportscategory"]=$this->sportscategory_model->getdropdown();
+	$data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["before"]=$this->highlight_model->beforeedit($this->input->get("id"));
 $this->load->view("templatewith2",$data);
 }
@@ -4003,6 +4046,7 @@ if($this->form_validation->run()==FALSE)
 {
 $data["alerterror"]=validation_errors();
     $data["sportscategory"]=$this->sportscategory_model->getdropdown();
+			$data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["page"]="edithighlight";
 $data["title"]="Edit highlight";
 $data["before"]=$this->highlight_model->beforeedit($this->input->get("id"));
@@ -4019,6 +4063,7 @@ $location=$this->input->get_post("location");
 $content=$this->input->get_post("content");
 $videos=$this->input->get_post("videos");
 $date=$this->input->get_post("date");
+$status=$this->input->get_post("status");
 $order=$this->input->get_post("order");
 $config['upload_path'] = './uploads/';
 			 $config['allowed_types'] = 'gif|jpg|png|jpeg';
@@ -4037,7 +4082,7 @@ $config['upload_path'] = './uploads/';
 					// print_r($image);
 				 $banner=$banner->banner;
 			 }
-if($this->highlight_model->edit($id,$sportscategory,$name,$image,$link,$location,$content,$videos,$date,$banner,$order)==0)
+if($this->highlight_model->edit($id,$sportscategory,$name,$image,$link,$location,$content,$videos,$date,$banner,$order,$status)==0)
 $data["alerterror"]="New highlight could not be Updated.";
 else
 $data["alertsuccess"]="highlight Updated Successfully.";
@@ -4934,6 +4979,7 @@ public function createcareerposition()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="createcareerposition";
+	$data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["title"]="Create careerposition";
 $this->load->view("template",$data);
 }
@@ -4948,6 +4994,7 @@ if($this->form_validation->run()==FALSE)
 {
 $data["alerterror"]=validation_errors();
 $data["page"]="createcareerposition";
+	$data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["title"]="Create careerposition";
 $this->load->view("template",$data);
 }
@@ -4957,7 +5004,9 @@ $id=$this->input->get_post("id");
 $name=$this->input->get_post("name");
 $position=$this->input->get_post("position");
 $education=$this->input->get_post("education");
-if($this->careerposition_model->create($name,$position,$education)==0)
+$status=$this->input->get_post("status");
+$order=$this->input->get_post("order");
+if($this->careerposition_model->create($name,$position,$education,$order,$status)==0)
 $data["alerterror"]="New careerposition could not be created.";
 else
 $data["alertsuccess"]="careerposition created Successfully.";
@@ -4970,6 +5019,7 @@ public function editcareerposition()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="editcareerposition";
+	$data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["title"]="Edit careerposition";
 $data["before"]=$this->careerposition_model->beforeedit($this->input->get("id"));
 $this->load->view("template",$data);
@@ -4986,6 +5036,7 @@ if($this->form_validation->run()==FALSE)
 {
 $data["alerterror"]=validation_errors();
 $data["page"]="editcareerposition";
+	$data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["title"]="Edit careerposition";
 $data["before"]=$this->careerposition_model->beforeedit($this->input->get("id"));
 $this->load->view("template",$data);
@@ -4994,9 +5045,11 @@ else
 {
 $id=$this->input->get_post("id");
 $name=$this->input->get_post("name");
+$status=$this->input->get_post("status");
 $position=$this->input->get_post("position");
 $education=$this->input->get_post("education");
-if($this->careerposition_model->edit($id,$name,$position,$education)==0)
+$order=$this->input->get_post("order");
+if($this->careerposition_model->edit($id,$name,$position,$education,$order,$status)==0)
 $data["alerterror"]="New careerposition could not be Updated.";
 else
 $data["alertsuccess"]="careerposition Updated Successfully.";
@@ -6123,6 +6176,7 @@ else
 {
 $id=$this->input->get_post("id");
 $status=$this->input->get_post("status");
+$order=$this->input->get_post("order");
 $diarycategory=$this->input->get_post("diarycategory");
 $author=$this->input->get_post("author");
 $diarysubcategory=$this->input->get_post("diarysubcategory");
@@ -6165,7 +6219,7 @@ $type=$this->input->get_post("type");
                 }
 
 			}
-if($this->diaryarticle_model->create($status,$diarycategory,$diarysubcategory,$name,$image,$timestamp,$content,$date,$type,$author)==0)
+if($this->diaryarticle_model->create($status,$diarycategory,$diarysubcategory,$name,$image,$timestamp,$content,$date,$type,$author,$order)==0)
 $data["alerterror"]="New diaryarticle could not be created.";
 else
 $data["alertsuccess"]="diaryarticle created Successfully.";
@@ -6222,6 +6276,7 @@ else
 {
 $id=$this->input->get_post("id");
 $status=$this->input->get_post("status");
+$order=$this->input->get_post("order");
 $diarycategory=$this->input->get_post("diarycategory");
 $author=$this->input->get_post("author");
 $diarysubcategory=$this->input->get_post("diarysubcategory");
@@ -6264,7 +6319,7 @@ $type=$this->input->get_post("type");
                     //return false;
                 }
 							}
-    $id=$this->diaryarticle_model->edit($id,$status,$diarycategory,$diarysubcategory,$name,$image,$timestamp,$content,$date,$type,$author);
+    $id=$this->diaryarticle_model->edit($id,$status,$diarycategory,$diarysubcategory,$name,$image,$timestamp,$content,$date,$type,$author,$order);
 if($id==0)
 $data["alerterror"]="New diaryarticle could not be Updated.";
 else
@@ -6346,6 +6401,7 @@ $this->checkaccess($access);
 $data["page"]="createtalentvideo";
 $data["page2"]="block/talentblock";
 $data["talent"]=$this->talentdetail_model->getdropdown();
+	$data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["before1"]=$this->input->get('id');
 $data["before2"]=$this->input->get('id');
 $data["before3"]=$this->input->get('id');
@@ -6362,6 +6418,7 @@ if($this->form_validation->run()==FALSE)
 {
 $data["alerterror"]=validation_errors();
 $data["talent"]=$this->talentdetail_model->getdropdown();
+	$data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["page"]="createtalentvideo";
 $data["title"]="Create talent";
 $this->load->view("template",$data);
@@ -6387,6 +6444,7 @@ $data["page"]="edittalentvideo";
 $data["page2"]="block/talentblock";
 $data["before1"]=$this->input->get('talentid');
 $data["talent"]=$this->talentdetail_model->getdropdown();
+	$data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["before2"]=$this->input->get('talentid');
 $data["before3"]=$this->input->get('talentid');
 $data["before4"]=$this->input->get('talentid');
@@ -6404,6 +6462,7 @@ if($this->form_validation->run()==FALSE)
 {
 $data["alerterror"]=validation_errors();
 $data["talent"]=$this->talentdetail_model->getdropdown();
+	$data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["page"]="edittalentvideo";
 $data["title"]="Edit talent";
 $data["before"]=$this->talent_model->beforeedit($this->input->get("id"));
@@ -7487,6 +7546,7 @@ $data["page"]="createeventsubtype";
 // $data["before3"]=$this->input->get('id');
 // $data["before4"]=$this->input->get('id');
 $data["event"]=$this->event_model->getdropdown();
+	$data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["title"]="Create eventsubtype";
 // $this->load->view("templatewith2",$data);
 $this->load->view("template",$data);
@@ -7506,6 +7566,7 @@ $data["alerterror"]=validation_errors();
 $data["page"]="createeventsubtype";
 $data["title"]="Create eventsubtype";
 $data["event"]=$this->event_model->getdropdown();
+	$data[ 'status' ] =$this->user_model->getstatusdropdown();
 $this->load->view("template",$data);
 }
 else
@@ -7519,6 +7580,7 @@ $content=$this->input->get_post("content");
 $videos=$this->input->get_post("videos");
 $releasedate=$this->input->get_post("releasedate");
 $location=$this->input->get_post("location");
+$status=$this->input->get_post("status");
 $config['upload_path'] = './uploads/';
 					$config['allowed_types'] = 'gif|jpg|png|jpeg';
 					$this->load->library('upload', $config);
@@ -7529,7 +7591,7 @@ $config['upload_path'] = './uploads/';
 						$uploaddata = $this->upload->data();
 						$banner=$uploaddata['file_name'];
 					}
-if($this->eventsubtype_model->create($event,$name,$image,$content,$order,$releasedate,$location,$banner)==0)
+if($this->eventsubtype_model->create($event,$name,$image,$content,$order,$releasedate,$location,$banner,$status)==0)
 $data["alerterror"]="New eventsubtype could not be created.";
 else
 $data["alertsuccess"]="eventsubtype created Successfully.";
@@ -7548,6 +7610,7 @@ $data["page"]="editeventsubtype";
 // $data["before3"]=$this->input->get('id');
 // $data["before4"]=$this->input->get('id');
 $data["event"]=$this->event_model->getdropdown();
+	$data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["title"]="Edit eventsubtype";
 $data["before"]=$this->eventsubtype_model->beforeedit($this->input->get("id"));
 // $this->load->view("templatewith2",$data);
@@ -7569,6 +7632,7 @@ $data["alerterror"]=validation_errors();
 $data["page"]="editeventsubtype";
 $data["title"]="Edit eventsubtype";
 $data["event"]=$this->event_model->getdropdown();
+	$data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["before"]=$this->eventsubtype_model->beforeedit($this->input->get("id"));
 $this->load->view("template",$data);
 }
@@ -7583,6 +7647,7 @@ $content=$this->input->get_post("content");
 $videos=$this->input->get_post("videos");
 $location=$this->input->get_post("location");
 $releasedate=$this->input->get_post("releasedate");
+$status=$this->input->get_post("status");
 $config['upload_path'] = './uploads/';
 			 $config['allowed_types'] = 'gif|jpg|png|jpeg';
 			 $this->load->library('upload', $config);
@@ -7600,7 +7665,7 @@ $config['upload_path'] = './uploads/';
 					// print_r($image);
 				 $banner=$banner->banner;
 			 }
-if($this->eventsubtype_model->edit($id,$event,$name,$image,$content,$order,$releasedate,$location,$banner)==0)
+if($this->eventsubtype_model->edit($id,$event,$name,$image,$content,$order,$releasedate,$location,$banner,$status)==0)
 $data["alerterror"]="New eventsubtype could not be Updated.";
 else
 $data["alertsuccess"]="eventsubtype Updated Successfully.";
@@ -7854,6 +7919,7 @@ public function createmice()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="createmice";
+	$data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["title"]="Create mice";
 $this->load->view("template",$data);
 }
@@ -7866,6 +7932,7 @@ if($this->form_validation->run()==FALSE)
 {
 $data["alerterror"]=validation_errors();
 $data["page"]="createmice";
+	$data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["title"]="Create mice";
 $this->load->view("template",$data);
 }
@@ -7875,6 +7942,7 @@ $id=$this->input->get_post("id");
 $name=$this->input->get_post("name");
 $link=$this->input->get_post("link");
 $order=$this->input->get_post("order");
+$status=$this->input->get_post("status");
 $image=$this->menu_model->createImage();
 $hashtag=$this->input->get_post("hashtag");
 $facebook=$this->input->get_post("facebook");
@@ -7891,7 +7959,7 @@ $instagram=$this->input->get_post("instagram");
 							$uploaddata = $this->upload->data();
 							$banner=$uploaddata['file_name'];
 						}
-if($this->mice_model->create($name,$image,$banner,$link,$order,$hashtag,$facebook,$twitter,$instagram)==0)
+if($this->mice_model->create($name,$image,$banner,$link,$order,$hashtag,$facebook,$twitter,$instagram,$status)==0)
 $data["alerterror"]="New mice could not be created.";
 else
 $data["alertsuccess"]="mice created Successfully.";
@@ -7907,6 +7975,7 @@ $data["page"]="editmice";
 $data["page2"]="block/miceblock";
 $data["before1"]=$this->input->get('id');
 $data["before2"]=$this->input->get('id');
+	$data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["before3"]=$this->input->get('id');
 $data["before4"]=$this->input->get('id');
 $data["title"]="Edit mice";
@@ -7923,6 +7992,7 @@ if($this->form_validation->run()==FALSE)
 {
 $data["alerterror"]=validation_errors();
 $data["page"]="editmice";
+	$data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["title"]="Edit mice";
 $data["before"]=$this->mice_model->beforeedit($this->input->get("id"));
 $this->load->view("template",$data);
@@ -7932,12 +8002,13 @@ else
 $id=$this->input->get_post("id");
 $name=$this->input->get_post("name");
 $link=$this->input->get_post("link");
-$order=$this->input->get_post("name");
+$order=$this->input->get_post("order");
 $image=$this->menu_model->createImage();
 $hashtag=$this->input->get_post("hashtag");
 $facebook=$this->input->get_post("facebook");
 $twitter=$this->input->get_post("twitter");
 $instagram=$this->input->get_post("instagram");
+$status=$this->input->get_post("status");
 //$banner=$this->input->get_post("banner");
      $config['upload_path'] = './uploads/';
 						$config['allowed_types'] = 'gif|jpg|png|jpeg';
@@ -7956,7 +8027,7 @@ $instagram=$this->input->get_post("instagram");
 						   // print_r($image);
 							$banner=$banner->banner;
 						}
-if($this->mice_model->edit($id,$name,$image,$banner,$link,$order,$hashtag,$facebook,$twitter,$instagram)==0)
+if($this->mice_model->edit($id,$name,$image,$banner,$link,$order,$hashtag,$facebook,$twitter,$instagram,$status)==0)
 $data["alerterror"]="New mice could not be Updated.";
 else
 $data["alertsuccess"]="mice Updated Successfully.";
@@ -8054,6 +8125,7 @@ public function createmicesubtype()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="createmicesubtype";
+	$data[ 'status' ] =$this->user_model->getstatusdropdown();
 // $data["page2"]="block/miceblock";
 // $data["before1"]=$this->input->get('id');
 // $data["before2"]=$this->input->get('id');
@@ -8077,6 +8149,7 @@ if($this->form_validation->run()==FALSE)
 {
 $data["alerterror"]=validation_errors();
 $data["page"]="createmicesubtype";
+	$data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["title"]="Create micesubtype";
 $data["mice"]=$this->mice_model->getdropdown();
 $this->load->view("template",$data);
@@ -8088,6 +8161,7 @@ $mice=$this->input->get_post("mice");
 $name=$this->input->get_post("name");
 $url=$this->input->get_post("url");
 $order=$this->input->get_post("order");
+$status=$this->input->get_post("status");
 $image=$this->menu_model->createImage();
 $config['upload_path'] = './uploads/';
 					$config['allowed_types'] = 'gif|jpg|png|jpeg';
@@ -8101,7 +8175,7 @@ $config['upload_path'] = './uploads/';
 					}
 $content=$this->input->get_post("content");
 // $videos=$this->input->get_post("videos");
-if($this->micesubtype_model->create($mice,$name,$image,$content,$banner,$url,$order)==0)
+if($this->micesubtype_model->create($mice,$name,$image,$content,$banner,$url,$order,$status)==0)
 $data["alerterror"]="New micesubtype could not be created.";
 else
 $data["alertsuccess"]="micesubtype created Successfully.";
@@ -8120,6 +8194,7 @@ $data["page"]="editmicesubtype";
 // $data["before3"]=$this->input->get('id');
 // $data["before4"]=$this->input->get('id');
 $data["mice"]=$this->mice_model->getdropdown();
+	$data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["title"]="Edit micesubtype";
 $data["before"]=$this->micesubtype_model->beforeedit($this->input->get("id"));
 // $this->load->view("templatewith2",$data);
@@ -8141,6 +8216,7 @@ $data["alerterror"]=validation_errors();
 $data["page"]="editmicesubtype";
 $data["title"]="Edit micesubtype";
 $data["mice"]=$this->mice_model->getdropdown();
+	$data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["before"]=$this->micesubtype_model->beforeedit($this->input->get("id"));
 $this->load->view("template",$data);
 }
@@ -8151,6 +8227,7 @@ $mice=$this->input->get_post("mice");
 $name=$this->input->get_post("name");
 $url=$this->input->get_post("url");
 $order=$this->input->get_post("order");
+$status=$this->input->get_post("status");
 // $image=$this->menu_model->createImage();
 $content=$this->input->get_post("content");
 // $videos=$this->input->get_post("videos");
@@ -8173,7 +8250,7 @@ $image=$this->menu_model->createImage();
 						   // print_r($image);
 							$banner=$banner->banner;
 						}
-if($this->micesubtype_model->edit($id,$mice,$name,$image,$content,$banner,$url,$order)==0)
+if($this->micesubtype_model->edit($id,$mice,$name,$image,$content,$banner,$url,$order,$status)==0)
 $data["alerterror"]="New micesubtype could not be Updated.";
 else
 $data["alertsuccess"]="micesubtype Updated Successfully.";
@@ -8644,6 +8721,7 @@ public function createmediacorner()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="createmediacorner";
+	$data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["title"]="Create mediacorner";
 $this->load->view("template",$data);
 }
@@ -8664,6 +8742,7 @@ if($this->form_validation->run()==FALSE)
 {
 $data["alerterror"]=validation_errors();
 $data["page"]="createmediacorner";
+	$data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["title"]="Create mediacorner";
 $this->load->view("template",$data);
 }
@@ -8679,10 +8758,12 @@ $url=$this->input->get_post("url");
 $facebook=$this->input->get_post("facebook");
 $twitter=$this->input->get_post("twitter");
 $message=$this->input->get_post("message");
+$order=$this->input->get_post("order");
+$status=$this->input->get_post("status");
 $image=$this->menu_model->createImage();
 //$banner=$this->input->get_post("banner");
 
-if($this->mediacorner_model->create($name,$image,$date,$medianame,$url,$facebook,$twitter,$message)==0)
+if($this->mediacorner_model->create($name,$image,$date,$medianame,$url,$facebook,$twitter,$message,$order,$status)==0)
 $data["alerterror"]="New mediacorner could not be created.";
 else
 $data["alertsuccess"]="mediacorner created Successfully.";
@@ -8695,6 +8776,7 @@ public function editmediacorner()
 $access=array("1");
 $this->checkaccess($access);
 $data["page"]="editmediacorner";
+	$data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["title"]="Edit mediacorner";
 $data["before"]=$this->mediacorner_model->beforeedit($this->input->get("id"));
 $this->load->view("template",$data);
@@ -8717,6 +8799,7 @@ if($this->form_validation->run()==FALSE)
 {
 $data["alerterror"]=validation_errors();
 $data["page"]="editmediacorner";
+	$data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["title"]="Edit mediacorner";
 $data["before"]=$this->mediacorner_model->beforeedit($this->input->get("id"));
 $this->load->view("template",$data);
@@ -8733,8 +8816,10 @@ $url=$this->input->get_post("url");
 $facebook=$this->input->get_post("facebook");
 $twitter=$this->input->get_post("twitter");
 $message=$this->input->get_post("message");
+$status=$this->input->get_post("status");
+$order=$this->input->get_post("order");
 $image=$this->menu_model->createImage();
-if($this->mediacorner_model->edit($id,$name,$image,$date,$medianame,$url,$facebook,$twitter,$message)==0)
+if($this->mediacorner_model->edit($id,$name,$image,$date,$medianame,$url,$facebook,$twitter,$message,$order,$status)==0)
 $data["alerterror"]="New mediacorner could not be Updated.";
 else
 $data["alertsuccess"]="mediacorner Updated Successfully.";
@@ -9768,7 +9853,7 @@ $logo1=$this->menu_model->createImage();
 										}
 
 
-										
+
 if($this->match_model->create($team1,$logo1,$team2,$logo2,$location,$date,$time,$link,$team1score,$team2score,$banner,$banner1,$stadium)==0)
 $data["alerterror"]="New match could not be created.";
 else
@@ -9970,8 +10055,10 @@ $twitter=$this->input->get_post("twitter");
 $facebook=$this->input->get_post("facebook");
 $name=$this->input->get_post("name");
 $description=$this->input->get_post("description");
+$status=$this->input->get_post("status");
+$order=$this->input->get_post("order");
 $image=$this->menu_model->createImage();
-if($this->author_model->create($google,$twitter,$facebook,$name,$image,$description)==0)
+if($this->author_model->create($google,$twitter,$facebook,$name,$image,$description,$order,$status)==0)
 $data["alerterror"]="New author could not be created.";
 else
 $data["alertsuccess"]="author created Successfully.";
@@ -10014,10 +10101,12 @@ $id=$this->input->get_post("id");
 $google=$this->input->get_post("google");
 $twitter=$this->input->get_post("twitter");
 $facebook=$this->input->get_post("facebook");
+$status=$this->input->get_post("status");
+$order=$this->input->get_post("order");
 $name=$this->input->get_post("name");
 $description=$this->input->get_post("description");
 $image=$this->menu_model->createImage();
-if($this->author_model->edit($id,$google,$twitter,$facebook,$name,$image,$description)==0)
+if($this->author_model->edit($id,$google,$twitter,$facebook,$name,$image,$description,$order,$status)==0)
 $data["alerterror"]="New author could not be Updated.";
 else
 $data["alertsuccess"]="author Updated Successfully.";

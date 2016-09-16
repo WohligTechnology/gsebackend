@@ -3,9 +3,9 @@ if ( !defined( "BASEPATH" ) )
 exit( "No direct script access allowed" );
 class weddingsubtype_model extends CI_Model
 {
-public function create($wedding,$name,$image,$banner,$content,$videos)
+public function create($wedding,$name,$image,$banner,$content,$videos,$order,$status)
 {
-$data=array("wedding" => $wedding,"name" => $name,"image" => $image,"banner" => $banner,"content" => $content,"videos" => $videos);
+$data=array("wedding" => $wedding,"name" => $name,"image" => $image,"banner" => $banner,"content" => $content,"videos" => $videos,"order" => $order,"status" => $status);
 $query=$this->db->insert( "gse_weddingsubtype", $data );
 $id=$this->db->insert_id();
 if(!$query)
@@ -24,7 +24,7 @@ $this->db->where("id",$id);
 $query=$this->db->get("gse_weddingsubtype")->row();
 return $query;
 }
-public function edit($id,$wedding,$name,$image,$banner,$content,$videos)
+public function edit($id,$wedding,$name,$image,$banner,$content,$videos,$order,$status)
 {
 if($image=="")
 {
@@ -32,7 +32,7 @@ $image=$this->weddingsubtype_model->getimagebyid($id);
 $image=$image->image;
 }
 
-$data=array("wedding" => $wedding,"name" => $name,"image" => $image,"banner" => $banner,"content" => $content,"videos" => $videos);
+$data=array("wedding" => $wedding,"name" => $name,"image" => $image,"banner" => $banner,"content" => $content,"videos" => $videos,"order" => $order,"status" => $status);
 $this->db->where( "id", $id );
 $query=$this->db->update( "gse_weddingsubtype", $data );
 return 1;
