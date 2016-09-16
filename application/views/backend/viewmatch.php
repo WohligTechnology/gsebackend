@@ -2,7 +2,7 @@
 <div class="col s12">
 <div class="row">
 <div class="col s12 drawchintantable">
-<?php $this->chintantable->createsearch("match");?>
+<?php $this->chintantable->createsearch("Previous Match");?>
 <table class="highlight responsive-table">
 <thead>
 <tr>
@@ -15,8 +15,7 @@
 <th data-field="date">date</th>
 <th data-field="time">time</th>
 <!-- <th data-field="link">link</th> -->
-<th data-field="team1score">team1score</th>
-<th data-field="team2score">team2score</th>
+<th data-field="team1score">Stadium</th>
 </tr>
 </thead>
 <tbody>

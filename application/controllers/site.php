@@ -3888,6 +3888,12 @@ $elements[8]->field="`gse_highlight`.`date`";
 $elements[8]->sort="1";
 $elements[8]->header="Date";
 $elements[8]->alias="date";
+
+$elements[9]=new stdClass();
+$elements[9]->field="`gse_highlight`.`order`";
+$elements[9]->sort="1";
+$elements[9]->header="Order";
+$elements[9]->alias="order";
 $search=$this->input->get_post("search");
 $pageno=$this->input->get_post("pageno");
 $orderby=$this->input->get_post("orderby");
@@ -3946,6 +3952,7 @@ $location=$this->input->get_post("location");
 $content=$this->input->get_post("content");
 $videos=$this->input->get_post("videos");
 $date=$this->input->get_post("date");
+$order=$this->input->get_post("order");
 
 $config['upload_path'] = './uploads/';
 				$config['allowed_types'] = 'gif|jpg|png|jpeg';
@@ -3957,7 +3964,7 @@ $config['upload_path'] = './uploads/';
 					$uploaddata = $this->upload->data();
 					$banner=$uploaddata['file_name'];
 				}
-if($this->highlight_model->create($sportscategory,$name,$image,$link,$location,$content,$videos,$date,$banner)==0)
+if($this->highlight_model->create($sportscategory,$name,$image,$link,$location,$content,$videos,$date,$banner,$order)==0)
 $data["alerterror"]="New highlight could not be created.";
 else
 $data["alertsuccess"]="highlight created Successfully.";
@@ -4012,6 +4019,7 @@ $location=$this->input->get_post("location");
 $content=$this->input->get_post("content");
 $videos=$this->input->get_post("videos");
 $date=$this->input->get_post("date");
+$order=$this->input->get_post("order");
 $config['upload_path'] = './uploads/';
 			 $config['allowed_types'] = 'gif|jpg|png|jpeg';
 			 $this->load->library('upload', $config);
@@ -4029,7 +4037,7 @@ $config['upload_path'] = './uploads/';
 					// print_r($image);
 				 $banner=$banner->banner;
 			 }
-if($this->highlight_model->edit($id,$sportscategory,$name,$image,$link,$location,$content,$videos,$date,$banner)==0)
+if($this->highlight_model->edit($id,$sportscategory,$name,$image,$link,$location,$content,$videos,$date,$banner,$order)==0)
 $data["alerterror"]="New highlight could not be Updated.";
 else
 $data["alertsuccess"]="highlight Updated Successfully.";
@@ -8259,7 +8267,7 @@ $data["page"]="createmicegallery";
 // $data["before3"]=$this->input->get('id');
 // $data["before4"]=$this->input->get('id');
 $data["mice"]=$this->mice_model->getdropdown();
-$data["micesubtype"]=$this->micesubtype_model->getdropdown();
+$data["micesubtype"]=$this->micesubtype_model->getdropdown($this->input->get('id'));
 $data["title"]="Create micegallery";
 $data[ 'status' ] =$this->user_model->getstatusdropdown();
 // $this->load->view("templatewith2",$data);
@@ -8311,7 +8319,8 @@ $data["page"]="editmicegallery";
 // $data["before3"]=$this->input->get('id');
 // $data["before4"]=$this->input->get('id');
 $data["mice"]=$this->mice_model->getdropdown();
-$data["micesubtype"]=$this->micesubtype_model->getdropdown();
+// $data["micesubtype"]=$this->micesubtype_model->getdropdown();
+$data["micesubtype"]=$this->micesubtype_model->getdropdown($this->input->get('miceid'));
 $data["title"]="Edit micegallery";
 $data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["before"]=$this->micegallery_model->beforeedit($this->input->get("id"));
@@ -8827,6 +8836,7 @@ $access=array("1");
 $this->checkaccess($access);
 $data["page"]="createworldtour";
 $data["type"]=$this->worldtour_model->gettypedropdown();
+$data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["title"]="Create worldtour";
 $this->load->view("template",$data);
 }
@@ -8867,6 +8877,7 @@ $hashtag=$this->input->get_post("hashtag");
 $facebook=$this->input->get_post("facebook");
 $twitter=$this->input->get_post("twitter");
 $instagram=$this->input->get_post("instagram");
+$status=$this->input->get_post("status");
 
 //$banner=$this->input->get_post("banner");
     $config['upload_path'] = './uploads/';
@@ -8879,7 +8890,7 @@ $instagram=$this->input->get_post("instagram");
 							$uploaddata = $this->upload->data();
 							$banner=$uploaddata['file_name'];
 						}
-if($this->worldtour_model->create($type,$image,$name,$location,$date,$venue,$content,$banner,$hashtag,$facebook,$twitter,$instagram)==0)
+if($this->worldtour_model->create($type,$image,$name,$location,$date,$venue,$content,$banner,$hashtag,$facebook,$twitter,$instagram,$status)==0)
 $data["alerterror"]="New worldtour could not be created.";
 else
 $data["alertsuccess"]="worldtour created Successfully.";
@@ -8893,6 +8904,7 @@ $access=array("1");
 $this->checkaccess($access);
 $data["page"]="editworldtour";
 $data["page2"]="block/tourblock";
+$data[ 'status' ] =$this->user_model->getstatusdropdown();
 $data["type"]=$this->worldtour_model->gettypedropdown();
 $data["before1"]=$this->input->get('id');
 $data["before2"]=$this->input->get('id');
@@ -8941,6 +8953,7 @@ $hashtag=$this->input->get_post("hashtag");
 $facebook=$this->input->get_post("facebook");
 $twitter=$this->input->get_post("twitter");
 $instagram=$this->input->get_post("instagram");
+$status=$this->input->get_post("status");
 
 //$banner=$this->input->get_post("banner");
      $config['upload_path'] = './uploads/';
@@ -8960,7 +8973,7 @@ $instagram=$this->input->get_post("instagram");
 						   // print_r($image);
 							$banner=$banner->banner;
 						}
-if($this->worldtour_model->edit($id,$type,$image,$name,$location,$date,$venue,$content,$banner,$hashtag,$facebook,$twitter,$instagram)==0)
+if($this->worldtour_model->edit($id,$type,$image,$name,$location,$date,$venue,$content,$banner,$hashtag,$facebook,$twitter,$instagram,$status)==0)
 $data["alerterror"]="New worldtour could not be Updated.";
 else
 $data["alertsuccess"]="worldtour Updated Successfully.";
@@ -9719,6 +9732,7 @@ $time=$this->input->get_post("time");
 $link=$this->input->get_post("link");
 $team1score=$this->input->get_post("team1score");
 $team2score=$this->input->get_post("team2score");
+$stadium=$this->input->get_post("stadium");
 $logo1=$this->menu_model->createImage();
 //$banner=$this->input->get_post("banner");
     $config['upload_path'] = './uploads/';
@@ -9741,7 +9755,21 @@ $logo1=$this->menu_model->createImage();
 											$uploaddata = $this->upload->data();
 											$banner=$uploaddata['file_name'];
 										}
-if($this->match_model->create($team1,$logo1,$team2,$logo2,$location,$date,$time,$link,$team1score,$team2score,$banner)==0)
+
+										$config['upload_path'] = './uploads/';
+										$config['allowed_types'] = 'gif|jpg|png|jpeg';
+										$this->load->library('upload', $config);
+										$filename="banner1";
+										$banner1="";
+										if (  $this->upload->do_upload($filename))
+										{
+											$uploaddata = $this->upload->data();
+											$banner1=$uploaddata['file_name'];
+										}
+
+
+										
+if($this->match_model->create($team1,$logo1,$team2,$logo2,$location,$date,$time,$link,$team1score,$team2score,$banner,$banner1,$stadium)==0)
 $data["alerterror"]="New match could not be created.";
 else
 $data["alertsuccess"]="match created Successfully.";
@@ -9794,6 +9822,7 @@ $time=$this->input->get_post("time");
 $link=$this->input->get_post("link");
 $team1score=$this->input->get_post("team1score");
 $team2score=$this->input->get_post("team2score");
+$stadium=$this->input->get_post("stadium");
 $logo1=$this->menu_model->createImage();
 $config['upload_path'] = './uploads/';
 			 $config['allowed_types'] = 'gif|jpg|png|jpeg';
@@ -9829,7 +9858,25 @@ $config['upload_path'] = './uploads/';
 					// print_r($image);
 				 $banner=$banner->banner;
 			 }
-if($this->match_model->edit($id,$team1,$logo1,$team2,$logo2,$location,$date,$time,$link,$team1score,$team2score,$banner)==0)
+
+$config['upload_path'] = './uploads/';
+			 $config['allowed_types'] = 'gif|jpg|png|jpeg';
+			 $this->load->library('upload', $config);
+			 $filename="banner1";
+			 $banner1="";
+			 if (  $this->upload->do_upload($filename))
+			 {
+				 $uploaddata = $this->upload->data();
+				 $banner1=$uploaddata['file_name'];
+			 }
+
+			//  if($banner1=="")
+			//  {
+			//  $banner1=$this->match_model->getbanner1byid($id);
+			// 		// print_r($image);
+			// 	 $banner1=$banner1->banner1;
+			//  }
+if($this->match_model->edit($id,$team1,$logo1,$team2,$logo2,$location,$date,$time,$link,$team1score,$team2score,$banner,$banner1,$stadium)==0)
 $data["alerterror"]="New match could not be Updated.";
 else
 $data["alertsuccess"]="match Updated Successfully.";
@@ -10131,6 +10178,266 @@ public function deletecomment()
 	$this->comment_model->delete($this->input->get("id"));
 	$data["redirect"]="site/viewcomment";
 	$this->load->view("redirect",$data);
+}
+
+
+
+
+// upcoming mb_ereg_match
+
+
+public function viewupcoming()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="viewupcoming";
+$data["base_url"]=site_url("site/viewupcomingjson");
+$data["title"]="View upcoming";
+$this->load->view("template",$data);
+}
+function viewupcomingjson()
+{
+$elements=array();
+$elements[0]=new stdClass();
+$elements[0]->field="`upcoming`.`id`";
+$elements[0]->sort="1";
+$elements[0]->header="id";
+$elements[0]->alias="id";
+$elements[1]=new stdClass();
+$elements[1]->field="`upcoming`.`team1`";
+$elements[1]->sort="1";
+$elements[1]->header="team1";
+$elements[1]->alias="team1";
+$elements[2]=new stdClass();
+$elements[2]->field="`upcoming`.`logo1`";
+$elements[2]->sort="1";
+$elements[2]->header="logo1";
+$elements[2]->alias="logo1";
+$elements[3]=new stdClass();
+$elements[3]->field="`upcoming`.`team2`";
+$elements[3]->sort="1";
+$elements[3]->header="team2";
+$elements[3]->alias="team2";
+$elements[4]=new stdClass();
+$elements[4]->field="`upcoming`.`logo2`";
+$elements[4]->sort="1";
+$elements[4]->header="logo2";
+$elements[4]->alias="logo2";
+$elements[5]=new stdClass();
+$elements[5]->field="`upcoming`.`location`";
+$elements[5]->sort="1";
+$elements[5]->header="Stadium";
+$elements[5]->alias="location";
+$elements[6]=new stdClass();
+$elements[6]->field="`upcoming`.`date`";
+$elements[6]->sort="1";
+$elements[6]->header="date";
+$elements[6]->alias="date";
+$elements[7]=new stdClass();
+$elements[7]->field="`upcoming`.`time`";
+$elements[7]->sort="1";
+$elements[7]->header="time";
+$elements[7]->alias="time";
+$elements[8]=new stdClass();
+$elements[8]->field="`upcoming`.`link`";
+$elements[8]->sort="1";
+$elements[8]->header="link";
+$elements[8]->alias="link";
+$elements[9]=new stdClass();
+$elements[9]->field="`upcoming`.`team1score`";
+$elements[9]->sort="1";
+$elements[9]->header="team1score";
+$elements[9]->alias="team1score";
+$elements[10]=new stdClass();
+$elements[10]->field="`upcoming`.`team2score`";
+$elements[10]->sort="1";
+$elements[10]->header="team2score";
+$elements[10]->alias="team2score";
+$search=$this->input->get_post("search");
+$pageno=$this->input->get_post("pageno");
+$orderby=$this->input->get_post("orderby");
+$orderorder=$this->input->get_post("orderorder");
+$maxrow=$this->input->get_post("maxrow");
+if($maxrow=="")
+{
+$maxrow=20;
+}
+if($orderby=="")
+{
+$orderby="id";
+$orderorder="ASC";
+}
+$data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `upcoming`");
+$this->load->view("json",$data);
+}
+
+public function createupcoming()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="createupcoming";
+$data["title"]="Create upcoming";
+$this->load->view("template",$data);
+}
+public function createupcomingsubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("team1","team1","trim");
+// $this->form_validation->set_rules("logo1","logo1","trim");
+$this->form_validation->set_rules("team2","team2","trim");
+// $this->form_validation->set_rules("logo2","logo2","trim");
+$this->form_validation->set_rules("location","location","trim");
+$this->form_validation->set_rules("date","date","trim");
+$this->form_validation->set_rules("time","time","trim");
+$this->form_validation->set_rules("link","link","trim");
+$this->form_validation->set_rules("team1score","team1score","trim");
+$this->form_validation->set_rules("team2score","team2score","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="createupcoming";
+$data["title"]="Create upcoming";
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$team1=$this->input->get_post("team1");
+// $logo1=$this->input->get_post("logo1");
+$team2=$this->input->get_post("team2");
+// $logo2=$this->input->get_post("logo2");
+$location=$this->input->get_post("location");
+$date=$this->input->get_post("date");
+$time=$this->input->get_post("time");
+$link=$this->input->get_post("link");
+$team1score=$this->input->get_post("team1score");
+$team2score=$this->input->get_post("team2score");
+$logo1=$this->menu_model->createImage();
+//$banner=$this->input->get_post("banner");
+    $config['upload_path'] = './uploads/';
+						$config['allowed_types'] = 'gif|jpg|png|jpeg';
+						$this->load->library('upload', $config);
+						$filename="logo2";
+						$logo2="";
+						if (  $this->upload->do_upload($filename))
+						{
+							$uploaddata = $this->upload->data();
+							$logo2=$uploaddata['file_name'];
+						}
+						$config['upload_path'] = './uploads/';
+										$config['allowed_types'] = 'gif|jpg|png|jpeg';
+										$this->load->library('upload', $config);
+										$filename="banner";
+										$banner="";
+										if (  $this->upload->do_upload($filename))
+										{
+											$uploaddata = $this->upload->data();
+											$banner=$uploaddata['file_name'];
+										}
+if($this->upcoming_model->create($team1,$logo1,$team2,$logo2,$location,$date,$time,$link,$team1score,$team2score,$banner)==0)
+$data["alerterror"]="New upcoming could not be created.";
+else
+$data["alertsuccess"]="upcoming created Successfully.";
+$data["redirect"]="site/viewupcoming";
+$this->load->view("redirect",$data);
+}
+}
+public function editupcoming()
+{
+$access=array("1");
+$this->checkaccess($access);
+$data["page"]="editupcoming";
+$data["title"]="Edit upcoming";
+$data["before"]=$this->upcoming_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+public function editupcomingsubmit()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->form_validation->set_rules("id","id","trim");
+$this->form_validation->set_rules("team1","team1","trim");
+$this->form_validation->set_rules("logo1","logo1","trim");
+$this->form_validation->set_rules("team2","team2","trim");
+$this->form_validation->set_rules("logo2","logo2","trim");
+$this->form_validation->set_rules("location","location","trim");
+$this->form_validation->set_rules("date","date","trim");
+$this->form_validation->set_rules("time","time","trim");
+$this->form_validation->set_rules("link","link","trim");
+$this->form_validation->set_rules("team1score","team1score","trim");
+$this->form_validation->set_rules("team2score","team2score","trim");
+if($this->form_validation->run()==FALSE)
+{
+$data["alerterror"]=validation_errors();
+$data["page"]="editupcoming";
+$data["title"]="Edit upcoming";
+$data["before"]=$this->upcoming_model->beforeedit($this->input->get("id"));
+$this->load->view("template",$data);
+}
+else
+{
+$id=$this->input->get_post("id");
+$team1=$this->input->get_post("team1");
+// $logo1=$this->input->get_post("logo1");
+$team2=$this->input->get_post("team2");
+// $logo2=$this->input->get_post("logo2");
+$location=$this->input->get_post("location");
+$date=$this->input->get_post("date");
+$time=$this->input->get_post("time");
+$link=$this->input->get_post("link");
+$team1score=$this->input->get_post("team1score");
+$team2score=$this->input->get_post("team2score");
+$logo1=$this->menu_model->createImage();
+$config['upload_path'] = './uploads/';
+			 $config['allowed_types'] = 'gif|jpg|png|jpeg';
+			 $this->load->library('upload', $config);
+			 $filename="logo2";
+			 $logo2="";
+			 if (  $this->upload->do_upload($filename))
+			 {
+				 $uploaddata = $this->upload->data();
+				 $logo2=$uploaddata['file_name'];
+			 }
+
+			 if($logo2=="")
+			 {
+			 $logo2=$this->upcoming_model->getlogo2byid($id);
+					// print_r($image);
+				 $logo2=$logo2->logo2;
+			 }
+$config['upload_path'] = './uploads/';
+			 $config['allowed_types'] = 'gif|jpg|png|jpeg';
+			 $this->load->library('upload', $config);
+			 $filename="banner";
+			 $banner="";
+			 if (  $this->upload->do_upload($filename))
+			 {
+				 $uploaddata = $this->upload->data();
+				 $banner=$uploaddata['file_name'];
+			 }
+
+			 if($banner=="")
+			 {
+			 $banner=$this->upcoming_model->getbannerbyid($id);
+					// print_r($image);
+				 $banner=$banner->banner;
+			 }
+if($this->upcoming_model->edit($id,$team1,$logo1,$team2,$logo2,$location,$date,$time,$link,$team1score,$team2score,$banner)==0)
+$data["alerterror"]="New upcoming could not be Updated.";
+else
+$data["alertsuccess"]="upcoming Updated Successfully.";
+$data["redirect"]="site/viewupcoming";
+$this->load->view("redirect",$data);
+}
+}
+public function deleteupcoming()
+{
+$access=array("1");
+$this->checkaccess($access);
+$this->upcoming_model->delete($this->input->get("id"));
+$data["redirect"]="site/viewupcoming";
+$this->load->view("redirect",$data);
 }
 }
 ?>

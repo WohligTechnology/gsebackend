@@ -56,9 +56,9 @@ public function getbannerbyid($id)
 $query=$this->db->query("SELECT `banner` FROM `gse_micesubtype` WHERE `id`='$id'")->row();
 return $query;
 }
-public function getdropdown()
+public function getdropdown($id)
 {
-$query=$this->db->query("SELECT * FROM `gse_micesubtype` ORDER BY `id` ASC")->result();
+$query=$this->db->query("SELECT * FROM `gse_micesubtype` WHERE `mice`='$id' ORDER BY `id` ASC")->result();
 $return=array(
 "" => "Select Option"
 );

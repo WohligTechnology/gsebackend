@@ -61,6 +61,12 @@
 </div>
 <div class="row">
 <div class="input-field col s6">
+<label for="order">Order</label>
+<input type="text" id="order" name="order" value='<?php echo set_value('order',$before->order);?>'>
+</div>
+</div>
+<div class="row">
+<div class="input-field col s6">
 <label for="Location">Location</label>
 <input type="text" id="Location" name="location" value='<?php echo set_value('location',$before->location);?>'>
 </div>
@@ -68,7 +74,7 @@
 <div class="row">
 <div class="col s12 m6">
 <label>Content</label>
-<textarea name="content" class="materialize-textarea" placeholder="Enter text ..."><?php echo set_value( 'content',$before->content);?></textarea>
+<textarea name="content" id="some-textarea" class="materialize-textarea" placeholder="Enter text ..."><?php echo set_value( 'content',$before->content);?></textarea>
 </div>
 </div>
 <div class="row" style="display:none">

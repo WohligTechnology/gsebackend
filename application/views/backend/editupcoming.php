@@ -1,6 +1,6 @@
 <div class="row">
 <div class="col s12">
-<h4 class="pad-left-15 capitalize">Edit match</h4>
+<h4 class="pad-left-15 capitalize">Edit Upcoming Match</h4>
 </div>
 </div>
 <div class="row">
@@ -69,35 +69,10 @@
     			</div><span style=" display: block;
         padding-top: 30px;">1800 X 440</span>
     		</div>
-
-
-			   <div class="row">
-    			<div class="file-field input-field col m6 s12">
-    				<span class="img-center big">
-    								                    	<?php if($before->banner1 == "") { } else {
-    									                    ?><img src="<?php echo base_url('uploads')."/".$before->banner1; ?>">
-    															<?php } ?>
-    															</span>
-    				<div class="btn blue darken-4">
-    					<span>Banner1</span>
-    					<input name="banner1" type="file" multiple>
-    				</div>
-    				<div class="file-path-wrapper">
-    					<input class="file-path validate" type="text" placeholder="Upload one or more files" value="<?php echo set_value('banner1',$before->banner1);?>">
-    				</div>
-    			</div><span style=" display: block;
-        padding-top: 30px;">1800 X 440</span>
-    		</div>
 <div class="row">
 <div class="input-field col s6">
-<label for="location">location</label>
+<label for="location">Stadium</label>
 <input type="text" id="location" name="location" value='<?php echo set_value('location',$before->location);?>'>
-</div>
-</div>
-<div class="row">
-<div class="input-field col s6">
-<label for="stadium">Stadium</label>
-<input type="text" id="stadium" name="stadium" value='<?php echo set_value('stadium',$before->stadium);?>'>
 </div>
 </div>
 <div class="row">
@@ -118,18 +93,7 @@
 <input type="text" id="link" name="link" value='<?php echo set_value('link',$before->link);?>'>
 </div>
 </div>
-<div class="row">
-<div class="input-field col s6">
-<label for="team1score">team1score</label>
-<input type="text" id="team1score" name="team1score" value='<?php echo set_value('team1score',$before->team1score);?>'>
-</div>
-</div>
-<div class="row">
-<div class="input-field col s6">
-<label for="team2score">team2score</label>
-<input type="text" id="team2score" name="team2score" value='<?php echo set_value('team2score',$before->team2score);?>'>
-</div>
-</div>
+
 <div class="row">
 <div class="col s6">
 <button type="submit" class="btn btn-primary waves-effect waves-light  blue darken-4">Save</button>

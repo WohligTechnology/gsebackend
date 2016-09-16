@@ -48,13 +48,19 @@
 </div>
 <div class="row">
 <div class="input-field col s6">
+<label for="order">Order</label>
+<input type="text" id="order" name="order" value='<?php echo set_value('order');?>'>
+</div>
+</div>
+<div class="row">
+<div class="input-field col s6">
 <label for="Location">Location</label>
 <input type="text" id="Location" name="location" value='<?php echo set_value('location');?>'>
 </div>
 </div>
 <div class="row">
 <div class="input-field col s6">
-<textarea name="content" class="materialize-textarea"><?php echo set_value( 'content');?></textarea>
+<textarea name="content" id="some-textarea" class="materialize-textarea"><?php echo set_value( 'content');?></textarea>
 <label>Content</label>
 </div>
 </div>

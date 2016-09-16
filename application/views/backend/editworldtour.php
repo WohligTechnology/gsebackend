@@ -53,6 +53,12 @@
 <input type="text" id="name" name="name" value='<?php echo set_value('name',$before->name);?>'>
 </div>
 </div>
+<div class=" row">
+<div class=" input-field col s12 m6">
+<?php echo form_dropdown("status",$status,set_value('status',$before->status));?>
+<label for="Status">Status</label>
+</div>
+</div>
 <div class="row">
 <div class="input-field col s6">
 <label for="location">location</label>
