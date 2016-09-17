@@ -3,9 +3,9 @@ if ( !defined( "BASEPATH" ) )
 exit( "No direct script access allowed" );
 class micesubtype_model extends CI_Model
 {
-public function create($mice,$name,$image,$content,$banner,$url,$order)
+public function create($mice,$name,$image,$content,$banner,$url,$order,$status)
 {
-$data=array("mice" => $mice,"name" => $name,"image" => $image,"content" => $content,"banner" => $banner,"url" => $url,"order" => $order);
+$data=array("mice" => $mice,"name" => $name,"image" => $image,"content" => $content,"banner" => $banner,"url" => $url,"order" => $order,"status" => $status);
 $query=$this->db->insert( "gse_micesubtype", $data );
 $id=$this->db->insert_id();
 if(!$query)
@@ -24,7 +24,7 @@ $this->db->where("id",$id);
 $query=$this->db->get("gse_micesubtype")->row();
 return $query;
 }
-public function edit($id,$mice,$name,$image,$content,$banner,$url,$order)
+public function edit($id,$mice,$name,$image,$content,$banner,$url,$order,$status)
 {
 if($image=="")
 {
@@ -36,7 +36,7 @@ if($banner=="")
 $banner=$this->micesubtype_model->getbannerbyid($id);
 $banner=$banner->banner;
 }
-$data=array("mice" => $mice,"name" => $name,"image" => $image,"content" => $content,"banner" => $banner,"url" => $url,"order" => $order);
+$data=array("mice" => $mice,"name" => $name,"image" => $image,"content" => $content,"banner" => $banner,"url" => $url,"order" => $order,"status" => $status);
 $this->db->where( "id", $id );
 $query=$this->db->update( "gse_micesubtype", $data );
 return 1;

@@ -24,6 +24,20 @@
 		</div>
 		<div class="row">
 		<div class="input-field col s6">
+		<label for="Order">Order</label>
+		<input type="text" id="Order" name="order" value='<?php echo set_value('order');?>'>
+		</div>
+		</div>
+
+
+		<div class=" row">
+		<div class=" input-field col s6">
+		<?php echo form_dropdown("status",$status,set_value('status'));?>
+		<label>Status</label>
+		</div>
+		</div>
+		<div class="row">
+		<div class="input-field col s6">
 		<textarea name="description" id="some-textarea" class="materialize-textarea"><?php echo set_value( 'description');?></textarea>
 		<label>Description</label>
 		</div>

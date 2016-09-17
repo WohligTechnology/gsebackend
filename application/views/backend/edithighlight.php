@@ -67,6 +67,12 @@
 </div>
 <div class="row">
 <div class="input-field col s6">
+<label for="Order">Order</label>
+<input type="text" id="Order" name="order" value='<?php echo set_value('order',$before->order);?>'>
+</div>
+</div>
+<div class="row">
+<div class="input-field col s6">
 <label for="Location">Location</label>
 <input type="text" id="Location" name="location" value='<?php echo set_value('location',$before->location);?>'>
 </div>

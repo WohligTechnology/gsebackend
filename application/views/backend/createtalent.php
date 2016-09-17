@@ -34,6 +34,18 @@
 					</div><span style=" display: block;
 		    padding-top: 30px;">1800 X 440</span>
 				</div>
+				<div class="row">
+				<div class="input-field col s6">
+				<label for="Order">Order</label>
+				<input type="text" id="Order" name="order" value='<?php echo set_value('order');?>'>
+				</div>
+				</div>
+				<div class=" row">
+				<div class=" input-field col s6">
+				<?php echo form_dropdown("status",$status,set_value('status'));?>
+				<label>Status</label>
+				</div>
+				</div>
 <div class="row">
 <div class="input-field col s6">
 <label for="Link">Link</label>

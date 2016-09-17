@@ -3,9 +3,9 @@ if ( !defined( "BASEPATH" ) )
 exit( "No direct script access allowed" );
 class author_model extends CI_Model
 {
-public function create($google,$twitter,$facebook,$name,$image,$description)
+public function create($google,$twitter,$facebook,$name,$image,$description,$order,$status)
 {
-$data=array("google" => $google,"twitter" => $twitter,"facebook" => $facebook,"name" => $name,"image" => $image,"description" => $description);
+$data=array("google" => $google,"twitter" => $twitter,"facebook" => $facebook,"name" => $name,"image" => $image,"description" => $description,"order" => $order,"status" => $status);
 $query=$this->db->insert( "author", $data );
 $id=$this->db->insert_id();
 if(!$query)
@@ -24,14 +24,14 @@ $this->db->where("id",$id);
 $query=$this->db->get("author")->row();
 return $query;
 }
-public function edit($id,$google,$twitter,$facebook,$name,$image,$description)
+public function edit($id,$google,$twitter,$facebook,$name,$image,$description,$order,$status)
 {
   if($image=="")
   {
   $image=$this->author_model->getimagebyid($id);
   $image=$image->image;
   }
-$data=array("google" => $google,"twitter" => $twitter,"facebook" => $facebook,"name" => $name,"image" => $image,"description" => $description);
+$data=array("google" => $google,"twitter" => $twitter,"facebook" => $facebook,"name" => $name,"image" => $image,"description" => $description,"order" => $order,"status" => $status);
 $this->db->where( "id", $id );
 $query=$this->db->update( "author", $data );
 return 1;

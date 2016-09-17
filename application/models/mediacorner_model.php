@@ -3,9 +3,9 @@ if ( !defined( "BASEPATH" ) )
 exit( "No direct script access allowed" );
 class mediacorner_model extends CI_Model
 {
-public function create($name,$image,$date,$medianame,$url,$facebook,$twitter,$message)
+public function create($name,$image,$date,$medianame,$url,$facebook,$twitter,$message,$order,$status)
 {
-$data=array("name" => $name,"image" => $image,"date" => $date,"medianame" => $medianame,"url" => $url,"facebook" => $facebook,"twitter" => $twitter,"message" => $message);
+$data=array("name" => $name,"image" => $image,"date" => $date,"medianame" => $medianame,"url" => $url,"facebook" => $facebook,"twitter" => $twitter,"message" => $message,"order" => $order,"status" => $status);
 $query=$this->db->insert( "gse_mediacorner", $data );
 $id=$this->db->insert_id();
 if(!$query)
@@ -24,14 +24,14 @@ $this->db->where("id",$id);
 $query=$this->db->get("gse_mediacorner")->row();
 return $query;
 }
-public function edit($id,$name,$image,$date,$medianame,$url,$facebook,$twitter,$message)
+public function edit($id,$name,$image,$date,$medianame,$url,$facebook,$twitter,$message,$order,$status)
 {
 if($image=="")
 {
 $image=$this->mediacorner_model->getimagebyid($id);
 $image=$image->image;
 }
-$data=array("name" => $name,"image" => $image,"date" => $date,"medianame" => $medianame,"url" => $url,"facebook" => $facebook,"twitter" => $twitter,"message" => $message);
+$data=array("name" => $name,"image" => $image,"date" => $date,"medianame" => $medianame,"url" => $url,"facebook" => $facebook,"twitter" => $twitter,"message" => $message,"order" => $order,"status" => $status);
 $this->db->where( "id", $id );
 $query=$this->db->update( "gse_mediacorner", $data );
 return 1;

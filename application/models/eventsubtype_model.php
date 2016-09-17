@@ -3,9 +3,9 @@ if ( !defined( "BASEPATH" ) )
 exit( "No direct script access allowed" );
 class eventsubtype_model extends CI_Model
 {
-public function create($event,$name,$image,$content,$order,$releasedate,$location,$banner)
+public function create($event,$name,$image,$content,$order,$releasedate,$location,$banner,$status)
 {
-$data=array("event" => $event,"name" => $name,"image" => $image,"content" => $content,"order" => $order,"date" => $releasedate,"location" => $location,"banner" => $banner);
+$data=array("event" => $event,"name" => $name,"image" => $image,"content" => $content,"order" => $order,"date" => $releasedate,"location" => $location,"banner" => $banner,"status" => $status);
 $query=$this->db->insert( "gse_eventsubtype", $data );
 $id=$this->db->insert_id();
 if(!$query)
@@ -24,7 +24,7 @@ $this->db->where("id",$id);
 $query=$this->db->get("gse_eventsubtype")->row();
 return $query;
 }
-public function edit($id,$event,$name,$image,$content,$order,$releasedate,$location,$banner)
+public function edit($id,$event,$name,$image,$content,$order,$releasedate,$location,$banner,$status)
 {
 if($image=="")
 {
@@ -36,7 +36,7 @@ if($banner=="")
 $banner=$this->micesubtype_model->getbannerbyid($id);
 $banner=$banner->banner;
 }
-$data=array("event" => $event,"name" => $name,"image" => $image,"content" => $content,"order" => $order,"date" => $releasedate,"location" => $location,"banner" => $banner);
+$data=array("event" => $event,"name" => $name,"image" => $image,"content" => $content,"order" => $order,"date" => $releasedate,"location" => $location,"banner" => $banner,"status" => $status);
 $this->db->where( "id", $id );
 $query=$this->db->update( "gse_eventsubtype", $data );
 return 1;

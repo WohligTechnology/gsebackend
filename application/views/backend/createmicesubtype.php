@@ -28,6 +28,16 @@
 <input type="text" id="Name" name="order" value='<?php echo set_value('order');?>'>
 </div>
 </div>
+
+
+<div class=" row">
+<div class=" input-field col s6">
+<?php echo form_dropdown("status",$status,set_value('status'));?>
+<label>Status</label>
+</div>
+</div>
+
+
 <div class="row" style="display:block">
 			<div class="file-field input-field col m6 s12">
 				<div class="btn blue darken-4">

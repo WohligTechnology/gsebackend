@@ -3,9 +3,9 @@ if ( !defined( "BASEPATH" ) )
 exit( "No direct script access allowed" );
 class mice_model extends CI_Model
 {
-public function create($name,$image,$banner,$link,$order,$hashtag,$facebook,$twitter,$instagram)
+public function create($name,$image,$banner,$link,$order,$hashtag,$facebook,$twitter,$instagram,$status)
 {
-$data=array("name" => $name,"image" => $image,"banner" => $banner,"link" => $link,"order" => $order,"hashtag" => $hashtag,"facebook" => $facebook,"twitter" => $twitter,"instagram" => $instagram);
+$data=array("name" => $name,"image" => $image,"banner" => $banner,"link" => $link,"order" => $order,"hashtag" => $hashtag,"facebook" => $facebook,"twitter" => $twitter,"instagram" => $instagram,"status" => $status);
 $query=$this->db->insert( "gse_mice", $data );
 $id=$this->db->insert_id();
 if(!$query)
@@ -29,7 +29,7 @@ $this->db->where("id",$id);
 $query=$this->db->get("gse_mice")->row();
 return $query;
 }
-public function edit($id,$name,$image,$banner,$link,$order,$hashtag,$facebook,$twitter,$instagram)
+public function edit($id,$name,$image,$banner,$link,$order,$hashtag,$facebook,$twitter,$instagram,$status)
 {
 if($image=="")
 {
@@ -41,7 +41,7 @@ $image=$image->image;
 $banner=$this->mice_model->getbannerbyid($id);
 $banner=$banner->banner;
 }
-$data=array("name" => $name,"image" => $image,"banner" => $banner,"link" => $link,"order" => $order,"hashtag" => $hashtag,"facebook" => $facebook,"twitter" => $twitter,"instagram" => $instagram);
+$data=array("name" => $name,"image" => $image,"banner" => $banner,"link" => $link,"order" => $order,"hashtag" => $hashtag,"facebook" => $facebook,"twitter" => $twitter,"instagram" => $instagram,"status" => $status);
 $this->db->where( "id", $id );
 $query=$this->db->update( "gse_mice", $data );
 return 1;
