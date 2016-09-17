@@ -26,11 +26,11 @@ return $query;
 }
 public function edit($id,$name,$position,$education,$order,$status)
 {
-if($image=="")
-{
-$image=$this->careerposition_model->getimagebyid($id);
-$image=$image->image;
-}
+// if($image=="")
+// {
+// $image=$this->careerposition_model->getimagebyid($id);
+// $image=$image->image;
+// }
 $data=array("name" => $name,"position" => $position,"education" => $education,"order" => $order,"status" => $status);
 $this->db->where( "id", $id );
 $query=$this->db->update( "gse_careerposition", $data );
