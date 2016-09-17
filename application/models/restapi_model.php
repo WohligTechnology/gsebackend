@@ -102,12 +102,12 @@ class restapi_model extends CI_Model
     public function getMovieDetails()
     {
           $query['description'] = $this->db->query("SELECT `id`, `order`, `status`, `name`, `content`,`hashtag`,`facebook`,`twitter`,`instagram` FROM `gse_category` WHERE `status`=1 AND `id`=1")->row();
-          $query['isreleased'] = $this->db->query("SELECT `id`, `name`, `banner`, `releasedate`, `image` FROM `gse_moviedetail` WHERE `isreleased`=1")->result();
-          $query['isupcoming'] = $this->db->query("SELECT `id`, `name`, `banner`, `releasedate`, `image` FROM `gse_moviedetail` WHERE `isupcoming`=1")->result();
+          $query['isreleased'] = $this->db->query("SELECT `id`, `name`, `banner`, `releasedate`, `image` FROM `gse_moviedetail` WHERE `isreleased`=1 AND  `status`=1")->result();
+          $query['isupcoming'] = $this->db->query("SELECT `id`, `name`, `banner`, `releasedate`, `image` FROM `gse_moviedetail` WHERE `isupcoming`=1 AND  `status`=1")->result();
           $query['moviediaries'] = $this->db->query("SELECT `gse_diaryarticle`.`id`, `gse_diaryarticle`.`status`, `gse_diaryarticle`.`diarycategory`, `gse_diaryarticle`.`diarysubcategory`, `gse_diaryarticle`.`name`, `gse_diaryarticle`.`image`, `gse_diaryarticle`.`timestamp`, `gse_diaryarticle`.`content`, `gse_diaryarticle`.`date`, `gse_diaryarticle`.`type`, `gse_diaryarticle`.`showhide`,`author`.`name` AS 'authorname' FROM `gse_diaryarticle`
           LEFT OUTER JOIN `gse_diarycategory` ON `gse_diarycategory`.`id`=`gse_diaryarticle`.`diarycategory`
           LEFT OUTER JOIN `author` ON `gse_diaryarticle`.`author`=`author`.`id`
-          WHERE `gse_diarycategory`.`name` LIKE '%movie%' OR `gse_diarycategory`.`name` LIKE '%movies%' ORDER BY `date` DESC LIMIT 3 ")->result();
+          WHERE `gse_diarycategory`.`name` LIKE '%movie%' OR `gse_diarycategory`.`name` LIKE '%movies%' AND `gse_diaryarticle`.`status`=1 ORDER BY `date` DESC LIMIT 3 ")->result();
           $query['testimonial'] = $this->db->query("SELECT * FROM `gse_testimonial` WHERE `category`=1")->result();
 
           if (!query)
@@ -134,7 +134,7 @@ class restapi_model extends CI_Model
           $query['weddingdiaries'] = $this->db->query("SELECT `gse_diaryarticle`.`id`, `gse_diaryarticle`.`status`, `gse_diaryarticle`.`diarycategory`, `gse_diaryarticle`.`diarysubcategory`, `gse_diaryarticle`.`name`, `gse_diaryarticle`.`image`, `gse_diaryarticle`.`timestamp`, `gse_diaryarticle`.`content`, `gse_diaryarticle`.`date`, `gse_diaryarticle`.`type`, `gse_diaryarticle`.`showhide`,`author`.`name` AS 'authorname' FROM `gse_diaryarticle`
           LEFT OUTER JOIN `gse_diarycategory` ON `gse_diarycategory`.`id`=`gse_diaryarticle`.`diarycategory`
           LEFT OUTER JOIN `author` ON `gse_diaryarticle`.`author`=`author`.`id`
-          WHERE `gse_diarycategory`.`name` LIKE '%wedding%' OR `gse_diarycategory`.`name` LIKE '%weddings%' ORDER BY `date` DESC LIMIT 3 ")->result();
+          WHERE `gse_diarycategory`.`name` LIKE '%wedding%' OR `gse_diarycategory`.`name` LIKE '%weddings%' OR `gse_diaryarticle`.`status`=1 ORDER BY `date` DESC LIMIT 3 ")->result();
           $query['testimonial'] = $this->db->query("SELECT * FROM `gse_testimonial` WHERE `category`=2")->result();
           if (!query)
           {
@@ -152,7 +152,7 @@ class restapi_model extends CI_Model
     }
 
     public function getMovieInside($id){
-      $query['moviedetail']=$this->db->query("SELECT `id`, `isupcoming`, `isreleased`, `name`, `banner`, `imdb`, `producer`, `director`, `cast`, `music`, `synopsis`, `videos`, `releasedate`, `image`,`hashtag`,`facebook`,`twitter`,`instagram` FROM `gse_moviedetail` WHERE `id`='$id'")->row();
+      $query['moviedetail']=$this->db->query("SELECT `id`, `isupcoming`, `isreleased`, `name`, `banner`, `imdb`, `producer`, `director`, `cast`, `music`, `synopsis`, `videos`, `releasedate`, `image`,`hashtag`,`facebook`,`twitter`,`instagram` FROM `gse_moviedetail` WHERE `id`='$id' AND `status`=1")->row();
       $query['wallpaper']=$this->db->query("SELECT `id`, `movie`, `image` FROM `gse_moviewallpaper` WHERE `movie`='$id'")->result();
       $query['imagegallery']=$this->db->query("SELECT `id`, `movie`, `order`, `status`, `image` FROM `gse_moviegallery` WHERE `movie`='$id' AND `status`=1 ORDER BY `order`")->result();
       $query['featuredvideos']=$this->db->query("SELECT `id`, `content`, `movie` FROM `gse_movie` WHERE `movie`='$id'")->result();
@@ -324,14 +324,14 @@ class restapi_model extends CI_Model
     {
       $query['description'] = $this->db->query("SELECT `id`, `order`, `status`, `name`, `content`,`hashtag`,`facebook`,`twitter`,`instagram` FROM `gse_category` WHERE `status`=1 AND `id`=6")->row();
 
-      $query['mice'] = $this->db->query("SELECT * FROM `gse_mice`")->result();
+      $query['mice'] = $this->db->query("SELECT * FROM `gse_mice` WHERE `status`=1")->result();
 
       $query['services'] = $this->db->query("SELECT `id`, `name`, `content`, `type`, `order` FROM `gse_service` WHERE `type`=5 ORDER BY `order`")->result();
 
       $query['micediaries'] = $this->db->query("SELECT `gse_diaryarticle`.`id`, `gse_diaryarticle`.`status`, `gse_diaryarticle`.`diarycategory`, `gse_diaryarticle`.`diarysubcategory`, `gse_diaryarticle`.`name`, `gse_diaryarticle`.`image`, `gse_diaryarticle`.`timestamp`, `gse_diaryarticle`.`content`, `gse_diaryarticle`.`date`, `gse_diaryarticle`.`type`, `gse_diaryarticle`.`showhide`,`author`.`name` AS 'authorname' FROM `gse_diaryarticle`
       LEFT OUTER JOIN `gse_diarycategory` ON `gse_diarycategory`.`id`=`gse_diaryarticle`.`diarycategory`
       LEFT OUTER JOIN `author` ON `gse_diaryarticle`.`author`=`author`.`id`
-      WHERE `gse_diarycategory`.`name` LIKE '%mice%' OR `gse_diarycategory`.`name` LIKE '%mices%' ORDER BY `date` DESC LIMIT 3 ")->result();
+      WHERE `gse_diarycategory`.`name` LIKE '%mice%' OR `gse_diarycategory`.`name` LIKE '%mices%' AND `gse_diaryarticle`.`status`=1 ORDER BY `date` DESC LIMIT 3 ")->result();
       $query['testimonial'] = $this->db->query("SELECT * FROM `gse_testimonial` WHERE `category`=6")->result();
       if (!query)
       {
@@ -395,8 +395,8 @@ class restapi_model extends CI_Model
     {
       $query['description'] = $this->db->query("SELECT `id`, `order`, `status`, `name`, `content`,`hashtag`,`facebook`,`twitter`,`instagram` FROM `gse_category` WHERE `status`=1 AND `id`=7")->row();
 
-      $query['worldtourpast'] = $this->db->query("SELECT * FROM `gse_worldtour` WHERE `type`=1")->result();
-      $query['worldtourupcoming'] = $this->db->query("SELECT * FROM `gse_worldtour` WHERE `type`=2")->result();
+      $query['worldtourpast'] = $this->db->query("SELECT * FROM `gse_worldtour` WHERE `type`=1 AND `status`=1")->result();
+      $query['worldtourupcoming'] = $this->db->query("SELECT * FROM `gse_worldtour` WHERE `type`=2 AND `status`=1")->result();
 
       $query['services'] = $this->db->query("SELECT `id`, `name`, `content`, `type`, `order` FROM `gse_service` WHERE `type`=6 ORDER BY `order`")->result();
       $query['testimonial'] = $this->db->query("SELECT `id`, `category`, `status`, `order`, `name`, `author`, `image`, `quote` FROM `gse_testimonial` WHERE `category`=7")->result();
@@ -404,7 +404,7 @@ class restapi_model extends CI_Model
       $query['worldtourdiaries'] = $this->db->query("SELECT `gse_diaryarticle`.`id`, `gse_diaryarticle`.`status`, `gse_diaryarticle`.`diarycategory`, `gse_diaryarticle`.`diarysubcategory`, `gse_diaryarticle`.`name`, `gse_diaryarticle`.`image`, `gse_diaryarticle`.`timestamp`, `gse_diaryarticle`.`content`, `gse_diaryarticle`.`date`, `gse_diaryarticle`.`type`, `gse_diaryarticle`.`showhide`, `author`.`name` AS 'authorname' FROM `gse_diaryarticle`
       LEFT OUTER JOIN `gse_diarycategory` ON `gse_diarycategory`.`id`=`gse_diaryarticle`.`diarycategory`
       LEFT OUTER JOIN `author` ON `gse_diaryarticle`.`author`=`author`.`id`
-      WHERE `gse_diarycategory`.`name` LIKE '%world tour%' OR `gse_diarycategory`.`name` LIKE '%worldtour%' ORDER BY `date` DESC LIMIT 3 ")->result();
+      WHERE `gse_diarycategory`.`name` LIKE '%world tour%' OR `gse_diarycategory`.`name` LIKE '%worldtour%' AND `gse_diaryarticle`.`status`=1 ORDER BY `date` DESC LIMIT 3 ")->result();
       if (!query)
       {
       $obj->value = false;
@@ -443,13 +443,13 @@ class restapi_model extends CI_Model
     }
     public function getSport(){
       $query['description'] = $this->db->query("SELECT `id`, `order`, `status`, `name`, `content`,`hashtag`,`facebook`,`twitter`,`instagram` FROM `gse_category` WHERE `status`=1 AND `id`=3")->row();
-      $query['sports']=$this->db->query("SELECT `id`, `order`, `status`, `name`, `image`, `link`, `banner`, `content` FROM `gse_sportscategory` WHERE 1")->result();
+      $query['sports']=$this->db->query("SELECT `id`, `order`, `status`, `name`, `image`, `link`, `banner`, `content` FROM `gse_sportscategory` WHERE `status`=1")->result();
       $query['services'] = $this->db->query("SELECT `id`, `name`, `content`, `type`, `order` FROM `gse_service` WHERE `type`=2 ORDER BY `order`")->result();
 
       $query['sportdiaries'] = $this->db->query("SELECT `gse_diaryarticle`.`id`, `gse_diaryarticle`.`status`, `gse_diaryarticle`.`diarycategory`, `gse_diaryarticle`.`diarysubcategory`, `gse_diaryarticle`.`name`, `gse_diaryarticle`.`image`, `gse_diaryarticle`.`timestamp`, `gse_diaryarticle`.`content`, `gse_diaryarticle`.`date`, `gse_diaryarticle`.`type`, `gse_diaryarticle`.`showhide`,`author`.`name` AS 'authorname' FROM `gse_diaryarticle`
       LEFT OUTER JOIN `gse_diarycategory` ON `gse_diarycategory`.`id`=`gse_diaryarticle`.`diarycategory`
       LEFT OUTER JOIN `author` ON `gse_diaryarticle`.`author`=`author`.`id`
-      WHERE `gse_diarycategory`.`name` LIKE '%sport%' OR `gse_diarycategory`.`name` LIKE '%sports%' ORDER BY `date` DESC LIMIT 3 ")->result();
+      WHERE `gse_diarycategory`.`name` LIKE '%sport%' OR `gse_diarycategory`.`name` LIKE '%sports%' AND `status`=1 ORDER BY `date` DESC LIMIT 3 ")->result();
       $query['testimonial'] = $this->db->query("SELECT * FROM `gse_testimonial` WHERE `category`=3")->result();
       if($query)
       {
@@ -618,13 +618,13 @@ public function getSportsDetailInside($id){
 
 public function getTalent(){
   $query['description'] = $this->db->query("SELECT `id`, `order`, `status`, `name`, `content`,`hashtag`,`facebook`,`twitter`,`instagram` FROM `gse_category` WHERE `status`=1 AND `id`=5")->row();
-  $query['talent']=$this->db->query("SELECT `id`, `name`, `image`, `link` FROM `gse_talent` WHERE 1")->result();
+  $query['talent']=$this->db->query("SELECT `id`, `name`, `image`, `link` FROM `gse_talent` WHERE  `status`=1 ")->result();
   $query['services'] = $this->db->query("SELECT `id`, `name`, `content`, `type`, `order` FROM `gse_service` WHERE `type`=4 ORDER BY `order`")->result();
 
   $query['talentdiaries'] = $this->db->query("SELECT `gse_diaryarticle`.`id`, `gse_diaryarticle`.`status`, `gse_diaryarticle`.`diarycategory`, `gse_diaryarticle`.`diarysubcategory`, `gse_diaryarticle`.`name`, `gse_diaryarticle`.`image`, `gse_diaryarticle`.`timestamp`, `gse_diaryarticle`.`content`, `gse_diaryarticle`.`date`, `gse_diaryarticle`.`type`, `gse_diaryarticle`.`showhide`,`author`.`name` AS 'authorname' FROM `gse_diaryarticle`
   LEFT OUTER JOIN `gse_diarycategory` ON `gse_diarycategory`.`id`=`gse_diaryarticle`.`diarycategory`
   LEFT OUTER JOIN `author` ON `gse_diaryarticle`.`author`=`author`.`id`
-  WHERE `gse_diarycategory`.`name` LIKE '%talent%' OR `gse_diarycategory`.`name` LIKE '%talents%' ORDER BY `date` DESC LIMIT 3 ")->result();
+  WHERE `gse_diarycategory`.`name` LIKE '%talent%' OR `gse_diarycategory`.`name` LIKE '%talents%' AND  `gse_diaryarticle`.`status`=1  ORDER BY `date` DESC LIMIT 3 ")->result();
   $query['testimonial'] = $this->db->query("SELECT * FROM `gse_testimonial` WHERE `category`=5")->result();
   if($query)
   {
@@ -687,7 +687,7 @@ public function getTalentDetailInside($id){
 
 public function getClients(){
   $query['description']=$this->db->query("SELECT `id`, `order`, `status`, `name`, `content` FROM `gse_category` WHERE `status`=1 AND `id`=12")->row();
-  $query['logos']= $this->db->query("SELECT `id`, `order`, `status`, `name`, `image` FROM `gse_clientlogo` WHERE 1")->result();
+  $query['logos']= $this->db->query("SELECT `id`, `order`, `status`, `name`, `image` FROM `gse_clientlogo` WHERE `status`=1")->result();
 
   if($query)
   {
@@ -703,7 +703,7 @@ public function getClients(){
   }
 }
 public function getCareer(){
-  $query= $this->db->query("SELECT * FROM `gse_careerposition` WHERE 1")->result();
+  $query= $this->db->query("SELECT * FROM `gse_careerposition` WHERE `status`=1")->result();
 
   if($query)
   {
@@ -721,10 +721,10 @@ public function getCareer(){
 public function getClientDetail($id){
   if(!empty($id))
   {
-$query= $this->db->query("SELECT `id`, `order`, `status`, `name`, `image`, `title`, `url`, `content`, `banner` FROM `gse_clientdetail` WHERE `id`=$id")->row();
+$query= $this->db->query("SELECT `id`, `order`, `status`, `name`, `image`, `title`, `url`, `content`, `banner` FROM `gse_clientdetail` WHERE `id`=$id AND `status`=1")->row();
   }
   else {
-    $query= $this->db->query("SELECT `id`, `order`, `status`, `name`, `image`, `title`, `url`, `content`, `banner` FROM `gse_clientdetail`")->result();
+    $query= $this->db->query("SELECT `id`, `order`, `status`, `name`, `image`, `title`, `url`, `content`, `banner` FROM `gse_clientdetail` AND `status`=1")->result();
   }
   if($query)
   {
