@@ -724,7 +724,7 @@ public function getClientDetail($id){
 $query= $this->db->query("SELECT `id`, `order`, `status`, `name`, `image`, `title`, `url`, `content`, `banner` FROM `gse_clientdetail` WHERE `id`=$id AND `status`=1")->row();
   }
   else {
-    $query= $this->db->query("SELECT `id`, `order`, `status`, `name`, `image`, `title`, `url`, `content`, `banner` FROM `gse_clientdetail` AND `status`=1")->result();
+    $query= $this->db->query("SELECT `id`, `order`, `status`, `name`, `image`, `title`, `url`, `content`, `banner` FROM `gse_clientdetail` WHERE `status`=1")->result();
   }
   if($query)
   {
