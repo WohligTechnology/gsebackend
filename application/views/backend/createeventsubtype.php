@@ -59,7 +59,7 @@
 <div class="row">
 <div class="input-field col s6">
 <label for="Content">Content</label>
-<textarea name="content" class="materialize-textarea"><?php echo set_value( 'content');?></textarea>
+<textarea name="content" id="some-textarea" class="materialize-textarea"><?php echo set_value( 'content');?></textarea>
 </div>
 </div>
 <div class="row" style="display:none">

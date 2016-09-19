@@ -63,7 +63,7 @@
 <h4 class="title-sub">ABOUT THE MOVIE</h4>
 <div class="row">
 <div class="input-field col s6">
-<textarea name="synopsis" class="materialize-textarea"><?php echo set_value( 'synopsis');?></textarea>
+<textarea name="synopsis" id="some-textarea" class="materialize-textarea"><?php echo set_value( 'synopsis');?></textarea>
 <label>Synopsis</label>
 </div>
 </div>

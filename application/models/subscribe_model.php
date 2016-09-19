@@ -42,6 +42,28 @@ public function getimagebyid($id)
 $query=$this->db->query("SELECT `image` FROM `gse_subscribe` WHERE `id`='$id'")->row();
 return $query;
 }
+public function exportSubscribeCsv()
+{
+	$this->load->dbutil();
+		$query=$this->db->query("SELECT  `id` ,  `email` ,  `timestamp` 
+FROM  `gse_subscribe` 
+WHERE 1 ");
+        $content= $this->dbutil->csv_from_result($query);
+        //$data = 'Some file data';
+        $timestamp=new DateTime();
+        $timestamp=$timestamp->format('Y-m-d_H.i.s');
+//        file_put_contents("gs://magicmirroruploads/products_$timestamp.csv", $content);
+//		redirect("http://magicmirror.in/servepublic?name=products_$timestamp.csv", 'refresh');
+        if ( ! write_file("./uploads/subscribe_$timestamp.csv", $content))
+        {
+             echo 'Unable to write the file';
+        }
+        else
+        {
+            redirect(base_url("uploads/subscribe_$timestamp.csv"), 'refresh');
+             echo 'File written!';
+        }
+}
 public function getdropdown()
 {
 $query=$this->db->query("SELECT * FROM `gse_subscribe` ORDER BY `id` 

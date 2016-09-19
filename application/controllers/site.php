@@ -10605,5 +10605,13 @@ $this->upcoming_model->delete($this->input->get("id"));
 $data["redirect"]="site/viewupcoming";
 $this->load->view("redirect",$data);
 }
+public function exportSubscribeCsv()
+{
+		$access = array("1");
+		$this->checkaccess($access);
+		$this->subscribe_model->exportSubscribeCsv();
+        $data['redirect']="site/viewsubscribe";
+        $this->load->view("redirect",$data);
+}
 }
 ?>

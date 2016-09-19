@@ -2,7 +2,12 @@
 <div class="col s12">
 <div class="row">
 <div class="col s12 drawchintantable">
-<?php $this->chintantable->createsearch("Subscribe");?>
+<?php $this->chintantable->createsearch("Subscribe");?> 
+ <div class="row">
+    <div class="col s12">
+         <a class="waves-effect waves-light btn blue darken-4 margall" href="<?php echo site_url('site/exportSubscribeCsv'); ?>"><i class="icon-trash"></i>Export CSV</a> &nbsp;
+        </div>
+    </div>
 <table class="highlight responsive-table">
 <thead>
 <tr>
@@ -20,6 +25,7 @@
 <!--<div class="createbuttonplacement"><a class="btn-floating btn-large waves-effect waves-light blue darken-4 tooltipped" href="<?php echo site_url("site/createsubscribe"); ?>"data-position="top" data-delay="50" data-tooltip="Create"><i class="material-icons">add</i></a></div>-->
 </div>
 </div>
+
 <script>
 function drawtable(resultrow) {
 return "<tr><td>" + resultrow.id + "</td><td>" + resultrow.email + "</td><td>" + resultrow.timestamp + "</td><td><a class='btn btn-primary btn-xs waves-effect waves-light blue darken-4 z-depth-0 less-pad' href='<?php echo site_url('site/editsubscribe?id=');?>"+resultrow.id+"' data-position='top' data-delay='50' data-tooltip='Edit'><i class='fa fa-pencil propericon'></i></a></td></tr>";

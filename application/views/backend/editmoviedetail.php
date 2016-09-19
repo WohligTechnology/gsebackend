@@ -76,7 +76,7 @@
 		<div class="row">
 <div class="col s12 m6">
 <label>Synopsis</label>
-<textarea name="synopsis" class="materialize-textarea" placeholder="Enter text ..."><?php echo set_value( 'synopsis',$before->synopsis);?></textarea>
+<textarea name="synopsis" id="some-textarea" class="materialize-textarea" placeholder="Enter text ..."><?php echo set_value( 'synopsis',$before->synopsis);?></textarea>
 </div>
 </div>
 <div class="row">
