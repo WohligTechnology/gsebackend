@@ -198,7 +198,13 @@ class restapi_model extends CI_Model
         $query['weddingdetail']=$this->db->query("SELECT `id`, `name`, `image`, `banner`, `content` FROM `gse_wedding` WHERE `id`='$id'")->row();
       $query['imagegallery']=$this->db->query("SELECT `id`, `wedding`, `status`, `order`, `image`, `weddingsubtype` FROM `gse_weddinggallery` WHERE `wedding`=$id AND `status`=1 ORDER BY `order`")->result();
       $query['featuredvideos']=$this->db->query("SELECT `id`, `wedding`, `name`, `image`, `banner`, `weddingsubtype` FROM `gse_weddingtype` WHERE `wedding`=$id")->result();
-      $query['relatedarticles'] = $this->db->query("SELECT `id`, `wedding`, `name`, `image`, `content`, `videos` FROM `gse_weddingsubtype` ORDER BY `id` DESC LIMIT 0,3")->result();
+      if($id==2 || $id==3){
+  $query['relatedarticles'] = $this->db->query("SELECT `id`, `wedding`, `name`, `image`, `content`, `videos` FROM `gse_weddingsubtype` ORDER BY `id` DESC LIMIT 0,3")->result();
+      }
+      else{
+          $query['relatedarticles'] = $this->db->query("SELECT `id`, `wedding`, `name`, `image`, `content`, `videos` FROM `gse_weddingsubtype` WHERE `wedding`='$id' ORDER BY `id` DESC LIMIT 0,3")->result();
+      }
+    
       if($query)
       {
         $obj->value = true;
