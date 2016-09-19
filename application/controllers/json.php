@@ -944,7 +944,8 @@ public function getClientDetail()
 public function careersSubmit()
 {
   $data = json_decode(file_get_contents('php://input'), true);
-  $category = $data['category'];
+  if(!empty($data)){
+      $category = $data['category'];
   $name = $data['name'];
   $email = $data['email'];
   $phone = $data['phone'];
@@ -962,7 +963,12 @@ public function careersSubmit()
   $type = $data['type'];
   $salary = $data['salary'];
   $expectedctc = $data['expectedctc'];
- $data['message'] = $this->restapi_model->careersSubmit($category,$name,$email, $phone,$resume,$address,$suburb,$state,$postcode,$dob,$linkedin,$twitter,$github,$portfolio,$otherwebsite,$type,$salary,$expectedctc);
+  $data['message'] = $this->restapi_model->careersSubmit($category,$name,$email, $phone,$resume,$address,$suburb,$state,$postcode,$dob,$linkedin,$twitter,$github,$portfolio,$otherwebsite,$type,$salary,$expectedctc);
+  }
+  else{
+$data['message'] =0;
+  }
+ 
 $this->load->view('json', $data);
   }
 public function imageUpload()
