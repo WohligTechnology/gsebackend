@@ -4900,7 +4900,17 @@ $email=$this->input->get_post("email");
 $phone=$this->input->get_post("phone");
 $resume=$this->input->get_post("resume");
 $comment=$this->input->get_post("comment");
-if($this->careerform_model->create($name,$email,$phone,$resume,$comment)==0)
+$address=$this->input->get_post("address");
+$category=$this->input->get_post("category");
+$dob=$this->input->get_post("dob");
+$expectedctc=$this->input->get_post("expectedctc");
+$github=$this->input->get_post("github");
+$linkedin=$this->input->get_post("linkedin");
+$otherwebsite=$this->input->get_post("otherwebsite");
+$portfolio=$this->input->get_post("portfolio");
+$portcode=$this->input->get_post("portcode");
+$salary=$this->input->get_post("salary");
+if($this->careerform_model->create($name,$email,$phone,$resume,$comment,$address,$category,$dob,$expectedctc,$github,$linkedin,$otherwebsite,$portfolio,$portcode,$salary)==0)
 $data["alerterror"]="New careerform could not be created.";
 else
 $data["alertsuccess"]="careerform created Successfully.";
