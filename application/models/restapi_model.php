@@ -180,6 +180,11 @@ class restapi_model extends CI_Model
       $query['featuredvideos']=$this->db->query("SELECT `id`, `wedding`, `name`, `image`, `banner`, `weddingsubtype` FROM `gse_weddingtype` WHERE `weddingsubtype`=$id")->result();
       $wedding = $this->db->query("SELECT `wedding` FROM `gse_weddingsubtype` WHERE `id`='$id'")->row();
       $query['relatedarticles'] = $this->db->query("SELECT `id`, `wedding`, `name`, `image`, `content`, `videos`,`status` FROM `gse_weddingsubtype` WHERE `wedding` = $wedding->wedding AND `id` !='$id' ORDER BY `order` DESC LIMIT 0,3")->result();
+
+          
+          if(empty($query['relatedarticles'])){
+             $query['relatedarticles'] = $this->db->query("SELECT `id`, `wedding`, `name`, `image`, `content`, `videos` FROM `gse_weddingsubtype` WHERE `id` !='$id' ORDER BY `id` DESC LIMIT 0,3")->result();
+          }
       if($query)
       {
         $obj->value = true;
@@ -201,12 +206,8 @@ class restapi_model extends CI_Model
       if($id==2 || $id==3){
   $query['relatedarticles'] = $this->db->query("SELECT `id`, `wedding`, `name`, `image`, `content`, `videos` FROM `gse_weddingsubtype` ORDER BY `id` DESC LIMIT 0,3")->result();
       }
-      else{
-          $query['relatedarticles'] = $this->db->query("SELECT `id`, `wedding`, `name`, `image`, `content`, `videos` FROM `gse_weddingsubtype` WHERE `wedding`='$id' ORDER BY `id` DESC LIMIT 0,3")->result();
-          if(!empty($query['relatedarticles'])){
-             $query['relatedarticles'] = $this->db->query("SELECT `id`, `wedding`, `name`, `image`, `content`, `videos` FROM `gse_weddingsubtype` ORDER BY `id` DESC LIMIT 0,3")->result();
-          }
-      }
+      
+         
     
       if($query)
       {
@@ -749,8 +750,7 @@ $query= $this->db->query("SELECT `id`, `order`, `status`, `name`, `image`, `titl
   }
 }
 public function careersSubmit($category,$name,$email, $phone,$resume,$address,$suburb,$state,$postcode,$dob,$linkedin,$twitter,$github,$portfolio,$otherwebsite,$type,$salary,$expectedctc){
-  if(!empty($email))
-  {
+ 
     $query=$this->db->query("INSERT INTO `gse_careerform`(`category`, `name`, `email`, `phone`, `resume`, `address`, `suburb`, `state`, `postcode`, `dob`, `linkedin`, `twitter`, `github`, `portfolio`, `otherwebsite`, `type`, `salary`, `expectedctc`) VALUES ('$category','$name','$email', '$phone','$resume','$address','$suburb','$state','$postcode','$dob','$linkedin','$twitter','$github','$portfolio','$otherwebsite','$type','$salary','$expectedctc')");
     if($query)
     {
@@ -763,12 +763,7 @@ public function careersSubmit($category,$name,$email, $phone,$resume,$address,$s
       $obj->value = false;
       return $obj;
     }
-  }
-  else {
-    $obj->value = false;
-    $obj->data = "Plaese enter email";
-    return $obj;
-  }
+ 
 
 }
 public function getMatch(){
