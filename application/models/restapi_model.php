@@ -786,7 +786,7 @@ public function getMatch(){
 public function getDiary(){
     $query['description']=$this->db->query("SELECT `id`, `order`, `status`, `name`, `content` FROM `gse_category` WHERE  `id`=13 ORDER BY `order`")->row();
   $query['category']=$this->db->query("SELECT `id`, `order`, `status`, `name` FROM `gse_diarycategory` WHERE 1 ORDER BY `order`")->result();
-  $query['years']=$this->db->query("SELECT DISTINCT year(`date`) AS 'year',MONTHNAME(`date`) AS 'month' FROM `gse_diaryarticle` WHERE 1")->result();
+  $query['years']=$this->db->query("SELECT DISTINCT year(`date`) AS 'year',MONTHNAME(`date`) AS 'month' FROM `gse_diaryarticle` ORDER BY `date`")->result();
   if($query)
   {
     $obj->value = true;
