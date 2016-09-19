@@ -203,6 +203,9 @@ class restapi_model extends CI_Model
       }
       else{
           $query['relatedarticles'] = $this->db->query("SELECT `id`, `wedding`, `name`, `image`, `content`, `videos` FROM `gse_weddingsubtype` WHERE `wedding`='$id' ORDER BY `id` DESC LIMIT 0,3")->result();
+          if(!empty($query['relatedarticles'])){
+             $query['relatedarticles'] = $this->db->query("SELECT `id`, `wedding`, `name`, `image`, `content`, `videos` FROM `gse_weddingsubtype` ORDER BY `id` DESC LIMIT 0,3")->result();
+          }
       }
     
       if($query)
