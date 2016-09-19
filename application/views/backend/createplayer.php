@@ -15,12 +15,12 @@
 <label>Status</label>
 </div>
 </div>
-<div class=" row">
-<div class=" input-field col s6">
-<?php echo form_dropdown("sportscategory",$sportscategory,set_value('sportscategory'));?>
-<label>Sports category</label>
-</div>
-</div>
+<!--// <div class=" row">
+// <div class=" input-field col s6">
+// <?php echo form_dropdown("sportscategory",$sportscategory,set_value('sportscategory'));?>
+// <label>Sports category</label>
+// </div>
+// </div>-->
 <div class="row">
 <div class="input-field col s6">
 <label for="Name">Name</label>

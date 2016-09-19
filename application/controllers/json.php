@@ -576,6 +576,12 @@ public function getWeddingInside()
   $elements[4]->sort="1";
   $elements[4]->header="Content";
   $elements[4]->alias="content";
+
+    $elements[5]=new stdClass();
+  $elements[5]->field="`gse_weddingsubtype`.`status`";
+  $elements[5]->sort="1";
+  $elements[5]->header="status";
+  $elements[5]->alias="status";
   $search=$this->input->get_post("search");
   $pageno=$this->input->get_post("pageno");
   $orderby=$this->input->get_post("orderby");
@@ -586,8 +592,8 @@ public function getWeddingInside()
   }
   if($orderby=="")
   {
-  $orderby="id";
-  $orderorder="ASC";
+  $orderby="order";
+  $orderorder="DESC";
   }
   $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_weddingsubtype`","WHERE `gse_weddingsubtype`.`wedding`='$id'");
   $this->load->view("json",$data);
@@ -616,6 +622,7 @@ public function getEventInside()
     $this->chintantable->createelement('`date`', '0', 'date', 'date');
     $this->chintantable->createelement('`location`', '0', 'location', 'location');
     $this->chintantable->createelement('`order`', '0', 'order', 'order');
+    $this->chintantable->createelement('`status`', '0', 'status', 'status');
     $search = $this->input->get_post('search');
     $pageno = $this->input->get_post('pageno');
     $orderby = $this->input->get_post('orderby');
@@ -662,6 +669,7 @@ public function getMiceInside()
     $this->chintantable->createelement('`name`', '1', 'name', 'name');
     $this->chintantable->createelement('`image`', '0', 'image', 'image');
     $this->chintantable->createelement('`content`', '0', 'content', 'content');
+    $this->chintantable->createelement('`status`', '0', 'status', 'status');
     // $this->chintantable->createelement('`date`', '0', 'date', 'date');
     // $this->chintantable->createelement('`location`', '0', 'location', 'location');
     $this->chintantable->createelement('`order`', '0', 'order', 'order');
@@ -674,7 +682,7 @@ public function getMiceInside()
         $maxrow = 20;
     }
     if ($orderby == '') {
-        $orderby = 'id';
+        $orderby = 'order';
         $orderorder = 'DESC';
     }
 
@@ -760,6 +768,7 @@ public function getMediaCornerDetails()
     $this->chintantable->createelement('`facebook`', '0', 'facebook', 'facebook');
     $this->chintantable->createelement('`twitter`', '0', 'twitter', 'twitter');
     $this->chintantable->createelement('`message`', '0', 'message', 'message');
+    $this->chintantable->createelement('`status`', '0', 'status', 'status');
     $search = $this->input->get_post('search');
     $pageno = $this->input->get_post('pageno');
     $orderby = $this->input->get_post('orderby');
@@ -769,7 +778,7 @@ public function getMediaCornerDetails()
         $maxrow = 20;
     }
     if ($orderby == '') {
-        $orderby = 'date';
+        $orderby = 'order';
         $orderorder = 'DESC';
     }
 
@@ -800,6 +809,7 @@ public function getSportInside()
     $this->chintantable->createelement('`link`', '0', 'link', 'link');
     $this->chintantable->createelement('`location`', '0', 'location', 'location');
     $this->chintantable->createelement('`content`', '0', 'content', 'content');
+    $this->chintantable->createelement('`status`', '0', 'status', 'status');
     $this->chintantable->createelement('`videos`', '0', 'videos', 'videos');
     $search = $this->input->get_post('search');
     $pageno = $this->input->get_post('pageno');
@@ -811,7 +821,7 @@ public function getSportInside()
         // $maxrow = 20;
     }
     if ($orderby == '') {
-        $orderby = 'date';
+        $orderby = 'order';
         $orderorder = 'DESC';
     }
 $cdate = date("Y-m-d");
@@ -901,7 +911,7 @@ public function getTalentInside()
         $maxrow = 20;
     }
     if ($orderby == '') {
-        $orderby = 'date';
+        $orderby = 'order';
         $orderorder = 'DESC';
     }
 
