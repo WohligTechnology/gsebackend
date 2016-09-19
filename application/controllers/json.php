@@ -775,7 +775,7 @@ public function getMediaCornerDetails()
     $orderorder = $this->input->get_post('orderorder');
     $maxrow = $this->input->get_post('maxrow');
     if ($maxrow == '') {
-        $maxrow = 20;
+        $maxrow = 500;
     }
     if ($orderby == '') {
         $orderby = 'order';
@@ -817,8 +817,7 @@ public function getSportInside()
     $orderorder = $this->input->get_post('orderorder');
     $maxrow = $this->input->get_post('maxrow');
     if ($maxrow == '') {
-        $maxrow = 20;
-        // $maxrow = 20;
+        $maxrow = 500;
     }
     if ($orderby == '') {
         $orderby = 'order';
