@@ -102,8 +102,8 @@ class restapi_model extends CI_Model
     public function getMovieDetails()
     {
           $query['description'] = $this->db->query("SELECT `id`, `order`, `status`, `name`, `content`,`hashtag`,`facebook`,`twitter`,`instagram` FROM `gse_category` WHERE `status`=1 AND `id`=1")->row();
-          $query['isreleased'] = $this->db->query("SELECT `id`, `name`, `banner`, `releasedate`, `image`,`status` FROM `gse_moviedetail` WHERE `isreleased`=1 ORDER BY `date` DESC ")->result();
-          $query['isupcoming'] = $this->db->query("SELECT `id`, `name`, `banner`, `releasedate`, `image`,`status` FROM `gse_moviedetail` WHERE `isupcoming`=1 ORDER BY `date` DESC ")->result();
+          $query['isreleased'] = $this->db->query("SELECT `id`, `name`, `banner`, `releasedate`, `image`,`status` FROM `gse_moviedetail` WHERE `isreleased`=1 ORDER BY `releasedate` DESC ")->result();
+          $query['isupcoming'] = $this->db->query("SELECT `id`, `name`, `banner`, `releasedate`, `image`,`status` FROM `gse_moviedetail` WHERE `isupcoming`=1 ORDER BY `releasedate` DESC ")->result();
           $query['moviediaries'] = $this->db->query("SELECT `gse_diaryarticle`.`id`, `gse_diaryarticle`.`status`, `gse_diaryarticle`.`diarycategory`, `gse_diaryarticle`.`diarysubcategory`, `gse_diaryarticle`.`name`, `gse_diaryarticle`.`image`, `gse_diaryarticle`.`timestamp`, `gse_diaryarticle`.`content`, `gse_diaryarticle`.`date`, `gse_diaryarticle`.`type`, `gse_diaryarticle`.`showhide`,`author`.`name` AS 'authorname' FROM `gse_diaryarticle`
           LEFT OUTER JOIN `gse_diarycategory` ON `gse_diarycategory`.`id`=`gse_diaryarticle`.`diarycategory`
           LEFT OUTER JOIN `author` ON `gse_diaryarticle`.`author`=`author`.`id`
@@ -786,7 +786,7 @@ public function getMatch(){
 public function getDiary(){
     $query['description']=$this->db->query("SELECT `id`, `order`, `status`, `name`, `content` FROM `gse_category` WHERE  `id`=13 ORDER BY `order`")->row();
   $query['category']=$this->db->query("SELECT `id`, `order`, `status`, `name` FROM `gse_diarycategory` WHERE 1 ORDER BY `order`")->result();
-  $query['years']=$this->db->query("SELECT DISTINCT year(`date`) AS 'year',MONTHNAME(`date`) AS 'month' FROM `gse_diaryarticle` ORDER BY `date`")->result();
+  $query['years']=$this->db->query("SELECT DISTINCT year(`date`) AS 'year',MONTHNAME(`date`) AS 'month' FROM `gse_diaryarticle` ORDER BY `date` DESC")->result();
   if($query)
   {
     $obj->value = true;
