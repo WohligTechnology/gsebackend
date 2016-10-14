@@ -5,7 +5,6 @@ class service_model extends CI_Model
 {
 public function create($name,$content,$type,$order)
 {
-  echo $content;
 $data=array("name" => $name,"content" => $content,"type" => $type,"order" => $order);
 $query=$this->db->insert( "gse_service", $data );
 $id=$this->db->insert_id();

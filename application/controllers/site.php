@@ -2431,8 +2431,8 @@ if($this->service_model->create($name,$content,$type,$order)==0)
 $data["alerterror"]="New service could not be created.";
 else
 $data["alertsuccess"]="service created Successfully.";
-// $data["redirect"]="site/viewservice";
-// $this->load->view("redirect",$data);
+$data["redirect"]="site/viewservice";
+$this->load->view("redirect",$data);
 }
 }
 public function editservice()
