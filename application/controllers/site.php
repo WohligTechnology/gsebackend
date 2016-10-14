@@ -2426,7 +2426,6 @@ $name=$this->input->get_post("name");
 $content=$this->input->get_post("content");
 $type=$this->input->get_post("type");
 $order=$this->input->get_post("order");
-print_r($_POST);
 if($this->service_model->create($name,$content,$type,$order)==0)
 $data["alerterror"]="New service could not be created.";
 else
