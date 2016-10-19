@@ -670,8 +670,8 @@ public function getMiceInside()
     $this->chintantable->createelement('`image`', '0', 'image', 'image');
     $this->chintantable->createelement('`content`', '0', 'content', 'content');
     $this->chintantable->createelement('`status`', '0', 'status', 'status');
-    // $this->chintantable->createelement('`date`', '0', 'date', 'date');
-    // $this->chintantable->createelement('`location`', '0', 'location', 'location');
+    $this->chintantable->createelement('`date`', '0', 'date', 'date');
+    $this->chintantable->createelement('`location`', '0', 'location', 'location');
     $this->chintantable->createelement('`order`', '0', 'order', 'order');
     $search = $this->input->get_post('search');
     $pageno = $this->input->get_post('pageno');
@@ -1123,5 +1123,6 @@ public function getAuthor()
   $data["message"]=$this->restapi_model->getAuthor($id);
   $this->load->view("json",$data);
 }
+
 
 } ?>

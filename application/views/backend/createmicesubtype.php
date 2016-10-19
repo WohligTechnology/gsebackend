@@ -29,6 +29,20 @@
 </div>
 </div>
 
+<div class="row">
+<div class="input-field col s6">
+<label for="Name">Location</label>
+<input type="text" id="Name"  name="location" value='<?php echo set_value('location');?>'>
+</div>
+</div>
+
+<div class="row">
+<div class="input-field col s6">
+<label for="Name">Date</label>
+<input type="date" id="Name" class="datepicker" name="date" value='<?php echo set_value('date');?>'>
+</div>
+</div>
+
 
 <div class=" row">
 <div class=" input-field col s6">

@@ -29,8 +29,19 @@
 <input type="text" id="Name" name="order" value='<?php echo set_value('order',$before->order);?>'>
 </div>
 </div>
+<div class="row">
+<div class="input-field col s6">
+<label for="Name">Location</label>
+<input type="text" id="Name" name="location" value='<?php echo set_value('location',$before->location);?>'>
+</div>
+</div>
 
-
+<div class="row">
+<div class="input-field col s6">
+<label for="Date">Date</label>
+<input type="date" id="Date" name="date" class="datepicker" value='<?php echo set_value('date',$before->date);?>'>
+</div>
+</div>
 <div class=" row">
 <div class=" input-field col s12 m6">
 <?php echo form_dropdown("status",$status,set_value('status',$before->status));?>
@@ -78,6 +89,8 @@
 		<label>Content</label>
 		</div>
 		</div>
+		<div class="row">
+
 <div class="row">
 <div class="col s12 m6">
 <button type="submit" class="btn btn-primary waves-effect waves-light blue darken-4">Save</button>

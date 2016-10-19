@@ -3,9 +3,10 @@ if ( !defined( "BASEPATH" ) )
 exit( "No direct script access allowed" );
 class micesubtype_model extends CI_Model
 {
-public function create($mice,$name,$image,$content,$banner,$url,$order,$status)
+public function create($mice,$name,$image,$content,$banner,$url,$order,$status,$location,$date)
 {
-$data=array("mice" => $mice,"name" => $name,"image" => $image,"content" => $content,"banner" => $banner,"url" => $url,"order" => $order,"status" => $status);
+      $date=$this->menu_model->changeDate($date);
+$data=array("mice" => $mice,"name" => $name,"image" => $image,"content" => $content,"banner" => $banner,"url" => $url,"order" => $order,"status" => $status,"location" => $location,"date" => $date);
 $query=$this->db->insert( "gse_micesubtype", $data );
 $id=$this->db->insert_id();
 if(!$query)
@@ -24,8 +25,13 @@ $this->db->where("id",$id);
 $query=$this->db->get("gse_micesubtype")->row();
 return $query;
 }
-public function edit($id,$mice,$name,$image,$content,$banner,$url,$order,$status)
+public function edit($id,$mice,$name,$image,$content,$banner,$url,$order,$status,$location,$date)
 {
+     $checkdatequery=$this->db->query("SELECT * FROM `gse_micesubtype` WHERE `id`='$id'")->row();
+$olddate=$checkdatequery->date;
+if($olddate !==$date){
+$date=$this->menu_model->changeDate($date);
+}
 if($image=="")
 {
 $image=$this->micesubtype_model->getimagebyid($id);
@@ -36,7 +42,7 @@ if($banner=="")
 $banner=$this->micesubtype_model->getbannerbyid($id);
 $banner=$banner->banner;
 }
-$data=array("mice" => $mice,"name" => $name,"image" => $image,"content" => $content,"banner" => $banner,"url" => $url,"order" => $order,"status" => $status);
+$data=array("mice" => $mice,"name" => $name,"image" => $image,"content" => $content,"banner" => $banner,"url" => $url,"order" => $order,"status" => $status,"location" => $location,"date" => $date);
 $this->db->where( "id", $id );
 $query=$this->db->update( "gse_micesubtype", $data );
 return 1;

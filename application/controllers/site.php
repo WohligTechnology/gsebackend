@@ -8236,6 +8236,8 @@ $name=$this->input->get_post("name");
 $url=$this->input->get_post("url");
 $order=$this->input->get_post("order");
 $status=$this->input->get_post("status");
+$location=$this->input->get_post("location");
+$date=$this->input->get_post("date");
 $image=$this->menu_model->createImage();
 $config['upload_path'] = './uploads/';
 					$config['allowed_types'] = 'gif|jpg|png|jpeg';
@@ -8249,7 +8251,7 @@ $config['upload_path'] = './uploads/';
 					}
 $content=$this->input->get_post("content");
 // $videos=$this->input->get_post("videos");
-if($this->micesubtype_model->create($mice,$name,$image,$content,$banner,$url,$order,$status)==0)
+if($this->micesubtype_model->create($mice,$name,$image,$content,$banner,$url,$order,$status,$location,$date)==0)
 $data["alerterror"]="New micesubtype could not be created.";
 else
 $data["alertsuccess"]="micesubtype created Successfully.";
@@ -8302,6 +8304,8 @@ $name=$this->input->get_post("name");
 $url=$this->input->get_post("url");
 $order=$this->input->get_post("order");
 $status=$this->input->get_post("status");
+$location=$this->input->get_post("location");
+$date=$this->input->get_post("date");
 // $image=$this->menu_model->createImage();
 $content=$this->input->get_post("content");
 // $videos=$this->input->get_post("videos");
@@ -8324,7 +8328,7 @@ $image=$this->menu_model->createImage();
 						   // print_r($image);
 							$banner=$banner->banner;
 						}
-if($this->micesubtype_model->edit($id,$mice,$name,$image,$content,$banner,$url,$order,$status)==0)
+if($this->micesubtype_model->edit($id,$mice,$name,$image,$content,$banner,$url,$order,$status,$location,$date)==0)
 $data["alerterror"]="New micesubtype could not be Updated.";
 else
 $data["alertsuccess"]="micesubtype Updated Successfully.";

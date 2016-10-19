@@ -28,8 +28,13 @@ return $query;
 }
 public function edit($id,$sportscategory,$name,$image,$link,$location,$content,$videos,$date,$banner,$order,$status)
 {
-            $date = new DateTime($date);
-        $date = $date->format('Y-m-d');
+    $checkdatequery=$this->db->query("SELECT * FROM `gse_highlight` WHERE `id`='$id'")->row();
+$olddate=$checkdatequery->date;
+if($olddate !==$date){
+$date=$this->menu_model->changeDate($date);
+}
+
+       
 if($image=="")
 {
 $image=$this->highlight_model->getimagebyid($id);

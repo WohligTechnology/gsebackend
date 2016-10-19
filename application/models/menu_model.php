@@ -50,6 +50,14 @@ class Menu_model extends CI_Model
 			}
         return $image;
     }
+	public function changeDate($date)
+{
+    $datearray=explode(" ",$date);
+    $monthname=rtrim($datearray[1], ",");
+    $monthnumber= date('m', strtotime($monthname));
+    $newdate=$datearray[2]."-".$monthnumber."-".$datearray[0];
+	return $newdate;
+}
 	function viewmenu()
 	{
 		$query="SELECT `menu`.`id` as `id`,`menu`.`name` as `name`,`menu`.`description` as `description`,`menu`.`keyword` as `keyword`,`menu`.`url` as `url`,`menu2`.`name` as `parentmenu`,`menu`.`linktype` as `linktype`,`menu`.`icon`,`menu`.`order` FROM `menu`
