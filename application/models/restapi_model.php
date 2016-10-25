@@ -134,7 +134,7 @@ class restapi_model extends CI_Model
           $query['weddingdiaries'] = $this->db->query("SELECT `gse_diaryarticle`.`id`, `gse_diaryarticle`.`status`, `gse_diaryarticle`.`diarycategory`, `gse_diaryarticle`.`diarysubcategory`, `gse_diaryarticle`.`name`, `gse_diaryarticle`.`image`, `gse_diaryarticle`.`timestamp`, `gse_diaryarticle`.`content`, `gse_diaryarticle`.`date`, `gse_diaryarticle`.`type`, `gse_diaryarticle`.`showhide`,`author`.`name` AS 'authorname' FROM `gse_diaryarticle`
           LEFT OUTER JOIN `gse_diarycategory` ON `gse_diarycategory`.`id`=`gse_diaryarticle`.`diarycategory`
           LEFT OUTER JOIN `author` ON `gse_diaryarticle`.`author`=`author`.`id`
-          WHERE `gse_diarycategory`.`name` LIKE '%wedding%' OR `gse_diarycategory`.`name` LIKE '%weddings%' OR `gse_diaryarticle`.`status`=1 ORDER BY `date` DESC LIMIT 3 ")->result();
+          WHERE `gse_diaryarticle`.`name` = 'Weddings' AND `gse_diarycategory`.`name` = 'Weddings' AND `gse_diaryarticle`.`status`=1 ORDER BY `date` DESC LIMIT 3 ")->result();
           $query['testimonial'] = $this->db->query("SELECT * FROM `gse_testimonial` WHERE `category`=2")->result();
           if (!query)
           {
