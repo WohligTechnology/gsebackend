@@ -30,6 +30,26 @@
 			<span style=" display: block;
 	 padding-top: 30px;">315 X 310</span>
 		</div>
+
+
+		<div class="row">
+			<div class="file-field input-field col m6 s12">
+				<span class="img-center big">
+								                    	<?php if($before->banner == "") { } else {
+									                    ?><img src="<?php echo base_url('uploads')."/".$before->banner; ?>">
+															<?php } ?>
+															</span>
+				<div class="btn blue darken-4">
+					<span>banner</span>
+					<input name="banner" type="file" multiple>
+				</div>
+				<div class="file-path-wrapper">
+					<input class="file-path validate" type="text" placeholder="Upload one or more files" value="<?php echo set_value('banner',$before->banner);?>">
+				</div>
+			</div>
+			<span style=" display: block;
+	 padding-top: 30px;">1624 X 526</span>
+		</div>
 		<div class="row">
 		<div class="input-field col s6">
 		<textarea name="description" id="some-textarea" class="materialize-textarea"><?php echo set_value( 'description',$before->description);?></textarea>
@@ -37,9 +57,21 @@
 		</div>
 		</div>
 		<div class="row">
+<div class="input-field col s6">
+<label for="Date">Date</label>
+<input type="date" id="Date" name="date" class="datepicker" value='<?php echo set_value('date',$before->date);?>'>
+</div>
+</div>
+		<div class="row">
 		<div class="input-field col s6">
 		<label for="Order">Order</label>
 		<input type="text" id="Order" name="order" value='<?php echo set_value('order',$before->order);?>'>
+		</div>
+		</div>
+		<div class="row">
+		<div class="input-field col s6">
+		<label for="type">Author type</label>
+		<input type="text" id="type" name="type" value='<?php echo set_value('type',$before->type);?>'>
 		</div>
 		</div>
 		<div class=" row">

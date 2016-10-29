@@ -894,8 +894,11 @@ public function commentSubmit($diaryarticle,$userid,$name,$image,$comment)
   }
 }
 public function getAuthor($id){
-    $query['description']=$this->db->query("SELECT `id`, `name`, `image`, `description`, `facebook`, `twitter`, `google` FROM `author` WHERE `id`='$id'")->row();
-  $query['articles']=$this->db->query("SELECT `gse_diaryarticle`.`id`, `gse_diaryarticle`.`status`, `gse_diaryarticle`.`diarycategory`, `gse_diaryarticle`.`diarysubcategory`, `gse_diaryarticle`.`name`, `gse_diaryarticle`.`image`, `gse_diaryarticle`.`timestamp`, `gse_diaryarticle`.`content`, `gse_diaryarticle`.`date`, `gse_diaryarticle`.`type`, `gse_diaryarticle`.`showhide`, `gse_diaryarticle`.`author`, `gse_diaryarticle`.`views`,`gse_diarycategory`.`name` AS 'categoryname' FROM `gse_diaryarticle` LEFT OUTER JOIN `gse_diarycategory` ON `gse_diaryarticle`.`diarycategory`=`gse_diarycategory`.`id` WHERE `gse_diaryarticle`.`author`=$id ORDER BY `date` DESC")->result();
+    $query['description']=$this->db->query("SELECT * FROM `author` WHERE `id`='$id'")->row();
+  $query['articles']=$this->db->query("SELECT `gse_diaryarticle`.`id`, `gse_diaryarticle`.`status`, `gse_diaryarticle`.`diarycategory`, `gse_diaryarticle`.`diarysubcategory`, `gse_diaryarticle`.`name`, `gse_diaryarticle`.`image`, `gse_diaryarticle`.`timestamp`, `gse_diaryarticle`.`content`, `gse_diaryarticle`.`date`, `gse_diaryarticle`.`type`, `gse_diaryarticle`.`showhide`, `gse_diaryarticle`.`author`, `gse_diaryarticle`.`views`,`gse_diarycategory`.`name` AS 'categoryname' FROM `gse_diaryarticle` 
+  LEFT OUTER JOIN `gse_diarycategory` ON `gse_diaryarticle`.`diarycategory`=`gse_diarycategory`.`id` 
+  WHERE `gse_diaryarticle`.`author`=$id ORDER BY `date` DESC")->result();
+  $query['storyCount']=$this->db->query("SELECT COUNT(*) as `storyCount` FROM `gse_diaryarticle` WHERE `author`='$id'")->row();
 
   if($query)
   {

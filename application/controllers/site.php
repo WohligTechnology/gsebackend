@@ -10147,8 +10147,30 @@ $name=$this->input->get_post("name");
 $description=$this->input->get_post("description");
 $status=$this->input->get_post("status");
 $order=$this->input->get_post("order");
+$type=$this->input->get_post("type");
+$date=$this->input->get_post("date");
 $image=$this->menu_model->createImage();
-if($this->author_model->create($google,$twitter,$facebook,$name,$image,$description,$order,$status)==0)
+   $config['upload_path'] = './uploads/';
+						$config['allowed_types'] = 'gif|jpg|png|jpeg';
+						$this->load->library('upload', $config);
+						$filename="logo2";
+						$logo2="";
+						if (  $this->upload->do_upload($filename))
+						{
+							$uploaddata = $this->upload->data();
+							$logo2=$uploaddata['file_name'];
+						}
+						$config['upload_path'] = './uploads/';
+										$config['allowed_types'] = 'gif|jpg|png|jpeg';
+										$this->load->library('upload', $config);
+										$filename="banner";
+										$banner="";
+										if (  $this->upload->do_upload($filename))
+										{
+											$uploaddata = $this->upload->data();
+											$banner=$uploaddata['file_name'];
+										}
+if($this->author_model->create($google,$twitter,$facebook,$name,$image,$description,$order,$status,$type,$date,$banner)==0)
 $data["alerterror"]="New author could not be created.";
 else
 $data["alertsuccess"]="author created Successfully.";
@@ -10195,8 +10217,27 @@ $status=$this->input->get_post("status");
 $order=$this->input->get_post("order");
 $name=$this->input->get_post("name");
 $description=$this->input->get_post("description");
+$type=$this->input->get_post("type");
+$date=$this->input->get_post("date");
 $image=$this->menu_model->createImage();
-if($this->author_model->edit($id,$google,$twitter,$facebook,$name,$image,$description,$order,$status)==0)
+$config['upload_path'] = './uploads/';
+			 $config['allowed_types'] = 'gif|jpg|png|jpeg';
+			 $this->load->library('upload', $config);
+			 $filename="banner";
+			 $banner="";
+			 if (  $this->upload->do_upload($filename))
+			 {
+				 $uploaddata = $this->upload->data();
+				 $banner=$uploaddata['file_name'];
+			 }
+
+			//  if($banner=="")
+			//  {
+			//  $banner=$this->author_model->getbanner($id);
+			// 		// print_r($image);
+			// 	 $banner=$banner->banner;
+			//  }
+if($this->author_model->edit($id,$google,$twitter,$facebook,$name,$image,$description,$order,$status,$type,$date,$banner)==0)
 $data["alerterror"]="New author could not be Updated.";
 else
 $data["alertsuccess"]="author Updated Successfully.";
