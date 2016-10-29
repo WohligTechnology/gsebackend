@@ -811,6 +811,7 @@ public function getSportInside()
     $this->chintantable->createelement('`content`', '0', 'content', 'content');
     $this->chintantable->createelement('`status`', '0', 'status', 'status');
     $this->chintantable->createelement('`videos`', '0', 'videos', 'videos');
+    $this->chintantable->createelement('`order`', '0', 'order', 'order');
     $search = $this->input->get_post('search');
     $pageno = $this->input->get_post('pageno');
     $orderby = $this->input->get_post('orderby');
@@ -819,10 +820,10 @@ public function getSportInside()
     if ($maxrow == '') {
         $maxrow = 500;
     }
-    if ($orderby == '') {
+    // if ($orderby == '') {
         $orderby = 'order';
         $orderorder = 'DESC';
-    }
+    // }
 $cdate = date("Y-m-d");
     if ($sportscategory != '') {
         $where = " WHERE sportscategory = '$sportscategory' AND date <= '$cdate'";
