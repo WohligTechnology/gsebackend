@@ -8981,6 +8981,12 @@ $elements[9]->field="`gse_worldtour`.`banner`";
 $elements[9]->sort="1";
 $elements[9]->header="banner";
 $elements[9]->alias="banner";
+
+$elements[10]=new stdClass();
+$elements[10]->field="`gse_worldtour`.`order`";
+$elements[10]->sort="1";
+$elements[10]->header="order";
+$elements[10]->alias="order";
 $search=$this->input->get_post("search");
 $pageno=$this->input->get_post("pageno");
 $orderby=$this->input->get_post("orderby");
@@ -9047,6 +9053,7 @@ $facebook=$this->input->get_post("facebook");
 $twitter=$this->input->get_post("twitter");
 $instagram=$this->input->get_post("instagram");
 $status=$this->input->get_post("status");
+$order=$this->input->get_post("order");
 
 //$banner=$this->input->get_post("banner");
     $config['upload_path'] = './uploads/';
@@ -9059,7 +9066,7 @@ $status=$this->input->get_post("status");
 							$uploaddata = $this->upload->data();
 							$banner=$uploaddata['file_name'];
 						}
-if($this->worldtour_model->create($type,$image,$name,$location,$date,$venue,$content,$banner,$hashtag,$facebook,$twitter,$instagram,$status)==0)
+if($this->worldtour_model->create($type,$image,$name,$location,$date,$venue,$content,$banner,$hashtag,$facebook,$twitter,$instagram,$status,$order)==0)
 $data["alerterror"]="New worldtour could not be created.";
 else
 $data["alertsuccess"]="worldtour created Successfully.";
@@ -9123,6 +9130,7 @@ $facebook=$this->input->get_post("facebook");
 $twitter=$this->input->get_post("twitter");
 $instagram=$this->input->get_post("instagram");
 $status=$this->input->get_post("status");
+$order=$this->input->get_post("order");
 
 //$banner=$this->input->get_post("banner");
      $config['upload_path'] = './uploads/';
@@ -9142,7 +9150,7 @@ $status=$this->input->get_post("status");
 						   // print_r($image);
 							$banner=$banner->banner;
 						}
-if($this->worldtour_model->edit($id,$type,$image,$name,$location,$date,$venue,$content,$banner,$hashtag,$facebook,$twitter,$instagram,$status)==0)
+if($this->worldtour_model->edit($id,$type,$image,$name,$location,$date,$venue,$content,$banner,$hashtag,$facebook,$twitter,$instagram,$status,$order)==0)
 $data["alerterror"]="New worldtour could not be Updated.";
 else
 $data["alertsuccess"]="worldtour Updated Successfully.";
