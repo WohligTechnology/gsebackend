@@ -33,7 +33,7 @@
 				</div>
 			</div>
 			<span style=" display: block;
-	 padding-top: 30px;">1624 X 526</span>
+	 padding-top: 30px;">1140x369</span>
 		</div>
 		<div class="row">
 <div class="input-field col s6">
