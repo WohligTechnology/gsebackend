@@ -769,6 +769,7 @@ public function getMediaCornerDetails()
     $this->chintantable->createelement('`twitter`', '0', 'twitter', 'twitter');
     $this->chintantable->createelement('`message`', '0', 'message', 'message');
     $this->chintantable->createelement('`status`', '0', 'status', 'status');
+    $this->chintantable->createelement('`order`', '0', 'order', 'order');
     $search = $this->input->get_post('search');
     $pageno = $this->input->get_post('pageno');
     $orderby = $this->input->get_post('orderby');
