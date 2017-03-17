@@ -1126,5 +1126,110 @@ public function getAuthor()
   $this->load->view("json",$data);
 }
 
+ //avinash functions
+ 
+public function check()
+{
+    $data = json_decode(file_get_contents('php://input'), true);
+    $name = $data['name'];
+    $lastname = $data['lastname'];
+    echo $name." ".$lastname;
+}
+public function getintouchmoviesubmit()
+{
+  $data = json_decode(file_get_contents('php://input'), true);
+  $name = $data['name'];
+  $lastname = $data['lastname'];
+  $email = $data['email'];
+  $title = $data['title'];
+  $message = $data['message'];
+  $data['message'] = $this->restapi_model->getintouchmovieSubmit($name,$lastname,$email,$title,$message);
+ $this->load->view('json', $data);
+}
+ 
+function getallworkdone()
+{
+    $elements=array();
+
+    $elements[0]=new stdClass();
+    $elements[0]->field="`gse_workdone`.`id`";
+    $elements[0]->sort="1";
+    $elements[0]->header="ID";
+    $elements[0]->alias="id";
+
+    $elements[1]=new stdClass();
+    $elements[1]->field="`gse_workdone`.`title`";
+    $elements[1]->sort="1";
+    $elements[1]->header="Title";
+    $elements[1]->alias="title";
+
+    $elements[2]=new stdClass();
+    $elements[2]->field="`gse_workdone`.`date`";
+    $elements[2]->sort="1";
+    $elements[2]->header="Date";
+    $elements[2]->alias="date";
+
+    $elements[3]=new stdClass();
+    $elements[3]->field="`gse_workdone`.`city`";
+    $elements[3]->sort="1";
+    $elements[3]->header="City";
+    $elements[3]->alias="city";
+
+    $elements[4]=new stdClass();
+    $elements[4]->field="`gse_workdone`.`description`";
+    $elements[4]->sort="1";
+    $elements[4]->header="Description";
+    $elements[4]->alias="description";
+
+    $elements[5]=new stdClass();
+    $elements[5]->field="`gse_workdone`.`image`";
+    $elements[5]->sort="1";
+    $elements[5]->header="Image";
+    $elements[5]->alias="image";
+
+    $elements[6]=new stdClass();
+    $elements[6]->field="`gse_workdone`.`timestamp`";
+    $elements[6]->sort="1";
+    $elements[6]->header="Timestamp";
+    $elements[6]->alias="timestamp";
+
+    $elements[7]=new stdClass();
+    $elements[7]->field="`gse_workdone`.`status`";
+    $elements[7]->sort="1";
+    $elements[7]->header="Status";
+    $elements[7]->alias="status";
+        
+    $elements[8]=new stdClass();
+    $elements[8]->field="`gse_workdone`.`url`";
+    $elements[8]->sort="1";
+    $elements[8]->header="URL";
+    $elements[8]->alias="url";
+
+    $search=$this->input->get_post("search");
+    $pageno=$this->input->get_post("pageno");
+    $orderby=$this->input->get_post("orderby");
+    $orderorder=$this->input->get_post("orderorder");
+    $maxrow=$this->input->get_post("maxrow");
+    if($maxrow=="")
+    {
+        $maxrow=20;
+    }
+    if($orderby=="")
+    {
+        $orderby="id";
+        $orderorder="ASC";
+    }
+    $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_workdone`");
+    $this->load->view("json",$data);
+}
+
+ 
+public function getworkdone()
+{
+  $id = $this->input->get_post('id');
+  $data["message"]=$this->restapi_model->getWorkdone($id);
+  $this->load->view("json",$data);
+}
+
 
 } ?>

@@ -913,6 +913,49 @@ public function getAuthor($id){
     return $obj;
   }
 }
-
+    
+public function getintouchmovieSubmit($name,$lastname,$email,$title,$message)
+{
+        
+  if(!empty($message))
+  {
+    $query=$this->db->query("INSERT INTO `gse_getintouchmovie`(`name`, `lastname`, `email`, `title`,`message`) VALUES ('$name','$lastname','$email','$title','$message')");
+    if($query)
+    {
+      $obj->value = true;
+      $obj->data = "Message saved";
+      return $obj;
+    }
+    else
+    {
+      $obj->value = false;
+      return $obj;
+    }
+  }
+  else {
+    $obj->value = false;
+    $obj->data = "Plaese enter Message";
+    return $obj;
+  }
+}
+    
+public function getWorkdone($id)
+{
+    $query=$this->db->query("SELECT * FROM `gse_workdone` WHERE `id`='$id'")->row();
+  
+    if($query)
+    {
+        $obj->value = true;
+        $obj->data = $query;
+        return $obj;
+    }
+    else
+    {
+        $obj->value = false;
+        $obj->data = "No data found";
+        return $obj;
+    }
+}
+    
 }
 ?>

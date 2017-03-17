@@ -10675,5 +10675,366 @@ public function exportSubscribeCsv()
         $data['redirect']="site/viewsubscribe";
         $this->load->view("redirect",$data);
 }
+    
+    
+    //avinash functions
+    public function viewgetintouchmovie()
+    {
+        $access=array("1");
+        $this->checkaccess($access);
+        $data["page"]="viewgetintouchmovie";
+        $data["base_url"]=site_url("site/viewgetintouchmoviejson");
+        $data["title"]="View getintouchmovie";
+        $this->load->view("template",$data);
+    }
+    function viewgetintouchmoviejson()
+    {
+        $elements=array();
+
+        $elements[0]=new stdClass();
+        $elements[0]->field="`gse_getintouchmovie`.`id`";
+        $elements[0]->sort="1";
+        $elements[0]->header="ID";
+        $elements[0]->alias="id";
+
+        $elements[1]=new stdClass();
+        $elements[1]->field="`gse_getintouchmovie`.`name`";
+        $elements[1]->sort="1";
+        $elements[1]->header="Name";
+        $elements[1]->alias="name";
+
+        $elements[2]=new stdClass();
+        $elements[2]->field="`gse_getintouchmovie`.`lastname`";
+        $elements[2]->sort="1";
+        $elements[2]->header="Last Name";
+        $elements[2]->alias="lastname";
+
+        $elements[3]=new stdClass();
+        $elements[3]->field="`gse_getintouchmovie`.`email`";
+        $elements[3]->sort="1";
+        $elements[3]->header="Email";
+        $elements[3]->alias="email";
+
+        $elements[4]=new stdClass();
+        $elements[4]->field="`gse_getintouchmovie`.`title`";
+        $elements[4]->sort="1";
+        $elements[4]->header="Title";
+        $elements[4]->alias="title";
+
+        $elements[5]=new stdClass();
+        $elements[5]->field="`gse_getintouchmovie`.`message`";
+        $elements[5]->sort="1";
+        $elements[5]->header="Message";
+        $elements[5]->alias="message";
+
+        $elements[6]=new stdClass();
+        $elements[6]->field="`gse_getintouchmovie`.`timestamp`";
+        $elements[6]->sort="1";
+        $elements[6]->header="Timestamp";
+        $elements[6]->alias="timestamp";
+
+        $elements[7]=new stdClass();
+        $elements[7]->field="`gse_getintouchmovie`.`status`";
+        $elements[7]->sort="1";
+        $elements[7]->header="Status";
+        $elements[7]->alias="status";
+
+        $search=$this->input->get_post("search");
+        $pageno=$this->input->get_post("pageno");
+        $orderby=$this->input->get_post("orderby");
+        $orderorder=$this->input->get_post("orderorder");
+        $maxrow=$this->input->get_post("maxrow");
+
+        if($maxrow=="")
+        {
+            $maxrow=20;
+        }
+        if($orderby=="")
+        {
+            $orderby="id";
+            $orderorder="ASC";
+        }
+        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_getintouchmovie`");
+        $this->load->view("json",$data);
+    }
+
+    public function creategetintouchmovie()
+    {
+        $access=array("1");
+        $this->checkaccess($access);
+        $data["page"]="creategetintouchmovie";
+        $data["title"]="Create getintouchmovie";
+        $this->load->view("template",$data);
+    }
+    public function creategetintouchmoviesubmit()
+    {
+        $access=array("1");
+        $this->checkaccess($access);
+        $this->form_validation->set_rules("name"," Name","trim");
+        $this->form_validation->set_rules("lastname","Last Name","trim");
+        $this->form_validation->set_rules("email","Email","trim");
+        $this->form_validation->set_rules("title","title","trim");
+        $this->form_validation->set_rules("messsage","messsage","trim");
+        if($this->form_validation->run()==FALSE)
+        {
+            $data["alerterror"]=validation_errors();
+            $data["page"]="creategetintouchmovie";
+            $data["title"]="Create getintouchmovie";
+            $this->load->view("template",$data);
+        }
+        else
+        {
+            $name=$this->input->get_post("name");
+            $lastname=$this->input->get_post("lastname");
+            $email=$this->input->get_post("email");
+            $title=$this->input->get_post("title");
+            $message=$this->input->get_post("message");
+            if($this->getintouchmovie_model->create($name,$lastname,$email,$title,$message)==0)
+                $data["alerterror"]="New getintouchmovie could not be created.";
+            else
+                $data["alertsuccess"]="getintouchmovie created Successfully.";
+            $data["redirect"]="site/viewgetintouchmovie";
+            $this->load->view("redirect",$data);
+        }
+    }
+    public function editgetintouchmovie()
+    {
+        $access=array("1");
+        $this->checkaccess($access);
+        $data["page"]="editgetintouchmovie";
+        $data["title"]="Edit getintouchmovie";
+        $data['category']=$this->category_model->getdropdown();
+        $data["before"]=$this->getintouchmovie_model->beforeedit($this->input->get("id"));
+        $this->load->view("template",$data);
+    }
+    public function editgetintouchmoviesubmit()
+    {
+        $access=array("1");
+        $this->checkaccess($access);
+        $this->form_validation->set_rules("id","ID","trim");
+        $this->form_validation->set_rules("name"," Name","trim");
+        $this->form_validation->set_rules("lastname","Last Name","trim");
+        $this->form_validation->set_rules("email","Email","trim");
+        $this->form_validation->set_rules("title","title","trim");
+        $this->form_validation->set_rules("messsage","messsage","trim");
+        if($this->form_validation->run()==FALSE)
+        {
+            $data["alerterror"]=validation_errors();
+            $data["page"]="editgetintouchmovie";
+            $data["title"]="Edit getintouchmovie";
+            $data["before"]=$this->getintouchmovie_model->beforeedit($this->input->get("id"));
+            $this->load->view("template",$data);
+        }
+        else
+        {
+            $id=$this->input->get_post("id");
+            $name=$this->input->get_post("name");
+            $lastname=$this->input->get_post("lastname");
+            $email=$this->input->get_post("email");
+            $title=$this->input->get_post("title");
+            $message=$this->input->get_post("message");
+            if($this->getintouchmovie_model->edit($id,$name,$lastname,$email,$title,$message)==0)
+            $data["alerterror"]="New getintouchmovie could not be Updated.";
+            else
+            $data["alertsuccess"]="getintouchmovie Updated Successfully.";
+            $data["redirect"]="site/viewgetintouchmovie";
+            $this->load->view("redirect",$data);
+        }
+    }
+    public function deletegetintouchmovie()
+    {
+        $access=array("1");
+        $this->checkaccess($access);
+        $this->getintouchmovie_model->delete($this->input->get("id"));
+        $data["redirect"]="site/viewgetintouchmovie";
+        $this->load->view("redirect",$data);
+    }
+    
+    //workdone
+    
+    public function viewworkdone()
+    {
+        $access=array("1");
+        $this->checkaccess($access);
+        $data["page"]="viewworkdone";
+        $data["base_url"]=site_url("site/viewworkdonejson");
+        $data["title"]="View workdone";
+        $this->load->view("template",$data);
+    }
+    function viewworkdonejson()
+    {
+        $elements=array();
+
+        $elements[0]=new stdClass();
+        $elements[0]->field="`gse_workdone`.`id`";
+        $elements[0]->sort="1";
+        $elements[0]->header="ID";
+        $elements[0]->alias="id";
+
+        $elements[1]=new stdClass();
+        $elements[1]->field="`gse_workdone`.`title`";
+        $elements[1]->sort="1";
+        $elements[1]->header="Title";
+        $elements[1]->alias="title";
+
+        $elements[2]=new stdClass();
+        $elements[2]->field="`gse_workdone`.`date`";
+        $elements[2]->sort="1";
+        $elements[2]->header="Date";
+        $elements[2]->alias="date";
+
+        $elements[3]=new stdClass();
+        $elements[3]->field="`gse_workdone`.`city`";
+        $elements[3]->sort="1";
+        $elements[3]->header="City";
+        $elements[3]->alias="city";
+
+        $elements[4]=new stdClass();
+        $elements[4]->field="`gse_workdone`.`description`";
+        $elements[4]->sort="1";
+        $elements[4]->header="Description";
+        $elements[4]->alias="description";
+
+        $elements[5]=new stdClass();
+        $elements[5]->field="`gse_workdone`.`image`";
+        $elements[5]->sort="1";
+        $elements[5]->header="Image";
+        $elements[5]->alias="image";
+
+        $elements[6]=new stdClass();
+        $elements[6]->field="`gse_workdone`.`timestamp`";
+        $elements[6]->sort="1";
+        $elements[6]->header="Timestamp";
+        $elements[6]->alias="timestamp";
+
+        $elements[7]=new stdClass();
+        $elements[7]->field="`gse_workdone`.`status`";
+        $elements[7]->sort="1";
+        $elements[7]->header="Status";
+        $elements[7]->alias="status";
+        
+        $elements[8]=new stdClass();
+        $elements[8]->field="`gse_workdone`.`url`";
+        $elements[8]->sort="1";
+        $elements[8]->header="URL";
+        $elements[8]->alias="url";
+
+        $search=$this->input->get_post("search");
+        $pageno=$this->input->get_post("pageno");
+        $orderby=$this->input->get_post("orderby");
+        $orderorder=$this->input->get_post("orderorder");
+        $maxrow=$this->input->get_post("maxrow");
+
+        if($maxrow=="")
+        {
+            $maxrow=20;
+        }
+        if($orderby=="")
+        {
+            $orderby="id";
+            $orderorder="ASC";
+        }
+        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_workdone`");
+        $this->load->view("json",$data);
+    }
+
+    public function createworkdone()
+    {
+        $access=array("1");
+        $this->checkaccess($access);
+        $data["page"]="createworkdone";
+        $data["title"]="Create workdone";
+        $this->load->view("template",$data);
+    }
+    public function createworkdonesubmit()
+    {
+        $access=array("1");
+        $this->checkaccess($access);
+        $this->form_validation->set_rules("name"," Name","trim");
+        $this->form_validation->set_rules("title","Title","trim");
+        $this->form_validation->set_rules("date","Date","trim");
+        $this->form_validation->set_rules("city","City","trim");
+        $this->form_validation->set_rules("description","Description","trim");
+        $this->form_validation->set_rules("url","URL","trim");
+        if($this->form_validation->run()==FALSE)
+        {
+            $data["alerterror"]=validation_errors();
+            $data["page"]="createworkdone";
+            $data["title"]="Create workdone";
+            $this->load->view("template",$data);
+        }
+        else
+        {
+            $title=$this->input->get_post("title");
+            $date=$this->input->get_post("date");
+            $city=$this->input->get_post("city");
+            $description=$this->input->get_post("description");
+            $url=$this->input->get_post("url");
+            $image=$this->menu_model->createImage();
+            if($this->workdone_model->create($title,$date,$city,$description,$image,$url)==0)
+                $data["alerterror"]="New workdone could not be created.";
+            else
+                $data["alertsuccess"]="workdone created Successfully.";
+            $data["redirect"]="site/viewworkdone";
+            $this->load->view("redirect",$data);
+        }
+    }
+    public function editworkdone()
+    {
+        $access=array("1");
+        $this->checkaccess($access);
+        $data["page"]="editworkdone";
+        $data["title"]="Edit workdone";
+        $data['category']=$this->category_model->getdropdown();
+        $data["before"]=$this->workdone_model->beforeedit($this->input->get("id"));
+        $this->load->view("template",$data);
+    }
+    public function editworkdonesubmit()
+    {
+        $access=array("1");
+        $this->checkaccess($access);
+        $this->form_validation->set_rules("id","ID","trim");
+        $this->form_validation->set_rules("name"," Name","trim");
+        $this->form_validation->set_rules("title","Title","trim");
+        $this->form_validation->set_rules("date","Date","trim");
+        $this->form_validation->set_rules("city","City","trim");
+        $this->form_validation->set_rules("description","Description","trim");
+        $this->form_validation->set_rules("url","URL","trim");
+        if($this->form_validation->run()==FALSE)
+        {
+            $data["alerterror"]=validation_errors();
+            $data["page"]="editworkdone";
+            $data["title"]="Edit workdone";
+            $data["before"]=$this->workdone_model->beforeedit($this->input->get("id"));
+            $this->load->view("template",$data);
+        }
+        else
+        {
+            $id=$this->input->get_post("id");
+            $title=$this->input->get_post("title");
+            $date=$this->input->get_post("date");
+            $city=$this->input->get_post("city");
+            $description=$this->input->get_post("description");
+            $url=$this->input->get_post("url");
+            $image=$this->menu_model->createImage();
+            if($this->workdone_model->edit($id,$title,$date,$city,$description,$image,$url)==0)
+            $data["alerterror"]="New workdone could not be Updated.";
+            else
+            $data["alertsuccess"]="workdone Updated Successfully.";
+            $data["redirect"]="site/viewworkdone";
+            $this->load->view("redirect",$data);
+        }
+    }
+    public function deleteworkdone()
+    {
+        $access=array("1");
+        $this->checkaccess($access);
+        $this->workdone_model->delete($this->input->get("id"));
+        $data["redirect"]="site/viewworkdone";
+        $this->load->view("redirect",$data);
+    }
+
+    
+
 }
 ?>
