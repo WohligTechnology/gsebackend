@@ -1205,6 +1205,18 @@ function getallworkdone()
     $elements[8]->header="URL";
     $elements[8]->alias="url";
 
+    $elements[9]=new stdClass();
+    $elements[9]->field="`gse_workdone`.`talenttype`";
+    $elements[9]->sort="1";
+    $elements[9]->header="talenttypeid";
+    $elements[9]->alias="talenttypeid";
+
+    $elements[10]=new stdClass();
+    $elements[10]->field="`gse_talenttype`.`name`";
+    $elements[10]->sort="1";
+    $elements[10]->header="Talent Type";
+    $elements[10]->alias="talenttype";
+
     $search=$this->input->get_post("search");
     $pageno=$this->input->get_post("pageno");
     $orderby=$this->input->get_post("orderby");
@@ -1219,7 +1231,7 @@ function getallworkdone()
         $orderby="id";
         $orderorder="ASC";
     }
-    $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_workdone`");
+    $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_workdone` LEFT OUTER JOIN `gse_talenttype` ON `gse_talenttype`.`id`=`gse_workdone`.`talenttype`");
     $this->load->view("json",$data);
 }
 

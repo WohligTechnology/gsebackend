@@ -22,7 +22,12 @@
             <input type="text" id="city" name="city" value='<?php echo set_value('city');?>'>
         </div>
     </div>
-    
+    <div class=" row">
+        <div class=" input-field col s6">
+            <?php echo form_dropdown("talenttype",$talenttype,set_value('talenttype'));?>
+            <label>Talent Type</label>
+        </div>
+    </div>
     <div class="row">
         <div class="input-field col s12">
             <textarea name="description" class="materialize-textarea" length="400"><?php echo set_value('description');?></textarea>

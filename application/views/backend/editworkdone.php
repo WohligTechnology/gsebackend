@@ -25,7 +25,12 @@
                 <input type="text" id="city" name="city" value='<?php echo set_value('city',$before->city);?>'>
             </div>
         </div>
-
+        <div class=" row">
+            <div class=" input-field col s12 m6">
+                <?php echo form_dropdown("talenttype",$talenttype,set_value('talenttype',$before->talenttype));?>
+                <label for="talenttype">Talent Type</label>
+            </div>
+        </div>
         <div class="row">
             <div class="col s12 m6">
             <label>Description</label>

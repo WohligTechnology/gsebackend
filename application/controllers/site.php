@@ -10919,6 +10919,18 @@ public function exportSubscribeCsv()
         $elements[8]->header="URL";
         $elements[8]->alias="url";
 
+        $elements[9]=new stdClass();
+        $elements[9]->field="`gse_workdone`.`talenttype`";
+        $elements[9]->sort="1";
+        $elements[9]->header="Talent Type Id";
+        $elements[9]->alias="talenttypeid";
+
+        $elements[10]=new stdClass();
+        $elements[10]->field="`gse_talenttype`.`name`";
+        $elements[10]->sort="1";
+        $elements[10]->header="Talent Type";
+        $elements[10]->alias="talenttype";
+
         $search=$this->input->get_post("search");
         $pageno=$this->input->get_post("pageno");
         $orderby=$this->input->get_post("orderby");
@@ -10934,7 +10946,7 @@ public function exportSubscribeCsv()
             $orderby="id";
             $orderorder="ASC";
         }
-        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_workdone`");
+        $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_workdone` LEFT OUTER JOIN `gse_talenttype` ON `gse_workdone`.`talenttype` = `gse_talenttype`.`id`");
         $this->load->view("json",$data);
     }
 
@@ -10942,6 +10954,7 @@ public function exportSubscribeCsv()
     {
         $access=array("1");
         $this->checkaccess($access);
+        $data['talenttype']=$this->talenttype_model->getdropdown();
         $data["page"]="createworkdone";
         $data["title"]="Create workdone";
         $this->load->view("template",$data);
@@ -10956,11 +10969,13 @@ public function exportSubscribeCsv()
         $this->form_validation->set_rules("city","City","trim");
         $this->form_validation->set_rules("description","Description","trim");
         $this->form_validation->set_rules("url","URL","trim");
+        $this->form_validation->set_rules("talenttype","talenttype","trim");
         if($this->form_validation->run()==FALSE)
         {
             $data["alerterror"]=validation_errors();
             $data["page"]="createworkdone";
             $data["title"]="Create workdone";
+            $data['talenttype']=$this->talenttype_model->getdropdown();
             $this->load->view("template",$data);
         }
         else
@@ -10970,8 +10985,9 @@ public function exportSubscribeCsv()
             $city=$this->input->get_post("city");
             $description=$this->input->get_post("description");
             $url=$this->input->get_post("url");
+            $talenttype=$this->input->get_post("talenttype");
             $image=$this->menu_model->createImage();
-            if($this->workdone_model->create($title,$date,$city,$description,$image,$url)==0)
+            if($this->workdone_model->create($title,$date,$city,$description,$image,$url,$talenttype)==0)
                 $data["alerterror"]="New workdone could not be created.";
             else
                 $data["alertsuccess"]="workdone created Successfully.";
@@ -10985,7 +11001,7 @@ public function exportSubscribeCsv()
         $this->checkaccess($access);
         $data["page"]="editworkdone";
         $data["title"]="Edit workdone";
-        $data['category']=$this->category_model->getdropdown();
+        $data['talenttype']=$this->talenttype_model->getdropdown();
         $data["before"]=$this->workdone_model->beforeedit($this->input->get("id"));
         $this->load->view("template",$data);
     }
@@ -11000,11 +11016,13 @@ public function exportSubscribeCsv()
         $this->form_validation->set_rules("city","City","trim");
         $this->form_validation->set_rules("description","Description","trim");
         $this->form_validation->set_rules("url","URL","trim");
+        $this->form_validation->set_rules("talenttype","talenttype","trim");
         if($this->form_validation->run()==FALSE)
         {
             $data["alerterror"]=validation_errors();
             $data["page"]="editworkdone";
             $data["title"]="Edit workdone";
+            $data['talenttype']=$this->talenttype_model->getdropdown();
             $data["before"]=$this->workdone_model->beforeedit($this->input->get("id"));
             $this->load->view("template",$data);
         }
@@ -11016,8 +11034,9 @@ public function exportSubscribeCsv()
             $city=$this->input->get_post("city");
             $description=$this->input->get_post("description");
             $url=$this->input->get_post("url");
+            $talenttype=$this->input->get_post("talenttype");
             $image=$this->menu_model->createImage();
-            if($this->workdone_model->edit($id,$title,$date,$city,$description,$image,$url)==0)
+            if($this->workdone_model->edit($id,$title,$date,$city,$description,$image,$url,$talenttype)==0)
             $data["alerterror"]="New workdone could not be Updated.";
             else
             $data["alertsuccess"]="workdone Updated Successfully.";
