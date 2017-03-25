@@ -69,5 +69,17 @@ $return[$row->id]=$row->name;
 }
 return $return;
 }
+    public function getdropdownforworkload()
+    {
+        $query=$this->db->query("SELECT * FROM `gse_talenttype` WHERE `talent`='3' ORDER BY `id` ASC")->result();
+        $return=array(
+        "" => "Select Option"
+        );
+        foreach($query as $row)
+        {
+            $return[$row->id]=$row->name;
+        }
+        return $return;
+    }
 }
 ?>

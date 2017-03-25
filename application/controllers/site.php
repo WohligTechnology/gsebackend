@@ -10954,7 +10954,7 @@ public function exportSubscribeCsv()
     {
         $access=array("1");
         $this->checkaccess($access);
-        $data['talenttype']=$this->talenttype_model->getdropdown();
+        $data['talenttype']=$this->talenttype_model->getdropdownforworkload();
         $data["page"]="createworkdone";
         $data["title"]="Create workdone";
         $this->load->view("template",$data);
@@ -10975,7 +10975,7 @@ public function exportSubscribeCsv()
             $data["alerterror"]=validation_errors();
             $data["page"]="createworkdone";
             $data["title"]="Create workdone";
-            $data['talenttype']=$this->talenttype_model->getdropdown();
+            $data['talenttype']=$this->talenttype_model->getdropdownforworkload();
             $this->load->view("template",$data);
         }
         else
@@ -11001,7 +11001,7 @@ public function exportSubscribeCsv()
         $this->checkaccess($access);
         $data["page"]="editworkdone";
         $data["title"]="Edit workdone";
-        $data['talenttype']=$this->talenttype_model->getdropdown();
+        $data['talenttype']=$this->talenttype_model->getdropdownforworkload();
         $data["before"]=$this->workdone_model->beforeedit($this->input->get("id"));
         $this->load->view("template",$data);
     }
@@ -11022,7 +11022,7 @@ public function exportSubscribeCsv()
             $data["alerterror"]=validation_errors();
             $data["page"]="editworkdone";
             $data["title"]="Edit workdone";
-            $data['talenttype']=$this->talenttype_model->getdropdown();
+            $data['talenttype']=$this->talenttype_model->getdropdownforworkload();
             $data["before"]=$this->workdone_model->beforeedit($this->input->get("id"));
             $this->load->view("template",$data);
         }
