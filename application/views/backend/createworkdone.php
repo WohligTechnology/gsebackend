@@ -45,7 +45,7 @@
             </div>
 		</div>
 		<span style=" display: block;
-		padding-top: 30px;">150 x 150</span>
+		padding-top: 30px;">630 x 285</span>
     </div>
     
     <div class="row">
