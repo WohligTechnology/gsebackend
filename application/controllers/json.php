@@ -1149,6 +1149,8 @@ public function getintouchmoviesubmit()
  
 function getallworkdone()
 {
+    $talenttype = $this->input->get_post('talenttype');
+    
     $elements=array();
 
     $elements[0]=new stdClass();
@@ -1231,7 +1233,7 @@ function getallworkdone()
         $orderby="id";
         $orderorder="ASC";
     }
-    $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_workdone` LEFT OUTER JOIN `gse_talenttype` ON `gse_talenttype`.`id`=`gse_workdone`.`talenttype`");
+    $data["message"]=$this->chintantable->query($pageno,$maxrow,$orderby,$orderorder,$search,$elements,"FROM `gse_workdone` LEFT OUTER JOIN `gse_talenttype` ON `gse_talenttype`.`id`=`gse_workdone`.`talenttype`","WHERE `gse_workdone`.`talenttype`='$talenttype'");
     $this->load->view("json",$data);
 }
 
