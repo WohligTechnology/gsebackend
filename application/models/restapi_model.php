@@ -851,10 +851,108 @@ $uhetview = $this->db->query("UPDATE `gse_diaryarticle` SET `views`=$getview->vi
     // echo "video";
   }
   $dcat=$query["description"]->diarycategory;
+  $dtype=$query["description"]->type;
   $cdate = new DateTime();
   if(!empty($dcat))
   {
-  $query['relatedarticles']=$this->db->query("SELECT `gse_diaryarticle`.`id`, `gse_diaryarticle`.`status`, `gse_diaryarticle`.`diarycategory`, `gse_diaryarticle`.`diarysubcategory`, `gse_diaryarticle`.`name`, `gse_diaryarticle`.`image`, `gse_diaryarticle`.`timestamp`, `gse_diaryarticle`.`content`, `gse_diaryarticle`.`date`, `gse_diaryarticle`.`type`, `gse_diaryarticle`.`showhide`,`gse_diarycategory`.`name` AS 'categoryname' FROM `gse_diaryarticle` LEFT OUTER JOIN `gse_diarycategory` ON `gse_diaryarticle`.`diarycategory`=`gse_diarycategory`.`id` WHERE `gse_diaryarticle`.`id`!=$id AND `gse_diaryarticle`.`diarycategory`='$dcat'")->result();
+      for($i=0;$i<5;$i++)
+      {
+          if($i==0)
+              $where=" WHERE `gse_diaryarticle`.`id`!=$id AND `gse_diaryarticle`.`diarycategory`='$dcat' AND `gse_diaryarticle`.`type`='$dtype' ORDER BY `gse_diaryarticle`.`date` DESC";
+          if($i==1)
+              $where=" WHERE `gse_diaryarticle`.`id`!=$id AND `gse_diaryarticle`.`diarycategory`='$dcat' AND `gse_diaryarticle`.`type`!='$dtype' ORDER BY `gse_diaryarticle`.`date` DESC";
+          if($i==2)
+          {
+              if(!empty($query['relatedarticles'][$i-1]))
+              {
+                  $typesecond=$query['relatedarticles'][$i-1]->type;
+                  if(!empty($typesecond))
+                      $typesecond=0;
+                      
+              }
+              $where=" WHERE `gse_diaryarticle`.`id`!=$id AND `gse_diaryarticle`.`diarycategory`='$dcat' AND `gse_diaryarticle`.`type`!='$dtype' AND `gse_diaryarticle`.`type`!='$typesecond'  ORDER BY `gse_diaryarticle`.`date` DESC";
+          }
+          if($i==3)
+              $where="  WHERE `gse_diaryarticle`.`id`!=$id AND `gse_diaryarticle`.`diarycategory`!='$dcat' AND `gse_diaryarticle`.`type`='$dtype'  ORDER BY `gse_diaryarticle`.`date` DESC";
+          if($i==4)
+              $where=" WHERE `gse_diaryarticle`.`id`!=$id AND `gse_diaryarticle`.`diarycategory`!='$dcat' AND `gse_diaryarticle`.`type`!='$dtype'  ORDER BY `gse_diaryarticle`.`date` DESC";
+          
+          $query['relatedarticles'][$i]=$this->db->query("SELECT `gse_diaryarticle`.`id`, `gse_diaryarticle`.`status`, `gse_diaryarticle`.`diarycategory`, `gse_diaryarticle`.`diarysubcategory`, `gse_diaryarticle`.`name`, `gse_diaryarticle`.`image`, `gse_diaryarticle`.`timestamp`, `gse_diaryarticle`.`content`, `gse_diaryarticle`.`date`, `gse_diaryarticle`.`type`, `gse_diaryarticle`.`showhide`,`gse_diarycategory`.`name` AS 'categoryname' FROM `gse_diaryarticle` LEFT OUTER JOIN `gse_diarycategory` ON `gse_diaryarticle`.`diarycategory`=`gse_diarycategory`.`id` $where ")->row();;
+          
+//          echo "<br> $i is <br>SELECT `gse_diaryarticle`.`id`, `gse_diaryarticle`.`status`, `gse_diaryarticle`.`diarycategory`, `gse_diaryarticle`.`diarysubcategory`, `gse_diaryarticle`.`name`, `gse_diaryarticle`.`image`, `gse_diaryarticle`.`timestamp`, `gse_diaryarticle`.`content`, `gse_diaryarticle`.`date`, `gse_diaryarticle`.`type`, `gse_diaryarticle`.`showhide`,`gse_diarycategory`.`name` AS 'categoryname' FROM `gse_diaryarticle` LEFT OUTER JOIN `gse_diarycategory` ON `gse_diaryarticle`.`diarycategory`=`gse_diarycategory`.`id` $where ";
+          
+//          if($i==2)
+//              $typesecond=$query['relatedarticles'][$i]->type;
+          
+          if(empty($query['relatedarticles'][$i]))
+              $query['relatedarticles'][$i]=null;
+          
+      }
+//      for($i=0;$i<5;$i++)
+//      {
+//          if($i==0)
+//          {
+//             $query['relatedarticles'][$i]=$this->db->query("SELECT `gse_diaryarticle`.`id`, `gse_diaryarticle`.`status`, `gse_diaryarticle`.`diarycategory`, `gse_diaryarticle`.`diarysubcategory`, `gse_diaryarticle`.`name`, `gse_diaryarticle`.`image`, `gse_diaryarticle`.`timestamp`, `gse_diaryarticle`.`content`, `gse_diaryarticle`.`date`, `gse_diaryarticle`.`type`, `gse_diaryarticle`.`showhide`,`gse_diarycategory`.`name` AS 'categoryname' FROM `gse_diaryarticle` LEFT OUTER JOIN `gse_diarycategory` ON `gse_diaryarticle`.`diarycategory`=`gse_diarycategory`.`id` WHERE `gse_diaryarticle`.`id`!=$id AND `gse_diaryarticle`.`diarycategory`='$dcat' AND `gse_diaryarticle`.`type`='$dtype' ORDER BY `gse_diaryarticle`.`date` DESC")->row();
+//              if(empty($query['relatedarticles'][$i]))
+//              {
+//                  $query['relatedarticles'][$i]=null;
+//              }
+//          }
+//          if($i==1)
+//          {
+//              $query['relatedarticles'][$i]=$this->db->query("SELECT `gse_diaryarticle`.`id`, `gse_diaryarticle`.`status`, `gse_diaryarticle`.`diarycategory`, `gse_diaryarticle`.`diarysubcategory`, `gse_diaryarticle`.`name`, `gse_diaryarticle`.`image`, `gse_diaryarticle`.`timestamp`, `gse_diaryarticle`.`content`, `gse_diaryarticle`.`date`, `gse_diaryarticle`.`type`, `gse_diaryarticle`.`showhide`,`gse_diarycategory`.`name` AS 'categoryname' FROM `gse_diaryarticle` LEFT OUTER JOIN `gse_diarycategory` ON `gse_diaryarticle`.`diarycategory`=`gse_diarycategory`.`id` WHERE `gse_diaryarticle`.`id`!=$id AND `gse_diaryarticle`.`diarycategory`='$dcat' AND `gse_diaryarticle`.`type`!='$dtype' ORDER BY `gse_diaryarticle`.`date` DESC")->row();
+//              $typesecond=$query['relatedarticles'][$i]->type;
+////              $query['relatedarticles'][$i]=$second;
+//              if(empty($query['relatedarticles'][$i]))
+//              {
+//                  $query['relatedarticles'][$i]=null;
+//              }
+//          }
+//          
+//          if($i==2)
+//          {
+//              $query['relatedarticles'][$i]=$this->db->query("SELECT `gse_diaryarticle`.`id`, `gse_diaryarticle`.`status`, `gse_diaryarticle`.`diarycategory`, `gse_diaryarticle`.`diarysubcategory`, `gse_diaryarticle`.`name`, `gse_diaryarticle`.`image`, `gse_diaryarticle`.`timestamp`, `gse_diaryarticle`.`content`, `gse_diaryarticle`.`date`, `gse_diaryarticle`.`type`, `gse_diaryarticle`.`showhide`,`gse_diarycategory`.`name` AS 'categoryname' FROM `gse_diaryarticle` LEFT OUTER JOIN `gse_diarycategory` ON `gse_diaryarticle`.`diarycategory`=`gse_diarycategory`.`id` WHERE `gse_diaryarticle`.`id`!=$id AND `gse_diaryarticle`.`diarycategory`='$dcat' AND `gse_diaryarticle`.`type`!='$dtype' AND `gse_diaryarticle`.`type`!='$typesecond'  ORDER BY `gse_diaryarticle`.`date` DESC")->row();
+//              if(empty($query['relatedarticles'][$i]))
+//              {
+//                  $query['relatedarticles'][$i]=null;
+//              }
+//          }
+//          
+//          if($i==3)
+//          {
+//              $query['relatedarticles'][$i]=$this->db->query("SELECT `gse_diaryarticle`.`id`, `gse_diaryarticle`.`status`, `gse_diaryarticle`.`diarycategory`, `gse_diaryarticle`.`diarysubcategory`, `gse_diaryarticle`.`name`, `gse_diaryarticle`.`image`, `gse_diaryarticle`.`timestamp`, `gse_diaryarticle`.`content`, `gse_diaryarticle`.`date`, `gse_diaryarticle`.`type`, `gse_diaryarticle`.`showhide`,`gse_diarycategory`.`name` AS 'categoryname' FROM `gse_diaryarticle` LEFT OUTER JOIN `gse_diarycategory` ON `gse_diaryarticle`.`diarycategory`=`gse_diarycategory`.`id` WHERE `gse_diaryarticle`.`id`!=$id AND `gse_diaryarticle`.`diarycategory`!='$dcat' AND `gse_diaryarticle`.`type`='$dtype'  ORDER BY `gse_diaryarticle`.`date` DESC")->row();
+//              if(empty($query['relatedarticles'][$i]))
+//              {
+//                  $query['relatedarticles'][$i]=null;
+//              }
+//          }
+//          
+//          if($i==4)
+//          {
+//              $query['relatedarticles'][$i]=$this->db->query("SELECT `gse_diaryarticle`.`id`, `gse_diaryarticle`.`status`, `gse_diaryarticle`.`diarycategory`, `gse_diaryarticle`.`diarysubcategory`, `gse_diaryarticle`.`name`, `gse_diaryarticle`.`image`, `gse_diaryarticle`.`timestamp`, `gse_diaryarticle`.`content`, `gse_diaryarticle`.`date`, `gse_diaryarticle`.`type`, `gse_diaryarticle`.`showhide`,`gse_diarycategory`.`name` AS 'categoryname' FROM `gse_diaryarticle` LEFT OUTER JOIN `gse_diarycategory` ON `gse_diaryarticle`.`diarycategory`=`gse_diarycategory`.`id` WHERE `gse_diaryarticle`.`id`!=$id AND `gse_diaryarticle`.`diarycategory`!='$dcat' AND `gse_diaryarticle`.`type`!='$dtype'  ORDER BY `gse_diaryarticle`.`date` DESC")->row();
+//              if(empty($query['relatedarticles'][$i]))
+//              {
+//                  $query['relatedarticles'][$i]=null;
+//              }
+//          }
+//          
+//      }
+      
+      
+        $array2 = array();
+        foreach ($query['relatedarticles'] as $row) {
+            if ($row !== null)
+               $array2[] = $row;
+        }
+        $query['relatedarticles'] = $array2;
+      
+//      foreach ($query['relatedarticles'] as $i=>$row) 
+//      {
+//          if ($row === null)
+//          unset($query['relatedarticles'][$i]);
+//      }
+//  $query['relatedarticles']=$this->db->query("SELECT `gse_diaryarticle`.`id`, `gse_diaryarticle`.`status`, `gse_diaryarticle`.`diarycategory`, `gse_diaryarticle`.`diarysubcategory`, `gse_diaryarticle`.`name`, `gse_diaryarticle`.`image`, `gse_diaryarticle`.`timestamp`, `gse_diaryarticle`.`content`, `gse_diaryarticle`.`date`, `gse_diaryarticle`.`type`, `gse_diaryarticle`.`showhide`,`gse_diarycategory`.`name` AS 'categoryname' FROM `gse_diaryarticle` LEFT OUTER JOIN `gse_diarycategory` ON `gse_diaryarticle`.`diarycategory`=`gse_diarycategory`.`id` WHERE `gse_diaryarticle`.`id`!=$id AND `gse_diaryarticle`.`diarycategory`='$dcat'")->result();
+      
   }
   $query['comments']=$this->db->query("SELECT `id`, `diaryarticle`, `userid`, `timestamp`, `name`,`image`, `comment` FROM `gse_comment` WHERE `diaryarticle`=$id ORDER BY `id` DESC")->result();
   if($query)
